@@ -1,5 +1,12 @@
 <h1>Events are:</h1>
-
+<fa-icon [icon]="['far', 'calendar-plus']"></fa-icon>
+<fa-icon [icon]="['far', 'compass']"></fa-icon>
+<fa-icon [icon]="['far', 'calendar-check']"></fa-icon>
+<fa-icon [icon]="['far', 'clock']"></fa-icon>
+<fa-icon [icon]="['far', 'calendar-alt']"></fa-icon>
+<fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
+<fa-icon [icon]="['fas', 'gift']"></fa-icon>
+<fa-icon [icon]="['fas', 'ticket-alt']"></fa-icon>
 
 <li *ngFor="let event of events | async">
   <a [routerLink]="['/event', event.key]">go to event</a>

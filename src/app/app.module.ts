@@ -7,6 +7,11 @@ import { EventListComponent } from './event-list/event-list.component';
 import { EventDisplayComponent } from './event-display/event-display.component';
 import { HttpClientModule }    from '@angular/common/http';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faInfoCircle, faGift, faTicketAlt } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock } from '@fortawesome/free-regular-svg-icons';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,9 +21,15 @@ import { HttpClientModule }    from '@angular/common/http';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor() {
+    library.add(faInfoCircle, faGift, faTicketAlt);
+    library.add(faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock);
+  }
+}
