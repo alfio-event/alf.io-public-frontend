@@ -1,0 +1,8 @@
+<h1>Events are:</h1>
+
+
+<li *ngFor="let event of events | async">
+  <a [routerLink]="['/event', event.key]">go to event</a>
+  <p>{{event | json}}</p>
+</li>
+
