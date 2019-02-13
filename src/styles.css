@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+
+
+body {
+    background-color: #E5E5E5;
+}
+
+.application-container {
+    background-color: white;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
