@@ -8,8 +8,8 @@
 <fa-icon [icon]="['fas', 'gift']"></fa-icon>
 <fa-icon [icon]="['fas', 'ticket-alt']"></fa-icon>
 
-<li *ngFor="let event of events | async">
-  <a [routerLink]="['/event', event.key]">go to event</a>
+<li *ngFor="let event of events">
+  <a [routerLink]="['/event', event.shortName]">go to event</a>
   <p>{{event | json}}</p>
 </li>
 
