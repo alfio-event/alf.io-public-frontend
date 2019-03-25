@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EventService } from '../shared/event.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { ReservationService } from '../shared/reservation.service';
 
 @Component({
   selector: 'app-event-display',
@@ -18,6 +19,7 @@ export class EventDisplayComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private eventService: EventService,
+    private reservationService: ReservationService,
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -33,6 +35,10 @@ export class EventDisplayComponent implements OnInit {
 
   createItems(event): FormGroup[] {
     return event.ticketCategories.map(category => this.formBuilder.group({ticketCategoryId: category.id, amount: 0}));
+  }
+
+  submitForm(eventShortName, reservation) {
+    this.reservationService.reserveTickets(eventShortName, reservation).subscribe(e => console.log(e));
   }
 
 }

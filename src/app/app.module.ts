@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EventListComponent } from './event-list/event-list.component';
 import { EventDisplayComponent } from './event-display/event-display.component';
-import { HttpClientModule }    from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule }    from '@angular/common/http';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -23,6 +23,10 @@ import { faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock } fr
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'XSRF-TOKEN',
+      headerName: 'X-CSRF-TOKEN',
+    }),
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule
