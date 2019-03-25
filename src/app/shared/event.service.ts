@@ -12,4 +12,9 @@ export class EventService {
   public getEvents() : Observable<any> {
     return this.http.get('/api/v2/public/events');
   }
+
+
+  public getEvent(eventShortName: string) : Observable<any> {
+    return this.http.get(`/api/v2/public/event/${eventShortName}`);
+  }
 }
