@@ -1,8 +1,29 @@
-<p>
-  event-display works!
-</p>
+<div *ngIf="event">
+  <div>
+    <img
+      [alt]="event.event.displayName"
+      [src]="event.event.fileBlobIdIsPresent ? ('/file/'+event.event.fileBlobId) : event.event.imageUrl">
+  </div>
+  <div>
+    <img [src]="event.locationDescriptor.mapUrl">
+  </div>
 
-<p>
 
-  {{event|json}}
-</p>
+  <form [formGroup]="reservationForm">
+    <div>
+        <ul>
+          <li *ngFor="let category of event.ticketCategories;let counter = index"
+              formArrayName="reservation">
+              <div [formGroupName]="counter">
+                  <p>{{category.name}}</p>
+                  <p>{{category.description}}</p>
+                  <select formControlName="amount">
+                    <option *ngFor="let amount of category.amountOfTickets" [value]="amount">{{amount}}</option>
+                  </select>
+              </div>
+          </li>
+        </ul>
+    </div>
+    {{reservationForm.value|json}}
+  </form>
+</div>
