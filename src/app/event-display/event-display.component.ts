@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EventService } from '../shared/event.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ReservationService } from '../shared/reservation.service';
 
@@ -18,6 +18,7 @@ export class EventDisplayComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private eventService: EventService,
     private reservationService: ReservationService,
     private formBuilder: FormBuilder) { }
@@ -38,7 +39,10 @@ export class EventDisplayComponent implements OnInit {
   }
 
   submitForm(eventShortName, reservation) {
-    this.reservationService.reserveTickets(eventShortName, reservation).subscribe(e => console.log(e));
+    this.reservationService.reserveTickets(eventShortName, reservation).subscribe(res => {
+      if (res.reservationIdentifier) {
+        this.router.navigate(['event', eventShortName, 'reservation', res.reservationIdentifier ,'book'])
+      }
+    });
   }
-
 }
