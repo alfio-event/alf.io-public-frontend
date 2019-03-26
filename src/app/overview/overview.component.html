@@ -1,3 +1,15 @@
-<p>
-  overview works!
-</p>
+<div *ngIf="overview">
+
+  <form [formGroup]="overviewForm" (submit)="confirm(overview.event.shortName, overview.reservationId, overviewForm.value)">
+
+    <p><label><input formControlName="privacyPolicyAccepted" type="checkbox"> Privacy</label></p>
+    <p><label><input formControlName="termAndConditionsAccepted" type="checkbox"> Term and conditions</label></p>
+
+    <button type="button" (click)="backToBooking(overview.event.shortName, overview.reservationId)">Back</button>
+    <button type="submit">Next</button>
+
+    <pre>{{overviewForm.value | json}}</pre>
+  </form>
+
+
+</div>

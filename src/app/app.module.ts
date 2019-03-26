@@ -14,6 +14,7 @@ import { faInfoCircle, faGift, faTicketAlt } from '@fortawesome/free-solid-svg-i
 import { faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock } from '@fortawesome/free-regular-svg-icons';
 import { ReservationComponent } from './reservation/reservation.component';
 import { OverviewComponent } from './overview/overview.component';
+import { SuccessComponent } from './success/success.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { OverviewComponent } from './overview/overview.component';
     EventListComponent,
     EventDisplayComponent,
     ReservationComponent,
-    OverviewComponent
+    OverviewComponent,
+    SuccessComponent
   ],
   imports: [
     BrowserModule,

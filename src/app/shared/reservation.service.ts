@@ -13,7 +13,6 @@ export class ReservationService {
         return this.http.post(`/api/v2/public/event/${eventShortName}/reserve-tickets`, reservation);
     }
 
-
     public getReservationInfo(eventShortName: string, reservationId: string): Observable<any> {
         return this.http.get(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/book`);
     }
@@ -24,5 +23,17 @@ export class ReservationService {
 
     public validateToOverview(eventShortName: string, reservationId: string, contactsAndTicket: any): Observable<any> {
         return this.http.post(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/validate-to-overview`, contactsAndTicket);
+    }
+
+    public getOverview(eventShortName: string, reservationId: string): Observable<any> {
+        return this.http.get(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/overview`);
+    }
+
+    public confirmOverview(eventShortName: string, reservationId: string, overviewForm: any): Observable<any> {
+        return this.http.post(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`, overviewForm);
+    }
+
+    public backToBooking(eventShortName: string, reservationId: string) : Observable<any> {
+        return this.http.post(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/back-to-booking`, {});
     }
 }
