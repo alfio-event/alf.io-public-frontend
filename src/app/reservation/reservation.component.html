@@ -40,6 +40,7 @@
       </div>
     </div>
     <pre>{{contactAndTicketsForm.value | json}}</pre>
+    <button type="button" (click)="cancelPendingReservation(reservation.event.shortName, reservation.reservationId)">Cancel</button>
     <button type="submit">Next</button>
   </form>
 </div>

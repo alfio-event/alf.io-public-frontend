@@ -65,4 +65,11 @@ export class ReservationComponent implements OnInit {
     })
   }
 
+  public cancelPendingReservation(eventShortName: string, reservationId: string) {
+    this.reservationService.cancelPendingReservation(eventShortName, reservationId).subscribe(res => {
+      console.log(res);
+      this.router.navigate(['event', eventShortName]);
+    });
+  }
+
 }
