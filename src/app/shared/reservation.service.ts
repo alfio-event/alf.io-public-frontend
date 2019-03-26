@@ -17,4 +17,8 @@ export class ReservationService {
     public getReservationInfo(eventShortName: string, reservationId: string): Observable<any> {
         return this.http.get(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/book`);
     }
+
+    public validateToOverview(eventShortName: string, reservationId: string, contactsAndTicket: any): Observable<any> {
+        return this.http.post(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/validate-to-overview`, contactsAndTicket);
+    }
 }

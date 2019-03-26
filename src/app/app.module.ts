@@ -13,13 +13,15 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faInfoCircle, faGift, faTicketAlt } from '@fortawesome/free-solid-svg-icons'
 import { faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock } from '@fortawesome/free-regular-svg-icons';
 import { ReservationComponent } from './reservation/reservation.component';
+import { OverviewComponent } from './overview/overview.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EventListComponent,
     EventDisplayComponent,
-    ReservationComponent
+    ReservationComponent,
+    OverviewComponent
   ],
   imports: [
     BrowserModule,
