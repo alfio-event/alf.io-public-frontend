@@ -23,8 +23,6 @@ export class OverviewComponent implements OnInit {
     this.route.params.subscribe(params => {
 
       this.reservationService.getOverview(params['eventShortName'], params['reservationId']).subscribe(resInfo => {
-        console.log(resInfo);
-
         // TODO: move as a guard(?)
         if (resInfo.viewState && (resInfo.viewState as string).endsWith("/book")) {
           this.router.navigate(['event', params['eventShortName'], 'reservation', params['reservationId'], 'book'])
@@ -55,7 +53,9 @@ export class OverviewComponent implements OnInit {
 
   confirm(eventShortName: string, reservationId: string, overviewFormValue) {
     this.reservationService.confirmOverview(eventShortName, reservationId, overviewFormValue).subscribe(res => {
-      console.log(res);
+      if(res.viewState && (res.viewState as string).endsWith("/success")) {
+        this.router.navigate(['event', eventShortName, 'reservation', reservationId, 'success']);
+      }
     });
   }
 
