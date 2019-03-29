@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ReservationService } from '../shared/reservation.service';
+import { ReservationService } from '../../shared/reservation.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({

@@ -3,6 +3,7 @@ import { EventService } from '../shared/event.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ReservationService } from '../shared/reservation.service';
+import { Event } from '../model/event';
 
 @Component({
   selector: 'app-event-display',
@@ -11,7 +12,8 @@ import { ReservationService } from '../shared/reservation.service';
 })
 export class EventDisplayComponent implements OnInit {
 
-  event: any;
+  event: Event;
+  tmpEvent: any;
   reservationForm: FormGroup;
 
   //https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
@@ -25,12 +27,20 @@ export class EventDisplayComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.eventService.getEventTicketsInfo(params['eventShortName']).subscribe(e => {
+
+      const eventShortName = params['eventShortName'];
+
+      this.eventService.getEvent(eventShortName).subscribe(e => {
+        console.log(e);
+        this.event = e;
+      });
+
+      this.eventService.getEventTicketsInfo(eventShortName).subscribe(e => {
         this.reservationForm = this.formBuilder.group({
           reservation: this.formBuilder.array(this.createItems(e))
         });
-        this.event = e;
-      })
+        this.tmpEvent = e;
+      });
     })
   }
 

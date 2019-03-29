@@ -1,16 +1,14 @@
 <div *ngIf="event">
+    <app-event-header [event]="event"></app-event-header>
+</div>
+<div *ngIf="tmpEvent">
   <div>
-    <img
-      [alt]="event.event.displayName"
-      [src]="event.event.fileBlobIdIsPresent ? ('/file/'+event.event.fileBlobId) : event.event.imageUrl">
+    <img [src]="tmpEvent.locationDescriptor.mapUrl">
   </div>
-  <div>
-    <img [src]="event.locationDescriptor.mapUrl">
-  </div>
-  <form [formGroup]="reservationForm" (submit)="submitForm(event.event.shortName, reservationForm.value)">
+  <form [formGroup]="reservationForm" (submit)="submitForm(tmpEvent.event.shortName, reservationForm.value)">
     <div>
         <ul>
-          <li *ngFor="let category of event.ticketCategories;let counter = index"
+          <li *ngFor="let category of tmpEvent.ticketCategories;let counter = index"
               formArrayName="reservation">
               <div [formGroupName]="counter">
                   <p>{{category.name}}</p>

@@ -1,5 +1,4 @@
-<p>
-  reservation works!
-</p>
-
-<router-outlet></router-outlet>
+<div *ngIf="event">
+    <app-event-header [event]="event"></app-event-header>
+    <router-outlet></router-outlet>
+</div>
