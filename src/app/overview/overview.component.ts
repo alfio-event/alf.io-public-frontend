@@ -20,7 +20,7 @@ export class OverviewComponent implements OnInit {
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.parent.params.subscribe(params => {
 
       this.reservationService.getOverview(params['eventShortName'], params['reservationId']).subscribe(resInfo => {
         // TODO: move as a guard(?)

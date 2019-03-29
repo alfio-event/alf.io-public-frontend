@@ -25,7 +25,7 @@ export class EventDisplayComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.eventService.getEvent(params['eventShortName']).subscribe(e => {
+      this.eventService.getEventTicketsInfo(params['eventShortName']).subscribe(e => {
         this.reservationForm = this.formBuilder.group({
           reservation: this.formBuilder.array(this.createItems(e))
         });

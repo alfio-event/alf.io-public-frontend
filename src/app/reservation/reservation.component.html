@@ -2,45 +2,4 @@
   reservation works!
 </p>
 
-<div *ngIf="reservation">
-  <form [formGroup]="contactAndTicketsForm" (submit)="submitForm(reservation.event.shortName, reservation.reservationId, contactAndTicketsForm.value)">
-
-    <h2>Contact data</h2>
-    <div>
-      <label>Firstname</label>
-      <input formControlName="firstName" type="text">
-    </div>
-    <div>
-      <label>Lastname</label>
-      <input formControlName="lastName" type="text">
-    </div>
-    <div>
-      <label>Email</label>
-      <input formControlName="email" type="text">
-    </div>
-
-    <h2>Attendees</h2>
-    <div *ngFor="let tc of reservation.ticketsByCategory">
-      <div *ngFor="let ticket of tc.tickets" formGroupName="tickets">
-          <div [formGroupName]="ticket.uuid">
-            <h3>Ticket - {{tc.ticketCategory.name}}</h3>
-            <div>
-                <label>Firstname</label>
-                <input formControlName="firstName" type="text">
-            </div>
-            <div>
-                <label>Lastname</label>
-                <input formControlName="lastName" type="text">
-            </div>
-            <div>
-                <label>Email</label>
-                <input formControlName="email" type="text">
-            </div>
-        </div>
-      </div>
-    </div>
-    <pre>{{contactAndTicketsForm.value | json}}</pre>
-    <button type="button" (click)="cancelPendingReservation(reservation.event.shortName, reservation.reservationId)">Cancel</button>
-    <button type="submit">Next</button>
-  </form>
-</div>
+<router-outlet></router-outlet>

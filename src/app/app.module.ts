@@ -12,18 +12,20 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faInfoCircle, faGift, faTicketAlt } from '@fortawesome/free-solid-svg-icons'
 import { faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock } from '@fortawesome/free-regular-svg-icons';
-import { ReservationComponent } from './reservation/reservation.component';
+import { BookingComponent } from './booking/booking.component';
 import { OverviewComponent } from './overview/overview.component';
 import { SuccessComponent } from './success/success.component';
+import { ReservationComponent } from './reservation/reservation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EventListComponent,
     EventDisplayComponent,
-    ReservationComponent,
+    BookingComponent,
     OverviewComponent,
-    SuccessComponent
+    SuccessComponent,
+    ReservationComponent
   ],
   imports: [
     BrowserModule,

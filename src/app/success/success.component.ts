@@ -17,7 +17,7 @@ export class SuccessComponent implements OnInit {
     private reservationService: ReservationService) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.parent.params.subscribe(params => {
       this.reservationService.getSuccess(params['eventShortName'], params['reservationId']).subscribe(res => {
         this.success = res;
       })
