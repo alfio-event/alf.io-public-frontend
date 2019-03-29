@@ -10,11 +10,11 @@ export class EventService {
   constructor(private http: HttpClient) { }
 
   public getEvents() : Observable<any> {
-    return this.http.get('/api/v2/public/events');
+    return this.http.get('/api/v2/public/tmp/events');
   }
 
 
   public getEvent(eventShortName: string) : Observable<any> {
-    return this.http.get(`/api/v2/public/event/${eventShortName}`);
+    return this.http.get(`/api/v2/public/tmp/event/${eventShortName}`);
   }
 }
