@@ -3,4 +3,20 @@ export class Event {
     fileBlobIdIsPresent: boolean;
     fileBlobId: string;
     imageUrl: string;
+    contentLanguages: ContentLanguage[];
+}
+
+export class ContentLanguage {
+    locale: string;
+    value: number;
+    flag: string;
+    language: string;
+    displayLanguage: string;
+}
+
+export class LocationDescriptor {
+    timeZone: string;
+    latitude: string;
+    longitude: string;
+    mapUrl: string;
 }

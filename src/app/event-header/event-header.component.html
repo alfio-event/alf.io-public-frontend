@@ -1,3 +1,14 @@
-<div>
-  <img [alt]="event.displayName" [src]="event.fileBlobIdIsPresent ? ('/file/'+event.fileBlobId) : event.imageUrl">
+<div class="row">
+  <div *ngIf="event.contentLanguages.length > 1" class="col-12 text-right">
+    <ul class="language-selector">
+      <li *ngFor="let lang of event.contentLanguages">{{lang.language}}</li>
+    </ul>
+  </div>
+
+  <div class="col-12 col-sm-7 col-md-4">
+    <img class="img-responsive" [alt]="event.displayName" [src]="event.fileBlobIdIsPresent ? ('/file/'+event.fileBlobId) : event.imageUrl">
+  </div>
+  <div class="col-12 col-sm-5 col-md-8 text-center">
+    <h1>{{event.displayName}}</h1>
+  </div>
 </div>

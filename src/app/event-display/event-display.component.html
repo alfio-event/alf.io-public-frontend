@@ -1,10 +1,21 @@
 <div *ngIf="event">
     <app-event-header [event]="event"></app-event-header>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-7">
+          <h2>Event informations</h2>
+          <div>Organized by ... &lt;<a href="">blabla@blabla</a>&gt;</div>
+        </div>
+        <div class="col-md-5"><img [src]="event.locationDescriptor.mapUrl" class="img-responsive"></div>
+    </div>
+
+    <hr>
 </div>
+
 <div *ngIf="tmpEvent">
-  <div>
-    <img [src]="tmpEvent.locationDescriptor.mapUrl">
-  </div>
+  
   <form [formGroup]="reservationForm" (submit)="submitForm(tmpEvent.event.shortName, reservationForm.value)">
     <div>
         <ul>
