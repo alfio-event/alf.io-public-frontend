@@ -4,6 +4,9 @@ export class Event {
     fileBlobId: string;
     imageUrl: string;
     contentLanguages: ContentLanguage[];
+
+    organizationName: string;
+    organizationEmail: string;
 }
 
 export class ContentLanguage {

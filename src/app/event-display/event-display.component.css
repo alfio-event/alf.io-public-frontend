@@ -3,3 +3,8 @@
     max-width: 100%;
     height: auto;
 }
+
+.block-button {
+    width: 100%;
+    display: block
+}
