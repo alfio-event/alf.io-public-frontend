@@ -4,6 +4,7 @@ export class Event {
     fileBlobId: string;
     imageUrl: string;
     contentLanguages: ContentLanguage[];
+    websiteUrl: string;
 
     organizationName: string;
     organizationEmail: string;

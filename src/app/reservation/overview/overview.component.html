@@ -5,11 +5,16 @@
     <p><label><input formControlName="privacyPolicyAccepted" type="checkbox"> Privacy</label></p>
     <p><label><input formControlName="termAndConditionsAccepted" type="checkbox"> Term and conditions</label></p>
 
-    <button type="button" (click)="backToBooking(overview.event.shortName, overview.reservationId)">Back</button>
-    <button type="submit">Next</button>
 
     <pre>{{overviewForm.value | json}}</pre>
+
+    <div class="row d-flex justify-content-between">
+      <div class="col-md-4 order-1 col-12">
+        <button type="submit" class="block-button btn btn-success">Next</button>
+      </div>
+      <div class="col-md-4 order-0 col-12 ">
+        <button type="button" class="block-button btn btn-outline-dark" (click)="backToBooking(overview.event.shortName, overview.reservationId)">Back</button>
+      </div>
+    </div>
   </form>
-
-
 </div>
