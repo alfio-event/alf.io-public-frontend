@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Event } from '../model/event';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-event-header',
@@ -11,9 +12,13 @@ export class EventHeaderComponent implements OnInit {
   @Input()
   event: Event;
 
-  constructor() { }
+  constructor(private translate: TranslateService) { }
 
   ngOnInit() {
+  }
+
+  public changeLanguage(lang: string): void {
+    this.translate.use(lang);
   }
 
 }

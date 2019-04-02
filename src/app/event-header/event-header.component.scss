@@ -22,6 +22,11 @@ h1 {
     display: inline-block;
 }
 
+.language-selector button {
+    margin:0;
+    padding: 0;
+}
+
 .language-selector > li+li:before {
     padding: 0 5px;
     color: #ccc;

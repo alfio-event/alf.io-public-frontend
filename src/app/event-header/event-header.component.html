@@ -1,7 +1,7 @@
 <div class="row">
   <div *ngIf="event.contentLanguages.length > 1" class="col-12 text-right">
     <ul class="language-selector">
-      <li *ngFor="let lang of event.contentLanguages">{{lang.language}}</li>
+      <li *ngFor="let lang of event.contentLanguages"><button [lang]="lang.language" (click)="changeLanguage(lang.language)" class="btn btn-link">{{lang.language}}</button></li>
     </ul>
   </div>
 

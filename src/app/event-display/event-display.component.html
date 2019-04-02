@@ -5,8 +5,8 @@
 
     <div class="row">
         <div class="col-md-7">
-          <h2>Event informations</h2>
-          <div>Organized by {{event.organizationName}} &lt;<a [href]="'mailto:'+ event.organizationEmail">{{event.organizationEmail}}</a>&gt;</div>
+          <h2 translate="ticket.event-info"></h2>
+          <div>{{'show-event.by'|translate}} <strong>{{event.organizationName}}</strong> &lt;<a [href]="'mailto:'+ event.organizationEmail">{{event.organizationEmail}}</a>&gt;</div>
         </div>
         <div class="col-md-5"><img [src]="event.locationDescriptor.mapUrl" class="img-responsive"></div>
     </div>

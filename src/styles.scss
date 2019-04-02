@@ -16,3 +16,14 @@ body {
     width: 100%;
     display: block
 }
+
+
+html[lang=nl] .language-selector button[lang=nl],
+html[lang=de] .language-selector button[lang=de],
+html[lang=en] .language-selector button[lang=en],
+html[lang=it] .language-selector button[lang=it],
+html[lang=fr] .language-selector button[lang=fr],
+html[lang=ro] .language-selector button[lang=ro],
+html[lang=pt] .language-selector button[lang=pt] {
+    font-weight: bold;
+}
