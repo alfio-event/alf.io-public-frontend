@@ -7,6 +7,18 @@
         <div class="col-md-7">
           <h2 translate="ticket.event-info"></h2>
           <div>{{'show-event.by'|translate}} <strong>{{event.organizationName}}</strong> &lt;<a [href]="'mailto:'+ event.organizationEmail">{{event.organizationEmail}}</a>&gt;</div>
+          <div>
+            <ul class="list-unstyled">
+              <li><fa-icon [icon]="['far', 'calendar-alt']"></fa-icon></li>
+              <li>
+                <fa-icon [icon]="['far', 'calendar-plus']"></fa-icon> {{'show-event.add-to-calendar' | translate}}
+                <a title="show-event.add-to-calendar google" target="_blank" href=""><i class="fa fa-calendar-check-o"></i></a>
+              </li>
+              <li>
+                <fa-icon [icon]="['far', 'compass']"></fa-icon> {{event.location}}
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="col-md-5"><img [src]="event.locationDescriptor.mapUrl" class="img-responsive"></div>
     </div>
