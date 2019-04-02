@@ -33,7 +33,6 @@ export class EventDisplayComponent implements OnInit {
       const eventShortName = params['eventShortName'];
 
       this.eventService.getEvent(eventShortName).subscribe(e => {
-        console.log(e);
         this.event = e;
       });
 

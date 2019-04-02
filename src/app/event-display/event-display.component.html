@@ -27,6 +27,8 @@
     </div>
 
     <hr>
+
+    <div [innerHtml]="event.description[translate.currentLang]"></div>
 </div>
 
 <div *ngIf="tmpEvent">

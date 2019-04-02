@@ -6,10 +6,12 @@ export class Event {
     imageUrl: string;
     contentLanguages: ContentLanguage[];
     websiteUrl: string;
-    location:string;
+    location: string;
 
     organizationName: string;
     organizationEmail: string;
+
+    description: {[key:string]: string}
 }
 
 export class ContentLanguage {
