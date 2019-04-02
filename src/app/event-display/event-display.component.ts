@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { ReservationService } from '../shared/reservation.service';
 import { Event } from '../model/event';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-event-display',
@@ -23,7 +24,8 @@ export class EventDisplayComponent implements OnInit {
     private router: Router,
     private eventService: EventService,
     private reservationService: ReservationService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {

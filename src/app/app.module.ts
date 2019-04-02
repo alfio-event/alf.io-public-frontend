@@ -12,6 +12,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faInfoCircle, faGift, faTicketAlt } from '@fortawesome/free-solid-svg-icons'
 import { faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock } from '@fortawesome/free-regular-svg-icons';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
@@ -65,5 +66,6 @@ export class AppModule {
   constructor() {
     library.add(faInfoCircle, faGift, faTicketAlt);
     library.add(faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock);
+    library.add(faGoogle);
   }
 }
