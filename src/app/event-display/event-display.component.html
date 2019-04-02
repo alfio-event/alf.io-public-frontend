@@ -29,6 +29,10 @@
     <hr>
 
     <div [innerHtml]="event.description[translate.currentLang]"></div>
+
+
+    <h2 translate="show-event.tickets"></h2>
+
 </div>
 
 <div *ngIf="tmpEvent">
@@ -51,8 +55,8 @@
     <!--{{reservationForm.value|json}}-->
     <hr>
     <div class="row d-flex justify-content-between">
-      <div class="col-md-4 order-1 col-12"><button type="submit" class="block-button btn btn-success">Next</button></div>
-      <div class="col-md-4 order-0 col-12 "><a [href]="event.websiteUrl" class="block-button btn btn-outline-dark">Return to event site</a></div>
+      <div class="col-md-4 order-1 col-12"><button type="submit" class="block-button btn btn-success" translate="show-event.continue"></button></div>
+      <div class="col-md-4 order-0 col-12 "><a [href]="event.websiteUrl" class="block-button btn btn-outline-dark" translate="to-event-site"></a></div>
     </div>
   </form>
 </div>
