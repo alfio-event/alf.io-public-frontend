@@ -39,15 +39,20 @@
   
   <form [formGroup]="reservationForm" (submit)="submitForm(tmpEvent.event.shortName, reservationForm.value)">
     <div>
-        <ul>
-          <li *ngFor="let category of tmpEvent.ticketCategories;let counter = index"
-              formArrayName="reservation">
-              <div [formGroupName]="counter">
-                  <p>{{category.name}}</p>
-                  <p>{{category.description}}</p>
-                  <select formControlName="amount">
-                    <option *ngFor="let amount of category.amountOfTickets" [value]="amount">{{amount}}</option>
-                  </select>
+        <ul class="list-group">
+          <li *ngFor="let category of tmpEvent.ticketCategories;let counter = index" formArrayName="reservation" class="list-group-item">
+              <div [formGroupName]="counter" class="row">
+                  <div class="col-sm-7">
+                    <label>{{category.name}}</label>
+                    <div translate="show-event.sales-end"></div>
+                    <div>{{category.description}}</div>
+                  </div>
+                  <div class="col-sm-3"></div>
+                  <div class="col-sm-2">
+                    <select formControlName="amount" class="form-control">
+                      <option *ngFor="let amount of category.amountOfTickets" [value]="amount">{{amount}}</option>
+                    </select>
+                  </div>
               </div>
           </li>
         </ul>
