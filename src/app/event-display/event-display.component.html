@@ -37,11 +37,11 @@
     <div *ngIf="ticketCategories">
         <form [formGroup]="reservationForm" (submit)="submitForm(event.shortName, reservationForm.value)">
           <div>
-              <ul class="list-group">
+              <ul class="list-group ticket-categories">
                 <li *ngFor="let category of ticketCategories.categories;let counter = index" formArrayName="reservation" class="list-group-item">
                     <div [formGroupName]="counter" class="row">
                         <div class="col-sm-7">
-                          <label>{{category.name}}</label>
+                          <h3>{{category.name}}</h3>
                           <div translate="show-event.sales-end"></div>
                           <div [innerHtml]="category.description[translate.currentLang]"></div>
                         </div>

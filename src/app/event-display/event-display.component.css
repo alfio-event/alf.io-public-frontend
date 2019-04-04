@@ -3,3 +3,21 @@
     max-width: 100%;
     height: auto;
 }
+
+.ticket-categories h3 {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.ticket-categories .list-group-item {
+    border-left: none;
+    border-right: none;
+}
+
+.ticket-categories .list-group-item:first-child {
+    border-top: none;
+}
+
+.ticket-categories .list-group-item:last-child {
+    border-bottom: none;
+}
