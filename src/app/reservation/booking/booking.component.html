@@ -1,49 +1,70 @@
+
+<hr>
 <div *ngIf="reservation">
   <form [formGroup]="contactAndTicketsForm" (submit)="submitForm(reservation.event.shortName, reservation.reservationId, contactAndTicketsForm.value)">
 
-    <h2>Contact data</h2>
-    <div>
-      <label>Firstname</label>
-      <input formControlName="firstName" type="text">
-    </div>
-    <div>
-      <label>Lastname</label>
-      <input formControlName="lastName" type="text">
-    </div>
-    <div>
-      <label>Email</label>
-      <input formControlName="email" type="text">
+    <div class="page-header">
+      <h2 translate="reservation-page.your-details"></h2>
     </div>
 
-    <h2>Attendees</h2>
+    <div class="row">
+      <div class="col-12 col-sm-6">
+        <div class="form-group">
+          <label for="first-name" translate="common.first-name"></label>
+          <input id="first-name" class="form-control" formControlName="firstName" type="text" required>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6">
+        <label for="last-name" translate="common.last-name"></label>
+        <input id="last-name" class="form-control" formControlName="lastName" type="text" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+            <label for="email" translate="common.email">Email</label>
+            <input id="email" class="form-control" formControlName="email" type="email" required>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="page-header">
+      <h2 translate="reservation-page.attendees"></h2>
+    </div>
+
     <div *ngFor="let tc of reservation.ticketsByCategory">
       <div *ngFor="let ticket of tc.tickets" formGroupName="tickets">
-          <div [formGroupName]="ticket.uuid">
-            <h3>Ticket - {{tc.ticketCategory.name}}</h3>
-            <div>
-                <label>Firstname</label>
-                <input formControlName="firstName" type="text">
+          <div [formGroupName]="ticket.uuid" class="attendees-data">
+            <h3><fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- {{tc.ticketCategory.name}}</h3>
+            <div class="form-group row">
+                <label [for]="ticket.uuid + 'first-name'" class="col-sm-3 col-form-label" translate="common.first-name"></label>
+                <div class="col-sm-9">
+                  <input [id]="ticket.uuid + 'first-name'" formControlName="firstName" type="text" class="form-control">
+                </div>
             </div>
-            <div>
-                <label>Lastname</label>
-                <input formControlName="lastName" type="text">
+            <div class="form-group row">
+                <label [for]="ticket.uuid + 'last-name'" class="col-sm-3 col-form-label" translate="common.last-name"></label>
+                <div class="col-sm-9">
+                  <input [id]="ticket.uuid + 'last-name'" formControlName="lastName" type="text" class="form-control">
+                </div>
             </div>
-            <div>
-                <label>Email</label>
-                <input formControlName="email" type="text">
+            <div class="form-group row">
+                <label [for]="ticket.uuid + 'email'" class="col-sm-3 col-form-label" translate="common.email"></label>
+                <div class="col-sm-9">
+                  <input [id]="ticket.uuid + 'email'" formControlName="email" type="email" class="form-control">
+                </div>
             </div>
         </div>
       </div>
     </div>
-    <pre>{{contactAndTicketsForm.value | json}}</pre>
-
 
     <div class="row d-flex justify-content-between">
       <div class="col-md-4 order-1 col-12">
-        <button type="submit" class="block-button btn btn-success">Next</button>
+        <button type="submit" class="block-button btn btn-success" translate="reservation-page.continue"></button>
       </div>
       <div class="col-md-4 order-0 col-12 ">
-        <button type="button" class="block-button btn btn-outline-dark" (click)="cancelPendingReservation(reservation.event.shortName, reservation.reservationId)">Cancel</button>
+        <button type="button" class="block-button btn btn-outline-dark" (click)="cancelPendingReservation(reservation.event.shortName, reservation.reservationId)" translate="reservation-page.cancel"></button>
       </div>
     </div>
   </form>

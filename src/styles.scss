@@ -27,3 +27,22 @@ html[lang=ro] .language-selector button[lang=ro],
 html[lang=pt] .language-selector button[lang=pt] {
     font-weight: bold;
 }
+
+.page-header {
+    padding-bottom: 9px;
+    margin: 40px 0 20px;
+    border-bottom: 1px solid #eee;
+}
+
+body {
+    counter-reset: ticket-counter;
+}
+
+.ticket-counter:before {
+    counter-increment: ticket-counter;
+    content: counter(ticket-counter);
+}
+
+.rotate-45 {
+    transform: rotate(-45deg);
+}
