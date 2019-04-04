@@ -10,7 +10,7 @@ import { HttpClientModule, HttpClientXsrfModule, HttpClient }    from '@angular/
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faInfoCircle, faGift, faTicketAlt } from '@fortawesome/free-solid-svg-icons'
+import { faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill } from '@fortawesome/free-solid-svg-icons'
 import { faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock } from '@fortawesome/free-regular-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
@@ -21,6 +21,7 @@ import { OverviewComponent } from './reservation/overview/overview.component';
 import { SuccessComponent } from './reservation/success/success.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import { EventHeaderComponent } from './event-header/event-header.component';
+import { StepperComponent } from './stepper/stepper.component';
 
 
 
@@ -38,7 +39,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     OverviewComponent,
     SuccessComponent,
     ReservationComponent,
-    EventHeaderComponent
+    EventHeaderComponent,
+    StepperComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +66,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 })
 export class AppModule { 
   constructor() {
-    library.add(faInfoCircle, faGift, faTicketAlt);
+    library.add(faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill);
     library.add(faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock);
     library.add(faGoogle);
   }

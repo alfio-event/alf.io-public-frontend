@@ -1,4 +1,5 @@
-
+<hr>
+<app-stepper [currentStep]="2"></app-stepper>
 <hr>
 <div *ngIf="reservation">
   <form [formGroup]="contactAndTicketsForm" (submit)="submitForm(reservation.event.shortName, reservation.reservationId, contactAndTicketsForm.value)">

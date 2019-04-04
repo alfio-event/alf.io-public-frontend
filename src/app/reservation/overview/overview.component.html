@@ -1,3 +1,6 @@
+<hr>
+<app-stepper [currentStep]="3"></app-stepper>
+
 <div *ngIf="overview">
 
   <form [formGroup]="overviewForm" (submit)="confirm(overview.event.shortName, overview.reservationId, overviewForm.value)">
