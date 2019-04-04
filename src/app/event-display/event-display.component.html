@@ -33,35 +33,35 @@
 
     <h2 translate="show-event.tickets"></h2>
 
-</div>
 
-<div *ngIf="tmpEvent">
-  
-  <form [formGroup]="reservationForm" (submit)="submitForm(tmpEvent.event.shortName, reservationForm.value)">
-    <div>
-        <ul class="list-group">
-          <li *ngFor="let category of tmpEvent.ticketCategories;let counter = index" formArrayName="reservation" class="list-group-item">
-              <div [formGroupName]="counter" class="row">
-                  <div class="col-sm-7">
-                    <label>{{category.name}}</label>
-                    <div translate="show-event.sales-end"></div>
-                    <div>{{category.description}}</div>
-                  </div>
-                  <div class="col-sm-3"></div>
-                  <div class="col-sm-2">
-                    <select formControlName="amount" class="form-control">
-                      <option *ngFor="let amount of category.amountOfTickets" [value]="amount">{{amount}}</option>
-                    </select>
-                  </div>
-              </div>
-          </li>
-        </ul>
-    </div>
-    <!--{{reservationForm.value|json}}-->
-    <hr>
-    <div class="row d-flex justify-content-between">
-      <div class="col-md-4 order-1 col-12"><button type="submit" class="block-button btn btn-success" translate="show-event.continue"></button></div>
-      <div class="col-md-4 order-0 col-12 "><a [href]="event.websiteUrl" class="block-button btn btn-outline-dark" translate="to-event-site"></a></div>
-    </div>
-  </form>
+    <div *ngIf="ticketCategories">
+        <form [formGroup]="reservationForm" (submit)="submitForm(event.shortName, reservationForm.value)">
+          <div>
+              <ul class="list-group">
+                <li *ngFor="let category of ticketCategories.categories;let counter = index" formArrayName="reservation" class="list-group-item">
+                    <div [formGroupName]="counter" class="row">
+                        <div class="col-sm-7">
+                          <label>{{category.name}}</label>
+                          <div translate="show-event.sales-end"></div>
+                          <div [innerHtml]="category.description[translate.currentLang]"></div>
+                        </div>
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-2">
+                          <select formControlName="amount" class="form-control">
+                            <option *ngFor="let amount of category.amountOfTickets" [value]="amount">{{amount}}</option>
+                          </select>
+                        </div>
+                    </div>
+                </li>
+              </ul>
+          </div>
+          <!--{{reservationForm.value|json}}-->
+          <hr>
+          <div class="row d-flex justify-content-between">
+            <div class="col-md-4 order-1 col-12"><button type="submit" class="block-button btn btn-success" translate="show-event.continue"></button></div>
+            <div class="col-md-4 order-0 col-12 "><a [href]="event.websiteUrl" class="block-button btn btn-outline-dark" translate="to-event-site"></a></div>
+          </div>
+        </form>
+      </div>
+
 </div>

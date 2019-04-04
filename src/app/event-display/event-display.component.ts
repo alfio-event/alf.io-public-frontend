@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { ReservationService } from '../shared/reservation.service';
 import { Event } from '../model/event';
 import { TranslateService } from '@ngx-translate/core';
+import { TicketCategories } from '../model/ticket-categories';
 
 @Component({
   selector: 'app-event-display',
@@ -14,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class EventDisplayComponent implements OnInit {
 
   event: Event;
-  tmpEvent: any;
+  ticketCategories: TicketCategories;
   reservationForm: FormGroup;
 
   //https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
@@ -40,13 +41,13 @@ export class EventDisplayComponent implements OnInit {
         this.reservationForm = this.formBuilder.group({
           reservation: this.formBuilder.array(this.createItems(e))
         });
-        this.tmpEvent = e;
+        this.ticketCategories = e;
       });
     })
   }
 
-  createItems(event): FormGroup[] {
-    return event.ticketCategories.map(category => this.formBuilder.group({ticketCategoryId: category.id, amount: 0}));
+  createItems(ticketCategories: TicketCategories): FormGroup[] {
+    return ticketCategories.categories.map(category => this.formBuilder.group({ticketCategoryId: category.id, amount: 0}));
   }
 
   submitForm(eventShortName, reservation) {
