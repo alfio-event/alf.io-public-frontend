@@ -38,6 +38,11 @@
       <div *ngFor="let ticket of tc.tickets" formGroupName="tickets">
           <div [formGroupName]="ticket.uuid" class="attendees-data">
             <h3><fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- {{tc.ticketCategory.name}}</h3>
+
+            <div *ngFor="let field of ticket.ticketFieldConfigurationBeforeStandard">
+              <app-additional-field [field]="field" [form]="getControlFormForAdditionalFields(ticket.uuid)"></app-additional-field>
+            </div>
+
             <div class="form-group row">
                 <label [for]="ticket.uuid + 'first-name'" class="col-sm-3 col-form-label" translate="common.first-name"></label>
                 <div class="col-sm-9">
@@ -56,9 +61,15 @@
                   <input [id]="ticket.uuid + 'email'" formControlName="email" type="email" class="form-control">
                 </div>
             </div>
+
+            <div *ngFor="let field of ticket.ticketFieldConfigurationAfterStandard">
+              <app-additional-field [field]="field" [form]="getControlFormForAdditionalFields(ticket.uuid)"></app-additional-field>
+            </div>
         </div>
       </div>
     </div>
+
+    {{contactAndTicketsForm.value|json}}
 
     <div class="row d-flex justify-content-between">
       <div class="col-md-4 order-1 col-12">

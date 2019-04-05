@@ -22,6 +22,7 @@ import { SuccessComponent } from './reservation/success/success.component';
 import { ReservationComponent } from './reservation/reservation.component';
 import { EventHeaderComponent } from './event-header/event-header.component';
 import { StepperComponent } from './stepper/stepper.component';
+import { AdditionalFieldComponent } from './additional-field/additional-field.component';
 
 
 
@@ -40,7 +41,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     SuccessComponent,
     ReservationComponent,
     EventHeaderComponent,
-    StepperComponent
+    StepperComponent,
+    AdditionalFieldComponent
   ],
   imports: [
     BrowserModule,

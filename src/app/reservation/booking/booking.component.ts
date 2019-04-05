@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReservationService } from '../../shared/reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-booking',
@@ -51,6 +51,10 @@ export class BookingComponent implements OnInit {
     });
   }
 
+  getControlFormForAdditionalFields(uuid: string): AbstractControl {
+    return this.contactAndTicketsForm.get('tickets.'+uuid+'.additional');
+  }
+
   private buildTicketsFormGroup(ticketsByCategory): FormGroup {
     let tickets = {};
     ticketsByCategory.forEach(t => {
@@ -58,11 +62,33 @@ export class BookingComponent implements OnInit {
         tickets[ticket.uuid] = this.formBuilder.group({
           firstName: null,
           lastName: null,
-          email: null
+          email: null,
+          additional: this.buildAdditionalFields(ticket.ticketFieldConfigurationBeforeStandard, ticket.ticketFieldConfigurationAfterStandard)
         });
       })
     });
     return this.formBuilder.group(tickets);
+  }
+
+  private buildAdditionalFields(before, after) : FormGroup {
+    let additional = {};
+    if (before) {
+      this.buildSingleAdditionalField(before, additional);
+    }
+    if (after) {
+      this.buildSingleAdditionalField(after, additional);
+    }
+    return this.formBuilder.group(additional);
+  }
+
+  private buildSingleAdditionalField(a, additional) {
+    a.forEach(f => {
+      const arr = [];
+      f.fields.forEach(field => {
+        arr.push(this.formBuilder.control(null));
+      });
+      additional[f.name] = this.formBuilder.array(arr)
+    })
   }
 
 

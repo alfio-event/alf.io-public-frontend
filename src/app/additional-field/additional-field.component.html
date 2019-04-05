@@ -1,0 +1,8 @@
+<div [formGroup]="form">
+  <div class="form-group row" [formArrayName]="field.name">
+    <label class="col-sm-3 col-form-label">{{field.labelDescription}}</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" formControlName="0">
+    </div>
+  </div>
+</div>
