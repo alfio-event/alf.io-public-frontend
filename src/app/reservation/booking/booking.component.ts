@@ -12,6 +12,8 @@ export class BookingComponent implements OnInit {
 
   reservation: any;
   contactAndTicketsForm: FormGroup;
+  eventShortName: string;
+  reservationId: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,14 +23,20 @@ export class BookingComponent implements OnInit {
 
   ngOnInit() {
     this.route.parent.params.subscribe(params => {
-      this.reservationService.getReservationInfo(params['eventShortName'], params['reservationId']).subscribe(resInfo => {
+
+      this.eventShortName = params['eventShortName'];
+      this.reservationId = params['reservationId'];
+
+      this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(resInfo => {
+
+        
 
         if (resInfo.viewState && (resInfo.viewState as string).endsWith("/overview")) {
-          this.router.navigate(['event', params['eventShortName'], 'reservation', params['reservationId'], 'overview'])
+          this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview'])
           return;
         }
         if (resInfo.viewState && (resInfo.viewState as string).endsWith("/success")) {
-          this.router.navigate(['event', params['eventShortName'], 'reservation', params['reservationId'], 'success'])
+          this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success'])
           return;
         }
 
@@ -58,20 +66,20 @@ export class BookingComponent implements OnInit {
   }
 
 
-  public submitForm(eventShortName: string, reservationId: string, contactAndTicketsInfo: any) {
-    console.log(`${eventShortName} ${reservationId}`, contactAndTicketsInfo);
-    this.reservationService.validateToOverview(eventShortName, reservationId, contactAndTicketsInfo).subscribe(res => {
+  public submitForm(contactAndTicketsInfo: any) {
+    console.log(`${this.eventShortName} ${this.reservationId}`, contactAndTicketsInfo);
+    this.reservationService.validateToOverview(this.eventShortName, this.reservationId, contactAndTicketsInfo).subscribe(res => {
       console.log(res);
       if (res.viewState && (res.viewState as string).endsWith("/overview")) {
-        this.router.navigate(['event', eventShortName, 'reservation', reservationId, 'overview'])
+        this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview'])
       }
     })
   }
 
-  public cancelPendingReservation(eventShortName: string, reservationId: string) {
-    this.reservationService.cancelPendingReservation(eventShortName, reservationId).subscribe(res => {
+  public cancelPendingReservation() {
+    this.reservationService.cancelPendingReservation(this.eventShortName, this.reservationId).subscribe(res => {
       console.log(res);
-      this.router.navigate(['event', eventShortName]);
+      this.router.navigate(['event', this.eventShortName]);
     });
   }
 

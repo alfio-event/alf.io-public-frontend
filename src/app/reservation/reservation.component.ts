@@ -20,7 +20,7 @@ export class ReservationComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.eventService.getEvent(params['eventShortName']).subscribe(event => {
         this.event = event;
-      })
+      });
     });
   }
 

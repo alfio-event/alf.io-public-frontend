@@ -2,7 +2,7 @@
 <app-stepper [currentStep]="2"></app-stepper>
 <hr>
 <div *ngIf="reservation">
-  <form [formGroup]="contactAndTicketsForm" (submit)="submitForm(reservation.event.shortName, reservation.reservationId, contactAndTicketsForm.value)">
+  <form [formGroup]="contactAndTicketsForm" (submit)="submitForm(contactAndTicketsForm.value)">
 
     <div class="page-header">
       <h2 translate="reservation-page.your-details"></h2>
@@ -65,7 +65,7 @@
         <button type="submit" class="block-button btn btn-success" translate="reservation-page.continue"></button>
       </div>
       <div class="col-md-4 order-0 col-12 ">
-        <button type="button" class="block-button btn btn-outline-dark" (click)="cancelPendingReservation(reservation.event.shortName, reservation.reservationId)" translate="reservation-page.cancel"></button>
+        <button type="button" class="block-button btn btn-outline-dark" (click)="cancelPendingReservation()" translate="reservation-page.cancel"></button>
       </div>
     </div>
   </form>
