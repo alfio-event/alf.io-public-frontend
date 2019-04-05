@@ -1,6 +1,6 @@
 <div [formGroup]="form">
   <div class="form-group row" [formArrayName]="field.name">
-    <label class="col-sm-3 col-form-label">{{field.labelDescription}}</label>
+    <label class="col-sm-3 col-form-label">{{field.labelDescription + (field.required ? ' *' : '')}}</label>
     <div class="col-sm-9">
       <input *ngIf="field.inputField" [attr.type]="field.inputType" [attr.placeholder]="field.placeholderDescription" class="form-control" formControlName="0">
       <input *ngIf="field.euVat" [attr.type]="field.inputType" [attr.placeholder]="field.placeholderDescription" class="form-control" formControlName="0">

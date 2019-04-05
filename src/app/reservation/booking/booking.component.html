@@ -44,21 +44,21 @@
             </div>
 
             <div class="form-group row">
-                <label [for]="ticket.uuid + 'first-name'" class="col-sm-3 col-form-label" translate="common.first-name"></label>
+                <label [attr.for]="ticket.uuid + 'first-name'" class="col-sm-3 col-form-label">{{'common.first-name' | translate}} *</label>
                 <div class="col-sm-9">
-                  <input [id]="ticket.uuid + 'first-name'" formControlName="firstName" type="text" class="form-control">
+                  <input [attr.id]="ticket.uuid + 'first-name'" formControlName="firstName" type="text" class="form-control">
                 </div>
             </div>
             <div class="form-group row">
-                <label [for]="ticket.uuid + 'last-name'" class="col-sm-3 col-form-label" translate="common.last-name"></label>
+                <label [attr.for]="ticket.uuid + 'last-name'" class="col-sm-3 col-form-label">{{'common.last-name' | translate}} *</label>
                 <div class="col-sm-9">
-                  <input [id]="ticket.uuid + 'last-name'" formControlName="lastName" type="text" class="form-control">
+                  <input [attr.id]="ticket.uuid + 'last-name'" formControlName="lastName" type="text" class="form-control">
                 </div>
             </div>
             <div class="form-group row">
-                <label [for]="ticket.uuid + 'email'" class="col-sm-3 col-form-label" translate="common.email"></label>
+                <label [attr.for]="ticket.uuid + 'email'" class="col-sm-3 col-form-label">{{'common.email' | translate}} *</label>
                 <div class="col-sm-9">
-                  <input [id]="ticket.uuid + 'email'" formControlName="email" type="email" class="form-control">
+                  <input [attr.id]="ticket.uuid + 'email'" formControlName="email" type="email" class="form-control">
                 </div>
             </div>
 
