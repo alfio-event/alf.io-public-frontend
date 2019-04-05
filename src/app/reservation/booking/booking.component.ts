@@ -29,8 +29,6 @@ export class BookingComponent implements OnInit {
 
       this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(resInfo => {
 
-        
-
         if (resInfo.viewState && (resInfo.viewState as string).endsWith("/overview")) {
           this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview'])
           return;

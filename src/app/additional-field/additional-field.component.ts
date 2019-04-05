@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './additional-field.component.html',
   styleUrls: ['./additional-field.component.scss']
 })
-export class AdditionalFieldComponent implements OnInit {
+export class AdditionalFieldComponent {
 
   @Input()
   field: any;
@@ -14,9 +14,8 @@ export class AdditionalFieldComponent implements OnInit {
   @Input()
   form: FormGroup;
 
-  constructor() { }
+  @Input()
+  ticket: any;
 
-  ngOnInit() {
-    console.log(this.form);
-  }
+  constructor() { }
 }
