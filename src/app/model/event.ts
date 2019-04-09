@@ -7,6 +7,8 @@ export class Event {
     contentLanguages: ContentLanguage[];
     websiteUrl: string;
     location: string;
+    privacyPolicyUrl: string;
+    termsAndConditionsUrl: string;
 
     organizationName: string;
     organizationEmail: string;

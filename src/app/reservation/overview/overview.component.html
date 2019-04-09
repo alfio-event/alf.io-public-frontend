@@ -10,8 +10,20 @@
       <h2 translate="reservation-page.title"></h2>
     </div>
 
-    <p><label><input formControlName="privacyPolicyAccepted" type="checkbox"> Privacy</label></p>
-    <p><label><input formControlName="termAndConditionsAccepted" type="checkbox"> Term and conditions</label></p>
+    <div *ngIf="event">
+      <p *ngIf="event.privacyPolicyUrl">
+        <label>
+          <input formControlName="privacyPolicyAccepted" type="checkbox">{{' '}} <!-- ugly, see  https://github.com/angular/angular/issues/21049 -->
+          <span translate="reservation-page.privacy.prefix"></span>{{' '}}<a [attr.href]="event.privacyPolicyUrl" target="_blank" translate="reservation-page.privacy.link.text"></a><span translate="reservation-page.privacy.suffix"></span>
+        </label>
+      </p>
+      <p>
+        <label>
+          <input formControlName="termAndConditionsAccepted" type="checkbox">{{' '}}
+          <span translate="reservation-page.tc.prefix"></span>{{' '}}<a [attr.href]="event.termsAndConditionsUrl" target="_blank" translate="reservation-page.tc.link.text"></a><span translate="reservation-page.tc.suffix"></span>
+        </label>
+      </p>
+    </div>
 
     <div class="row d-flex justify-content-between">
       <div class="col-md-4 order-1 col-12">

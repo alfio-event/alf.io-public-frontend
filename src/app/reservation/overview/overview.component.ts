@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReservationService } from '../../shared/reservation.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Event } from 'src/app/model/event';
+import { EventService } from 'src/app/shared/event.service';
 
 @Component({
   selector: 'app-overview',
@@ -15,11 +17,13 @@ export class OverviewComponent implements OnInit {
 
   eventShortName: string;
   reservationId: string;
+  event: Event;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private reservationService: ReservationService,
+    private eventService: EventService,
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -27,6 +31,10 @@ export class OverviewComponent implements OnInit {
 
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
+
+      this.eventService.getEvent(this.eventShortName).subscribe(ev => {
+        this.event = ev;
+      });
 
       this.reservationService.getOverview(this.eventShortName, this.reservationId).subscribe(resInfo => {
         // TODO: move as a guard(?)

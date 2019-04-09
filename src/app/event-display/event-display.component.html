@@ -14,7 +14,8 @@
                 <fa-icon [icon]="['far', 'calendar-plus']"></fa-icon> {{'show-event.add-to-calendar' | translate}}
                 <a title="{{'show-event.add-to-calendar' | translate}} google" target="_blank"
                   href="/api/v2/public/event/{{event.shortName}}/calendar/{{translate.currentLang}}?type=google"><fa-icon [icon]="['fab', 'google']"></fa-icon></a>
-                &ngsp;<a title="{{'show-event.add-to-calendar' | translate}} iCalendar" target="_blank"
+                {{' '}} <!-- ugly, see  https://github.com/angular/angular/issues/21049 -->
+                <a title="{{'show-event.add-to-calendar' | translate}} iCalendar" target="_blank"
                   href="/api/v2/public/event/{{event.shortName}}/calendar/{{translate.currentLang}}"><fa-icon [icon]="['far', 'calendar-check']"></fa-icon></a>
               </li>
               <li>
