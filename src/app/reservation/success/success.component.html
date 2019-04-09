@@ -1,6 +1,20 @@
+<hr>
+
+
+<h1 translate="reservation-page-complete.your-tickets"></h1>
+
 <p>
   success works!
 </p>
 <div *ngIf="success">
-  {{success|json}}
+</div>
+
+
+<div class="row d-flex justify-content-between" *ngIf="event">
+  <div class="col-md-4 order-1 col-12">
+    <a class="block-button btn btn-success" [routerLink]="['/event', event.shortName]" translate="buy-other-tickets"></a>
+  </div>
+  <div class="col-md-4 order-0 col-12 ">
+    <a class="block-button btn btn-outline-dark" [attr.href]="event.websiteUrl" translate="to-event-site"></a>
+  </div>
 </div>
