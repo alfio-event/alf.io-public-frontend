@@ -3,20 +3,22 @@
 
 <div *ngIf="overview">
 
-  <form [formGroup]="overviewForm" (submit)="confirm(overview.event.shortName, overview.reservationId, overviewForm.value)">
+  <form [formGroup]="overviewForm" (submit)="confirm(overviewForm.value)">
+
+
+    <div class="page-header">
+      <h2 translate="reservation-page.title"></h2>
+    </div>
 
     <p><label><input formControlName="privacyPolicyAccepted" type="checkbox"> Privacy</label></p>
     <p><label><input formControlName="termAndConditionsAccepted" type="checkbox"> Term and conditions</label></p>
 
-
-    <pre>{{overviewForm.value | json}}</pre>
-
     <div class="row d-flex justify-content-between">
       <div class="col-md-4 order-1 col-12">
-        <button type="submit" class="block-button btn btn-success">Next</button>
+        <button type="submit" class="block-button btn btn-success" translate="reservation-page.continue"></button>
       </div>
       <div class="col-md-4 order-0 col-12 ">
-        <button type="button" class="block-button btn btn-outline-dark" (click)="backToBooking(overview.event.shortName, overview.reservationId)">Back</button>
+        <button type="button" class="block-button btn btn-outline-dark" (click)="backToBooking()" translate="common.back"></button>
       </div>
     </div>
   </form>

@@ -13,6 +13,9 @@ export class OverviewComponent implements OnInit {
   overview: any;
   overviewForm: FormGroup;
 
+  eventShortName: string;
+  reservationId: string;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -22,14 +25,17 @@ export class OverviewComponent implements OnInit {
   ngOnInit() {
     this.route.parent.params.subscribe(params => {
 
-      this.reservationService.getOverview(params['eventShortName'], params['reservationId']).subscribe(resInfo => {
+      this.eventShortName = params['eventShortName'];
+      this.reservationId = params['reservationId'];
+
+      this.reservationService.getOverview(this.eventShortName, this.reservationId).subscribe(resInfo => {
         // TODO: move as a guard(?)
         if (resInfo.viewState && (resInfo.viewState as string).endsWith("/book")) {
-          this.router.navigate(['event', params['eventShortName'], 'reservation', params['reservationId'], 'book'])
+          this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'book'])
           return;
         }
         if (resInfo.viewState && (resInfo.viewState as string).endsWith("/success")) {
-          this.router.navigate(['event', params['eventShortName'], 'reservation', params['reservationId'], 'success'])
+          this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success'])
           return;
         }
         //
@@ -45,16 +51,16 @@ export class OverviewComponent implements OnInit {
     });
   }
 
-  backToBooking(eventShortName: string, reservationId: string) {
-    this.reservationService.backToBooking(eventShortName, reservationId).subscribe(res => {
-      this.router.navigate(['event', eventShortName, 'reservation', reservationId, 'book'])
+  backToBooking() {
+    this.reservationService.backToBooking(this.eventShortName, this.reservationId).subscribe(res => {
+      this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'book'])
     });
   }
 
-  confirm(eventShortName: string, reservationId: string, overviewFormValue) {
-    this.reservationService.confirmOverview(eventShortName, reservationId, overviewFormValue).subscribe(res => {
+  confirm(overviewFormValue: any) {
+    this.reservationService.confirmOverview(this.eventShortName, this.reservationId, overviewFormValue).subscribe(res => {
       if(res.viewState && (res.viewState as string).endsWith("/success")) {
-        this.router.navigate(['event', eventShortName, 'reservation', reservationId, 'success']);
+        this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
       }
     });
   }
