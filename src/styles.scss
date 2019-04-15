@@ -69,3 +69,7 @@ label.col-form-label {
     max-width: 100%;
     height: auto;
 }
+
+.table>thead:first-child>tr:first-child>th {
+    border-top: 0;
+}

@@ -20,7 +20,8 @@ export class ReservationComponent implements OnInit {
       this.eventService.getEvent(params['eventShortName']).subscribe(event => {
         this.event = event;
       });
+
+      //TODO: add navigation here if the route does not correspond!
     });
   }
-
 }
