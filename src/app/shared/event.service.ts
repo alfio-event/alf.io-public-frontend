@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
+import { BasicEventInfo } from '../model/basic-event-info'
 import { Event } from '../model/event'
 import { TicketCategories } from '../model/ticket-categories'
 
@@ -11,8 +12,8 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
-  public getEvents() : Observable<any> {
-    return this.http.get('/api/v2/public/tmp/events');
+  public getEvents() : Observable<BasicEventInfo[]> {
+    return this.http.get<BasicEventInfo[]>('/api/v2/public/events');
   }
 
   public getEvent(eventShortName: string): Observable<Event> {
