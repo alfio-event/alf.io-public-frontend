@@ -3,10 +3,22 @@
 
 <h1 translate="reservation-page-complete.your-tickets"></h1>
 
-<p>
-  success works!
-</p>
-<div *ngIf="success">
+<div *ngIf="success && event">
+  <div class="alert alert-success">
+      <div class="row">
+          <div class="col-sm-12">
+            <h3 [innerHtml]="'reservation-page-complete.info-assign' | translate: {'0':event.displayName}"></h3>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-sm-12" [innerHtml]="'reservation-page-complete.info-assign-email' | translate: {'0':success.reservation.email}"></div>
+      </div>
+  </div>
+
+
+  <div *ngIf="success.ticketsAreAllAssigned">
+      <p class="bg-info ticket-info" translate="reservation-page-complete.info-update"></p>
+  </div>
 </div>
 
 
