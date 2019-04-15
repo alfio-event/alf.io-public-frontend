@@ -19,14 +19,22 @@
   <div *ngIf="success.ticketsAreAllAssigned">
       <p class="bg-info ticket-info" translate="reservation-page-complete.info-update"></p>
   </div>
-</div>
 
 
-<div class="row d-flex justify-content-between" *ngIf="event">
-  <div class="col-md-4 order-1 col-12">
-    <a class="block-button btn btn-success" [routerLink]="['/event', event.shortName]" translate="buy-other-tickets"></a>
+
+  <div class="row d-flex justify-content-between">
+    <div class="col-md-4 order-1 col-12">
+      <a class="block-button btn btn-success" [routerLink]="['/event', event.shortName]" translate="buy-other-tickets"></a>
+    </div>
+    <div class="col-md-4 order-0 col-12">
+      <a class="block-button btn btn-outline-dark" [attr.href]="event.websiteUrl" translate="to-event-site"></a>
+    </div>
   </div>
-  <div class="col-md-4 order-0 col-12 ">
-    <a class="block-button btn btn-outline-dark" [attr.href]="event.websiteUrl" translate="to-event-site"></a>
+
+  <div class="text-center wMarginTop30px">
+      {{'reservation-page-complete.order-information' | translate: {'0': success.reservation.id, '1': success.reservation.fullName} }}
+  </div>
+  <div class="text-center wMarginTop30px">
+      <span class="text-muted"><a href="https://alf.io" [attr.title]="'alfio.credits' | translate" target="_blank" rel="noreferrer noopener" translate="alfio.credits"></a></span>
   </div>
 </div>
