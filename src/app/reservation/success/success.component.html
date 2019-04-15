@@ -20,9 +20,51 @@
       <p class="bg-info ticket-info" translate="reservation-page-complete.info-update"></p>
   </div>
 
+  <div *ngFor="let tc of success.ticketsByCategory">
+    <div *ngFor="let ticket of tc.tickets">
+      <div *ngIf="ticket.assigned">
+        <div class="attendees-data">
+          <h3><fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span></h3>
+        </div>
+        {{'reservation-page-complete.ticket-type'|translate}} <strong>{{tc.ticketCategory.name}}</strong>
+        <div class="wMarginBottom">
+            <p [innerHtml]="'reservation-page-complete.assigned-to' | translate: {'0': ticket.fullName, '1': ticket.email}"></p>
 
 
-  <div class="row d-flex justify-content-between">
+            <div class="row">
+              <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
+                <a href="" target="_blank" class="btn btn-primary btn-block">
+                  <fa-icon [icon]="['fa', 'search-plus']"></fa-icon>
+                  {{'reservation-page-complete.show-ticket'|translate}}
+                </a>
+              </div>
+              <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
+                <a href="" class="btn btn-primary btn-block">
+                  <fa-icon [icon]="['fa', 'download']"></fa-icon>
+                  {{'reservation-page-complete.download-ticket'|translate}}
+                </a>
+              </div>
+              <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
+                <button type="button" class="btn btn-primary btn-block send-ticket-by-email">
+                  <fa-icon [icon]="['far', 'envelope']"></fa-icon>
+                  {{'reservation-page-complete.send-ticket-by-email-to'|translate}}
+                </button>
+              </div>
+              <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
+                <a href="" class="btn btn-primary btn-block update-ticket-owner">
+                  <fa-icon [icon]="['far', 'edit']"></fa-icon>
+                  {{'reservation-page-complete.update-ticket-owner'|translate}}
+                </a>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="row d-flex justify-content-between wMarginTop30px">
     <div class="col-md-4 order-1 col-12">
       <a class="block-button btn btn-success" [routerLink]="['/event', event.shortName]" translate="buy-other-tickets"></a>
     </div>
