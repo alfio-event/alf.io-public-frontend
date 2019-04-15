@@ -23,6 +23,7 @@ import { ReservationComponent } from './reservation/reservation.component';
 import { EventHeaderComponent } from './event-header/event-header.component';
 import { StepperComponent } from './stepper/stepper.component';
 import { AdditionalFieldComponent } from './additional-field/additional-field.component';
+import { ViewTicketComponent } from './view-ticket/view-ticket.component';
 
 
 
@@ -42,7 +43,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReservationComponent,
     EventHeaderComponent,
     StepperComponent,
-    AdditionalFieldComponent
+    AdditionalFieldComponent,
+    ViewTicketComponent
   ],
   imports: [
     BrowserModule,
