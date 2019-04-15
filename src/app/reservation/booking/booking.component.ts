@@ -5,8 +5,7 @@ import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-booking',
-  templateUrl: './booking.component.html',
-  styleUrls: ['./booking.component.scss']
+  templateUrl: './booking.component.html'
 })
 export class BookingComponent implements OnInit {
 

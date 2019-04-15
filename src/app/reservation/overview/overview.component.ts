@@ -7,8 +7,7 @@ import { EventService } from 'src/app/shared/event.service';
 
 @Component({
   selector: 'app-overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss']
+  templateUrl: './overview.component.html'
 })
 export class OverviewComponent implements OnInit {
 

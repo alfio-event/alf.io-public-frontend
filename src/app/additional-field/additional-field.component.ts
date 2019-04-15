@@ -3,8 +3,7 @@ import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-additional-field',
-  templateUrl: './additional-field.component.html',
-  styleUrls: ['./additional-field.component.scss']
+  templateUrl: './additional-field.component.html'
 })
 export class AdditionalFieldComponent {
 

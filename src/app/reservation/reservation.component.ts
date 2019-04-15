@@ -5,8 +5,7 @@ import { EventService } from '../shared/event.service';
 
 @Component({
   selector: 'app-reservation',
-  templateUrl: './reservation.component.html',
-  styleUrls: ['./reservation.component.scss']
+  templateUrl: './reservation.component.html'
 })
 export class ReservationComponent implements OnInit {
 
