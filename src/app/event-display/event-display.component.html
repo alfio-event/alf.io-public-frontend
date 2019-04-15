@@ -5,24 +5,7 @@
 
     <div class="row">
         <div class="col-md-7">
-          <h2 translate="ticket.event-info"></h2>
-          <div>{{'show-event.by'|translate}} <strong>{{event.organizationName}}</strong> &lt;<a [href]="'mailto:'+ event.organizationEmail">{{event.organizationEmail}}</a>&gt;</div>
-          <div>
-            <ul class="list-unstyled">
-              <li><fa-icon [icon]="['far', 'calendar-alt']"></fa-icon></li>
-              <li>
-                <fa-icon [icon]="['far', 'calendar-plus']"></fa-icon> {{'show-event.add-to-calendar' | translate}}
-                <a title="{{'show-event.add-to-calendar' | translate}} google" target="_blank"
-                  href="/api/v2/public/event/{{event.shortName}}/calendar/{{translate.currentLang}}?type=google"><fa-icon [icon]="['fab', 'google']"></fa-icon></a>
-                {{' '}} <!-- ugly, see  https://github.com/angular/angular/issues/21049 -->
-                <a title="{{'show-event.add-to-calendar' | translate}} iCalendar" target="_blank"
-                  href="/api/v2/public/event/{{event.shortName}}/calendar/{{translate.currentLang}}"><fa-icon [icon]="['far', 'calendar-check']"></fa-icon></a>
-              </li>
-              <li>
-                <fa-icon [icon]="['far', 'compass']"></fa-icon> {{event.location}}
-              </li>
-            </ul>
-          </div>
+          <app-event-summary [event]="event"></app-event-summary>
         </div>
         <div class="col-md-5"><img [src]="event.locationDescriptor.mapUrl" class="img-responsive"></div>
     </div>

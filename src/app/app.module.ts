@@ -13,8 +13,8 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill, faDownload, faSearchPlus } from '@fortawesome/free-solid-svg-icons'
 import { faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock, faEnvelope, faEdit } from '@fortawesome/free-regular-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { BookingComponent } from './reservation/booking/booking.component';
 import { OverviewComponent } from './reservation/overview/overview.component';
@@ -24,6 +24,7 @@ import { EventHeaderComponent } from './event-header/event-header.component';
 import { StepperComponent } from './stepper/stepper.component';
 import { AdditionalFieldComponent } from './additional-field/additional-field.component';
 import { ViewTicketComponent } from './view-ticket/view-ticket.component';
+import { EventSummaryComponent } from './event-summary/event-summary.component';
 
 
 
@@ -44,7 +45,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     EventHeaderComponent,
     StepperComponent,
     AdditionalFieldComponent,
-    ViewTicketComponent
+    ViewTicketComponent,
+    EventSummaryComponent
   ],
   imports: [
     BrowserModule,
