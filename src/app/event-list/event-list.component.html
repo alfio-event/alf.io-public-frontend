@@ -1,15 +1,18 @@
-<h1>Events are:</h1>
-<fa-icon [icon]="['far', 'calendar-plus']"></fa-icon>
-<fa-icon [icon]="['far', 'compass']"></fa-icon>
-<fa-icon [icon]="['far', 'calendar-check']"></fa-icon>
-<fa-icon [icon]="['far', 'clock']"></fa-icon>
-<fa-icon [icon]="['far', 'calendar-alt']"></fa-icon>
-<fa-icon [icon]="['fas', 'info-circle']"></fa-icon>
-<fa-icon [icon]="['fas', 'gift']"></fa-icon>
-<fa-icon [icon]="['fas', 'ticket-alt']"></fa-icon>
+<h1 translate="event-list.title"></h1>
 
-<li *ngFor="let event of events">
-  <a [routerLink]="['/event', event.shortName]">go to event</a>
-  <p>{{event | json}}</p>
-</li>
-
+<ul class="list-group">
+  <li *ngFor="let event of events" class="list-group-item">
+    <a [routerLink]="['/event', event.shortName]" class="no-decoration">
+      <div class="row">
+        <div class="col-12 col-sm-7 col-md-4">
+            <img [attr.src]="'/file/'+event.fileBlobId" class="img-responsive img-center logo">
+        </div>
+        <div class="col-12 col-sm-5 col-md-8">
+          <h2>{{event.displayName}}</h2>
+          <div></div>
+          <div>{{event.location}}</div>
+        </div>
+      </div>
+    </a>
+  </li>
+</ul>

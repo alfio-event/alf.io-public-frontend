@@ -50,3 +50,22 @@ body {
 label.col-form-label {
     text-align: right;
 }
+
+.list-group-item {
+    border-left:none;
+    border-right:none;
+}
+
+.list-group-item:first-child {
+    border-top:none;
+}
+
+.list-group-item:last-child {
+    border-bottom:none;
+}
+
+.img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
