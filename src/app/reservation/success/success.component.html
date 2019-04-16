@@ -45,7 +45,7 @@
                 </a>
               </div>
               <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
-                <button type="button" class="btn btn-primary btn-block send-ticket-by-email">
+                <button type="button" class="btn btn-primary btn-block send-ticket-by-email" (click)="sendEmailForTicket(ticket.uuid)">
                   <fa-icon [icon]="['far', 'envelope']"></fa-icon>
                   {{'reservation-page-complete.send-ticket-by-email-to'|translate}}
                 </button>
@@ -57,6 +57,12 @@
                 </a>
               </div>
             </div>
+        </div>
+
+
+        <div class="alert alert-success wMarginTop30px wMarginBottom hidden alert-dismissible" role="alert" *ngIf="sendEmailForTicketStatus[ticket.uuid] === 'SENT'">
+            <button type="button" class="close" (click)="sendEmailForTicketStatus[ticket.uuid] = false"><span aria-hidden="true">&times;</span><span class="sr-only" translate="reservation-page-complete.cancel"></span></button>
+            <strong translate="email.ticket-email-sent"></strong>
         </div>
       </div>
     </div>

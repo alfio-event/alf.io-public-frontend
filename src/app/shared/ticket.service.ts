@@ -14,4 +14,8 @@ export class TicketService {
     getTicketInfo(eventName: string, ticketIdentifier: string): Observable<TicketInfo> {
         return this.http.get<TicketInfo>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}`);
     }
+
+    sendTicketByEmail(eventName: string, ticketIdentifier: string): Observable<boolean> {
+        return this.http.post<boolean>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}/send-ticket-by-email`, {});
+    }
 }

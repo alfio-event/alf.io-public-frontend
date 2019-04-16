@@ -3,6 +3,7 @@ import { ReservationService } from '../../shared/reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Event } from 'src/app/model/event';
 import { EventService } from 'src/app/shared/event.service';
+import { TicketService } from 'src/app/shared/ticket.service';
 
 @Component({
   selector: 'app-success',
@@ -16,13 +17,15 @@ export class SuccessComponent implements OnInit {
   reservationId: string;
 
   event: Event;
+  sendEmailForTicketStatus: {} = {};
 
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private reservationService: ReservationService,
-    private eventService: EventService) { }
+    private eventService: EventService,
+    private ticketService: TicketService) { }
 
   ngOnInit() {
     this.route.parent.params.subscribe(params => {
@@ -34,6 +37,14 @@ export class SuccessComponent implements OnInit {
       this.reservationService.getSuccess(this.eventShortName, this.reservationId).subscribe(res => {
         this.success = res;
       })
+    });
+  }
+
+  sendEmailForTicket(ticketIdentifier: string): void {
+    this.ticketService.sendTicketByEmail(this.eventShortName, ticketIdentifier).subscribe(res => {
+      if (res) {
+        this.sendEmailForTicketStatus[ticketIdentifier] = 'SENT';
+      }
     });
   }
 
