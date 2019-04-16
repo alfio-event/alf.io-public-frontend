@@ -33,8 +33,8 @@ export class ReservationService {
         return this.http.post(`/api/v2/public/tmp/event/${eventShortName}/reservation/${reservationId}`, overviewForm);
     }
 
-    public backToBooking(eventShortName: string, reservationId: string) : Observable<any> {
-        return this.http.post(`/api/v2/public/tmp/event/${eventShortName}/reservation/${reservationId}/back-to-booking`, {});
+    public backToBooking(eventShortName: string, reservationId: string) : Observable<boolean> {
+        return this.http.post<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/back-to-booking`, {});
     }
 
     public getSuccess(eventShortName: string, reservationId: string): Observable<any> {
