@@ -3,6 +3,7 @@ import { Event } from '../model/event';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../shared/event.service';
 import { TicketService } from '../shared/ticket.service';
+import { TicketInfo } from '../model/ticket-info';
 
 @Component({
   selector: 'app-view-ticket',
@@ -13,7 +14,7 @@ export class ViewTicketComponent implements OnInit {
 
   event: Event;
   ticketIdentifier: string;
-  ticketInfo: any;
+  ticketInfo: TicketInfo;
 
   constructor(
     private ticketService: TicketService,

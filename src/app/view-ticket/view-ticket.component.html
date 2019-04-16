@@ -21,11 +21,11 @@
           <h2 translate="ticket.ticket"></h2>
           <dl class="row">
               <dt class="col-sm-3" translate="ticket.holder"></dt>
-              <dd class="col-sm-9">{{ticketInfo.ticket.fullName}} &lt;{{ticketInfo.ticket.email}}&gt;</dd>
+              <dd class="col-sm-9">{{ticketInfo.fullName}} &lt;{{ticketInfo.email}}&gt;</dd>
               <dt class="col-sm-3" translate="ticket.type"></dt>
               <dd class="col-sm-9">{{ticketInfo.ticketCategoryName}}</dd>
               <dt class="col-sm-3" translate="ticket.reference-number"></dt>
-              <dd class="col-sm-9">{{ticketInfo.ticket.uuid}}</dd>
+              <dd class="col-sm-9">{{ticketInfo.uuid}}</dd>
               <dt class="col-sm-3" translate="ticket.order-information"></dt>
               <dd class="col-sm-9">{{'ticket.order-information-values' | translate:  {'0': ticketInfo.reservationId, '1': ticketInfo.reservationFullName} }}</dd>
           </dl>
