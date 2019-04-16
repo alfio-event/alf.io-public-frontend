@@ -17,6 +17,8 @@ export class SuccessComponent implements OnInit {
   reservationId: string;
 
   event: Event;
+
+  reservationMailSent: boolean = false;
   sendEmailForTicketStatus: {} = {};
 
 
@@ -45,6 +47,12 @@ export class SuccessComponent implements OnInit {
       if (res) {
         this.sendEmailForTicketStatus[ticketIdentifier] = 'SENT';
       }
+    });
+  }
+
+  reSendReservationEmail() {
+    this.reservationService.reSendReservationEmail(this.eventShortName, this.reservationId).subscribe(res => {
+      this.reservationMailSent = res;
     });
   }
 
