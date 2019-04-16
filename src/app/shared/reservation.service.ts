@@ -17,8 +17,8 @@ export class ReservationService {
         return this.http.get(`/api/v2/public/tmp/event/${eventShortName}/reservation/${reservationId}/book`);
     }
 
-    public cancelPendingReservation(eventShortName: string, reservationId: string): Observable<any> {
-        return this.http.delete(`/api/v2/public/tmp/event/${eventShortName}/reservation/${reservationId}`);
+    public cancelPendingReservation(eventShortName: string, reservationId: string): Observable<boolean> {
+        return this.http.delete<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`);
     }
 
     public validateToOverview(eventShortName: string, reservationId: string, contactsAndTicket: any): Observable<any> {
