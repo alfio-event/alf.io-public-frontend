@@ -90,9 +90,7 @@ export class BookingComponent implements OnInit {
 
 
   public submitForm(contactAndTicketsInfo: any) {
-    console.log(`${this.eventShortName} ${this.reservationId}`, contactAndTicketsInfo);
     this.reservationService.validateToOverview(this.eventShortName, this.reservationId, contactAndTicketsInfo).subscribe(res => {
-      console.log(res);
       if (res.viewState && (res.viewState as string).endsWith("/overview")) {
         this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview'])
       }
@@ -101,7 +99,6 @@ export class BookingComponent implements OnInit {
 
   public cancelPendingReservation() {
     this.reservationService.cancelPendingReservation(this.eventShortName, this.reservationId).subscribe(res => {
-      console.log(res);
       this.router.navigate(['event', this.eventShortName]);
     });
   }
