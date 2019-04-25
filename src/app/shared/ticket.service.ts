@@ -27,6 +27,11 @@ export class TicketService {
         return this.formBuilder.group(this.buildTicket(ticket));
     }
 
+
+    updateTicket(eventName: string, ticketIdentifier: string, ticket) : Observable<any> {
+      return this.http.post(`/api/v2/public/tmp/event/${eventName}/ticket/${ticketIdentifier}/assign`, ticket);
+    }
+
     private buildTicket(ticket: Ticket): {firstName: string, lastName: string, email: string, additional: FormGroup} {
         return {
             firstName: ticket.firstName,

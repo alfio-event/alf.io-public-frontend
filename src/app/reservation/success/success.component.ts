@@ -40,15 +40,19 @@ export class SuccessComponent implements OnInit {
       this.eventService.getEvent(this.eventShortName).subscribe(ev => {
         this.event = ev;
       });
-      this.reservationService.getSuccess(this.eventShortName, this.reservationId).subscribe(res => {
-        this.success = res;
-        res.ticketsByCategory.forEach((tc) => {
-          tc.tickets.forEach((ticket: Ticket) => {
-            this.buildFormControl(ticket);
-          })  
-        });
-      })
+      this.loadReservation();
     });
+  }
+
+  loadReservation() {
+    this.reservationService.getSuccess(this.eventShortName, this.reservationId).subscribe(res => {
+      this.success = res;
+      res.ticketsByCategory.forEach((tc) => {
+        tc.tickets.forEach((ticket: Ticket) => {
+          this.buildFormControl(ticket);
+        })  
+      });
+    })
   }
 
   buildFormControl(ticket: Ticket) {
@@ -74,7 +78,13 @@ export class SuccessComponent implements OnInit {
   }
 
   updateTicket(uuid: string) {
-    console.log('update ticket with uuid ' + uuid, this.ticketsFormControl[uuid].value);
+    const ticketValue = this.ticketsFormControl[uuid].value;
+    this.ticketService.updateTicket(this.event.shortName, uuid, ticketValue).subscribe(res => {
+      if (res.validationResult.success) {
+        console.log('ticket updated with success');
+        this.loadReservation();
+      }
+    });
   }
 
 }
