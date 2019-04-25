@@ -1,12 +1,12 @@
 <div [formGroup]="form">
   <div class="form-group row" [formArrayName]="field.name">
-    <label class="col-sm-3 col-form-label" [attr.for]="ticket.uuid + '-' + field.name">{{field.labelDescription + (field.required ? ' *' : '')}}</label>
+    <label class="col-sm-3 col-form-label" [attr.for]="ticketUUID + '-' + field.name">{{field.labelDescription + (field.required ? ' *' : '')}}</label>
     <div class="col-sm-9">
-      <input *ngIf="field.inputField" [attr.id]="ticket.uuid + '-' + field.name" [attr.type]="field.inputType" [attr.placeholder]="field.placeholderDescription" class="form-control" formControlName="0">
-      <input *ngIf="field.euVat" [attr.id]="ticket.uuid + '-' + field.name" [attr.type]="field.inputType" [attr.placeholder]="field.placeholderDescription" class="form-control" formControlName="0">
-      <textarea *ngIf="field.textareaField" [attr.id]="ticket.uuid + '-' + field.name" class="form-control" [attr.placeholder]="field.placeholderDescription" formControlName="0"></textarea>
-      <select *ngIf="field.countryField" [attr.id]="ticket.uuid + '-' + field.name" class="form-control" formControlName="0"></select>
-      <select *ngIf="field.selectField" [attr.id]="ticket.uuid + '-' + field.name" class="form-control" formControlName="0"></select>
+      <input *ngIf="field.inputField" [attr.id]="ticketUUID + '-' + field.name" [attr.type]="field.inputType" [attr.placeholder]="field.placeholderDescription" class="form-control" formControlName="0">
+      <input *ngIf="field.euVat" [attr.id]="ticketUUID + '-' + field.name" [attr.type]="field.inputType" [attr.placeholder]="field.placeholderDescription" class="form-control" formControlName="0">
+      <textarea *ngIf="field.textareaField" [attr.id]="ticketUUID + '-' + field.name" class="form-control" [attr.placeholder]="field.placeholderDescription" formControlName="0"></textarea>
+      <select *ngIf="field.countryField" [attr.id]="ticketUUID + '-' + field.name" class="form-control" formControlName="0"></select>
+      <select *ngIf="field.selectField" [attr.id]="ticketUUID + '-' + field.name" class="form-control" formControlName="0"></select>
     </div>
   </div>
 </div>

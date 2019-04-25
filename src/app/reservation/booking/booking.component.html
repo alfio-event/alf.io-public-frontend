@@ -40,7 +40,7 @@
             <h3><fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- {{tc.ticketCategory.name}}</h3>
 
             <div *ngFor="let field of ticket.ticketFieldConfigurationBeforeStandard">
-              <app-additional-field [field]="field" [ticket]="ticket" [form]="getControlFormForAdditionalFields(ticket.uuid)"></app-additional-field>
+              <app-additional-field [field]="field" [ticketUUID]="ticket.uuid" [form]="getControlFormForAdditionalFields(ticket.uuid)"></app-additional-field>
             </div>
 
             <div class="form-group row">
@@ -63,7 +63,7 @@
             </div>
 
             <div *ngFor="let field of ticket.ticketFieldConfigurationAfterStandard">
-              <app-additional-field [field]="field" [ticket]="ticket" [form]="getControlFormForAdditionalFields(ticket.uuid)"></app-additional-field>
+              <app-additional-field [field]="field" [ticketUUID]="ticket.uuid" [form]="getControlFormForAdditionalFields(ticket.uuid)"></app-additional-field>
             </div>
         </div>
       </div>

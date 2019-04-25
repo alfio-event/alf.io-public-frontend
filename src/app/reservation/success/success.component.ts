@@ -5,6 +5,7 @@ import { Event } from 'src/app/model/event';
 import { EventService } from 'src/app/shared/event.service';
 import { TicketService } from 'src/app/shared/ticket.service';
 import { Ticket } from 'src/app/model/ticket';
+import { AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-success',
@@ -22,6 +23,7 @@ export class SuccessComponent implements OnInit {
   reservationMailSent: boolean = false;
   sendEmailForTicketStatus: {} = {};
   ticketsFormControl: {} = {};
+  ticketsFormShow: {} = {};
 
 
   constructor(
@@ -65,6 +67,14 @@ export class SuccessComponent implements OnInit {
     this.reservationService.reSendReservationEmail(this.eventShortName, this.reservationId).subscribe(res => {
       this.reservationMailSent = res;
     });
+  }
+
+  getControlFormForAdditionalFields(uuid: string): AbstractControl {
+    return this.ticketsFormControl[uuid].get('additional');
+  }
+
+  updateTicket(uuid: string) {
+    console.log('update ticket with uuid ' + uuid, this.ticketsFormControl[uuid].value);
   }
 
 }

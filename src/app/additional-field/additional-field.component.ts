@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Ticket, AdditionalField } from '../model/ticket';
 
 @Component({
   selector: 'app-additional-field',
@@ -8,13 +9,13 @@ import { FormGroup } from '@angular/forms';
 export class AdditionalFieldComponent {
 
   @Input()
-  field: any;
+  field: AdditionalField;
 
   @Input()
   form: FormGroup;
 
   @Input()
-  ticket: any;
+  ticketUUID: string;
 
   constructor() { }
 }
