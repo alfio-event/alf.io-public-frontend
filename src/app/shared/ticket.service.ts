@@ -26,11 +26,7 @@ export class TicketService {
         return this.formBuilder.group(this.buildTicket(ticket));
     }
 
-    buildFormControlForTicket(ticket: any) : any {
-        return this.formBuilder.group(this.buildTicket(ticket));
-    }
-
-    private buildTicket(ticket: any) {
+    private buildTicket(ticket: any): {firstName: string, lastName: string, email: string, additional: FormGroup} {
         return {
             firstName: ticket.firstName,
             lastName: ticket.lastName,
@@ -39,7 +35,7 @@ export class TicketService {
         }
     }
 
-    private buildAdditionalFields(before, after) : FormGroup {
+    private buildAdditionalFields(before: [any], after: [any]) : FormGroup {
         let additional = {};
         if (before) {
           this.buildSingleAdditionalField(before, additional);
@@ -50,7 +46,7 @@ export class TicketService {
         return this.formBuilder.group(additional);
       }
     
-      private buildSingleAdditionalField(a, additional) {
+      private buildSingleAdditionalField(a: [any], additional: {}): void {
         a.forEach(f => {
           const arr = [];
           f.fields.forEach(field => {
