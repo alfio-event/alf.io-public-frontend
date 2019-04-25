@@ -1,8 +1,6 @@
 <div *ngIf="event">
   <app-event-header [event]="event"></app-event-header>
 
-
-
   <hr>
 
   <div class="ticket">
@@ -15,22 +13,19 @@
           </div>
       </div>
 
-
-
       <div class="wMarginTop30px wMarginBottom30px" *ngIf="ticketInfo">
           <h2 translate="ticket.ticket"></h2>
           <dl class="row">
-              <dt class="col-sm-3" translate="ticket.holder"></dt>
+              <dt class="col-sm-3 text-align-right" translate="ticket.holder"></dt>
               <dd class="col-sm-9">{{ticketInfo.fullName}} &lt;{{ticketInfo.email}}&gt;</dd>
-              <dt class="col-sm-3" translate="ticket.type"></dt>
+              <dt class="col-sm-3 text-align-right" translate="ticket.type"></dt>
               <dd class="col-sm-9">{{ticketInfo.ticketCategoryName}}</dd>
-              <dt class="col-sm-3" translate="ticket.reference-number"></dt>
+              <dt class="col-sm-3 text-align-right" translate="ticket.reference-number"></dt>
               <dd class="col-sm-9">{{ticketInfo.uuid}}</dd>
-              <dt class="col-sm-3" translate="ticket.order-information"></dt>
+              <dt class="col-sm-3 text-align-right" translate="ticket.order-information"></dt>
               <dd class="col-sm-9">{{'ticket.order-information-values' | translate:  {'0': ticketInfo.reservationId, '1': ticketInfo.reservationFullName} }}</dd>
           </dl>
       </div>
-
 
       <div class="row">
           <div class="col-md-4 offset-md-8 col-12">
@@ -40,9 +35,6 @@
                 </a>
           </div>
       </div>
-
+      
   </div>
-
-
-
 </div>

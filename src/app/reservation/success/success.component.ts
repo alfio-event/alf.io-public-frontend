@@ -20,6 +20,7 @@ export class SuccessComponent implements OnInit {
 
   reservationMailSent: boolean = false;
   sendEmailForTicketStatus: {} = {};
+  ticketsFormControl: {} = {};
 
 
   constructor(
@@ -38,8 +39,17 @@ export class SuccessComponent implements OnInit {
       });
       this.reservationService.getSuccess(this.eventShortName, this.reservationId).subscribe(res => {
         this.success = res;
+        res.ticketsByCategory.forEach((tc) => {
+          tc.tickets.forEach(ticket => {
+            this.buildFormControl(ticket);
+          })  
+        });
       })
     });
+  }
+
+  buildFormControl(ticket: any) {
+    this.ticketsFormControl[ticket.uuid] = this.ticketService.buildFormGroupForTicket(ticket);
   }
 
   sendEmailForTicket(ticketIdentifier: string): void {

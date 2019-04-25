@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
 import { TicketInfo } from '../model/ticket-info';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 @Injectable({
     providedIn: 'root'
 })
 export class TicketService {
 
-    constructor(private http: HttpClient) { }
+    constructor(
+        private http: HttpClient,
+        private formBuilder: FormBuilder) { }
 
 
     getTicketInfo(eventName: string, ticketIdentifier: string): Observable<TicketInfo> {
@@ -18,4 +21,42 @@ export class TicketService {
     sendTicketByEmail(eventName: string, ticketIdentifier: string): Observable<boolean> {
         return this.http.post<boolean>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}/send-ticket-by-email`, {});
     }
+
+    buildFormGroupForTicket(ticket: any) : FormGroup {
+        return this.formBuilder.group(this.buildTicket(ticket));
+    }
+
+    buildFormControlForTicket(ticket: any) : any {
+        return this.formBuilder.group(this.buildTicket(ticket));
+    }
+
+    private buildTicket(ticket: any) {
+        return {
+            firstName: ticket.firstName,
+            lastName: ticket.lastName,
+            email: ticket.email,
+            additional: this.buildAdditionalFields(ticket.ticketFieldConfigurationBeforeStandard, ticket.ticketFieldConfigurationAfterStandard)
+        }
+    }
+
+    private buildAdditionalFields(before, after) : FormGroup {
+        let additional = {};
+        if (before) {
+          this.buildSingleAdditionalField(before, additional);
+        }
+        if (after) {
+          this.buildSingleAdditionalField(after, additional);
+        }
+        return this.formBuilder.group(additional);
+      }
+    
+      private buildSingleAdditionalField(a, additional) {
+        a.forEach(f => {
+          const arr = [];
+          f.fields.forEach(field => {
+            arr.push(this.formBuilder.control(field.fieldValue));
+          });
+          additional[f.name] = this.formBuilder.array(arr)
+        })
+      }
 }

@@ -2,7 +2,7 @@
 <app-stepper [currentStep]="2"></app-stepper>
 <hr>
 <div *ngIf="reservation">
-  <form [formGroup]="contactAndTicketsForm" (submit)="submitForm(contactAndTicketsForm.value)">
+  <form [formGroup]="contactAndTicketsForm" (submit)="submitForm()">
 
     <div class="page-header">
       <h2 translate="reservation-page.your-details"></h2>

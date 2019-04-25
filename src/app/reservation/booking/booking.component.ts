@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReservationService } from '../../shared/reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
+import { TicketService } from 'src/app/shared/ticket.service';
 
 @Component({
   selector: 'app-booking',
@@ -18,6 +19,7 @@ export class BookingComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private reservationService: ReservationService,
+    private ticketService: TicketService,
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -56,41 +58,15 @@ export class BookingComponent implements OnInit {
     let tickets = {};
     ticketsByCategory.forEach(t => {
       t.tickets.forEach(ticket => {
-        tickets[ticket.uuid] = this.formBuilder.group({
-          firstName: null,
-          lastName: null,
-          email: null,
-          additional: this.buildAdditionalFields(ticket.ticketFieldConfigurationBeforeStandard, ticket.ticketFieldConfigurationAfterStandard)
-        });
+        tickets[ticket.uuid] = this.ticketService.buildFormGroupForTicket(ticket);
       })
     });
     return this.formBuilder.group(tickets);
   }
 
-  private buildAdditionalFields(before, after) : FormGroup {
-    let additional = {};
-    if (before) {
-      this.buildSingleAdditionalField(before, additional);
-    }
-    if (after) {
-      this.buildSingleAdditionalField(after, additional);
-    }
-    return this.formBuilder.group(additional);
-  }
-
-  private buildSingleAdditionalField(a, additional) {
-    a.forEach(f => {
-      const arr = [];
-      f.fields.forEach(field => {
-        arr.push(this.formBuilder.control(null));
-      });
-      additional[f.name] = this.formBuilder.array(arr)
-    })
-  }
-
-
-  public submitForm(contactAndTicketsInfo: any) {
-    this.reservationService.validateToOverview(this.eventShortName, this.reservationId, contactAndTicketsInfo).subscribe(res => {
+  public submitForm() {
+    console.log(this.contactAndTicketsForm.value);
+    this.reservationService.validateToOverview(this.eventShortName, this.reservationId, this.contactAndTicketsForm.value).subscribe(res => {
       if (res.viewState && (res.viewState as string).endsWith("/overview")) {
         this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview'])
       }
