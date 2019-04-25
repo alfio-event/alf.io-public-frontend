@@ -3,6 +3,7 @@ import { ReservationService } from '../../shared/reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { TicketService } from 'src/app/shared/ticket.service';
+import { Ticket } from 'src/app/model/ticket';
 
 @Component({
   selector: 'app-booking',
@@ -57,7 +58,7 @@ export class BookingComponent implements OnInit {
   private buildTicketsFormGroup(ticketsByCategory): FormGroup {
     let tickets = {};
     ticketsByCategory.forEach(t => {
-      t.tickets.forEach(ticket => {
+      t.tickets.forEach((ticket: Ticket) => {
         tickets[ticket.uuid] = this.ticketService.buildFormGroupForTicket(ticket);
       })
     });

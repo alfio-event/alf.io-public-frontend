@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
 import { TicketInfo } from '../model/ticket-info';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Ticket, AdditionalField } from '../model/ticket';
 
 @Injectable({
     providedIn: 'root'
@@ -22,11 +23,11 @@ export class TicketService {
         return this.http.post<boolean>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}/send-ticket-by-email`, {});
     }
 
-    buildFormGroupForTicket(ticket: any) : FormGroup {
+    buildFormGroupForTicket(ticket: Ticket) : FormGroup {
         return this.formBuilder.group(this.buildTicket(ticket));
     }
 
-    private buildTicket(ticket: any): {firstName: string, lastName: string, email: string, additional: FormGroup} {
+    private buildTicket(ticket: Ticket): {firstName: string, lastName: string, email: string, additional: FormGroup} {
         return {
             firstName: ticket.firstName,
             lastName: ticket.lastName,
@@ -35,7 +36,7 @@ export class TicketService {
         }
     }
 
-    private buildAdditionalFields(before: [any], after: [any]) : FormGroup {
+    private buildAdditionalFields(before: AdditionalField[], after: AdditionalField[]) : FormGroup {
         let additional = {};
         if (before) {
           this.buildSingleAdditionalField(before, additional);
@@ -46,7 +47,7 @@ export class TicketService {
         return this.formBuilder.group(additional);
       }
     
-      private buildSingleAdditionalField(a: [any], additional: {}): void {
+      private buildSingleAdditionalField(a: AdditionalField[], additional: {}): void {
         a.forEach(f => {
           const arr = [];
           f.fields.forEach(field => {
