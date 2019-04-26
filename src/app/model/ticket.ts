@@ -3,6 +3,8 @@ export class Ticket {
     firstName: string;
     lastName: string;
     email: string;
+    fullName: string;
+    assigned: boolean;
     ticketFieldConfigurationBeforeStandard: AdditionalField[];
     ticketFieldConfigurationAfterStandard: AdditionalField[];
 }

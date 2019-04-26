@@ -1,7 +1,7 @@
 <hr>
 <app-stepper [currentStep]="2"></app-stepper>
 <hr>
-<div *ngIf="reservation">
+<div *ngIf="bookingInfo">
   <form [formGroup]="contactAndTicketsForm" (submit)="submitForm()">
 
     <div class="page-header">
@@ -34,10 +34,10 @@
       <h2 translate="reservation-page.attendees"></h2>
     </div>
 
-    <div *ngFor="let tc of reservation.ticketsByCategory">
+    <div *ngFor="let tc of bookingInfo.ticketsByCategory">
       <div *ngFor="let ticket of tc.tickets" formGroupName="tickets">
           <div [formGroupName]="ticket.uuid" class="attendees-data">
-            <h3><fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- {{tc.ticketCategory.name}}</h3>
+            <h3><fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- {{tc.name}}</h3>
 
             <div *ngFor="let field of ticket.ticketFieldConfigurationBeforeStandard">
               <app-additional-field [field]="field" [ticketUUID]="ticket.uuid" [form]="getControlFormForAdditionalFields(ticket.uuid)"></app-additional-field>

@@ -3,7 +3,7 @@ import { ReservationService } from '../../shared/reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { TicketService } from 'src/app/shared/ticket.service';
-import { Ticket } from 'src/app/model/ticket';
+import { BookingInfo, TicketsByTicketCategory } from 'src/app/model/booking-info';
 
 @Component({
   selector: 'app-booking',
@@ -11,7 +11,7 @@ import { Ticket } from 'src/app/model/ticket';
 })
 export class BookingComponent implements OnInit {
 
-  reservation: any;
+  bookingInfo: BookingInfo;
   contactAndTicketsForm: FormGroup;
   eventShortName: string;
   reservationId: string;
@@ -29,14 +29,14 @@ export class BookingComponent implements OnInit {
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
 
-      this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(resInfo => {
+      this.reservationService.getBookingInfo(this.eventShortName, this.reservationId).subscribe(bookingInfo => {
         
-        this.reservation = resInfo;
+        this.bookingInfo = bookingInfo;
         this.contactAndTicketsForm = this.formBuilder.group({
-          firstName: this.reservation.firstName,
-          lastName: this.reservation.lastName,
-          email: this.reservation.email,
-          tickets: this.buildTicketsFormGroup(this.reservation.ticketsByCategory)
+          firstName: this.bookingInfo.firstName,
+          lastName: this.bookingInfo.lastName,
+          email: this.bookingInfo.email,
+          tickets: this.buildTicketsFormGroup(this.bookingInfo.ticketsByCategory)
         });
       })
     });
@@ -46,10 +46,10 @@ export class BookingComponent implements OnInit {
     return this.contactAndTicketsForm.get('tickets.'+uuid+'.additional');
   }
 
-  private buildTicketsFormGroup(ticketsByCategory): FormGroup {
+  private buildTicketsFormGroup(ticketsByCategory: TicketsByTicketCategory[]): FormGroup {
     let tickets = {};
     ticketsByCategory.forEach(t => {
-      t.tickets.forEach((ticket: Ticket) => {
+      t.tickets.forEach((ticket) => {
         tickets[ticket.uuid] = this.ticketService.buildFormGroupForTicket(ticket);
       })
     });
