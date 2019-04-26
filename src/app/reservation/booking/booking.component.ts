@@ -58,7 +58,7 @@ export class BookingComponent implements OnInit {
 
   public submitForm() {
     this.reservationService.validateToOverview(this.eventShortName, this.reservationId, this.contactAndTicketsForm.value).subscribe(res => {
-      if (res.viewState && (res.viewState as string).endsWith("/overview")) {
+      if (res.success) {
         this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview'])
       }
     })

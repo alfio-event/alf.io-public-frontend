@@ -24,8 +24,8 @@ export class ReservationService {
         return this.http.delete<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`);
     }
 
-    public validateToOverview(eventShortName: string, reservationId: string, contactsAndTicket: any): Observable<any> {
-        return this.http.post(`/api/v2/public/tmp/event/${eventShortName}/reservation/${reservationId}/validate-to-overview`, contactsAndTicket);
+    public validateToOverview(eventShortName: string, reservationId: string, contactsAndTicket: any): Observable<ValidatedResponse<boolean>> {
+        return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/validate-to-overview`, contactsAndTicket);
     }
 
     public getOverview(eventShortName: string, reservationId: string): Observable<any> {
