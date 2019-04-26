@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
 import { ReservationRequest } from '../model/reservation-request';
 import { ValidatedResponse } from '../model/validated-response';
+import { OverviewConfirmation } from '../model/overview-confirmation';
 
 @Injectable({
     providedIn: 'root'
@@ -31,8 +32,8 @@ export class ReservationService {
         return this.http.get(`/api/v2/public/tmp/event/${eventShortName}/reservation/${reservationId}/overview`);
     }
 
-    public confirmOverview(eventShortName: string, reservationId: string, overviewForm: any): Observable<any> {
-        return this.http.post(`/api/v2/public/tmp/event/${eventShortName}/reservation/${reservationId}`, overviewForm);
+    public confirmOverview(eventShortName: string, reservationId: string, overviewForm: OverviewConfirmation): Observable<ValidatedResponse<boolean>> {
+        return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`, overviewForm);
     }
 
     public backToBooking(eventShortName: string, reservationId: string) : Observable<boolean> {

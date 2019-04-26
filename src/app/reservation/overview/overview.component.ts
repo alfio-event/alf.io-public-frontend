@@ -4,6 +4,7 @@ import { ReservationService } from '../../shared/reservation.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Event } from 'src/app/model/event';
 import { EventService } from 'src/app/shared/event.service';
+import { OverviewConfirmation } from 'src/app/model/overview-confirmation';
 
 @Component({
   selector: 'app-overview',
@@ -53,9 +54,9 @@ export class OverviewComponent implements OnInit {
     });
   }
 
-  confirm(overviewFormValue: any) {
+  confirm(overviewFormValue: OverviewConfirmation) {
     this.reservationService.confirmOverview(this.eventShortName, this.reservationId, overviewFormValue).subscribe(res => {
-      if(res.viewState && (res.viewState as string).endsWith("/success")) {
+      if (res.success) {
         this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
       }
     });
