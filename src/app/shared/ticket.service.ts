@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { TicketInfo } from '../model/ticket-info';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Ticket, AdditionalField } from '../model/ticket';
+import { ValidatedResponse } from '../model/validated-response';
 
 @Injectable({
     providedIn: 'root'
@@ -28,8 +29,8 @@ export class TicketService {
     }
 
 
-    updateTicket(eventName: string, ticketIdentifier: string, ticket) : Observable<any> {
-      return this.http.post(`/api/v2/public/tmp/event/${eventName}/ticket/${ticketIdentifier}/assign`, ticket);
+    updateTicket(eventName: string, ticketIdentifier: string, ticket) : Observable<ValidatedResponse<boolean>> {
+      return this.http.put<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}`, ticket);
     }
 
     private buildTicket(ticket: Ticket): {firstName: string, lastName: string, email: string, additional: FormGroup} {

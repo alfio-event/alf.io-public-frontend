@@ -80,7 +80,7 @@ export class SuccessComponent implements OnInit {
   updateTicket(uuid: string) {
     const ticketValue = this.ticketsFormControl[uuid].value;
     this.ticketService.updateTicket(this.event.shortName, uuid, ticketValue).subscribe(res => {
-      if (res.validationResult.success) {
+      if (res.success) {
         console.log('ticket updated with success');
         this.loadReservation();
       }
