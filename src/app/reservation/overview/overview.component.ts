@@ -36,17 +36,6 @@ export class OverviewComponent implements OnInit {
       });
 
       this.reservationService.getOverview(this.eventShortName, this.reservationId).subscribe(resInfo => {
-        // TODO: move as a guard(?)
-        if (resInfo.viewState && (resInfo.viewState as string).endsWith("/book")) {
-          this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'book'])
-          return;
-        }
-        if (resInfo.viewState && (resInfo.viewState as string).endsWith("/success")) {
-          this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success'])
-          return;
-        }
-        //
-
         this.overview = resInfo;
 
         this.overviewForm = this.formBuilder.group({

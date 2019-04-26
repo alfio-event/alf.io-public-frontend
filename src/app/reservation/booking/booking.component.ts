@@ -30,16 +30,7 @@ export class BookingComponent implements OnInit {
       this.reservationId = params['reservationId'];
 
       this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(resInfo => {
-
-        if (resInfo.viewState && (resInfo.viewState as string).endsWith("/overview")) {
-          this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview'])
-          return;
-        }
-        if (resInfo.viewState && (resInfo.viewState as string).endsWith("/success")) {
-          this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success'])
-          return;
-        }
-
+        
         this.reservation = resInfo;
         this.contactAndTicketsForm = this.formBuilder.group({
           firstName: this.reservation.firstName,
