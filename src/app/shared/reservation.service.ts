@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
+import { ReservationRequest } from '../model/reservation-request';
+import { ValidatedResponse } from '../model/validated-response';
 
 @Injectable({
     providedIn: 'root'
@@ -9,8 +11,8 @@ export class ReservationService {
 
     constructor(private http: HttpClient) { }
 
-    public reserveTickets(eventShortName: string, reservation: any): Observable<any> {
-        return this.http.post(`/api/v2/public/tmp/event/${eventShortName}/reserve-tickets`, reservation);
+    public reserveTickets(eventShortName: string, reservation: ReservationRequest): Observable<ValidatedResponse<string>> {
+        return this.http.post<ValidatedResponse<string>>(`/api/v2/public/event/${eventShortName}/reserve-tickets`, reservation);
     }
 
     public getReservationInfo(eventShortName: string, reservationId: string): Observable<any> {

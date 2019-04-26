@@ -6,6 +6,7 @@ import { ReservationService } from '../shared/reservation.service';
 import { Event } from '../model/event';
 import { TranslateService } from '@ngx-translate/core';
 import { TicketCategories } from '../model/ticket-categories';
+import { ReservationRequest } from '../model/reservation-request';
 
 @Component({
   selector: 'app-event-display',
@@ -26,7 +27,7 @@ export class EventDisplayComponent implements OnInit {
     private eventService: EventService,
     private reservationService: ReservationService,
     private formBuilder: FormBuilder,
-    private translate: TranslateService) { }
+    public translate: TranslateService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -50,10 +51,10 @@ export class EventDisplayComponent implements OnInit {
     return ticketCategories.categories.map(category => this.formBuilder.group({ticketCategoryId: category.id, amount: 0}));
   }
 
-  submitForm(eventShortName, reservation) {
+  submitForm(eventShortName: string, reservation: ReservationRequest) {
     this.reservationService.reserveTickets(eventShortName, reservation).subscribe(res => {
-      if (res.reservationIdentifier) {
-        this.router.navigate(['event', eventShortName, 'reservation', res.reservationIdentifier ,'book'])
+      if (res.success) {
+        this.router.navigate(['event', eventShortName, 'reservation', res.value ,'book'])
       }
     });
   }
