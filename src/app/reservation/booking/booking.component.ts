@@ -42,9 +42,9 @@ export class BookingComponent implements OnInit {
 
         this.reservation = resInfo;
         this.contactAndTicketsForm = this.formBuilder.group({
-          firstName: null,
-          lastName: null,
-          email: null,
+          firstName: this.reservation.firstName,
+          lastName: this.reservation.lastName,
+          email: this.reservation.email,
           tickets: this.buildTicketsFormGroup(this.reservation.ticketsByCategory)
         });
       })

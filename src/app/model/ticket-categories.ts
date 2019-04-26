@@ -8,4 +8,5 @@ export class TicketCategory {
     name: string;
     amountOfTickets: number[];
     description: {[key:string]: string}
+    free: boolean;
 }

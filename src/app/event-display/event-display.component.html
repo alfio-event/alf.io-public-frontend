@@ -29,7 +29,9 @@
                           <div translate="show-event.sales-end"></div>
                           <div [innerHtml]="category.description[translate.currentLang]"></div>
                         </div>
-                        <div class="col-sm-3"></div>
+                        <div class="col-sm-3">
+                          <span *ngIf="category.free" translate="common.free"></span>
+                        </div>
                         <div class="col-sm-2">
                           <select formControlName="amount" class="form-control">
                             <option *ngFor="let amount of category.amountOfTickets" [value]="amount">{{amount}}</option>
