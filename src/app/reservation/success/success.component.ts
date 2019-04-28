@@ -6,6 +6,7 @@ import { EventService } from 'src/app/shared/event.service';
 import { TicketService } from 'src/app/shared/ticket.service';
 import { Ticket } from 'src/app/model/ticket';
 import { AbstractControl } from '@angular/forms';
+import { BookingInfo } from 'src/app/model/booking-info';
 
 @Component({
   selector: 'app-success',
@@ -14,7 +15,7 @@ import { AbstractControl } from '@angular/forms';
 })
 export class SuccessComponent implements OnInit {
 
-  success: any;
+  bookingInfo: BookingInfo;
   eventShortName: string;
   reservationId: string;
 
@@ -45,8 +46,8 @@ export class SuccessComponent implements OnInit {
   }
 
   loadReservation() {
-    this.reservationService.getSuccess(this.eventShortName, this.reservationId).subscribe(res => {
-      this.success = res;
+    this.reservationService.getBookingInfo(this.eventShortName, this.reservationId).subscribe(res => {
+      this.bookingInfo = res;
       res.ticketsByCategory.forEach((tc) => {
         tc.tickets.forEach((ticket: Ticket) => {
           this.buildFormControl(ticket);
