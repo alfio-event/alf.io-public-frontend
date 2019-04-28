@@ -26,10 +26,18 @@ export class AdditionalField {
     countryField: boolean;
     selectField: boolean;
 
+    description: {[key: string]: Description}
+
     //tmp
     labelDescription: string;
 
 
+}
+
+export class Description {
+    label: string;
+    placeholder: string;
+    restrictedValuesDescription: {[key: string]: string};
 }
 
 export class Field {

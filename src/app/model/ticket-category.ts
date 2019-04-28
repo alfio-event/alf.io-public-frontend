@@ -1,8 +1,3 @@
-export class TicketCategories {
-    categories: TicketCategory[];
-}
-
-
 export class TicketCategory {
     id: number;
     name: string;

@@ -22,7 +22,7 @@
         <form [formGroup]="reservationForm" (submit)="submitForm(event.shortName, reservationForm.value)">
           <div>
               <ul class="list-group ticket-categories">
-                <li *ngFor="let category of ticketCategories.categories;let counter = index" formArrayName="reservation" class="list-group-item">
+                <li *ngFor="let category of ticketCategories;let counter = index" formArrayName="reservation" class="list-group-item">
                     <div [formGroupName]="counter" class="row">
                         <div class="col-sm-7">
                           <h3>{{category.name}}</h3>
