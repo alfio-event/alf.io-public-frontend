@@ -36,42 +36,9 @@
 
     <div *ngFor="let tc of reservationInfo.ticketsByCategory">
       <div *ngFor="let ticket of tc.tickets" formGroupName="tickets">
-          <div [formGroupName]="ticket.uuid" class="attendees-data">
+        <div class="attendees-data">
             <h3><fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- {{tc.name}}</h3>
-
-            <div *ngFor="let field of ticket.ticketFieldConfigurationBeforeStandard">
-              <app-additional-field [field]="field" [ticketUUID]="ticket.uuid" [form]="getControlFormForAdditionalFields(ticket.uuid)"></app-additional-field>
-            </div>
-
-            <div class="form-group row">
-                <label [attr.for]="ticket.uuid + '-first-name'" class="col-sm-3 col-form-label">{{'common.first-name' | translate}} *</label>
-                <div class="col-sm-9">
-                  <input [attr.id]="ticket.uuid + '-first-name'" formControlName="firstName" type="text" class="form-control">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label [attr.for]="ticket.uuid + '-last-name'" class="col-sm-3 col-form-label">{{'common.last-name' | translate}} *</label>
-                <div class="col-sm-9">
-                  <input [attr.id]="ticket.uuid + '-last-name'" formControlName="lastName" type="text" class="form-control">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label [attr.for]="ticket.uuid + '-email'" class="col-sm-3 col-form-label">{{'common.email' | translate}} *</label>
-                <div class="col-sm-9">
-                  <input [attr.id]="ticket.uuid + '-email'" formControlName="email" type="email" class="form-control">
-                </div>
-            </div>
-
-            <div *ngFor="let field of ticket.ticketFieldConfigurationAfterStandard">
-              <app-additional-field [field]="field" [ticketUUID]="ticket.uuid" [form]="getControlFormForAdditionalFields(ticket.uuid)"></app-additional-field>
-            </div>
-
-            <div class="form-group row">
-                <label [attr.for]="ticket.uuid + '-userLanguage'" class="col-sm-3 col-form-label" translate="reservation-page-complete.language"></label>
-                <div class="col-sm-9">
-                  <input [attr.id]="ticket.uuid + '-userLanguage'" formControlName="userLanguage" type="text" class="form-control">
-                </div>
-            </div>
+            <app-ticket-form [ticket]="ticket" [form]="contactAndTicketsForm.get('tickets.'+ticket.uuid)"></app-ticket-form>
         </div>
       </div>
     </div>

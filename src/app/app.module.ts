@@ -25,6 +25,7 @@ import { StepperComponent } from './stepper/stepper.component';
 import { AdditionalFieldComponent } from './additional-field/additional-field.component';
 import { ViewTicketComponent } from './view-ticket/view-ticket.component';
 import { EventSummaryComponent } from './event-summary/event-summary.component';
+import { TicketFormComponent } from './reservation/ticket-form/ticket-form.component';
 
 
 
@@ -46,7 +47,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     StepperComponent,
     AdditionalFieldComponent,
     ViewTicketComponent,
-    EventSummaryComponent
+    EventSummaryComponent,
+    TicketFormComponent
   ],
   imports: [
     BrowserModule,

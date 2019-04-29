@@ -5,7 +5,6 @@ import { Event } from 'src/app/model/event';
 import { EventService } from 'src/app/shared/event.service';
 import { TicketService } from 'src/app/shared/ticket.service';
 import { Ticket } from 'src/app/model/ticket';
-import { AbstractControl } from '@angular/forms';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 
 @Component({
@@ -34,7 +33,7 @@ export class SuccessComponent implements OnInit {
     private eventService: EventService,
     private ticketService: TicketService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.parent.params.subscribe(params => {
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
@@ -45,7 +44,7 @@ export class SuccessComponent implements OnInit {
     });
   }
 
-  loadReservation() {
+  loadReservation(): void {
     this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(res => {
       this.reservationInfo = res;
       res.ticketsByCategory.forEach((tc) => {
@@ -56,7 +55,7 @@ export class SuccessComponent implements OnInit {
     })
   }
 
-  buildFormControl(ticket: Ticket) {
+  buildFormControl(ticket: Ticket): void {
     this.ticketsFormControl[ticket.uuid] = this.ticketService.buildFormGroupForTicket(ticket);
   }
 
@@ -68,17 +67,13 @@ export class SuccessComponent implements OnInit {
     });
   }
 
-  reSendReservationEmail() {
+  reSendReservationEmail(): void {
     this.reservationService.reSendReservationEmail(this.eventShortName, this.reservationId).subscribe(res => {
       this.reservationMailSent = res;
     });
   }
 
-  getControlFormForAdditionalFields(uuid: string): AbstractControl {
-    return this.ticketsFormControl[uuid].get('additional');
-  }
-
-  updateTicket(uuid: string) {
+  updateTicket(uuid: string): void {
     const ticketValue = this.ticketsFormControl[uuid].value;
     this.ticketService.updateTicket(this.event.shortName, uuid, ticketValue).subscribe(res => {
       if (res.success) {

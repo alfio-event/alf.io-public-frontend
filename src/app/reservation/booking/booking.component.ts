@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReservationService } from '../../shared/reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { TicketService } from 'src/app/shared/ticket.service';
 import { ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
 
@@ -40,10 +40,6 @@ export class BookingComponent implements OnInit {
         });
       })
     });
-  }
-
-  getControlFormForAdditionalFields(uuid: string): AbstractControl {
-    return this.contactAndTicketsForm.get('tickets.'+uuid+'.additional');
   }
 
   private buildTicketsFormGroup(ticketsByCategory: TicketsByTicketCategory[]): FormGroup {
