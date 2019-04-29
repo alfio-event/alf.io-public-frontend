@@ -99,8 +99,20 @@
                   <div *ngFor="let field of ticket.ticketFieldConfigurationAfterStandard">
                     <app-additional-field [field]="field" [ticketUUID]="ticket.uuid" [form]="getControlFormForAdditionalFields(ticket.uuid)"></app-additional-field>
                   </div>
-                <button type="submit">Update</button>
-                <button type="button" (click)="ticketsFormShow[ticket.uuid] = false">Cancel</button>
+
+                  <div class="row">
+                      <div class="col-sm-3"></div>
+                      <div class="col-sm-9">
+                        <div class="row">
+                          <div class="order-1 col-6 text-right">
+                              <button type="submit" translate="reservation-page-complete.update" class="btn btn-success"></button>
+                          </div>
+                          <div class="order-0 col-6">
+                              <button type="button" (click)="ticketsFormShow[ticket.uuid] = false" translate="reservation-page-complete.cancel" class="btn btn-outline-dark"></button>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
               </form>
             </div>
         </div>
@@ -117,10 +129,10 @@
 
 
   <div class="row d-flex justify-content-between wMarginTop30px">
-    <div class="col-md-4 order-1 col-12">
+    <div class="col-md-4 order-1 col-12 wMarginBottom">
       <a class="block-button btn btn-success" [routerLink]="['/event', event.shortName]" translate="buy-other-tickets"></a>
     </div>
-    <div class="col-md-4 order-0 col-12">
+    <div class="col-md-4 order-0 col-12 wMarginBottom">
       <a class="block-button btn btn-outline-dark" [attr.href]="event.websiteUrl" translate="to-event-site"></a>
     </div>
   </div>
