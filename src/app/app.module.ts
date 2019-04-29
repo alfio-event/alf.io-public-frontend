@@ -30,7 +30,7 @@ import { EventSummaryComponent } from './event-summary/event-summary.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '/api/v2/public/i18n/', '');
+  return new TranslateHttpLoader(http, '/api/v2/public/i18n/bundle/', '');
 }
 
 @NgModule({
