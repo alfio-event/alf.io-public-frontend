@@ -26,12 +26,7 @@ export class AdditionalField {
     countryField: boolean;
     selectField: boolean;
 
-    description: {[key: string]: Description}
-
-    //tmp
-    labelDescription: string;
-
-
+    description: {[key: string]: Description};
 }
 
 export class Description {
