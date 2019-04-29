@@ -1,6 +1,6 @@
 import { Ticket } from './ticket';
 
-export class BookingInfo {
+export class ReservationInfo {
     firstName: string;
     lastName: string;
     email: string;

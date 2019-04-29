@@ -3,7 +3,7 @@ import { ReservationService } from '../../shared/reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { TicketService } from 'src/app/shared/ticket.service';
-import { BookingInfo, TicketsByTicketCategory } from 'src/app/model/booking-info';
+import { ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
 
 @Component({
   selector: 'app-booking',
@@ -11,7 +11,7 @@ import { BookingInfo, TicketsByTicketCategory } from 'src/app/model/booking-info
 })
 export class BookingComponent implements OnInit {
 
-  bookingInfo: BookingInfo;
+  reservationInfo: ReservationInfo;
   contactAndTicketsForm: FormGroup;
   eventShortName: string;
   reservationId: string;
@@ -29,14 +29,14 @@ export class BookingComponent implements OnInit {
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
 
-      this.reservationService.getBookingInfo(this.eventShortName, this.reservationId).subscribe(bookingInfo => {
+      this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(reservationInfo => {
         
-        this.bookingInfo = bookingInfo;
+        this.reservationInfo = reservationInfo;
         this.contactAndTicketsForm = this.formBuilder.group({
-          firstName: this.bookingInfo.firstName,
-          lastName: this.bookingInfo.lastName,
-          email: this.bookingInfo.email,
-          tickets: this.buildTicketsFormGroup(this.bookingInfo.ticketsByCategory)
+          firstName: this.reservationInfo.firstName,
+          lastName: this.reservationInfo.lastName,
+          email: this.reservationInfo.email,
+          tickets: this.buildTicketsFormGroup(this.reservationInfo.ticketsByCategory)
         });
       })
     });

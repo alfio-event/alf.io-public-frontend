@@ -10,7 +10,7 @@
 </div>
 
 
-<div *ngIf="bookingInfo && event">
+<div *ngIf="reservationInfo && event">
   <div class="alert alert-success">
       <div class="row">
           <div class="col-sm-12">
@@ -18,7 +18,7 @@
           </div>
       </div>
       <div class="row">
-          <div class="col-sm-12" [innerHtml]="'reservation-page-complete.info-assign-email' | translate: {'0':bookingInfo.email}"></div>
+          <div class="col-sm-12" [innerHtml]="'reservation-page-complete.info-assign-email' | translate: {'0':reservationInfo.email}"></div>
       </div>
       <div class="row">
         <div class="col-sm-12 text-align-right">
@@ -32,7 +32,7 @@
       <p class="bg-info ticket-info" translate="reservation-page-complete.info-update"></p>
   </div>
 
-  <div *ngFor="let tc of bookingInfo.ticketsByCategory">
+  <div *ngFor="let tc of reservationInfo.ticketsByCategory">
     <div *ngFor="let ticket of tc.tickets">
       <div *ngIf="ticket.assigned">
         <div class="attendees-data">
@@ -126,7 +126,7 @@
   </div>
 
   <div class="text-center wMarginTop30px">
-      {{'reservation-page-complete.order-information' | translate: {'0': reservationId, '1': bookingInfo.firstName + ' ' + bookingInfo.lastName} }}
+      {{'reservation-page-complete.order-information' | translate: {'0': reservationId, '1': reservationInfo.firstName + ' ' + reservationInfo.lastName} }}
   </div>
   <div class="text-center wMarginTop30px">
       <span class="text-muted"><a href="https://alf.io" [attr.title]="'alfio.credits' | translate" target="_blank" rel="noreferrer noopener" translate="alfio.credits"></a></span>
