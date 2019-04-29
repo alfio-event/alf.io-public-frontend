@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Event } from 'src/app/model/event';
 import { EventService } from 'src/app/shared/event.service';
 import { OverviewConfirmation } from 'src/app/model/overview-confirmation';
+import { ReservationInfo } from 'src/app/model/reservation-info';
 
 @Component({
   selector: 'app-overview',
@@ -12,7 +13,7 @@ import { OverviewConfirmation } from 'src/app/model/overview-confirmation';
 })
 export class OverviewComponent implements OnInit {
 
-  overview: any;
+  reservationInfo: ReservationInfo;
   overviewForm: FormGroup;
 
   eventShortName: string;
@@ -36,8 +37,8 @@ export class OverviewComponent implements OnInit {
         this.event = ev;
       });
 
-      this.reservationService.getOverview(this.eventShortName, this.reservationId).subscribe(resInfo => {
-        this.overview = resInfo;
+      this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(resInfo => {
+        this.reservationInfo = resInfo;
 
         this.overviewForm = this.formBuilder.group({
           termAndConditionsAccepted: null,

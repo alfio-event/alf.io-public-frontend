@@ -29,10 +29,6 @@ export class ReservationService {
         return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/validate-to-overview`, contactsAndTicket);
     }
 
-    public getOverview(eventShortName: string, reservationId: string): Observable<any> {
-        return this.http.get(`/api/v2/public/tmp/event/${eventShortName}/reservation/${reservationId}/overview`);
-    }
-
     public confirmOverview(eventShortName: string, reservationId: string, overviewForm: OverviewConfirmation): Observable<ValidatedResponse<boolean>> {
         return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`, overviewForm);
     }
