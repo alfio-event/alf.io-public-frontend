@@ -33,11 +33,12 @@ export class TicketService {
       return this.http.put<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}`, ticket);
     }
 
-    private buildTicket(ticket: Ticket): {firstName: string, lastName: string, email: string, additional: FormGroup} {
+    private buildTicket(ticket: Ticket): {firstName: string, lastName: string, email: string, userLanguage, additional: FormGroup} {
         return {
             firstName: ticket.firstName,
             lastName: ticket.lastName,
             email: ticket.email,
+            userLanguage: ticket.userLanguage,
             additional: this.buildAdditionalFields(ticket.ticketFieldConfigurationBeforeStandard, ticket.ticketFieldConfigurationAfterStandard)
         }
     }
