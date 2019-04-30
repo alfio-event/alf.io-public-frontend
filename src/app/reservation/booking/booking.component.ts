@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TicketService } from 'src/app/shared/ticket.service';
 import { ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
+import { EventService } from 'src/app/shared/event.service';
+import { Event } from 'src/app/model/event';
 
 @Component({
   selector: 'app-booking',
@@ -12,6 +14,7 @@ import { ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservat
 export class BookingComponent implements OnInit {
 
   reservationInfo: ReservationInfo;
+  event: Event;
   contactAndTicketsForm: FormGroup;
   eventShortName: string;
   reservationId: string;
@@ -21,6 +24,7 @@ export class BookingComponent implements OnInit {
     private router: Router,
     private reservationService: ReservationService,
     private ticketService: TicketService,
+    private eventService: EventService,
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -28,6 +32,10 @@ export class BookingComponent implements OnInit {
 
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
+
+      this.eventService.getEvent(this.eventShortName).subscribe(ev => {
+        this.event = ev;
+      });
 
       this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(reservationInfo => {
         

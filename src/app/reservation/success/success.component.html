@@ -71,7 +71,7 @@
 
             <div *ngIf="ticketsFormShow[ticket.uuid]">
               <form [formGroup]="ticketsFormControl[ticket.uuid]" (submit)="updateTicket(ticket.uuid)">
-                  <app-ticket-form [ticket]="ticket" [form]="ticketsFormControl[ticket.uuid]"></app-ticket-form>
+                  <app-ticket-form [ticket]="ticket" [event]="event" [form]="ticketsFormControl[ticket.uuid]"></app-ticket-form>
                   <div class="row">
                       <div class="col-sm-3"></div>
                       <div class="col-sm-9">

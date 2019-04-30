@@ -1,7 +1,7 @@
 <hr>
 <app-stepper [currentStep]="2"></app-stepper>
 <hr>
-<div *ngIf="reservationInfo">
+<div *ngIf="reservationInfo && event">
   <form [formGroup]="contactAndTicketsForm" (submit)="submitForm()">
 
     <div class="page-header">
@@ -38,7 +38,7 @@
       <div *ngFor="let ticket of tc.tickets" formGroupName="tickets">
         <div class="attendees-data">
             <h3><fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- {{tc.name}}</h3>
-            <app-ticket-form [ticket]="ticket" [form]="contactAndTicketsForm.get('tickets.'+ticket.uuid)"></app-ticket-form>
+            <app-ticket-form [ticket]="ticket" [event]="event" [form]="contactAndTicketsForm.get('tickets.'+ticket.uuid)"></app-ticket-form>
         </div>
       </div>
     </div>
