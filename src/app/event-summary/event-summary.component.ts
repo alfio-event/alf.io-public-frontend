@@ -4,8 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-event-summary',
-  templateUrl: './event-summary.component.html',
-  styleUrls: ['./event-summary.component.scss']
+  templateUrl: './event-summary.component.html'
 })
 export class EventSummaryComponent implements OnInit {
 

@@ -7,8 +7,7 @@ import { TicketInfo } from '../model/ticket-info';
 
 @Component({
   selector: 'app-view-ticket',
-  templateUrl: './view-ticket.component.html',
-  styleUrls: ['./view-ticket.component.scss']
+  templateUrl: './view-ticket.component.html'
 })
 export class ViewTicketComponent implements OnInit {
 
