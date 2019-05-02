@@ -1,0 +1,5 @@
+<div class="alert alert-info text-center">
+    <fa-icon [icon]="['far', 'clock']"></fa-icon>{{' '}}
+    <span *ngIf="!expired" [innerHTML]="message"></span>
+    <strong *ngIf="expired" translate="error.STEP_2_ORDER_HAS_EXPIRED"></strong>
+</div>

@@ -27,6 +27,7 @@ import { ViewTicketComponent } from './view-ticket/view-ticket.component';
 import { EventSummaryComponent } from './event-summary/event-summary.component';
 import { TicketFormComponent } from './reservation/ticket-form/ticket-form.component';
 import { LanguageSelectorComponent } from './language-selector/language-selector.component';
+import { CountdownComponent } from './countdown/countdown.component';
 
 
 
@@ -50,7 +51,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ViewTicketComponent,
     EventSummaryComponent,
     TicketFormComponent,
-    LanguageSelectorComponent
+    LanguageSelectorComponent,
+    CountdownComponent
   ],
   imports: [
     BrowserModule,
