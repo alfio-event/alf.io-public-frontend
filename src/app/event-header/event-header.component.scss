@@ -9,26 +9,3 @@
 h1 {
     margin-top:20px;
 }
-
-
-.language-selector {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 8px 15px;
-    list-style: none;
-}
-
-.language-selector > li {
-    display: inline-block;
-}
-
-.language-selector button {
-    margin:0;
-    padding: 0;
-}
-
-.language-selector > li+li:before {
-    padding: 0 5px;
-    color: #ccc;
-    content: "/\00a0";
-}
