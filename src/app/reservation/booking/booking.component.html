@@ -11,20 +11,20 @@
     <div class="row">
       <div class="col-12 col-sm-6">
         <div class="form-group">
-          <label for="first-name" translate="common.first-name"></label>
-          <input id="first-name" class="form-control" formControlName="firstName" type="text" required>
+          <label for="first-name">{{'common.first-name'|translate}}{{' '}}*</label>
+          <input id="first-name" class="form-control" formControlName="firstName" type="text" autocomplete="fname" maxlength="255">
         </div>
       </div>
       <div class="col-12 col-sm-6">
-        <label for="last-name" translate="common.last-name"></label>
-        <input id="last-name" class="form-control" formControlName="lastName" type="text" required>
+        <label for="last-name">{{'common.last-name'|translate}}{{' '}}*</label>
+        <input id="last-name" class="form-control" formControlName="lastName" type="text" autocomplete="lname" maxlength="255">
       </div>
     </div>
     <div class="row">
       <div class="col-12">
         <div class="form-group">
-            <label for="email" translate="common.email">Email</label>
-            <input id="email" class="form-control" formControlName="email" type="email" required>
+            <label for="email">{{'common.email'|translate}}{{' '}}*</label>
+            <input id="email" class="form-control" formControlName="email" type="email" autocomplete="email" maxlength="255">
         </div>
       </div>
     </div>

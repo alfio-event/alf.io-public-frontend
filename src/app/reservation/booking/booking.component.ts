@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReservationService } from '../../shared/reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TicketService } from 'src/app/shared/ticket.service';
 import { ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
 import { EventService } from 'src/app/shared/event.service';
@@ -41,9 +41,9 @@ export class BookingComponent implements OnInit {
         
         this.reservationInfo = reservationInfo;
         this.contactAndTicketsForm = this.formBuilder.group({
-          firstName: this.reservationInfo.firstName,
-          lastName: this.reservationInfo.lastName,
-          email: this.reservationInfo.email,
+          firstName: this.formBuilder.control(this.reservationInfo.firstName, [Validators.required, Validators.maxLength(255)]),
+          lastName: this.formBuilder.control(this.reservationInfo.lastName, [Validators.required, Validators.maxLength(255)]),
+          email: this.formBuilder.control(this.reservationInfo.email, [Validators.required, Validators.maxLength(255)]),
           tickets: this.buildTicketsFormGroup(this.reservationInfo.ticketsByCategory)
         });
       })
