@@ -28,6 +28,7 @@
     "@ngx-translate/http-loader": "^4.0.0",
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
+    "countdown": "^2.6.0",
     "install": "^0.12.2",
     "npm": "^6.9.0",
     "rxjs": "~6.3.3",

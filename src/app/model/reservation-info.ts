@@ -4,6 +4,7 @@ export class ReservationInfo {
     firstName: string;
     lastName: string;
     email: string;
+    validity: number;
     ticketsByCategory: TicketsByTicketCategory[];
     orderSummary: OrderSummary;
 }
