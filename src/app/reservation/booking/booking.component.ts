@@ -18,6 +18,7 @@ export class BookingComponent implements OnInit {
   contactAndTicketsForm: FormGroup;
   eventShortName: string;
   reservationId: string;
+  expired: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -75,8 +76,7 @@ export class BookingComponent implements OnInit {
   }
 
   handleExpired(expired: boolean) {
-    //TODO: implement
-    console.log('is expired', expired);
+    this.expired = expired;
   }
 
 }

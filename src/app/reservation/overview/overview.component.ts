@@ -19,6 +19,7 @@ export class OverviewComponent implements OnInit {
   eventShortName: string;
   reservationId: string;
   event: Event;
+  expired: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,10 +50,16 @@ export class OverviewComponent implements OnInit {
     });
   }
 
-  backToBooking() {
-    this.reservationService.backToBooking(this.eventShortName, this.reservationId).subscribe(res => {
-      this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'book'])
-    });
+  back() {
+    if (this.expired) {
+      this.reservationService.cancelPendingReservation(this.eventShortName, this.reservationId).subscribe(res => {
+        this.router.navigate(['event', this.eventShortName]);
+      });
+    } else {
+      this.reservationService.backToBooking(this.eventShortName, this.reservationId).subscribe(res => {
+        this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'book'])
+      });
+    }
   }
 
   confirm(overviewFormValue: OverviewConfirmation) {
@@ -64,8 +71,7 @@ export class OverviewComponent implements OnInit {
   }
 
   handleExpired(expired: boolean) {
-    //TODO: implement
-    console.log('is expired', expired);
+    this.expired = expired;
   }
 
 }

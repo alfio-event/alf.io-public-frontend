@@ -50,7 +50,7 @@
 
     <div class="row d-flex justify-content-between">
       <div class="col-md-4 order-1 col-12">
-        <button type="submit" class="block-button btn btn-success" translate="reservation-page.continue"></button>
+        <button type="submit" class="block-button btn btn-success" translate="reservation-page.continue" [disabled]="expired"></button>
       </div>
       <div class="col-md-4 order-0 col-12 ">
         <button type="button" class="block-button btn btn-outline-dark" (click)="cancelPendingReservation()" translate="reservation-page.cancel"></button>
