@@ -9,6 +9,7 @@ export class Event {
     location: string;
     privacyPolicyUrl: string;
     termsAndConditionsUrl: string;
+    mapUrl:string;
 
     organizationName: string;
     organizationEmail: string;
@@ -22,11 +23,4 @@ export class ContentLanguage {
     flag: string;
     language: string;
     displayLanguage: string;
-}
-
-export class LocationDescriptor {
-    timeZone: string;
-    latitude: string;
-    longitude: string;
-    mapUrl: string;
 }
