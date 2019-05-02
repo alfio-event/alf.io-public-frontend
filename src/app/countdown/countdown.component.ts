@@ -11,7 +11,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
   @Input()
   validity: number;
 
-  timerId: NodeJS.Timer;
+  timerId: number;
 
   message: string;
   expired: boolean;
