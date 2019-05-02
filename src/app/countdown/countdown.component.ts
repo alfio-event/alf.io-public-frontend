@@ -19,7 +19,6 @@ export class CountdownComponent implements OnInit, OnDestroy {
   constructor(private translateService: TranslateService) { }
 
   ngOnInit() {
-    console.log(this.validity);
     this.setupCountdown();
 
     this.translateService.onLangChange.subscribe(e => {
