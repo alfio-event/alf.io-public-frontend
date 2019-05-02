@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { AdditionalField } from '../model/ticket';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nService } from '../shared/i18n.service';
+import { LocalizedCountry } from '../model/localized-country';
 
 @Component({
   selector: 'app-additional-field',
@@ -19,7 +20,7 @@ export class AdditionalFieldComponent implements OnInit {
   @Input()
   ticketUUID: string;
 
-  countries: any;
+  countries: LocalizedCountry[];
 
   constructor(private translate: TranslateService, private i18nService: I18nService) { }
 
