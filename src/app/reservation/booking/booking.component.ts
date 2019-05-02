@@ -74,4 +74,9 @@ export class BookingComponent implements OnInit {
     });
   }
 
+  handleExpired(expired: boolean) {
+    //TODO: implement
+    console.log('is expired', expired);
+  }
+
 }

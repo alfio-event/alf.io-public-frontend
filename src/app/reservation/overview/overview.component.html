@@ -3,7 +3,7 @@
 
 <div *ngIf="reservationInfo && event">
 
-  <app-countdown [validity]="reservationInfo.validity"></app-countdown>
+  <app-countdown [validity]="reservationInfo.validity" (onExpired)="handleExpired($event)"></app-countdown>
 
   <form [formGroup]="overviewForm" (submit)="confirm(overviewForm.value)">
 

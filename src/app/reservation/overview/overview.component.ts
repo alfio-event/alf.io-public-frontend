@@ -63,4 +63,9 @@ export class OverviewComponent implements OnInit {
     });
   }
 
+  handleExpired(expired: boolean) {
+    //TODO: implement
+    console.log('is expired', expired);
+  }
+
 }

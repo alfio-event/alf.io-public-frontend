@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import countdown from 'countdown'
 
@@ -10,6 +10,9 @@ export class CountdownComponent implements OnInit, OnDestroy {
 
   @Input()
   validity: number;
+
+  @Output()
+  onExpired: EventEmitter<boolean> = new EventEmitter<boolean>()
 
   timerId: number;
 
@@ -46,6 +49,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
       } else {
         this.expired = true;
         clearInterval(this.timerId);
+        this.onExpired.emit(true);
       }
     }, countdown.MONTHS|countdown.WEEKS|countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
   }
