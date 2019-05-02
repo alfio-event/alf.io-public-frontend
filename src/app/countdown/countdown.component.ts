@@ -4,8 +4,7 @@ import countdown from 'countdown'
 
 @Component({
   selector: 'app-countdown',
-  templateUrl: './countdown.component.html',
-  styleUrls: ['./countdown.component.scss']
+  templateUrl: './countdown.component.html'
 })
 export class CountdownComponent implements OnInit, OnDestroy {
 
