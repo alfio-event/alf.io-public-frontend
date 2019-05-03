@@ -1,9 +1,7 @@
 export class Event {
     shortName: string;
     displayName: string;
-    fileBlobIdIsPresent: boolean;
     fileBlobId: string;
-    imageUrl: string;
     contentLanguages: ContentLanguage[];
     websiteUrl: string;
     location: string;
