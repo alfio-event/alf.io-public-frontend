@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AdditionalField, AdditionalFieldType } from '../model/ticket';
+import { AdditionalField } from '../model/ticket';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nService } from '../shared/i18n.service';
 import { LocalizedCountry } from '../model/localized-country';
@@ -30,14 +30,6 @@ export class AdditionalFieldComponent implements OnInit {
       this.translate.onLangChange.subscribe(change => {
         this.getCountries();
       })
-    }
-  }
-
-  public getFieldType(type: AdditionalFieldType) : string | undefined {
-    switch (type) {
-      case "input:text": return 'text';
-      case "input:tel": return 'tel';
-      default: return undefined;
     }
   }
 
