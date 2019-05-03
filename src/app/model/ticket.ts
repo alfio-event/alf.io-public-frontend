@@ -13,7 +13,7 @@ export class Ticket {
 export class AdditionalField {
     name: string;
     value: string;
-    type: string;
+    type: AdditionalFieldType;
     required: boolean;
     minLength: number;
     maxLength: number;
@@ -40,3 +40,5 @@ export class Field {
     fieldIndex: number;
     fieldValue: string;
 }
+
+export type AdditionalFieldType = 'input:text' | 'input:tel' | 'vat:eu' | 'textarea' | 'country' | 'select';
