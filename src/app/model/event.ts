@@ -15,6 +15,7 @@ export class Event {
     description: {[key:string]: string};
     vatIncluded: boolean;
     vat: string;
+    free: boolean;
 }
 
 export class ContentLanguage {
