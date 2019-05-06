@@ -12,7 +12,9 @@ export class Event {
     organizationName: string;
     organizationEmail: string;
 
-    description: {[key:string]: string}
+    description: {[key:string]: string};
+    vatIncluded: boolean;
+    vat: string;
 }
 
 export class ContentLanguage {
