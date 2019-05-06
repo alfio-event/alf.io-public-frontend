@@ -4,10 +4,10 @@
     <hr>
 
     <div class="row">
-        <div class="col-md-7">
+        <div [ngClass]="{'col-md-7': event.mapUrl, 'col-md-12': !event.mapUrl}">
           <app-event-summary [event]="event"></app-event-summary>
         </div>
-        <div class="col-md-5"><img [src]="event.mapUrl" class="img-responsive"></div>
+        <div class="col-md-5" *ngIf="event.mapUrl"><img [src]="event.mapUrl" class="img-responsive"></div>
     </div>
 
     <hr>
