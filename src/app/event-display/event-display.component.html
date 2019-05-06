@@ -31,6 +31,7 @@
                         </div>
                         <div class="col-sm-3">
                           <span *ngIf="category.free" translate="common.free"></span>
+                          <span *ngIf="!category.free">{{category.formattedFinalPrice}} {{event.currency}}</span>
                         </div>
                         <div class="col-sm-2">
                           <select formControlName="amount" class="form-control">
@@ -41,7 +42,6 @@
                 </li>
               </ul>
           </div>
-          <!--{{reservationForm.value|json}}-->
           <hr>
           <div class="row d-flex justify-content-between">
             <div class="col-md-4 order-1 col-12"><button type="submit" class="block-button btn btn-success" translate="show-event.continue"></button></div>
