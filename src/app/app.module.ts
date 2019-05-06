@@ -28,6 +28,7 @@ import { EventSummaryComponent } from './event-summary/event-summary.component';
 import { TicketFormComponent } from './reservation/ticket-form/ticket-form.component';
 import { LanguageSelectorComponent } from './language-selector/language-selector.component';
 import { CountdownComponent } from './countdown/countdown.component';
+import { BannerCheckComponent } from './banner-check/banner-check.component';
 
 
 
@@ -52,7 +53,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     EventSummaryComponent,
     TicketFormComponent,
     LanguageSelectorComponent,
-    CountdownComponent
+    CountdownComponent,
+    BannerCheckComponent
   ],
   imports: [
     BrowserModule,
