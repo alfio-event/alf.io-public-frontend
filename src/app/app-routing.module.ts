@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: 'event/:eventShortName/reservation/:reservationId', component: ReservationComponent, canActivate: [ReservationGuard], children: [
     { path: 'book', component: BookingComponent, canActivate: [ReservationGuard] },
     { path: 'overview', component: OverviewComponent, canActivate: [ReservationGuard] },
+    { path: 'waitingPayment', redirectTo: 'waiting-payment'},
     { path: 'waiting-payment', component: OfflinePaymentComponent, canActivate: [ReservationGuard] },
     { path: 'success', component: SuccessComponent, canActivate: [ReservationGuard]}
   ]},
