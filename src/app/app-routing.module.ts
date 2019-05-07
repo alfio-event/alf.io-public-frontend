@@ -12,11 +12,10 @@ import { ReservationGuard } from './reservation/reservation.guard';
 const routes: Routes = [
   { path: '', component: EventListComponent },
   { path: 'event/:eventShortName', component: EventDisplayComponent },
-  { path: 'event/:eventShortName/reservation/:reservationId', component: ReservationComponent, children: [
-    { path: 'book', component: BookingComponent, canActivate: [ReservationGuard] },
-    { path: 'overview', component: OverviewComponent, canActivate: [ReservationGuard] },
-    { path: 'success', component: SuccessComponent, canActivate: [ReservationGuard] },
-  ]},
+  { path: 'event/:eventShortName/reservation/:reservationId', component: ReservationComponent, canActivate: [ReservationGuard] },
+  { path: 'event/:eventShortName/reservation/:reservationId/book', component: BookingComponent, canActivate: [ReservationGuard] },
+  { path: 'event/:eventShortName/reservation/:reservationId/overview', component: OverviewComponent, canActivate: [ReservationGuard] },
+  { path: 'event/:eventShortName/reservation/:reservationId/success', component: SuccessComponent, canActivate: [ReservationGuard] },
   { path: 'event/:eventShortName/ticket/:ticketId/view', component: ViewTicketComponent }
 ];
 

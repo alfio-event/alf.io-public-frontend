@@ -30,7 +30,7 @@ export class OverviewComponent implements OnInit {
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.route.parent.params.subscribe(params => {
+    this.route.params.subscribe(params => {
 
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
