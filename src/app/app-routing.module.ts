@@ -13,7 +13,7 @@ import { ReservationGuard } from './reservation/reservation.guard';
 const routes: Routes = [
   { path: '', component: EventListComponent },
   { path: 'event/:eventShortName', component: EventDisplayComponent },
-  { path: 'event/:eventShortName/reservation/:reservationId', component: ReservationComponent/*, canActivate: [ReservationGuard]*/, children: [
+  { path: 'event/:eventShortName/reservation/:reservationId', component: ReservationComponent, canActivate: [ReservationGuard], children: [
     { path: 'book', component: BookingComponent, canActivate: [ReservationGuard] },
     { path: 'overview', component: OverviewComponent, canActivate: [ReservationGuard] },
     { path: 'waiting-payment', component: OfflinePaymentComponent, canActivate: [ReservationGuard] },
