@@ -16,6 +16,8 @@ export class Event {
     vatIncluded: boolean;
     vat: string;
     free: boolean;
+
+    activePaymentMethods: PaymentProxy[];
 }
 
 export class ContentLanguage {
@@ -25,3 +27,5 @@ export class ContentLanguage {
     language: string;
     displayLanguage: string;
 }
+
+export type PaymentProxy = 'STRIPE' | 'ON_SITE' | 'OFFLINE' | 'PAYPAL'
