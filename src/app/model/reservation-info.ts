@@ -14,6 +14,11 @@ export class ReservationInfo {
     //
 }
 
+export class ReservationStatusInfo {
+    status: ReservationStatus;
+    validatedBookingInformations: boolean;
+}
+
 export class TicketsByTicketCategory {
     name: string;
     tickets: Ticket[];

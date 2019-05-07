@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ReservationRequest } from '../model/reservation-request';
 import { ValidatedResponse } from '../model/validated-response';
 import { OverviewConfirmation } from '../model/overview-confirmation';
-import { ReservationInfo } from '../model/reservation-info';
+import { ReservationInfo, ReservationStatusInfo } from '../model/reservation-info';
 
 @Injectable({
     providedIn: 'root'
@@ -19,6 +19,10 @@ export class ReservationService {
 
     public getReservationInfo(eventShortName: string, reservationId: string): Observable<ReservationInfo> {
         return this.http.get<ReservationInfo>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`);
+    }
+
+    public getReservationStatusInfo(eventShortName: string, reservationId: string): Observable<ReservationStatusInfo> {
+        return this.http.get<ReservationStatusInfo>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/status`);
     }
 
     public cancelPendingReservation(eventShortName: string, reservationId: string): Observable<boolean> {
