@@ -48,6 +48,10 @@
       </tfoot>
     </table>
 
+    <div *ngIf="!reservationInfo.orderSummary.free">
+      <div class="page-header wMarginTop"><h2 translate="reservation-page.payment"></h2></div>
+    </div>
+
     <div>
       <p *ngIf="event.privacyPolicyUrl">
         <label>
