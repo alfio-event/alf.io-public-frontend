@@ -20,8 +20,8 @@ export class ReservationGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | boolean {
         
         
-        const eventShortName = route.params['eventShortName'];
-        const reservationId = route.params['reservationId'];
+        const eventShortName = route.parent.params['eventShortName'];
+        const reservationId = route.parent.params['reservationId'];
         return this.reservationService.getReservationInfo(eventShortName, reservationId).pipe(map(reservation => {
 
             const selectedComponent = getCorrespondingController(reservation.status, reservation.validatedBookingInformations);
