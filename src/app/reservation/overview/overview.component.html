@@ -50,6 +50,32 @@
 
     <div *ngIf="!reservationInfo.orderSummary.free">
       <div class="page-header wMarginTop"><h2 translate="reservation-page.payment"></h2></div>
+
+      <div *ngIf="event.activePaymentMethods.length > 1">
+          <div class="btn-group btn-group-toggle payment-method-selector wMarginBottom" ngbRadioGroup formControlName="paymentMethod">
+            <label ngbButtonLabel class="btn btn-outline-dark" *ngIf="event.activePaymentMethods.indexOf('ON_SITE') >= 0">
+              <input ngbButton type="radio" [value]="'ON_SITE'"><fa-icon [icon]="['fas', 'money-bill']"></fa-icon> {{'reservation-page.on-site'|translate}}
+            </label>
+            <label ngbButtonLabel class="btn btn-outline-dark" *ngIf="event.activePaymentMethods.indexOf('OFFLINE') >= 0">
+              <input ngbButton type="radio" [value]="'OFFLINE'"><fa-icon [icon]="['fas', 'exchange-alt']"></fa-icon> {{'reservation-page.offline'|translate}}
+            </label>
+          </div>
+      </div>
+      <div *ngIf="event.activePaymentMethods.length === 1">
+          <h4 class="wMarginTop" [ngSwitch]="event.activePaymentMethods[0]">
+            <span *ngSwitchCase="'ON_SITE'">
+                <fa-icon [icon]="['fas', 'money-bill']"></fa-icon> {{'reservation-page.on-site'|translate}}
+            </span>
+            <span *ngSwitchCase="'OFFLINE'">
+                <fa-icon [icon]="['fas', 'exchange-alt']"></fa-icon> {{'reservation-page.offline'|translate}}
+            </span>
+          </h4>
+      </div>
+
+      <div [ngSwitch]="overviewForm.value.paymentMethod">
+        <div *ngSwitchCase="'ON_SITE'">ON_SITE</div>
+        <div *ngSwitchCase="'OFFLINE'">OFFLINE</div>
+      </div>
     </div>
 
     <div>

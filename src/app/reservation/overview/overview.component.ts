@@ -9,7 +9,8 @@ import { ReservationInfo } from 'src/app/model/reservation-info';
 
 @Component({
   selector: 'app-overview',
-  templateUrl: './overview.component.html'
+  templateUrl: './overview.component.html',
+  styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
 
