@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ReservationService } from '../shared/reservation.service';
 
 @Injectable({
@@ -12,7 +13,11 @@ export class ReservationGuard implements CanActivate {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | boolean {
-        console.log('guard here');
-        return true;
+        const eventShortName = route.parent.params['eventShortName'];
+        const reservationId = route.parent.params['reservationId'];
+        return this.reservationService.getReservationInfo(eventShortName, reservationId).pipe(map(reservation => {
+            console.log('res in guard', reservation)
+            return true;
+        }));
     }
 }
