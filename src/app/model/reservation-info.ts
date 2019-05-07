@@ -7,6 +7,11 @@ export class ReservationInfo {
     validity: number;
     ticketsByCategory: TicketsByTicketCategory[];
     orderSummary: OrderSummary;
+
+    //
+    status: ReservationStatus;
+    validatedBookingInformations: boolean;
+    //
 }
 
 export class TicketsByTicketCategory {
@@ -27,3 +32,7 @@ export class SummaryRow {
     price: string;
     subTotal: string;
 }
+
+export type ReservationStatus = 'PENDING' | 'IN_PAYMENT' | 'EXTERNAL_PROCESSING_PAYMENT' | 
+                                'WAITING_EXTERNAL_CONFIRMATION' | 'OFFLINE_PAYMENT' | 
+                                'COMPLETE' | 'STUCK' | 'CANCELLED' | 'CREDIT_NOTE_ISSUED';
