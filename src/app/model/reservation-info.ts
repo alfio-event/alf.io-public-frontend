@@ -17,6 +17,8 @@ export class TicketsByTicketCategory {
 export class OrderSummary {
     summary: SummaryRow[];
     totalPrice: string;
+    free: boolean;
+    displayVat: boolean;
 }
 
 export class SummaryRow {

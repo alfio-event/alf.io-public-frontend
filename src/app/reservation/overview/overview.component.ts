@@ -36,16 +36,22 @@ export class OverviewComponent implements OnInit {
 
       this.eventService.getEvent(this.eventShortName).subscribe(ev => {
         this.event = ev;
-      });
 
-      this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(resInfo => {
-        this.reservationInfo = resInfo;
+        this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(resInfo => {
+          this.reservationInfo = resInfo;
 
-        this.overviewForm = this.formBuilder.group({
-          termAndConditionsAccepted: null,
-          privacyPolicyAccepted: null
+          let paymentMethod = null;
+
+          if (!resInfo.orderSummary.free && ev.activePaymentMethods.length === 1) {
+            paymentMethod = ev.activePaymentMethods[0];
+          }
+
+          this.overviewForm = this.formBuilder.group({
+            termAndConditionsAccepted: null,
+            privacyPolicyAccepted: null,
+            paymentMethod: paymentMethod
+          });
         });
-
       });
     });
   }
