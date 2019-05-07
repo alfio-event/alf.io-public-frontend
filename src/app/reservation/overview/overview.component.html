@@ -65,7 +65,10 @@
 
     <div class="row d-flex justify-content-between">
       <div class="col-md-4 order-1 col-12">
-        <button type="submit" class="block-button btn btn-success" translate="reservation-page.continue" [disabled]="expired"></button>
+        <button *ngIf="reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" translate="reservation-page.continue" [disabled]="expired"></button>
+        <button *ngIf="!reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" [disabled]="expired">
+            {{'reservation-page.pay'|translate}} {{reservationInfo.orderSummary.totalPrice}} {{event.currency}}
+        </button>
       </div>
       <div class="col-md-4 order-0 col-12 ">
         <button type="button" class="block-button btn btn-outline-dark" (click)="back()" translate="common.back"></button>
