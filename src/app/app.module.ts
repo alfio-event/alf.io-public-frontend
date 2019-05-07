@@ -30,6 +30,7 @@ import { TicketFormComponent } from './reservation/ticket-form/ticket-form.compo
 import { LanguageSelectorComponent } from './language-selector/language-selector.component';
 import { CountdownComponent } from './countdown/countdown.component';
 import { BannerCheckComponent } from './banner-check/banner-check.component';
+import { OfflinePaymentComponent } from './reservation/offline-payment/offline-payment.component';
 
 
 
@@ -55,7 +56,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TicketFormComponent,
     LanguageSelectorComponent,
     CountdownComponent,
-    BannerCheckComponent
+    BannerCheckComponent,
+    OfflinePaymentComponent
   ],
   imports: [
     BrowserModule,

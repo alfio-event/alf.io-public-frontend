@@ -1,5 +1,9 @@
+<app-event-header *ngIf="event" [event]="event"></app-event-header>
+
 <hr>
+
 <div *ngIf="reservationInfo && event">
+
   <app-stepper [currentStep]="2" [free]="event.free"></app-stepper>
 
   <app-countdown [validity]="reservationInfo.validity" (onExpired)="handleExpired($event)"></app-countdown>

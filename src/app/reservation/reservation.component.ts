@@ -16,12 +16,5 @@ export class ReservationComponent implements OnInit {
     private eventService: EventService) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.eventService.getEvent(params['eventShortName']).subscribe(event => {
-        this.event = event;
-      });
-
-      //TODO: add navigation here if the route does not correspond!
-    });
   }
 }

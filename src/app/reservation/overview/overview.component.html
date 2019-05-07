@@ -1,4 +1,7 @@
+<app-event-header *ngIf="event" [event]="event"></app-event-header>
+
 <hr>
+
 <div *ngIf="reservationInfo && event">
 
   <app-stepper [currentStep]="3" [free]="event.free"></app-stepper>
