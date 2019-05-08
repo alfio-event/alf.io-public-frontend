@@ -5,6 +5,7 @@ import { ReservationInfo } from 'src/app/model/reservation-info';
 import { Event } from 'src/app/model/event';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-offline-payment',
@@ -20,7 +21,11 @@ export class OfflinePaymentComponent implements OnInit {
 
   event: Event;
 
-  constructor(private route: ActivatedRoute, private eventService: EventService, private reservationService: ReservationService) { }
+  constructor(
+    private route: ActivatedRoute, 
+    private eventService: EventService, 
+    private reservationService: ReservationService,
+    public translate: TranslateService) { }
 
   ngOnInit() {
 

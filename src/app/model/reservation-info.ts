@@ -14,6 +14,9 @@ export class ReservationInfo {
     status: ReservationStatus;
     validatedBookingInformations: boolean;
     //
+    formattedExpirationDate: {[key:string]: string};
+    //
+    
 }
 
 export class ReservationStatusInfo {
