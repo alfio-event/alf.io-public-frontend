@@ -16,7 +16,12 @@ export class ReservationInfo {
     //
     formattedExpirationDate: {[key:string]: string};
     //
+
+    //
     invoiceNumber: string;
+    invoiceOrReceiptDocumentPresent: boolean;
+    paid: boolean;
+    //
     
 }
 
