@@ -22,9 +22,6 @@ export class Event {
 
 export class ContentLanguage {
     locale: string;
-    value: number;
-    flag: string;
-    language: string;
     displayLanguage: string;
 }
 
