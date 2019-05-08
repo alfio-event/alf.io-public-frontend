@@ -36,7 +36,7 @@ export class OfflinePaymentComponent implements OnInit {
         this.event = res[0];
         this.reservationInfo = res[1];
 
-        this.paymentReason = `${this.event.shortName} ${this.reservationInfo.shortId}`;
+        this.paymentReason = `<mark>${this.event.shortName} ${this.reservationInfo.shortId}</mark>`;
 
       });
     });

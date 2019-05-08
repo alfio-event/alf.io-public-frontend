@@ -18,4 +18,12 @@
       <li [innerHtml]="'reservation-page-waiting.required-steps.2' | translate: {'0': event.organizationEmail, '1': reservationInfo.id}"></li>
       <li [innerHtml]="'reservation-page-waiting.required-steps.3' | translate"></li>
   </ol>
+
+
+  <div class="text-center wMarginTop">
+    <h4 [innerHtml]="'reservation-page-waiting.questions' | translate: {'0': event.organizationEmail, '1': reservationInfo.id}"></h4>
+  </div>
+
+
+  <div class="text-center wMarginTop30px">{{'reservation-page-complete.order-information' | translate: {'0': reservationId, '1': reservationInfo.firstName + ' ' + reservationInfo.lastName} }}</div>
 </div>
