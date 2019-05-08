@@ -17,7 +17,14 @@ export class Event {
     vat: string;
     free: boolean;
 
+    //
     activePaymentMethods: PaymentProxy[];
+
+    //
+    userCanDownloadReceiptOrInvoice: boolean;
+    bankAccount: string;
+    bankAccountOwner: string[];
+    //
 }
 
 export class Language {
