@@ -3,6 +3,8 @@ import { EventService } from 'src/app/shared/event.service';
 import { ReservationService } from 'src/app/shared/reservation.service';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { Event } from 'src/app/model/event';
+import { ActivatedRoute } from '@angular/router';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-offline-payment',
@@ -14,12 +16,25 @@ export class OfflinePaymentComponent implements OnInit {
   reservationInfo: ReservationInfo;
   eventShortName: string;
   reservationId: string;
+  paymentReason: string;
 
   event: Event;
 
-  constructor(private eventService: EventService, private reservationService: ReservationService) { }
+  constructor(private route: ActivatedRoute, private eventService: EventService, private reservationService: ReservationService) { }
 
   ngOnInit() {
+
+    this.route.parent.params.subscribe(params => {
+      this.eventShortName = params['eventShortName'];
+      this.reservationId = params['reservationId'];
+      combineLatest(this.eventService.getEvent(this.eventShortName), this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)).subscribe(res => {
+        this.event = res[0];
+        this.reservationInfo = res[1];
+
+        this.paymentReason = `${this.event.shortName} ${this.reservationInfo.shortId}`;
+
+      });
+    });
   }
 
 }

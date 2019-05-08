@@ -1,6 +1,8 @@
 import { Ticket } from './ticket';
 
 export class ReservationInfo {
+    id: string;
+    shortId: string;
     firstName: string;
     lastName: string;
     email: string;
