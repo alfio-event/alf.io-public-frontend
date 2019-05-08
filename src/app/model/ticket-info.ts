@@ -6,4 +6,6 @@ export class TicketInfo {
     ticketCategoryName: string;
     reservationFullName: string;
     reservationId: string;
+
+    deskPaymentRequired: boolean;
 }
