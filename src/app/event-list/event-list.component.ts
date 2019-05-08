@@ -3,7 +3,7 @@ import { EventService } from '../shared/event.service';
 import { Router } from '@angular/router';
 import { BasicEventInfo } from '../model/basic-event-info';
 import { I18nService } from '../shared/i18n.service';
-import { ContentLanguage } from '../model/event';
+import { Language } from '../model/event';
 
 @Component({
   selector: 'app-event-list',
@@ -12,7 +12,7 @@ import { ContentLanguage } from '../model/event';
 export class EventListComponent implements OnInit {
 
   events: BasicEventInfo[];
-  languages: ContentLanguage[];
+  languages: Language[];
 
   constructor(
     private eventService: EventService, 

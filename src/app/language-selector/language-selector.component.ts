@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ContentLanguage } from '../model/event';
+import { Language } from '../model/event';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class LanguageSelectorComponent {
 
   @Input()
-  contentLanguages: ContentLanguage[];
+  contentLanguages: Language[];
 
   constructor(private translate: TranslateService) { }
 

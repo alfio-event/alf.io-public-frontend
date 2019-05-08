@@ -2,7 +2,7 @@ export class Event {
     shortName: string;
     displayName: string;
     fileBlobId: string;
-    contentLanguages: ContentLanguage[];
+    contentLanguages: Language[];
     websiteUrl: string;
     location: string;
     privacyPolicyUrl: string;
@@ -20,7 +20,7 @@ export class Event {
     activePaymentMethods: PaymentProxy[];
 }
 
-export class ContentLanguage {
+export class Language {
     locale: string;
     displayLanguage: string;
 }
