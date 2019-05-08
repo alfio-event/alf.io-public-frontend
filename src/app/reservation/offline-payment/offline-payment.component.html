@@ -24,20 +24,12 @@
     <h4 [innerHtml]="'reservation-page-waiting.questions' | translate: {'0': event.organizationEmail, '1': reservationInfo.id}"></h4>
   </div>
 
-  <div class="wMarginTop">
-      <div class="pull-left"><a [href]="event.websiteUrl" class="btn btn-outline-dark" translate="to-event-site"></a></div>
-      <!--{{#userCanDownloadReceiptOrInvoice}}
-      {{#reservation.hasInvoiceNumber}}
-          <div class="pull-right">
-              <a href="{{request.contextPath}}/event/{{event.shortName}}/reservation/{{reservationId}}/invoice" class="btn btn-success" target="_blank">{{#i18n}}reservation-page-complete.download-your-invoice{{/i18n}}</a>
-          </div>
-      {{/reservation.hasInvoiceNumber}}
-      {{/userCanDownloadReceiptOrInvoice}}
-      {{^userCanDownloadReceiptOrInvoice}}
-          <div class="pull-right">
-              {{#i18n}}reservation-page-waiting.invoice-will-be-sent{{/i18n}}
-          </div>
-      {{/userCanDownloadReceiptOrInvoice}}-->
+  <div class="row d-flex justify-content-between wMarginTop">
+      <div class="col-md-4 col-12"><a [href]="event.websiteUrl" class="btn btn-outline-dark block-button" translate="to-event-site"></a></div>
+      <div class="col-md-4 col-12" *ngIf="event.userCanDownloadReceiptOrInvoice && reservationInfo.invoiceNumber !== null">
+          <a [href]="'/api/v2/public/event/' + event.shortName + '/reservation/' + reservationInfo.id + '/invoice'" class="btn btn-success block-button" target="_blank" translate="reservation-page-complete.download-your-invoice"></a>
+      </div>
+      <div class="col-md-4 col-12" *ngIf="!event.userCanDownloadReceiptOrInvoice" translate="reservation-page-waiting.invoice-will-be-sent"></div>
   </div>
 
 
