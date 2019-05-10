@@ -1,5 +1,5 @@
 <div *ngIf="matchProxyAndMethod" class="row wMarginBottom wMarginTop">
     <div class="col-12">
-        <div class="text-muted">{{'reservation-page.offline.description'|translate: {'0': 'TODO'} }}</div>
+        <div class="text-muted">{{'reservation-page.offline.description'|translate: {'0': parameters? parameters['delayForOfflinePayment'] : '-'} }}</div>
     </div>
 </div>

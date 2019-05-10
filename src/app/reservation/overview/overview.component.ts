@@ -46,7 +46,7 @@ export class OverviewComponent implements OnInit {
 
           if (!resInfo.orderSummary.free && this.paymentMethodsCount(ev) === 1) {
             selectedPaymentMethod = this.getSinglePaymentMethod(ev);
-            paymentProxy = ev.activePaymentMethods[selectedPaymentMethod];
+            paymentProxy = ev.activePaymentMethods[selectedPaymentMethod].paymentProxy;
           }
 
           this.overviewForm = this.formBuilder.group({
@@ -58,7 +58,7 @@ export class OverviewComponent implements OnInit {
 
           // we synchronize the selectedPaymentMethod with the corresponding paymentMethod (which is a payment proxy)
           this.overviewForm.get('selectedPaymentMethod').valueChanges.subscribe(v => {
-            this.overviewForm.get('paymentMethod').setValue(ev.activePaymentMethods[v]);
+            this.overviewForm.get('paymentMethod').setValue(ev.activePaymentMethods[v as PaymentMethod].paymentProxy);
           });
         });
       });

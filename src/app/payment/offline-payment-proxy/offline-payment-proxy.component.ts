@@ -14,6 +14,9 @@ export class OfflinePaymentProxyComponent implements OnInit {
   @Input()
   proxy: PaymentProxy;
 
+  @Input()
+  parameters: {[key:string]: any};
+
   constructor() { }
 
   ngOnInit() {
