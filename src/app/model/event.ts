@@ -18,7 +18,7 @@ export class Event {
     free: boolean;
 
     //
-    activePaymentMethods: PaymentProxy[];
+    activePaymentMethods: {[key in PaymentMethod]: PaymentProxy};
 
     //
     userCanDownloadReceiptOrInvoice: boolean;
@@ -32,4 +32,6 @@ export class Language {
     displayLanguage: string;
 }
 
+
+export type PaymentMethod = 'CREDIT_CARD' | 'PAYPAL' | 'IDEAL' | 'BANK_TRANSFER' | 'ON_SITE' | 'NONE'
 export type PaymentProxy = 'STRIPE' | 'ON_SITE' | 'OFFLINE' | 'PAYPAL'
