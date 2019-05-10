@@ -31,6 +31,8 @@ import { LanguageSelectorComponent } from './language-selector/language-selector
 import { CountdownComponent } from './countdown/countdown.component';
 import { BannerCheckComponent } from './banner-check/banner-check.component';
 import { OfflinePaymentComponent } from './reservation/offline-payment/offline-payment.component';
+import { OfflinePaymentProxyComponent } from './payment/offline-payment-proxy/offline-payment-proxy.component';
+import { OnsitePaymentProxyComponent } from './payment/onsite-payment-proxy/onsite-payment-proxy.component';
 
 
 
@@ -57,7 +59,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     LanguageSelectorComponent,
     CountdownComponent,
     BannerCheckComponent,
-    OfflinePaymentComponent
+    OfflinePaymentComponent,
+    OfflinePaymentProxyComponent,
+    OnsitePaymentProxyComponent
   ],
   imports: [
     BrowserModule,

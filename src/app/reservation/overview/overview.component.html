@@ -71,11 +71,8 @@
           </h4>
       </div>
 
-      <div [ngSwitch]="overviewForm.value.selectedPaymentMethod">
-        <!-- TODO, here, instead of a switch, we will simply declare all the payment proxy and we pass both the PAYMENT_METHOD and related PAYMENT_PROXY: if they correspond, they will be displayed-->
-        <div *ngSwitchCase="'ON_SITE'">ON_SITE</div>
-        <div *ngSwitchCase="'BANK_TRANSFER'">BANK_TRANSFER</div>
-      </div>
+      <app-offline-payment-proxy [proxy]="overviewForm.value.paymentMethod" [method]="overviewForm.value.selectedPaymentMethod"></app-offline-payment-proxy>
+      <app-onsite-payment-proxy [proxy]="overviewForm.value.paymentMethod" [method]="overviewForm.value.selectedPaymentMethod"></app-onsite-payment-proxy>
     </div>
 
     <div>
