@@ -22,4 +22,8 @@ export class PaypalPaymentProxyComponent implements OnInit {
   ngOnInit() {
   }
 
+  public get matchProxyAndMethod(): boolean {
+    return this.proxy === 'PAYPAL';
+  }
+
 }

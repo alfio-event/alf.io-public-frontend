@@ -22,4 +22,8 @@ export class StripePaymentProxyComponent implements OnInit {
   ngOnInit() {
   }
 
+  public get matchProxyAndMethod(): boolean {
+    return this.proxy === 'STRIPE';
+  }
+
 }

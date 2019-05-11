@@ -68,6 +68,9 @@
             <span *ngSwitchCase="'BANK_TRANSFER'">
                 <fa-icon [icon]="['fas', 'exchange-alt']"></fa-icon> {{'reservation-page.offline'|translate}}
             </span>
+            <span *ngSwitchCase="'PAYPAL'">
+              <fa-icon [icon]="['fab', 'paypal']"></fa-icon> {{'reservation-page.paypal'|translate}}
+            </span>
           </h4>
       </div>
 
