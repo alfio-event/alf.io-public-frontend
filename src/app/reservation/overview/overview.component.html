@@ -58,6 +58,9 @@
             <label ngbButtonLabel class="btn btn-outline-dark" *ngIf="event.activePaymentMethods['BANK_TRANSFER']">
               <input ngbButton type="radio" [value]="'BANK_TRANSFER'"><fa-icon [icon]="['fas', 'exchange-alt']"></fa-icon> {{'reservation-page.offline'|translate}}
             </label>
+            <label ngbButtonLabel class="btn btn-outline-dark" *ngIf="event.activePaymentMethods['PAYPAL']">
+              <input ngbButton type="radio" [value]="'PAYPAL'"><fa-icon [icon]="['fab', 'paypal']"></fa-icon> {{'reservation-page.paypal'|translate}}
+            </label>
           </div>
       </div>
       <div *ngIf="paymentMethodsCount(event) === 1">
@@ -76,21 +79,25 @@
 
       <div *ngIf="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod]" >
           <app-offline-payment-proxy 
+            [reservation]="reservationInfo"
             [proxy]="overviewForm.value.paymentMethod" 
             [method]="overviewForm.value.selectedPaymentMethod" 
             [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters">
           </app-offline-payment-proxy>
           <app-onsite-payment-proxy 
+            [reservation]="reservationInfo"
             [proxy]="overviewForm.value.paymentMethod" 
             [method]="overviewForm.value.selectedPaymentMethod" 
             [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters">
           </app-onsite-payment-proxy>
           <app-stripe-payment-proxy 
+            [reservation]="reservationInfo"
             [proxy]="overviewForm.value.paymentMethod" 
             [method]="overviewForm.value.selectedPaymentMethod" 
             [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters">
           </app-stripe-payment-proxy>
           <app-paypal-payment-proxy 
+            [reservation]="reservationInfo"
             [proxy]="overviewForm.value.paymentMethod" 
             [method]="overviewForm.value.selectedPaymentMethod" 
             [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters">

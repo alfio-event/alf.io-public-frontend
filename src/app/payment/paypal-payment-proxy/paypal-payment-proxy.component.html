@@ -4,4 +4,10 @@
         <div translate="reservation-page.paypal.description"></div>
       </div>
   </div>
+
+  <div class="col-12"  *ngIf="reservation && reservation.tokenAcquired">
+    <div class="alert alert-success wMarginBottom wMarginTop">
+      <h3><fa-icon [icon]="['fas', 'check']"></fa-icon>{{' '}}<span translate="reservation-page.paypal.confirm"></span></h3>
+    </div>
+  </div>
 </div>

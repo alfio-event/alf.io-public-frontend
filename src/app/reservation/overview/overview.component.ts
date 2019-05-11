@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReservationService } from '../../shared/reservation.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Event, PaymentMethod, PaymentProxy } from 'src/app/model/event';
+import { Event, PaymentMethod, PaymentProxy, PaymentProxyWithParameters } from 'src/app/model/event';
 import { EventService } from 'src/app/shared/event.service';
 import { OverviewConfirmation } from 'src/app/model/overview-confirmation';
 import { ReservationInfo } from 'src/app/model/reservation-info';
@@ -49,6 +49,20 @@ export class OverviewComponent implements OnInit {
             paymentProxy = ev.activePaymentMethods[selectedPaymentMethod].paymentProxy;
           }
 
+          //
+          if (this.reservationInfo.tokenAcquired) {
+            paymentProxy = this.reservationInfo.paymentProxy;
+            selectedPaymentMethod = this.getPaymentMethodMatchingProxy(ev, paymentProxy);
+
+            // we override and keep only the one selected
+            //TODO: kinda ugly, but it works
+            let paymentProxyAndParam = this.event.activePaymentMethods[selectedPaymentMethod];
+            this.event.activePaymentMethods = {};
+            this.event.activePaymentMethods[selectedPaymentMethod] = paymentProxyAndParam
+            //
+          }
+          //
+
           this.overviewForm = this.formBuilder.group({
             termAndConditionsAccepted: null,
             privacyPolicyAccepted: null,
@@ -67,6 +81,16 @@ export class OverviewComponent implements OnInit {
 
   paymentMethodsCount(event: Event) : number {
     return Object.keys(event.activePaymentMethods).length;
+  }
+
+  getPaymentMethodMatchingProxy(event: Event, paymentProxy: PaymentProxy) : PaymentMethod | null {
+    let keys: PaymentMethod[] = Object.keys(event.activePaymentMethods) as PaymentMethod[];
+    for(let idx in keys) {
+      if(event.activePaymentMethods[keys[idx]].paymentProxy === paymentProxy) {
+        return keys[idx];
+      }
+    }
+    return null;
   }
 
   getSinglePaymentMethod(event: Event) : PaymentMethod {

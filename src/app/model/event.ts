@@ -18,7 +18,7 @@ export class Event {
     free: boolean;
 
     //
-    activePaymentMethods: {[key in PaymentMethod]: PaymentProxyWithParameters};
+    activePaymentMethods: {[key in PaymentMethod]?: PaymentProxyWithParameters};
 
     //
     userCanDownloadReceiptOrInvoice: boolean;

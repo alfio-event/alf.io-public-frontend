@@ -1,4 +1,5 @@
 import { Ticket } from './ticket';
+import { PaymentProxy } from './event';
 
 export class ReservationInfo {
     id: string;
@@ -21,6 +22,9 @@ export class ReservationInfo {
     invoiceNumber: string;
     invoiceOrReceiptDocumentPresent: boolean;
     paid: boolean;
+    //
+    tokenAcquired: boolean;
+    paymentProxy: PaymentProxy;
     //
     
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PaymentMethod, PaymentProxy } from 'src/app/model/event';
+import { ReservationInfo } from 'src/app/model/reservation-info';
 
 @Component({
   selector: 'app-paypal-payment-proxy',
@@ -7,6 +8,9 @@ import { PaymentMethod, PaymentProxy } from 'src/app/model/event';
   styleUrls: ['./paypal-payment-proxy.component.scss']
 })
 export class PaypalPaymentProxyComponent implements OnInit {
+
+  @Input()
+  reservation: ReservationInfo;
 
   @Input()
   method: PaymentMethod;
