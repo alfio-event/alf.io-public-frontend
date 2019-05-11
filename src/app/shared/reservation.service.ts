@@ -5,6 +5,7 @@ import { ReservationRequest } from '../model/reservation-request';
 import { ValidatedResponse } from '../model/validated-response';
 import { OverviewConfirmation } from '../model/overview-confirmation';
 import { ReservationInfo, ReservationStatusInfo } from '../model/reservation-info';
+import { ReservationPaymentResult } from '../model/reservation-payment-result';
 
 @Injectable({
     providedIn: 'root'
@@ -33,8 +34,8 @@ export class ReservationService {
         return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/validate-to-overview`, contactsAndTicket);
     }
 
-    public confirmOverview(eventShortName: string, reservationId: string, overviewForm: OverviewConfirmation): Observable<ValidatedResponse<boolean>> {
-        return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`, overviewForm);
+    public confirmOverview(eventShortName: string, reservationId: string, overviewForm: OverviewConfirmation): Observable<ValidatedResponse<ReservationPaymentResult>> {
+        return this.http.post<ValidatedResponse<ReservationPaymentResult>>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`, overviewForm);
     }
 
     public backToBooking(eventShortName: string, reservationId: string) : Observable<boolean> {

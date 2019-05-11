@@ -88,7 +88,11 @@ export class OverviewComponent implements OnInit {
   confirm(overviewFormValue: OverviewConfirmation) {
     this.reservationService.confirmOverview(this.eventShortName, this.reservationId, overviewFormValue).subscribe(res => {
       if (res.success) {
-        this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
+        if(res.value.redirect) { //handle the case of redirects (e.g. paypal, stripe)
+          window.location.href = res.value.redirectUrl;
+        } else {
+          this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
+        }
       }
     });
   }
