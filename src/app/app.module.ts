@@ -33,6 +33,8 @@ import { BannerCheckComponent } from './banner-check/banner-check.component';
 import { OfflinePaymentComponent } from './reservation/offline-payment/offline-payment.component';
 import { OfflinePaymentProxyComponent } from './payment/offline-payment-proxy/offline-payment-proxy.component';
 import { OnsitePaymentProxyComponent } from './payment/onsite-payment-proxy/onsite-payment-proxy.component';
+import { PaypalPaymentProxyComponent } from './payment/paypal-payment-proxy/paypal-payment-proxy.component';
+import { StripePaymentProxyComponent } from './payment/stripe-payment-proxy/stripe-payment-proxy.component';
 
 
 
@@ -61,7 +63,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     BannerCheckComponent,
     OfflinePaymentComponent,
     OfflinePaymentProxyComponent,
-    OnsitePaymentProxyComponent
+    OnsitePaymentProxyComponent,
+    PaypalPaymentProxyComponent,
+    StripePaymentProxyComponent
   ],
   imports: [
     BrowserModule,

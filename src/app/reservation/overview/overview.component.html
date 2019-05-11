@@ -72,8 +72,26 @@
       </div>
 
       <div *ngIf="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod]" >
-          <app-offline-payment-proxy [proxy]="overviewForm.value.paymentMethod" [method]="overviewForm.value.selectedPaymentMethod" [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"></app-offline-payment-proxy>
-          <app-onsite-payment-proxy [proxy]="overviewForm.value.paymentMethod" [method]="overviewForm.value.selectedPaymentMethod" [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"></app-onsite-payment-proxy>
+          <app-offline-payment-proxy 
+            [proxy]="overviewForm.value.paymentMethod" 
+            [method]="overviewForm.value.selectedPaymentMethod" 
+            [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters">
+          </app-offline-payment-proxy>
+          <app-onsite-payment-proxy 
+            [proxy]="overviewForm.value.paymentMethod" 
+            [method]="overviewForm.value.selectedPaymentMethod" 
+            [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters">
+          </app-onsite-payment-proxy>
+          <app-stripe-payment-proxy 
+            [proxy]="overviewForm.value.paymentMethod" 
+            [method]="overviewForm.value.selectedPaymentMethod" 
+            [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters">
+          </app-stripe-payment-proxy>
+          <app-paypal-payment-proxy 
+            [proxy]="overviewForm.value.paymentMethod" 
+            [method]="overviewForm.value.selectedPaymentMethod" 
+            [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters">
+          </app-paypal-payment-proxy>
       </div>
     </div>
 
