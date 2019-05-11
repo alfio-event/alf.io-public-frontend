@@ -120,7 +120,11 @@
       </p>
     </div>
 
-    <div class="row d-flex justify-content-between">
+    <div class="alert alert-info text-center" *ngIf="submitting">
+      <strong ><span translate="reservation.payment-in-progress"></span><span class="dots"><span>.</span><span>.</span><span>.</span></span></strong>
+    </div>
+
+    <div class="row d-flex justify-content-between" *ngIf="!submitting">
       <div class="col-md-4 order-1 col-12">
         <button *ngIf="reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" translate="reservation-page.continue" [disabled]="expired"></button>
         <button *ngIf="!reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" [disabled]="expired">

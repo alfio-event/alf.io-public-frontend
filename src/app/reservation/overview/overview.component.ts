@@ -22,6 +22,8 @@ export class OverviewComponent implements OnInit {
   event: Event;
   expired: boolean;
 
+  submitting: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -110,14 +112,19 @@ export class OverviewComponent implements OnInit {
   }
 
   confirm(overviewFormValue: OverviewConfirmation) {
+    this.submitting = true;
     this.reservationService.confirmOverview(this.eventShortName, this.reservationId, overviewFormValue).subscribe(res => {
       if (res.success) {
-        if(res.value.redirect) { //handle the case of redirects (e.g. paypal, stripe)
+        if (res.value.redirect) { //handle the case of redirects (e.g. paypal, stripe)
           window.location.href = res.value.redirectUrl;
         } else {
           this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
         }
+      } else {
+        this.submitting = false;
       }
+    }, () => {
+      this.submitting = false;
     });
   }
 
