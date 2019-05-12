@@ -52,27 +52,33 @@
 
       <div *ngIf="paymentMethodsCount(event) > 1">
           <div class="btn-group btn-group-toggle payment-method-selector wMarginBottom" ngbRadioGroup formControlName="selectedPaymentMethod">
-            <label ngbButtonLabel class="btn btn-outline-dark" *ngIf="event.activePaymentMethods['ON_SITE']">
-              <input ngbButton type="radio" [value]="'ON_SITE'"><fa-icon [icon]="['fas', 'money-bill']"></fa-icon> {{'reservation-page.on-site'|translate}}
+            <label ngbButtonLabel class="btn btn-outline-dark" *ngIf="event.activePaymentMethods['CREDIT_CARD']">
+              <input ngbButton type="radio" [value]="'CREDIT_CARD'"><fa-icon [icon]="['fas', 'credit-card']"></fa-icon> {{'reservation-page.credit-card'|translate}}
+            </label>
+            <label ngbButtonLabel class="btn btn-outline-dark" *ngIf="event.activePaymentMethods['PAYPAL']">
+              <input ngbButton type="radio" [value]="'PAYPAL'"><fa-icon [icon]="['fab', 'paypal']"></fa-icon> {{'reservation-page.paypal'|translate}}
             </label>
             <label ngbButtonLabel class="btn btn-outline-dark" *ngIf="event.activePaymentMethods['BANK_TRANSFER']">
               <input ngbButton type="radio" [value]="'BANK_TRANSFER'"><fa-icon [icon]="['fas', 'exchange-alt']"></fa-icon> {{'reservation-page.offline'|translate}}
             </label>
-            <label ngbButtonLabel class="btn btn-outline-dark" *ngIf="event.activePaymentMethods['PAYPAL']">
-              <input ngbButton type="radio" [value]="'PAYPAL'"><fa-icon [icon]="['fab', 'paypal']"></fa-icon> {{'reservation-page.paypal'|translate}}
+            <label ngbButtonLabel class="btn btn-outline-dark" *ngIf="event.activePaymentMethods['ON_SITE']">
+              <input ngbButton type="radio" [value]="'ON_SITE'"><fa-icon [icon]="['fas', 'money-bill']"></fa-icon> {{'reservation-page.on-site'|translate}}
             </label>
           </div>
       </div>
       <div *ngIf="paymentMethodsCount(event) === 1">
           <h4 class="wMarginTop" [ngSwitch]="getSinglePaymentMethod(event)">
-            <span *ngSwitchCase="'ON_SITE'">
-                <fa-icon [icon]="['fas', 'money-bill']"></fa-icon> {{'reservation-page.on-site'|translate}}
+            <span *ngSwitchCase="'CREDIT_CARD'">
+              <fa-icon [icon]="['fas', 'credit-card']"></fa-icon> {{'reservation-page.credit-card'|translate}}
+            </span>
+            <span *ngSwitchCase="'PAYPAL'">
+                <fa-icon [icon]="['fab', 'paypal']"></fa-icon> {{'reservation-page.paypal'|translate}}
             </span>
             <span *ngSwitchCase="'BANK_TRANSFER'">
                 <fa-icon [icon]="['fas', 'exchange-alt']"></fa-icon> {{'reservation-page.offline'|translate}}
             </span>
-            <span *ngSwitchCase="'PAYPAL'">
-              <fa-icon [icon]="['fab', 'paypal']"></fa-icon> {{'reservation-page.paypal'|translate}}
+            <span *ngSwitchCase="'ON_SITE'">
+                <fa-icon [icon]="['fas', 'money-bill']"></fa-icon> {{'reservation-page.on-site'|translate}}
             </span>
           </h4>
       </div>
