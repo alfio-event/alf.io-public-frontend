@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { PaymentMethod, PaymentProxy } from 'src/app/model/event';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 
@@ -7,7 +7,7 @@ import { ReservationInfo } from 'src/app/model/reservation-info';
   templateUrl: './stripe-payment-proxy.component.html',
   styleUrls: ['./stripe-payment-proxy.component.scss']
 })
-export class StripePaymentProxyComponent implements OnInit {
+export class StripePaymentProxyComponent implements OnChanges {
 
   @Input()
   reservation: ReservationInfo;
@@ -23,7 +23,10 @@ export class StripePaymentProxyComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.matchProxyAndMethod && changes.parameters) {
+      console.log(this.parameters);
+    }
   }
 
   public get matchProxyAndMethod(): boolean {

@@ -1,13 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PaymentMethod, PaymentProxy } from 'src/app/model/event';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 
 @Component({
   selector: 'app-paypal-payment-proxy',
   templateUrl: './paypal-payment-proxy.component.html',
-  styleUrls: ['./paypal-payment-proxy.component.scss']
 })
-export class PaypalPaymentProxyComponent implements OnInit {
+export class PaypalPaymentProxyComponent {
 
   @Input()
   reservation: ReservationInfo;
@@ -22,9 +21,6 @@ export class PaypalPaymentProxyComponent implements OnInit {
   parameters: {[key:string]: any};
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
   public get matchProxyAndMethod(): boolean {
     return this.proxy === 'PAYPAL';
