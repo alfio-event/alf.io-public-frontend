@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { PaymentMethod, PaymentProxy } from 'src/app/model/event';
+import { PaymentMethod, PaymentProxy, Event } from 'src/app/model/event';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { TranslateService } from '@ngx-translate/core';
 import { PaymentProvider, PaymentResult } from '../payment-provider';
-import { Observable, of, Subscriber } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 
 @Component({
   selector: 'app-stripe-payment-proxy',
@@ -11,6 +11,9 @@ import { Observable, of, Subscriber } from 'rxjs';
   styleUrls: ['./stripe-payment-proxy.component.scss']
 })
 export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
+
+  @Input()
+  event: Event;
 
   @Input()
   reservation: ReservationInfo;
@@ -47,8 +50,6 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
   }
 
   private unloadAll(): void {
-    console.log('unload all');
-
     const elem = document.getElementById(STRIPE_CHECKOUT_ID_SCRIPT);
     if (elem) {
       elem.remove();
@@ -56,9 +57,7 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
   }
 
   private loadNonCA(): void {
-    console.log('load non ca');
-
-    this.paymentProvider.emit(new StripeCheckoutPaymentProvider(this.translate, this.parameters));
+    this.paymentProvider.emit(new StripeCheckoutPaymentProvider(this.translate, this.parameters, this.reservation, this.event));
   }
 
   public get matchProxyAndMethod(): boolean {
@@ -73,25 +72,24 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
 
 }
 
+
+const STRIPE_CHECKOUT_ID_SCRIPT: string = 'stripe-payment-proxy-checkout';
+
 class StripeCheckoutPaymentProvider implements PaymentProvider {
 
-  constructor(private translate: TranslateService, private parameters: {[key:string]: any}) {
+  constructor(
+    private translate: TranslateService,
+    private parameters: {[key:string]: any},
+    private reservation: ReservationInfo,
+    private event: Event) {
   }
-
 
   pay(): Observable<PaymentResult> {
     const obs = new Observable<PaymentResult>(subscriber => {
-      console.log('load script called!')
-      this.loadScript(subscriber)
+      this.loadScript(subscriber);
     });
-
-    
-    
-
-
     return obs;
   }
-
 
   loadScript(subscriber: Subscriber<PaymentResult>) {
     if (!document.getElementById(STRIPE_CHECKOUT_ID_SCRIPT)) {
@@ -109,63 +107,29 @@ class StripeCheckoutPaymentProvider implements PaymentProvider {
   }
 
   configureAndOpen(subscriber: Subscriber<PaymentResult>) {
-    console.log('configureAndOpen called!')
+    let tokenSubmitted = false;
     const stripeHandler = window['StripeCheckout'].configure({
       key: this.parameters['stripe_p_key'],
       locale: this.translate.currentLang,
       token: (token) => {
-        console.log('token is', token)
+        tokenSubmitted = true;
         subscriber.next(new PaymentResult(true, token.id));
       },
       closed: () => {
-        console.log('closed');
-        subscriber.next(new PaymentResult(false, null));
+        if (!tokenSubmitted) {
+          subscriber.next(new PaymentResult(false, null));
+        }
       }
     });
     console.log('stripe handle open')
     stripeHandler.open({
-      name: 'NAME',
-      description: 'DESC',
+      name: `${this.reservation.firstName} ${this.reservation.lastName}`,
+      description: this.reservation.orderSummary.descriptionForPayment,
       zipCode: false,
       allowRememberMe: false,
-      amount: parseInt('42', 10),
-      currency: 'CHF',
-      email: 'email@test.com'
-  });
+      amount: this.reservation.orderSummary.priceInCents,
+      currency: this.event.currency,
+      email: this.reservation.email
+    });
   }
-
-  /*
-  
-  
-  const scriptElem = document.createElement('script');
-    scriptElem.id = STRIPE_CHECKOUT_ID_SCRIPT;
-    scriptElem.src = 'https://checkout.stripe.com/checkout.js'
-    scriptElem.async = true;
-    scriptElem.onload = () => {
-      //;
-      console.log('script loaded!');
-      console.log(this.parameters);
-      const stripeHandler = window['StripeCheckout'].configure({
-        key: this.parameters['stripe_p_key'],
-        locale: this.translate.currentLang,
-        token: (token) => {
-          console.log('token is', token)
-        },
-        closed: () => {
-        }
-
-
-
-      });
-      
-
-    }
-
-    document.body.appendChild(scriptElem);
-  
-  
-  
-  */
 }
-
-const STRIPE_CHECKOUT_ID_SCRIPT: string = 'stripe-payment-proxy-checkout';

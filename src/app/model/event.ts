@@ -25,6 +25,7 @@ export class Event {
     bankAccount: string;
     bankAccountOwner: string[];
     //
+    currency: string;
 }
 
 export class Language {

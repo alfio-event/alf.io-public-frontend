@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReservationService } from '../../shared/reservation.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Event, PaymentMethod, PaymentProxy, PaymentProxyWithParameters } from 'src/app/model/event';
+import { Event, PaymentMethod, PaymentProxy } from 'src/app/model/event';
 import { EventService } from 'src/app/shared/event.service';
-import { OverviewConfirmation } from 'src/app/model/overview-confirmation';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { PaymentProvider } from 'src/app/payment/payment-provider';
 
@@ -72,7 +71,8 @@ export class OverviewComponent implements OnInit {
             termAndConditionsAccepted: null,
             privacyPolicyAccepted: null,
             selectedPaymentMethod: selectedPaymentMethod, //<- note: not used by the backend
-            paymentMethod: paymentProxy //<- name mismatch for legacy reasons
+            paymentMethod: paymentProxy, //<- name mismatch for legacy reasons
+            gatewayToken: null
           });
 
           // we synchronize the selectedPaymentMethod with the corresponding paymentMethod (which is a payment proxy)
@@ -114,11 +114,17 @@ export class OverviewComponent implements OnInit {
     }
   }
 
-  confirm(overviewFormValue: OverviewConfirmation) {
+  confirm() {
     this.submitting = true;
 
     this.selectedPaymentProvider.pay().subscribe(paymentResult => {
+      console.log(paymentResult);
       if (paymentResult.success) {
+
+        this.overviewForm.get('gatewayToken').setValue(paymentResult.gatewayToken);
+
+        const overviewFormValue = this.overviewForm.value;
+
         this.reservationService.confirmOverview(this.eventShortName, this.reservationId, overviewFormValue).subscribe(res => {
           if (res.success) {
             if (res.value.redirect) { //handle the case of redirects (e.g. paypal, stripe)
@@ -127,13 +133,15 @@ export class OverviewComponent implements OnInit {
               this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
             }
           } else {
+            console.log('res is not success');
             this.submitting = false;
           }
         }, () => {
+          console.log('error');
           this.submitting = false;
         });
       } else {
-        console.log('error while paying');
+        console.log('paymentResult is not success (may be cancelled)');
         this.submitting = false;
       }
     });

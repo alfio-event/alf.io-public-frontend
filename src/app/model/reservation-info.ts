@@ -44,6 +44,8 @@ export class OrderSummary {
     totalPrice: string;
     free: boolean;
     displayVat: boolean;
+    priceInCents: number;
+    descriptionForPayment: string;
 }
 
 export class SummaryRow {

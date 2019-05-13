@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { PaymentMethod, PaymentProxy } from 'src/app/model/event';
-import { ReservationInfo } from 'src/app/model/reservation-info';
 import { PaymentProvider, SimplePaymentProvider } from '../payment-provider';
 
 @Component({
@@ -10,16 +9,10 @@ import { PaymentProvider, SimplePaymentProvider } from '../payment-provider';
 export class OnsitePaymentProxyComponent implements OnChanges {
 
   @Input()
-  reservation: ReservationInfo;
-
-  @Input()
   method: PaymentMethod;
 
   @Input()
   proxy: PaymentProxy;
-
-  @Input()
-  parameters: {[key:string]: any};
 
   @Output()
   paymentProvider: EventEmitter<PaymentProvider> = new EventEmitter<PaymentProvider>();
