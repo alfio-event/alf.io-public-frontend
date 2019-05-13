@@ -3,7 +3,7 @@ import { PaymentMethod, PaymentProxy } from 'src/app/model/event';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { TranslateService } from '@ngx-translate/core';
 import { PaymentProvider, PaymentResult } from '../payment-provider';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscriber } from 'rxjs';
 
 @Component({
   selector: 'app-stripe-payment-proxy',
@@ -58,7 +58,7 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
   private loadNonCA(): void {
     console.log('load non ca');
 
-    this.paymentProvider.emit(new StripeCheckoutPaymentProvider());
+    this.paymentProvider.emit(new StripeCheckoutPaymentProvider(this.translate, this.parameters));
   }
 
   public get matchProxyAndMethod(): boolean {
@@ -75,9 +75,63 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
 
 class StripeCheckoutPaymentProvider implements PaymentProvider {
 
+  constructor(private translate: TranslateService, private parameters: {[key:string]: any}) {
+  }
+
 
   pay(): Observable<PaymentResult> {
-    return of(new PaymentResult(false, null));
+    const obs = new Observable<PaymentResult>(subscriber => {
+      console.log('load script called!')
+      this.loadScript(subscriber)
+    });
+
+    
+    
+
+
+    return obs;
+  }
+
+
+  loadScript(subscriber: Subscriber<PaymentResult>) {
+    if (!document.getElementById(STRIPE_CHECKOUT_ID_SCRIPT)) {
+      const scriptElem = document.createElement('script');
+      scriptElem.id = STRIPE_CHECKOUT_ID_SCRIPT;
+      scriptElem.src = 'https://checkout.stripe.com/checkout.js'
+      scriptElem.async = true;
+      scriptElem.onload = () => {
+        this.configureAndOpen(subscriber);
+      }
+      document.body.appendChild(scriptElem);
+    } else {
+      this.configureAndOpen(subscriber);
+    }
+  }
+
+  configureAndOpen(subscriber: Subscriber<PaymentResult>) {
+    console.log('configureAndOpen called!')
+    const stripeHandler = window['StripeCheckout'].configure({
+      key: this.parameters['stripe_p_key'],
+      locale: this.translate.currentLang,
+      token: (token) => {
+        console.log('token is', token)
+        subscriber.next(new PaymentResult(true, token.id));
+      },
+      closed: () => {
+        console.log('closed');
+        subscriber.next(new PaymentResult(false, null));
+      }
+    });
+    console.log('stripe handle open')
+    stripeHandler.open({
+      name: 'NAME',
+      description: 'DESC',
+      zipCode: false,
+      allowRememberMe: false,
+      amount: parseInt('42', 10),
+      currency: 'CHF',
+      email: 'email@test.com'
+  });
   }
 
   /*
