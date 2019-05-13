@@ -6,6 +6,7 @@ import { Event, PaymentMethod, PaymentProxy, PaymentProxyWithParameters } from '
 import { EventService } from 'src/app/shared/event.service';
 import { OverviewConfirmation } from 'src/app/model/overview-confirmation';
 import { ReservationInfo } from 'src/app/model/reservation-info';
+import { PaymentProvider } from 'src/app/payment/payment-provider';
 
 @Component({
   selector: 'app-overview',
@@ -23,6 +24,8 @@ export class OverviewComponent implements OnInit {
   expired: boolean;
 
   submitting: boolean;
+
+  selectedPaymentProvider: PaymentProvider;
 
   constructor(
     private route: ActivatedRoute,
@@ -130,5 +133,10 @@ export class OverviewComponent implements OnInit {
 
   handleExpired(expired: boolean) {
     this.expired = expired;
+  }
+
+  registerCurrentPaymentProvider(paymentProvider: PaymentProvider) {
+    console.log(paymentProvider);
+    this.selectedPaymentProvider = paymentProvider;
   }
 }

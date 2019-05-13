@@ -88,25 +88,29 @@
             [reservation]="reservationInfo"
             [proxy]="overviewForm.value.paymentMethod" 
             [method]="overviewForm.value.selectedPaymentMethod" 
-            [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters">
+            [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"
+            (paymentProvider)="registerCurrentPaymentProvider($event)">
           </app-offline-payment-proxy>
           <app-onsite-payment-proxy 
             [reservation]="reservationInfo"
             [proxy]="overviewForm.value.paymentMethod" 
             [method]="overviewForm.value.selectedPaymentMethod" 
-            [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters">
+            [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"
+            (paymentProvider)="registerCurrentPaymentProvider($event)">
           </app-onsite-payment-proxy>
           <app-stripe-payment-proxy 
             [reservation]="reservationInfo"
             [proxy]="overviewForm.value.paymentMethod" 
             [method]="overviewForm.value.selectedPaymentMethod" 
-            [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters">
+            [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"
+            (paymentProvider)="registerCurrentPaymentProvider($event)">
           </app-stripe-payment-proxy>
           <app-paypal-payment-proxy 
             [reservation]="reservationInfo"
             [proxy]="overviewForm.value.paymentMethod" 
             [method]="overviewForm.value.selectedPaymentMethod" 
-            [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters">
+            [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"
+            (paymentProvider)="registerCurrentPaymentProvider($event)">
           </app-paypal-payment-proxy>
       </div>
     </div>
@@ -133,7 +137,7 @@
     <div class="row d-flex justify-content-between" *ngIf="!submitting">
       <div class="col-md-4 order-1 col-12">
         <button *ngIf="reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" translate="reservation-page.continue" [disabled]="expired"></button>
-        <button *ngIf="!reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" [disabled]="expired">
+        <button *ngIf="!reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" [disabled]="expired || (!selectedPaymentProvider) || (selectedPaymentProvider && !(selectedPaymentProvider.ready | async))">
             {{'reservation-page.pay'|translate}} {{reservationInfo.orderSummary.totalPrice}} {{event.currency}}
         </button>
       </div>
