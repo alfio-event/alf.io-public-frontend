@@ -134,6 +134,7 @@ export class OverviewComponent implements OnInit {
         });
       } else {
         console.log('error while paying');
+        this.submitting = false;
       }
     });
   }
