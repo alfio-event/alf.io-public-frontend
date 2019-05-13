@@ -116,18 +116,25 @@ export class OverviewComponent implements OnInit {
 
   confirm(overviewFormValue: OverviewConfirmation) {
     this.submitting = true;
-    this.reservationService.confirmOverview(this.eventShortName, this.reservationId, overviewFormValue).subscribe(res => {
-      if (res.success) {
-        if (res.value.redirect) { //handle the case of redirects (e.g. paypal, stripe)
-          window.location.href = res.value.redirectUrl;
-        } else {
-          this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
-        }
+
+    this.selectedPaymentProvider.pay().subscribe(paymentResult => {
+      if (paymentResult.success) {
+        this.reservationService.confirmOverview(this.eventShortName, this.reservationId, overviewFormValue).subscribe(res => {
+          if (res.success) {
+            if (res.value.redirect) { //handle the case of redirects (e.g. paypal, stripe)
+              window.location.href = res.value.redirectUrl;
+            } else {
+              this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
+            }
+          } else {
+            this.submitting = false;
+          }
+        }, () => {
+          this.submitting = false;
+        });
       } else {
-        this.submitting = false;
+        console.log('error while paying');
       }
-    }, () => {
-      this.submitting = false;
     });
   }
 

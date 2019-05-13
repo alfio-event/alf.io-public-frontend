@@ -2,7 +2,8 @@ import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmi
 import { PaymentMethod, PaymentProxy } from 'src/app/model/event';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { TranslateService } from '@ngx-translate/core';
-import { PaymentProvider } from '../payment-provider';
+import { PaymentProvider, PaymentResult } from '../payment-provider';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-stripe-payment-proxy',
@@ -73,6 +74,12 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
 }
 
 class StripeCheckoutPaymentProvider implements PaymentProvider {
+
+
+  pay(): Observable<PaymentResult> {
+    return of(new PaymentResult(false, null));
+  }
+
   /*
   
   
