@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmi
 import { PaymentMethod, PaymentProxy, Event } from 'src/app/model/event';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { TranslateService } from '@ngx-translate/core';
-import { PaymentProvider, PaymentResult } from '../payment-provider';
+import { PaymentProvider, PaymentResult, SimplePaymentProvider } from '../payment-provider';
 import { Observable, Subscriber, of } from 'rxjs';
 
 // global variable defined by stripe when the scripts are loaded
@@ -98,10 +98,21 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
   }
 
   private configureSCA() {
-    console.log('configure SCA');
-    let options = {betas: ['payment_intent_beta_3']};
+    const options = {betas: ['payment_intent_beta_3']};
     const stripeHandler = Stripe(this.parameters['stripe_p_key'], options);
-    let card = stripeHandler.elements({locale: this.translate.currentLang}).create('card', {style: STRIPE_V3_STYLE});
+    const card = stripeHandler.elements({locale: this.translate.currentLang}).create('card', {style: STRIPE_V3_STYLE});
+
+    card.addEventListener('change', (ev) => {
+
+      //TODO: show errors & co
+
+      if (ev.complete) {
+        this.paymentProvider.emit(new SimplePaymentProvider()); // enable payment: TODO: use custom payment provider!
+      } else {
+        this.paymentProvider.emit(null); // -> disable submit buttons by providing an empty payment provider
+      }
+    });
+
     card.mount('#card-element');
   }
 
@@ -172,7 +183,7 @@ class StripeCheckoutPaymentProvider implements PaymentProvider {
 const STRIPE_V3_STYLE = {
   base: {
     color: '#000000',
-    lineHeight: '18px',
+    /*lineHeight: '18px',*/
     fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
     fontSmoothing: 'antialiased',
     fontSize: '14px',
