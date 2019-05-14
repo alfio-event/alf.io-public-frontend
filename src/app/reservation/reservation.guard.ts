@@ -9,6 +9,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { BookingComponent } from './booking/booking.component';
 import { OfflinePaymentComponent } from './offline-payment/offline-payment.component';
 import { ReservationComponent } from './reservation.component';
+import { ProcessingPaymentComponent } from './processing-payment/processing-payment.component';
 
 @Injectable({
     providedIn: 'root'
@@ -55,6 +56,8 @@ function getRouteFromComponent(component: any, eventShortName: string, reservati
         return ['event', eventShortName, 'reservation', reservationId, 'success'];
     } else if (component === OfflinePaymentComponent) {
         return ['event', eventShortName, 'reservation', reservationId, 'waiting-payment'];
+    } else if (component === ProcessingPaymentComponent) {
+        return ['event', eventShortName, 'reservation', reservationId, 'processing-payment'];
     }
 }
 
@@ -64,7 +67,7 @@ function getCorrespondingController(status: ReservationStatus, validatedBookingI
         case 'COMPLETE': return SuccessComponent;
         case 'OFFLINE_PAYMENT': return OfflinePaymentComponent;
         case 'EXTERNAL_PROCESSING_PAYMENT':
-        case 'WAITING_EXTERNAL_CONFIRMATION': break;
+        case 'WAITING_EXTERNAL_CONFIRMATION': return ProcessingPaymentComponent;
         case 'IN_PAYMENT':
         case 'STUCK': break;
     }

@@ -9,6 +9,7 @@ import { ReservationComponent } from './reservation/reservation.component';
 import { OfflinePaymentComponent } from './reservation/offline-payment/offline-payment.component';
 import { ViewTicketComponent } from './view-ticket/view-ticket.component';
 import { ReservationGuard } from './reservation/reservation.guard';
+import { ProcessingPaymentComponent } from './reservation/processing-payment/processing-payment.component';
 
 const routes: Routes = [
   { path: '', component: EventListComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
     { path: 'overview', component: OverviewComponent, canActivate: [ReservationGuard] },
     { path: 'waitingPayment', redirectTo: 'waiting-payment'},
     { path: 'waiting-payment', component: OfflinePaymentComponent, canActivate: [ReservationGuard] },
+    { path: 'processing-payment', component: ProcessingPaymentComponent, canActivate: [ReservationGuard] },
     { path: 'success', component: SuccessComponent, canActivate: [ReservationGuard]}
   ]},
   { path: 'event/:eventShortName/ticket/:ticketId/view', component: ViewTicketComponent }

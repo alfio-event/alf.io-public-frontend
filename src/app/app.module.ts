@@ -35,6 +35,7 @@ import { OfflinePaymentProxyComponent } from './payment/offline-payment-proxy/of
 import { OnsitePaymentProxyComponent } from './payment/onsite-payment-proxy/onsite-payment-proxy.component';
 import { PaypalPaymentProxyComponent } from './payment/paypal-payment-proxy/paypal-payment-proxy.component';
 import { StripePaymentProxyComponent } from './payment/stripe-payment-proxy/stripe-payment-proxy.component';
+import { ProcessingPaymentComponent } from './reservation/processing-payment/processing-payment.component';
 
 
 
@@ -65,7 +66,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     OfflinePaymentProxyComponent,
     OnsitePaymentProxyComponent,
     PaypalPaymentProxyComponent,
-    StripePaymentProxyComponent
+    StripePaymentProxyComponent,
+    ProcessingPaymentComponent
   ],
   imports: [
     BrowserModule,
