@@ -217,7 +217,8 @@ class StripePaymentV3 implements PaymentProvider {
 
     const obs = new Observable<PaymentResult>(subscriber => {
 
-      this.http.post(`/api/events/${this.event.shortName}/reservation/${this.reservation.id}/payment/CREDIT_CARD/init`, {}).subscribe(res => {
+      //TODO: move it in reservation service and add missing types
+      this.http.post(`/api/v2/public/event/${this.event.shortName}/reservation/${this.reservation.id}/payment/CREDIT_CARD/init`, {}).subscribe(res => {
         const clientSecret = res['clientSecret'];
 
         this.stripeHandler.handleCardPayment(clientSecret, this.card, {
@@ -238,7 +239,8 @@ class StripePaymentV3 implements PaymentProvider {
           } else {
             let handleCheck;
             const checkIfPaid = () => {
-              this.http.get(`/api/events/${this.event.shortName}/reservation/${this.reservation.id}/payment/CREDIT_CARD/status`).subscribe(status => {
+              //TODO: move it in reservation service and add missing types
+              this.http.get(`/api/v2/public/event/${this.event.shortName}/reservation/${this.reservation.id}/payment/CREDIT_CARD/status`).subscribe(status => {
                 if(status['successful']) {
                   clearInterval(handleCheck);
                   subscriber.next(new PaymentResult(true, status['gatewayIdOrNull']));
