@@ -36,9 +36,9 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
     if (this.matchProxyAndMethod && changes.method) {
       console.log(this.parameters);
       if(this.parameters['enableSCA']) {
-        this.loadCA();
+        this.loadSCA();
       } else {
-        this.loadNonCA();
+        this.loadNonSCA();
       }
     } else {
       this.unloadAll();
@@ -56,7 +56,7 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
     }
   }
 
-  private loadNonCA(): void {
+  private loadNonSCA(): void {
     this.paymentProvider.emit(new StripeCheckoutPaymentProvider(this.translate, this.parameters, this.reservation, this.event));
   }
 
@@ -66,7 +66,7 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
 
 
   //
-  private loadCA(): void {
+  private loadSCA(): void {
     console.log('load ca');
   }
 
