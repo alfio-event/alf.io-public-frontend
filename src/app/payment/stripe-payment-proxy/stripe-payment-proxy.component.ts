@@ -3,7 +3,12 @@ import { PaymentMethod, PaymentProxy, Event } from 'src/app/model/event';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { TranslateService } from '@ngx-translate/core';
 import { PaymentProvider, PaymentResult } from '../payment-provider';
-import { Observable, Subscriber } from 'rxjs';
+import { Observable, Subscriber, of } from 'rxjs';
+
+// global variable defined by stripe when the scripts are loaded
+declare const Stripe: any;
+declare const StripeCheckout: any;
+//
 
 @Component({
   selector: 'app-stripe-payment-proxy',
@@ -45,14 +50,24 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
     }
   }
 
+  get useSCA(): boolean {
+    return this.parameters && this.parameters['enableSCA'];
+  }
+
   ngOnDestroy(): void {
     this.unloadAll();
   }
 
   private unloadAll(): void {
-    const elem = document.getElementById(STRIPE_CHECKOUT_ID_SCRIPT);
-    if (elem) {
-      elem.remove();
+    const checkoutScript = document.getElementById(STRIPE_CHECKOUT_ID_SCRIPT);
+    if (checkoutScript) {
+      checkoutScript.remove();
+      delete window['StripeCheckout']; //TODO: check
+    }
+    const stripeV3Script = document.getElementById(STRIPE_V3_ID_SCRIPT);
+    if (stripeV3Script) {
+      stripeV3Script.remove();
+      delete window['Stripe']; //TODO: check
     }
   }
 
@@ -67,7 +82,27 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
 
   //
   private loadSCA(): void {
-    console.log('load ca');
+    console.log('load sca');
+    if (!document.getElementById(STRIPE_V3_ID_SCRIPT)) {
+      const scriptElem = document.createElement('script');
+      scriptElem.id = STRIPE_V3_ID_SCRIPT;
+      scriptElem.src = 'https://js.stripe.com/v3/';
+      scriptElem.async = true;
+      scriptElem.onload = () => {
+        this.configureSCA();
+      }
+      document.body.appendChild(scriptElem);
+    } else {
+      this.configureSCA();
+    }
+  }
+
+  private configureSCA() {
+    console.log('configure SCA');
+    let options = {betas: ['payment_intent_beta_3']};
+    const stripeHandler = Stripe(this.parameters['stripe_p_key'], options);
+    let card = stripeHandler.elements({locale: this.translate.currentLang}).create('card', {style: STRIPE_V3_STYLE});
+    card.mount('#card-element');
   }
 
 }
@@ -108,7 +143,7 @@ class StripeCheckoutPaymentProvider implements PaymentProvider {
 
   configureAndOpen(subscriber: Subscriber<PaymentResult>) {
     let tokenSubmitted = false;
-    const stripeHandler = window['StripeCheckout'].configure({
+    const stripeHandler = StripeCheckout.configure({
       key: this.parameters['stripe_p_key'],
       locale: this.translate.currentLang,
       token: (token) => {
@@ -131,5 +166,34 @@ class StripeCheckoutPaymentProvider implements PaymentProvider {
       currency: this.event.currency,
       email: this.reservation.email
     });
+  }
+}
+
+const STRIPE_V3_STYLE = {
+  base: {
+    color: '#000000',
+    lineHeight: '18px',
+    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+    fontSmoothing: 'antialiased',
+    fontSize: '14px',
+    '::placeholder': {
+      color: '#aab7c4'
+    }
+  },
+  invalid: {
+    color: '#a94442',
+    iconColor: '#a94442'
+  }
+};
+
+const STRIPE_V3_ID_SCRIPT = 'stripe-payment-v3-script';
+
+class StripePaymentV3 implements PaymentProvider {
+
+  constructor() {
+  }
+
+  pay(): Observable<PaymentResult> {
+    return of(new PaymentResult(false, null));
   }
 }

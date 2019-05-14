@@ -13,4 +13,30 @@
   <div class="col-md-9 col-12">
       <div class="text-muted" translate="reservation-page.credit-card.description"></div>
   </div>
+
+
+  <div *ngIf="useSCA" class="col-12">
+    <div class="wMarginTop row">
+      <div class="col-12">
+        <div class="form-group">
+          <label for="card-name" class="control-label" translate="reservation-page.cardholder.name"></label>
+          <input type="text" data-stripe="name" required class="form-control" id="card-name" autocomplete="name" value="">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group" id="card-element-container">
+          <label for="card-element" class="control-label" translate="reservation-page.card.details"></label>
+          <div>
+              <div id="card-element"></div>
+          </div>
+          <div class="wMarginTop text-danger payment-errors hide" role="alert" id="card-errors">
+            <strong id="error-message"></strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
