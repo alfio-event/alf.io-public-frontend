@@ -4,6 +4,7 @@ import { ReservationInfo } from 'src/app/model/reservation-info';
 import { TranslateService } from '@ngx-translate/core';
 import { PaymentProvider, PaymentResult, SimplePaymentProvider } from '../payment-provider';
 import { Observable, Subscriber, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 // global variable defined by stripe when the scripts are loaded
 declare const Stripe: any;
@@ -35,7 +36,9 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
   @Output()
   paymentProvider: EventEmitter<PaymentProvider> = new EventEmitter<PaymentProvider>();
 
-  constructor(private translate: TranslateService) { }
+  constructor(
+    private translate: TranslateService,
+    private http: HttpClient) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.matchProxyAndMethod && changes.method) {
@@ -107,7 +110,7 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
       //TODO: show errors & co
 
       if (ev.complete) {
-        this.paymentProvider.emit(new SimplePaymentProvider()); // enable payment: TODO: use custom payment provider!
+        this.paymentProvider.emit(new StripePaymentV3(this.http, this.event, this.reservation, stripeHandler, card)); // enable payment
       } else {
         this.paymentProvider.emit(null); // -> disable submit buttons by providing an empty payment provider
       }
@@ -201,10 +204,59 @@ const STRIPE_V3_ID_SCRIPT = 'stripe-payment-v3-script';
 
 class StripePaymentV3 implements PaymentProvider {
 
-  constructor() {
+  constructor(
+    private http: HttpClient,
+    private event: Event,
+    private reservation: ReservationInfo,
+    private stripeHandler: any,
+    private card: any
+    ) {
   }
 
   pay(): Observable<PaymentResult> {
-    return of(new PaymentResult(false, null));
+
+    const obs = new Observable<PaymentResult>(subscriber => {
+
+      this.http.post(`/api/events/${this.event.shortName}/reservation/${this.reservation.id}/payment/CREDIT_CARD/init`, {}).subscribe(res => {
+        const clientSecret = res['clientSecret'];
+
+        this.stripeHandler.handleCardPayment(clientSecret, this.card, {
+          source_data: {
+              owner: {
+                  name: `${this.reservation.firstName} ${this.reservation.lastName}`,
+                  email: this.reservation.email,
+                  /*address: {
+                       line1: stripeEl.getAttribute('data-stripe-contact-address'),
+                       postal_code: stripeEl.getAttribute('data-stripe-contact-zip'),
+                       country: stripeEl.getAttribute('data-stripe-contact-country').toLowerCase()
+                  }*/
+              }
+          }
+        }).then(cardPaymentResult => {
+          if(cardPaymentResult.error) {
+            console.log('error!');
+          } else {
+            let handleCheck;
+            const checkIfPaid = () => {
+              this.http.get(`/api/events/${this.event.shortName}/reservation/${this.reservation.id}/payment/CREDIT_CARD/status`).subscribe(status => {
+                if(status['successful']) {
+                  clearInterval(handleCheck);
+                  subscriber.next(new PaymentResult(true, status['gatewayIdOrNull']));
+                }
+                if(status['failed']) {
+                  subscriber.next(new PaymentResult(false, null));
+                }
+              });
+            }
+
+            handleCheck = setInterval(checkIfPaid, 1000);
+          }
+        })
+      });
+
+
+    });
+
+    return obs;
   }
 }
