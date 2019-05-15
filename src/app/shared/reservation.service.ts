@@ -45,5 +45,16 @@ export class ReservationService {
     public reSendReservationEmail(eventShortName: string, reservationId: string): Observable<boolean> {
         return this.http.post<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/re-send-email`, {});
     }
+
+
+    //TODO add missing types
+    public initPayment(eventShortName: string, reservationId: string): Observable<any> {
+        return this.http.post(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment/CREDIT_CARD/init`, {});
+    }
+
+    //TODO add missing types
+    public getPaymentStatus(eventShortName: string, reservationId: string): Observable<any> {
+        return this.http.get(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment/CREDIT_CARD/status`);
+    }
     
 }

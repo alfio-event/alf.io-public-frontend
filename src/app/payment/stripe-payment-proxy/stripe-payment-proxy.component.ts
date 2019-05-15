@@ -2,9 +2,9 @@ import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmi
 import { PaymentMethod, PaymentProxy, Event } from 'src/app/model/event';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { TranslateService } from '@ngx-translate/core';
-import { PaymentProvider, PaymentResult, SimplePaymentProvider } from '../payment-provider';
-import { Observable, Subscriber, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { PaymentProvider, PaymentResult } from '../payment-provider';
+import { Observable, Subscriber } from 'rxjs';
+import { ReservationService } from 'src/app/shared/reservation.service';
 
 // global variable defined by stripe when the scripts are loaded
 declare const Stripe: any;
@@ -38,7 +38,7 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
 
   constructor(
     private translate: TranslateService,
-    private http: HttpClient) { }
+    private reservationService: ReservationService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.matchProxyAndMethod && changes.method) {
@@ -110,7 +110,7 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
       //TODO: show errors & co
 
       if (ev.complete) {
-        this.paymentProvider.emit(new StripePaymentV3(this.http, this.event, this.reservation, stripeHandler, card)); // enable payment
+        this.paymentProvider.emit(new StripePaymentV3(this.reservationService, this.event, this.reservation, stripeHandler, card)); // enable payment
       } else {
         this.paymentProvider.emit(null); // -> disable submit buttons by providing an empty payment provider
       }
@@ -205,7 +205,7 @@ const STRIPE_V3_ID_SCRIPT = 'stripe-payment-v3-script';
 class StripePaymentV3 implements PaymentProvider {
 
   constructor(
-    private http: HttpClient,
+    private reservationService: ReservationService,
     private event: Event,
     private reservation: ReservationInfo,
     private stripeHandler: any,
@@ -217,8 +217,7 @@ class StripePaymentV3 implements PaymentProvider {
 
     const obs = new Observable<PaymentResult>(subscriber => {
 
-      //TODO: move it in reservation service and add missing types
-      this.http.post(`/api/v2/public/event/${this.event.shortName}/reservation/${this.reservation.id}/payment/CREDIT_CARD/init`, {}).subscribe(res => {
+      this.reservationService.initPayment(this.event.shortName, this.reservation.id).subscribe(res => {
         const clientSecret = res['clientSecret'];
 
         this.stripeHandler.handleCardPayment(clientSecret, this.card, {
@@ -239,8 +238,7 @@ class StripePaymentV3 implements PaymentProvider {
           } else {
             let handleCheck;
             const checkIfPaid = () => {
-              //TODO: move it in reservation service and add missing types
-              this.http.get(`/api/v2/public/event/${this.event.shortName}/reservation/${this.reservation.id}/payment/CREDIT_CARD/status`).subscribe(status => {
+              this.reservationService.getPaymentStatus(this.event.shortName, this.reservation.id).subscribe(status => {
                 if(status['successful']) {
                   clearInterval(handleCheck);
                   subscriber.next(new PaymentResult(true, status['gatewayIdOrNull']));
