@@ -6,6 +6,7 @@ import { ValidatedResponse } from '../model/validated-response';
 import { OverviewConfirmation } from '../model/overview-confirmation';
 import { ReservationInfo, ReservationStatusInfo } from '../model/reservation-info';
 import { ReservationPaymentResult } from '../model/reservation-payment-result';
+import { TransactionInitializationToken } from '../model/payment';
 
 @Injectable({
     providedIn: 'root'
@@ -46,15 +47,12 @@ export class ReservationService {
         return this.http.post<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/re-send-email`, {});
     }
 
-
-    //TODO add missing types
-    public initPayment(eventShortName: string, reservationId: string): Observable<any> {
-        return this.http.post(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment/CREDIT_CARD/init`, {});
+    public initPayment(eventShortName: string, reservationId: string): Observable<TransactionInitializationToken> {
+        return this.http.post<TransactionInitializationToken>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment/CREDIT_CARD/init`, {});
     }
 
-    //TODO add missing types
-    public getPaymentStatus(eventShortName: string, reservationId: string): Observable<any> {
-        return this.http.get(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment/CREDIT_CARD/status`);
+    public getPaymentStatus(eventShortName: string, reservationId: string): Observable<ReservationPaymentResult> {
+        return this.http.get<ReservationPaymentResult>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment/CREDIT_CARD/status`);
     }
     
 }

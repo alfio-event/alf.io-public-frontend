@@ -218,7 +218,7 @@ class StripePaymentV3 implements PaymentProvider {
     const obs = new Observable<PaymentResult>(subscriber => {
 
       this.reservationService.initPayment(this.event.shortName, this.reservation.id).subscribe(res => {
-        const clientSecret = res['clientSecret'];
+        const clientSecret = res.clientSecret;
 
         this.stripeHandler.handleCardPayment(clientSecret, this.card, {
           source_data: {
@@ -239,11 +239,11 @@ class StripePaymentV3 implements PaymentProvider {
             let handleCheck;
             const checkIfPaid = () => {
               this.reservationService.getPaymentStatus(this.event.shortName, this.reservation.id).subscribe(status => {
-                if(status['successful']) {
+                if(status.success) {
                   clearInterval(handleCheck);
-                  subscriber.next(new PaymentResult(true, status['gatewayIdOrNull']));
+                  subscriber.next(new PaymentResult(true, status.gatewayIdOrNull));
                 }
-                if(status['failed']) {
+                if(status.failed) {
                   subscriber.next(new PaymentResult(false, null));
                 }
               });
