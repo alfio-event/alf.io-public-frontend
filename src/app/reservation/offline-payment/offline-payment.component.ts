@@ -4,7 +4,7 @@ import { ReservationService } from 'src/app/shared/reservation.service';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { Event } from 'src/app/model/event';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest } from 'rxjs';
+import { zip } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -32,7 +32,7 @@ export class OfflinePaymentComponent implements OnInit {
     this.route.parent.params.subscribe(params => {
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
-      combineLatest(this.eventService.getEvent(this.eventShortName), this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)).subscribe(res => {
+      zip(this.eventService.getEvent(this.eventShortName), this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)).subscribe(res => {
         this.event = res[0];
         this.reservationInfo = res[1];
 

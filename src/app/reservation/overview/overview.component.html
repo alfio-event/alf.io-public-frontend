@@ -11,41 +11,7 @@
       <h2 translate="reservation-page.title"></h2>
     </div>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th translate="reservation-page.category"></th>
-          <th class="text-center" translate="reservation-page.amount"></th>
-          <th class="text-right" translate="reservation-page.price"></th>
-          <th class="text-right" translate="reservation-page.subtotal"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let summaryRow of reservationInfo.orderSummary.summary">
-          <td>{{summaryRow.name}}</td>
-          <td class="text-center">{{summaryRow.amount}}</td>
-          <td class="text-right">{{summaryRow.price}}</td>
-          <td class="text-right">{{summaryRow.subTotal}} {{event.currency}}</td>
-        </tr>
-      </tbody>
-      <tfoot>
-          <tr *ngIf="!reservationInfo.orderSummary.free && reservationInfo.orderSummary.displayVat && !event.vatIncluded">
-              <td colspan="3">{{'reservation-page.vat'|translate:{'0': event.vat, '1': 'TODO'} }}</td>
-              <td class="text-right">{{reservationInfo.orderSummary.totalVAT}} {{event.currency}}</td>
-          </tr>
-          <tr>
-            <th colspan="3" translate="reservation-page.total"></th>
-            <td class="text-right"><strong>{{reservationInfo.orderSummary.totalPrice}} {{event.currency}}</strong></td>
-          </tr>
-          <tr *ngIf="!reservationInfo.orderSummary.free && reservationInfo.orderSummary.displayVat && event.vatIncluded">
-              <td colspan="3">{{'reservation-page.vat-included'|translate: {'0': event.vat, '1': 'TODO'} }}</td>
-              <td class="text-right">{{reservationInfo.orderSummary.totalVAT}} {{event.currency}}</td>
-          </tr>
-          <tr *ngIf="!reservationInfo.orderSummary.free && !reservationInfo.orderSummary.displayVat">
-              <td colspan="4">{{'invoice.vat-voided'|translate: {'0': 'TODO'} }}</td>
-          </tr>
-      </tfoot>
-    </table>
+    <app-summary-table [event]="event" [reservationInfo]="reservationInfo"></app-summary-table>
 
     <div *ngIf="!reservationInfo.orderSummary.free">
       <div class="page-header wMarginTop"><h2 translate="reservation-page.payment"></h2></div>
