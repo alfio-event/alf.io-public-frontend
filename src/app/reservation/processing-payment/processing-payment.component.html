@@ -3,7 +3,7 @@
   <app-stepper [currentStep]="3" [free]="event.free" [inProgress]="true"></app-stepper>
 
 
-  <p>
-    processing-payment works!
-  </p>
+  <div class="alert alert-info text-center">
+    <h4><fa-icon [icon]="['fa', 'cog']" [spin]="true"></fa-icon>{{' '}}<span translate="reservation.payment-in-progress"></span></h4>
+  </div>
 </div>
