@@ -16,8 +16,9 @@
     <div [ngClass]="{'wizard2-current': currentStep === 3}">
         <div>
           <span class="badge" [ngClass]="{'badge-success':  currentStep > 3 }">
-            <fa-icon *ngIf="free" [icon]="currentStep > 3 ? ['fas', 'check'] : ['fas', 'file-alt']"></fa-icon>
-            <fa-icon *ngIf="!free" [icon]="currentStep > 3 ? ['fas', 'check'] : ['fas', 'money-bill']"></fa-icon>
+            <fa-icon *ngIf="free && !inProgress" [icon]="currentStep > 3 ? ['fas', 'check'] : ['fas', 'file-alt']"></fa-icon>
+            <fa-icon *ngIf="!free && !inProgress" [icon]="currentStep > 3 ? ['fas', 'check'] : ['fas', 'money-bill']"></fa-icon>
+            <fa-icon *ngIf="inProgress" [icon]="['fas', 'cog']" [spin]="true"></fa-icon>
           </span>
           <span [translate]="'breadcrumb.step3'+(free ? '.free' : '')"></span></div>
         <div class="wizard2-line"></div>

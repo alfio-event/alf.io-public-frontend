@@ -13,6 +13,9 @@ export class StepperComponent implements OnInit {
   @Input()
   currentStep: number = 1;
 
+  @Input()
+  inProgress: boolean = false;
+
   constructor() { }
 
   ngOnInit() {
