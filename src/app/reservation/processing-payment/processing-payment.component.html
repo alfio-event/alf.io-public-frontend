@@ -1,3 +1,9 @@
-<p>
-  processing-payment works!
-</p>
+<div *ngIf="reservationInfo && event">
+
+  <app-stepper [currentStep]="3" [free]="event.free"></app-stepper>
+
+  
+  <p>
+    processing-payment works!
+  </p>
+</div>
