@@ -1,4 +1,6 @@
-export class Event {
+import { DateValidity } from './date-validity';
+
+export class Event implements DateValidity {
     shortName: string;
     displayName: string;
     fileBlobId: string;

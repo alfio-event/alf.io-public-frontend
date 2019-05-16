@@ -1,4 +1,6 @@
-export class TicketInfo {
+import { DateValidity } from './date-validity';
+
+export class TicketInfo implements DateValidity {
     fullName: string;
     email: string;
     uuid: string;
@@ -8,4 +10,12 @@ export class TicketInfo {
     reservationId: string;
 
     deskPaymentRequired: boolean;
+
+
+    timeZone: string;
+    sameDay: boolean;
+    formattedBeginDate: {[key:string]: string}; // day, month, year
+    formattedBeginTime: {[key:string]: string}; //the hour/minute component
+    formattedEndDate: {[key:string]: string};
+    formattedEndTime: {[key:string]: string};
 }

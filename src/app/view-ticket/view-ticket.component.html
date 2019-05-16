@@ -5,10 +5,10 @@
 
   <div class="ticket">
       <div class="row">
-          <div class="col-7">
-              <app-event-summary [event]="event"></app-event-summary>
+          <div class="col-8">
+              <app-event-summary [event]="event" [dateValidityProvider]="ticketInfo"></app-event-summary>
           </div>
-          <div class="col-5">
+          <div class="col-4">
               <img src="/api/v2/public/event/{{event.shortName}}/ticket/{{ticketInfo.uuid}}/code.png" class="img-responsive img-center">
           </div>
       </div>

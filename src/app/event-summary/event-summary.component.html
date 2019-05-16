@@ -1,26 +1,26 @@
-<div *ngIf="event">
+<div *ngIf="event && dateValidityProvider">
   <h2 translate="ticket.event-info"></h2>
   <div>{{'show-event.by'|translate}} <strong>{{event.organizationName}}</strong> &lt;<a [href]="'mailto:'+ event.organizationEmail">{{event.organizationEmail}}</a>&gt;</div>
   <div>
     <ul class="list-unstyled">
 
       <!-- same day-->
-      <li *ngIf="event.sameDay">
+      <li *ngIf="dateValidityProvider.sameDay">
         <fa-icon [icon]="['far', 'calendar-alt']"></fa-icon>
-        {{' ' + event.formattedBeginDate[translate.currentLang]}}
+        {{' ' + dateValidityProvider.formattedBeginDate[translate.currentLang]}}
       </li>
-      <li *ngIf="event.sameDay">
+      <li *ngIf="dateValidityProvider.sameDay">
         <fa-icon [icon]="['far', 'clock']"></fa-icon>
-        {{' ' + event.formattedBeginTime[translate.currentLang] + ' ' + event.formattedEndTime[translate.currentLang] }}
+        {{' ' + dateValidityProvider.formattedBeginTime[translate.currentLang] + ' ' + dateValidityProvider.formattedEndTime[translate.currentLang] }}
       </li>
       <!-- more than one day-->
-      <li *ngIf="!event.sameDay">
+      <li *ngIf="!dateValidityProvider.sameDay">
           <fa-icon [icon]="['far', 'calendar-alt']"></fa-icon>
-          {{'event-days.not-same-day'|translate: {'0': event.formattedBeginDate[translate.currentLang], '1': event.formattedBeginTime[translate.currentLang]} }}
+          {{'event-days.not-same-day'|translate: {'0': dateValidityProvider.formattedBeginDate[translate.currentLang], '1': dateValidityProvider.formattedBeginTime[translate.currentLang]} }}
           {{' - '}}
-          {{'event-days.not-same-day'|translate: {'0': event.formattedEndDate[translate.currentLang], '1': event.formattedEndTime[translate.currentLang]} }}
+          {{'event-days.not-same-day'|translate: {'0': dateValidityProvider.formattedEndDate[translate.currentLang], '1': dateValidityProvider.formattedEndTime[translate.currentLang]} }}
           {{' '}}
-          <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
+          <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': dateValidityProvider.timeZone} }}"></fa-icon>
       </li>
 
 
