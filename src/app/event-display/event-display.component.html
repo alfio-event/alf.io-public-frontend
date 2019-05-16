@@ -26,7 +26,13 @@
                     <div [formGroupName]="counter" class="row">
                         <div class="col-sm-7">
                           <h3>{{category.name}}</h3>
-                          <div translate="show-event.sales-end"></div>
+
+                          <!-- ticket category date handling -->
+                          <div *ngIf="!category.expired && category.saleInFuture">{{'show-event.sales-not-started'|translate: {'0': category.formattedInception[translate.currentLang]} }}</div>
+                          <div *ngIf="!category.expired && !category.saleInFuture">{{'show-event.sales-end'|translate: {'0': category.formattedExpiration[translate.currentLang]} }}</div>
+                          <div *ngIf="category.expired">{{'show-event.sales-ended'|translate: {'0': category.formattedExpiration[translate.currentLang]} }}</div>
+                          <!-- -->
+
                           <div [innerHtml]="category.description[translate.currentLang]"></div>
                         </div>
                         <div class="col-sm-3">

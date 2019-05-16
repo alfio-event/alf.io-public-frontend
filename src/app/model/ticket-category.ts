@@ -5,4 +5,11 @@ export class TicketCategory {
     description: {[key:string]: string}
     free: boolean;
     formattedFinalPrice: string;
+
+
+    //
+    expired: boolean;
+    saleInFuture: boolean;
+    formattedInception: {[key:string]: string};
+    formattedExpiration: {[key:string]: string};
 }
