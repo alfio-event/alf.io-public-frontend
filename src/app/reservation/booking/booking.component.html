@@ -40,7 +40,7 @@
     <div *ngIf="!reservationInfo.orderSummary.free && event.invoicingConfiguration.invoiceAllowed && !event.invoicingConfiguration.onlyInvoice">
       <div class="checkbox wMarginTop">
         <label>
-          <input type="checkbox" formControlName="invoiceRequested">
+          <input type="checkbox" formControlName="invoiceRequested" (change)="handleInvoiceRequestedChange()">
           {{' '}}
           <span translate="reservation-page.i-need-an-invoice"></span>
         </label>

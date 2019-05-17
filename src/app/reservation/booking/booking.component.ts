@@ -47,7 +47,12 @@ export class BookingComponent implements OnInit {
           email: this.formBuilder.control(this.reservationInfo.email, [Validators.required, Validators.maxLength(255)]),
           tickets: this.buildTicketsFormGroup(this.reservationInfo.ticketsByCategory),
           invoiceRequested: invoiceRequested,
-          addCompanyBillingDetails: this.reservationInfo.addCompanyBillingDetails
+          addCompanyBillingDetails: this.reservationInfo.addCompanyBillingDetails,
+          billingAddressCompany: null, //TODO: fill the values
+          billingAddressLine1: null,
+          billingAddressLine2: null,
+          billingAddressZip: null,
+          billingAddressCity: null,
         });
       });
     });
@@ -79,6 +84,13 @@ export class BookingComponent implements OnInit {
 
   handleExpired(expired: boolean) {
     this.expired = expired;
+  }
+
+  public handleInvoiceRequestedChange() {
+    //set addCompanyBillingDetails to false if it's null
+    if (this.contactAndTicketsForm.value.addCompanyBillingDetails === null) {
+      this.contactAndTicketsForm.get('addCompanyBillingDetails').setValue(false);
+    }
   }
 
 }

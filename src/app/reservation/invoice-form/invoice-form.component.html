@@ -3,20 +3,64 @@
 </div>
 
 
-<div class="row" [formGroup]="form">
-  <div class="col-12">
-    <div class="form-group">
-      <label translate="invoice.type"></label>
-      <div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="addCompanyBillingDetails" [value]="false" id="invoiceTypePrivate">
-            <label class="form-check-label radio-inline" for="invoiceTypePrivate">{{' '}}{{'invoice.type.private' | translate}}</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" formControlName="addCompanyBillingDetails" [value]="true" id="invoiceTypeBusiness">
-            <label class="form-check-label radio-inline" for="invoiceTypeBusiness">{{' '}}{{'invoice.type.business' | translate}}</label>
+<div [formGroup]="form">
+
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+        <label translate="invoice.type"></label>
+        <div>
+          <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" formControlName="addCompanyBillingDetails" [value]="false" id="invoiceTypePrivate">
+              <label class="form-check-label radio-inline" for="invoiceTypePrivate">{{' '}}{{'invoice.type.private' | translate}}</label>
+          </div>
+          <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" formControlName="addCompanyBillingDetails" [value]="true" id="invoiceTypeBusiness">
+              <label class="form-check-label radio-inline" for="invoiceTypeBusiness">{{' '}}{{'invoice.type.business' | translate}}</label>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+
+  <div class="row" *ngIf="form.value.addCompanyBillingDetails">
+      <div class="col-12">
+          <div class="form-group">
+              <label for="billingAddressCompany" class="control-label" translate="reservation-page-complete.company"></label>
+              <input id="billingAddressCompany" formControlName="billingAddressCompany" class="form-control" type="text" maxlength="255" [attr.placeholder]="'reservation-page.if-applicable'|translate">
+          </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-12">
+          <div class="form-group">
+              <label for="billingAddressLine1" class="control-label">{{'reservation-page.address-line-1' | translate}}{{' '}}*</label>
+              <input id="billingAddressLine1" formControlName="billingAddressLine1" class="form-control" type="text" required maxlength="255">
+          </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-12">
+          <div class="form-group">
+              <label for="billingAddressLine2" class="control-label">{{'reservation-page.address-line-2' | translate}}</label>
+              <input id="billingAddressLine2" formControlName="billingAddressLine2" class="form-control" type="text" maxlength="255">
+          </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-12 col-md-3">
+          <div class="form-group">
+              <label for="billingAddressZip" class="control-label">{{'reservation-page.zip-postal-code' | translate}}{{' '}}*</label>
+              <input id="billingAddressZip" formControlName="billingAddressZip" class="form-control" type="text" required maxlength="50">
+          </div>
+      </div>
+      <div class="col-12 col-md-9">
+          <div class="form-group">
+              <label for="billingAddressCity" class="control-label">{{'reservation-page.city' | translate}}{{' '}}*</label>
+              <input id="billingAddressCity" formControlName="billingAddressCity" class="form-control" type="text" required  maxlength="255">
+          </div>
+      </div>
+  </div>
+
 </div>
