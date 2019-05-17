@@ -34,8 +34,20 @@
     </div>
 
     <!-- invoicing section -->
-    <div *ngIf="event.invoicingConfiguration.onlyInvoice"></div>
-    <div *ngIf="!reservationInfo.orderSummary.free && event.invoicingConfiguration.invoiceAllowed && !event.invoicingConfiguration.onlyInvoice"></div>
+    <div *ngIf="event.invoicingConfiguration.onlyInvoice">
+      <app-invoice-form></app-invoice-form>
+    </div>
+    <div *ngIf="!reservationInfo.orderSummary.free && event.invoicingConfiguration.invoiceAllowed && !event.invoicingConfiguration.onlyInvoice">
+      <div class="checkbox wMarginTop">
+        <label>
+          <input type="checkbox" formControlName="invoiceRequested">
+          {{' '}}
+          <span translate="reservation-page.i-need-an-invoice"></span>
+        </label>
+      </div>
+
+      <app-invoice-form *ngIf="contactAndTicketsForm.value.invoiceRequested"></app-invoice-form>
+    </div>
     <!-- -->
 
 
