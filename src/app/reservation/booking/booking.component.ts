@@ -6,6 +6,7 @@ import { TicketService } from 'src/app/shared/ticket.service';
 import { ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
 import { EventService } from 'src/app/shared/event.service';
 import { Event } from 'src/app/model/event';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-booking',
@@ -34,20 +35,17 @@ export class BookingComponent implements OnInit {
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
 
-      this.eventService.getEvent(this.eventShortName).subscribe(ev => {
+      zip(this.eventService.getEvent(this.eventShortName), this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)).subscribe(([ev, reservationInfo]) => {
         this.event = ev;
-      });
-
-      this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(reservationInfo => {
-        
         this.reservationInfo = reservationInfo;
+
         this.contactAndTicketsForm = this.formBuilder.group({
           firstName: this.formBuilder.control(this.reservationInfo.firstName, [Validators.required, Validators.maxLength(255)]),
           lastName: this.formBuilder.control(this.reservationInfo.lastName, [Validators.required, Validators.maxLength(255)]),
           email: this.formBuilder.control(this.reservationInfo.email, [Validators.required, Validators.maxLength(255)]),
           tickets: this.buildTicketsFormGroup(this.reservationInfo.ticketsByCategory)
         });
-      })
+      });
     });
   }
 

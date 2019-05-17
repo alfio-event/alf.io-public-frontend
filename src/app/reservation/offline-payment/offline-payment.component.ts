@@ -32,9 +32,9 @@ export class OfflinePaymentComponent implements OnInit {
     this.route.parent.params.subscribe(params => {
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
-      zip(this.eventService.getEvent(this.eventShortName), this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)).subscribe(res => {
-        this.event = res[0];
-        this.reservationInfo = res[1];
+      zip(this.eventService.getEvent(this.eventShortName), this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)).subscribe(([ev, reservationInfo]) => {
+        this.event = ev;
+        this.reservationInfo = reservationInfo;
 
         this.paymentReason = `<mark>${this.event.shortName} ${this.reservationInfo.shortId}</mark>`;
 
