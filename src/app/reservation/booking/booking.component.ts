@@ -39,11 +39,14 @@ export class BookingComponent implements OnInit {
         this.event = ev;
         this.reservationInfo = reservationInfo;
 
+        let invoiceRequested = ev.invoicingConfiguration.onlyInvoice ? true : reservationInfo.invoiceRequested;
+
         this.contactAndTicketsForm = this.formBuilder.group({
           firstName: this.formBuilder.control(this.reservationInfo.firstName, [Validators.required, Validators.maxLength(255)]),
           lastName: this.formBuilder.control(this.reservationInfo.lastName, [Validators.required, Validators.maxLength(255)]),
           email: this.formBuilder.control(this.reservationInfo.email, [Validators.required, Validators.maxLength(255)]),
-          tickets: this.buildTicketsFormGroup(this.reservationInfo.ticketsByCategory)
+          tickets: this.buildTicketsFormGroup(this.reservationInfo.ticketsByCategory),
+          invoiceRequested: invoiceRequested,
         });
       });
     });

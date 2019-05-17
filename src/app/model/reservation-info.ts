@@ -20,6 +20,7 @@ export class ReservationInfo {
 
     //
     invoiceNumber: string;
+    invoiceRequested: boolean;
     invoiceOrReceiptDocumentPresent: boolean;
     paid: boolean;
     //
