@@ -37,6 +37,19 @@ export class Event implements DateValidity {
     formattedEndDate: {[key:string]: string};
     formattedEndTime: {[key:string]: string};
     //
+
+    //
+    invoicingConfiguration: InvoicingConfiguration;
+    //
+}
+
+export class InvoicingConfiguration {
+    euVatCheckingEnabled: boolean;
+    invoiceAllowed: boolean;
+    onlyInvoice: boolean;
+    customerReferenceEnabled: boolean;
+    enabledItalyEInvoicing: boolean;
+    vatNumberStrictlyRequired: boolean;
 }
 
 export class Language {
