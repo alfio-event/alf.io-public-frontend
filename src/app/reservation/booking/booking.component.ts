@@ -47,6 +47,7 @@ export class BookingComponent implements OnInit {
           email: this.formBuilder.control(this.reservationInfo.email, [Validators.required, Validators.maxLength(255)]),
           tickets: this.buildTicketsFormGroup(this.reservationInfo.ticketsByCategory),
           invoiceRequested: invoiceRequested,
+          addCompanyBillingDetails: this.reservationInfo.addCompanyBillingDetails
         });
       });
     });

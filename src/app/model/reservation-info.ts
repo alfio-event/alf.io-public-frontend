@@ -27,6 +27,11 @@ export class ReservationInfo {
     tokenAcquired: boolean;
     paymentProxy: PaymentProxy;
     //
+
+
+    //billing info
+    addCompanyBillingDetails: boolean;
+    //
     
 }
 
