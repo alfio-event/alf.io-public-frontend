@@ -23,7 +23,6 @@
     </div>
   </div>
 
-
   <div class="row" *ngIf="form.value.addCompanyBillingDetails">
       <div class="col-12">
           <div class="form-group">
@@ -32,14 +31,16 @@
           </div>
       </div>
   </div>
+
   <div class="row">
       <div class="col-12">
           <div class="form-group">
-              <label for="billingAddressLine1" class="control-label">{{'reservation-page.address-line-1' | translate}}{{' '}}*</label>
+              <label for="billingAddressLine1" class="control-label">{{'reservation-page.address-line-1' | translate}}{{' *'}}</label>
               <input id="billingAddressLine1" formControlName="billingAddressLine1" class="form-control" type="text" required maxlength="255">
           </div>
       </div>
   </div>
+
   <div class="row">
       <div class="col-12">
           <div class="form-group">
@@ -48,17 +49,40 @@
           </div>
       </div>
   </div>
+
   <div class="row">
       <div class="col-12 col-md-3">
           <div class="form-group">
-              <label for="billingAddressZip" class="control-label">{{'reservation-page.zip-postal-code' | translate}}{{' '}}*</label>
+              <label for="billingAddressZip" class="control-label">{{'reservation-page.zip-postal-code' | translate}}{{' *'}}</label>
               <input id="billingAddressZip" formControlName="billingAddressZip" class="form-control" type="text" required maxlength="50">
           </div>
       </div>
       <div class="col-12 col-md-9">
           <div class="form-group">
-              <label for="billingAddressCity" class="control-label">{{'reservation-page.city' | translate}}{{' '}}*</label>
+              <label for="billingAddressCity" class="control-label">{{'reservation-page.city' | translate}}{{' *'}}</label>
               <input id="billingAddressCity" formControlName="billingAddressCity" class="form-control" type="text" required  maxlength="255">
+          </div>
+      </div>
+  </div>
+
+  <div class="row">
+      <div class="col-12">
+          <div class="form-group">
+              <label for="vatCountry" class="control-label">{{'reservation-page-complete.country' | translate}}{{' *'}}</label>
+              <select formControlName="vatCountryCode" id="vatCountry" class="form-control field-required" required>
+                  <option value="">{{'reservation-page.country.select'|translate}}</option>
+                  <ng-container *ngIf="!euVatCheckingEnabled">
+                    <option *ngFor="let c of countries" [ngValue]="c.isoCode">{{c.isoCode}} - {{c.name}}</option>
+                  </ng-container>
+                  <ng-container *ngIf="euVatCheckingEnabled">
+                    <optgroup [attr.label]="'reservation-page.eu-countries'|translate">
+                        <option *ngFor="let c of euCountries" [ngValue]="c.isoCode">{{c.isoCode}} - {{c.name}}</option>
+                    </optgroup>
+                    <optgroup [attr.label]="'reservation-page.all-countries'|translate">
+                        <option *ngFor="let c of countries" [ngValue]="c.isoCode">{{c.isoCode}} - {{c.name}}</option>
+                    </optgroup>
+                  </ng-container>
+              </select>
           </div>
       </div>
   </div>
