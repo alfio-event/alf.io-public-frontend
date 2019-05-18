@@ -42,4 +42,12 @@ export class InvoiceFormComponent implements OnInit {
     return this.event.invoicingConfiguration.euVatCheckingEnabled;
   }
 
+  get customerReferenceEnabled(): boolean {
+    return this.event.invoicingConfiguration.customerReferenceEnabled;
+  }
+
+  get invoiceBusiness(): boolean {
+    return this.form.value.addCompanyBillingDetails
+  }
+
 }
