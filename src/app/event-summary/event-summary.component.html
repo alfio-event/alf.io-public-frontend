@@ -11,7 +11,7 @@
       </li>
       <li *ngIf="dateValidityProvider.sameDay">
         <fa-icon [icon]="['far', 'clock']"></fa-icon>
-        {{' ' + dateValidityProvider.formattedBeginTime[translate.currentLang] + ' ' + dateValidityProvider.formattedEndTime[translate.currentLang] }}
+        {{' '}}{{'event-days.single-day.hours'|translate: {'0': dateValidityProvider.formattedBeginTime[translate.currentLang], '1': dateValidityProvider.formattedEndTime[translate.currentLang]} }}
       </li>
       <!-- more than one day-->
       <li *ngIf="!dateValidityProvider.sameDay">
