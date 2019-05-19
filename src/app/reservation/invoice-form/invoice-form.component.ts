@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Event } from 'src/app/model/event';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nService } from 'src/app/shared/i18n.service';
-import { zip } from 'rxjs';
+import { zip, of } from 'rxjs';
 import { LocalizedCountry } from 'src/app/model/localized-country';
 
 @Component({
@@ -32,7 +32,10 @@ export class InvoiceFormComponent implements OnInit {
 
 
   getCountries(currentLang: string): void {
-    zip(this.i18nService.getVatCountries(currentLang), this.i18nService.getEUVatCountries(currentLang)).subscribe( ([countries, euCountries]) => {
+
+    const euCountriesObs = this.euVatCheckingEnabled ? this.i18nService.getEUVatCountries(currentLang) : of([]);
+    
+    zip(this.i18nService.getVatCountries(currentLang), euCountriesObs).subscribe( ([countries, euCountries]) => {
       this.countries = countries;
       this.euCountries = euCountries;
     });
