@@ -28,8 +28,31 @@ export class InvoiceFormComponent implements OnInit {
     this.translate.onLangChange.subscribe(change => {
       this.getCountries(this.translate.currentLang);
     });
+
+    this.updateItalyEInvoicingFields();
+
+    this.form.get('italyEInvoicingReferenceType').valueChanges.subscribe(change => {
+      this.updateItalyEInvoicingFields();
+    });
   }
 
+
+  updateItalyEInvoicingFields(): void {
+    this.form.get('italyEInvoicingReferenceAddresseeCode').disable();
+    this.form.get('italyEInvoicingReferencePEC').disable();
+
+    const refType = this.form.get('italyEInvoicingReferenceType').value;
+    if (refType === 'ADDRESSEE_CODE') {
+      this.form.get('italyEInvoicingReferencePEC').setValue(null);
+      this.form.get('italyEInvoicingReferenceAddresseeCode').enable();
+    } else if (refType === 'PEC') {
+      this.form.get('italyEInvoicingReferenceAddresseeCode').setValue(null);
+      this.form.get('italyEInvoicingReferencePEC').enable();
+    } else if (refType === 'NONE') {
+      this.form.get('italyEInvoicingReferencePEC').setValue(null);
+      this.form.get('italyEInvoicingReferenceAddresseeCode').setValue(null);
+    }
+  }
 
   getCountries(currentLang: string): void {
 
@@ -55,6 +78,10 @@ export class InvoiceFormComponent implements OnInit {
 
   get vatNumberStrictlyRequired(): boolean {
     return this.event.invoicingConfiguration.vatNumberStrictlyRequired;
+  }
+
+  get enabledItalyEInvoicing(): boolean {
+    return this.event.invoicingConfiguration.enabledItalyEInvoicing;
   }
 
 }

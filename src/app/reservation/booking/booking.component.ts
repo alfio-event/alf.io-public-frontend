@@ -57,6 +57,10 @@ export class BookingComponent implements OnInit {
           customerReference: null,
           vatNr: null,
           skipVatNr: null,
+          italyEInvoicingFiscalCode: null,
+          italyEInvoicingReferenceType: null,
+          italyEInvoicingReferenceAddresseeCode: null,
+          italyEInvoicingReferencePEC: null
         });
       });
     });

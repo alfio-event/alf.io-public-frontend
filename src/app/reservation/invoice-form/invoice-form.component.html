@@ -114,4 +114,38 @@
     </div>
   </div>
 
+
+
+  <div class="row" id="italyEInvoicing" *ngIf="enabledItalyEInvoicing && form.value.vatCountryCode === 'IT'">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="italyEInvoicingFiscalCode" translate="invoice-fields.fiscalCode"></label>
+            <input id="italyEInvoicingFiscalCode" type="text" formControlName="italyEInvoicingFiscalCode" class="form-control">
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label for="" translate="invoice-fields.addresseeItalyEInvoice"></label>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label><input type="radio" value="ADDRESSEE_CODE" formControlName="italyEInvoicingReferenceType">{{' '}}<span class="label-after-radio" translate="invoice-fields.addressee-code"></span></label>
+            <input type="text" maxlength="7" class="form-control" formControlName="italyEInvoicingReferenceAddresseeCode">
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label><input type="radio" value="PEC"  formControlName="italyEInvoicingReferenceType">{{' '}}<span class="label-after-radio" translate="invoice-fields.pec"></span></label>
+            <input type="email" class="form-control" formControlName="italyEInvoicingReferencePEC">
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label><input type="radio" value="NONE"  formControlName="italyEInvoicingReferenceType">{{' '}}<span class="label-after-radio" translate="invoice.fields.neither"></span></label>
+        </div>
+    </div>
+  </div>
+
+
 </div>
