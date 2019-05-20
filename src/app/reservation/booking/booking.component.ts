@@ -54,7 +54,9 @@ export class BookingComponent implements OnInit {
           billingAddressZip: null,
           billingAddressCity: null,
           vatCountryCode: null,
-          customerReference: null
+          customerReference: null,
+          vatNr: null,
+          skipVatNr: null,
         });
       });
     });
