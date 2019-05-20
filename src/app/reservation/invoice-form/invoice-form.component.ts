@@ -53,4 +53,8 @@ export class InvoiceFormComponent implements OnInit {
     return this.form.value.addCompanyBillingDetails
   }
 
+  get vatNumberStrictlyRequired(): boolean {
+    return this.event.invoicingConfiguration.vatNumberStrictlyRequired;
+  }
+
 }
