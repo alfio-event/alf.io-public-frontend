@@ -31,6 +31,19 @@ export class ReservationInfo {
 
     //billing info
     addCompanyBillingDetails: boolean;
+    billingAddressCompany: string;
+    billingAddressLine1: string;
+    billingAddressLine2: string;
+    billingAddressZip: string;
+    billingAddressCity: string;
+    vatCountryCode: string;
+    customerReference: string;
+    vatNr: string;
+    skipVatNr: boolean;
+    italyEInvoicingFiscalCode: string;
+    italyEInvoicingReferenceType: ItalianEInvoicingReferenceType;
+    italyEInvoicingReferenceAddresseeCode: string;
+    italyEInvoicingReferencePEC: string;
     //
     
 }
@@ -64,3 +77,5 @@ export class SummaryRow {
 export type ReservationStatus = 'PENDING' | 'IN_PAYMENT' | 'EXTERNAL_PROCESSING_PAYMENT' | 
                                 'WAITING_EXTERNAL_CONFIRMATION' | 'OFFLINE_PAYMENT' | 
                                 'COMPLETE' | 'STUCK' | 'CANCELLED' | 'CREDIT_NOTE_ISSUED';
+
+export type ItalianEInvoicingReferenceType = 'ADDRESSEE_CODE' | 'PEC' | 'NONE'

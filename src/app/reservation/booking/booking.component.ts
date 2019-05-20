@@ -48,19 +48,19 @@ export class BookingComponent implements OnInit {
           tickets: this.buildTicketsFormGroup(this.reservationInfo.ticketsByCategory),
           invoiceRequested: invoiceRequested,
           addCompanyBillingDetails: this.reservationInfo.addCompanyBillingDetails,
-          billingAddressCompany: null, //TODO: fill the values
-          billingAddressLine1: null,
-          billingAddressLine2: null,
-          billingAddressZip: null,
-          billingAddressCity: null,
-          vatCountryCode: null,
-          customerReference: null,
-          vatNr: null,
-          skipVatNr: null,
-          italyEInvoicingFiscalCode: null,
-          italyEInvoicingReferenceType: null,
-          italyEInvoicingReferenceAddresseeCode: null,
-          italyEInvoicingReferencePEC: null
+          billingAddressCompany: this.reservationInfo.billingAddressCompany,
+          billingAddressLine1: this.reservationInfo.billingAddressLine1,
+          billingAddressLine2: this.reservationInfo.billingAddressLine2,
+          billingAddressZip: this.reservationInfo.billingAddressZip,
+          billingAddressCity: this.reservationInfo.billingAddressCity,
+          vatCountryCode: this.reservationInfo.vatCountryCode,
+          customerReference: this.reservationInfo.customerReference,
+          vatNr: this.reservationInfo.vatNr,
+          skipVatNr: this.reservationInfo.skipVatNr,
+          italyEInvoicingFiscalCode: this.reservationInfo.italyEInvoicingFiscalCode,
+          italyEInvoicingReferenceType: this.reservationInfo.italyEInvoicingReferenceType,
+          italyEInvoicingReferenceAddresseeCode: this.reservationInfo.italyEInvoicingReferenceAddresseeCode,
+          italyEInvoicingReferencePEC: this.reservationInfo.italyEInvoicingReferencePEC
         });
       });
     });
