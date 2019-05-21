@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AdditionalField } from '../model/ticket';
+import { AdditionalField, Field } from '../model/ticket';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nService } from '../shared/i18n.service';
 import { LocalizedCountry } from '../model/localized-country';
@@ -53,5 +53,13 @@ export class AdditionalFieldComponent implements OnInit {
     this.i18nService.getCountries(this.translate.currentLang).subscribe(countries => {
       this.countries = countries;
     });
+  }
+
+  public getSelectLabel(value: string): string {
+    if (this.field.description[this.translate.currentLang]) {
+      return this.field.description[this.translate.currentLang].restrictedValuesDescription[value] || value;
+    } else {
+      return value;
+    }
   }
 }

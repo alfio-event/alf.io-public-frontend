@@ -10,7 +10,10 @@
         <option value=""></option>
         <option *ngFor="let c of countries" [ngValue]="c.isoCode">{{c.name}}</option>
       </select>
-      <select *ngSwitchCase="'select'" [attr.id]="ticketUUID + '-' + field.name" class="form-control" formControlName="0" appInvalidFeedback></select>
+      <select *ngSwitchCase="'select'" [attr.id]="ticketUUID + '-' + field.name" class="form-control" formControlName="0" appInvalidFeedback>
+          <option value=""></option>
+          <option *ngFor="let c of field.restrictedValues" [ngValue]="c">{{getSelectLabel(c)}}</option>
+      </select>
     </div>
   </div>
 </div>
