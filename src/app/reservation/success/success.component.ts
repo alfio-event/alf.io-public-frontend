@@ -44,7 +44,7 @@ export class SuccessComponent implements OnInit {
     });
   }
 
-  loadReservation(): void {
+  private loadReservation(): void {
     this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(res => {
       this.reservationInfo = res;
       res.ticketsByCategory.forEach((tc) => {
@@ -55,7 +55,7 @@ export class SuccessComponent implements OnInit {
     })
   }
 
-  buildFormControl(ticket: Ticket): void {
+  private buildFormControl(ticket: Ticket): void {
     this.ticketsFormControl[ticket.uuid] = this.ticketService.buildFormGroupForTicket(ticket);
   }
 

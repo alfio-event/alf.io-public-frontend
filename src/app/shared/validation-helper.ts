@@ -2,8 +2,6 @@ import { AbstractControl } from '@angular/forms';
 import { ValidatedResponse } from '../model/validated-response';
 import { HttpErrorResponse } from '@angular/common/http';
 
-
-
 function applyValidationErrors(form: AbstractControl, response: ValidatedResponse<any>): string[] {
 
     if (response.errorCount === 0) {
@@ -37,7 +35,6 @@ function applyValidationErrors(form: AbstractControl, response: ValidatedRespons
     });
 
     return globalErrors;
-
 }
 
 export function handleServerSideValidationError(err: any, form: AbstractControl): string[] {

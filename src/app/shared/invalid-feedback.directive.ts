@@ -16,7 +16,7 @@ export class InvalidFeedbackDirective implements OnInit {
     });
   }
 
-  checkValidation(): void {
+  private checkValidation(): void {
 
     let nextElem: HTMLElement = this.element.nativeElement.nextElementSibling;
 
@@ -43,7 +43,7 @@ export class InvalidFeedbackDirective implements OnInit {
     }
   }
 
-  addErrorMessages(container: HTMLElement): void {
+  private addErrorMessages(container: HTMLElement): void {
     this.control.errors.serverError.forEach(e => {
       const msg = document.createElement('div');
       msg.textContent = this.translation.instant(e);

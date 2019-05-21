@@ -34,7 +34,7 @@ export class ReservationGuard implements CanActivate {
         }
     }
 
-    checkAndRedirect(eventShortName: string, reservationId: string, component: any) {
+    private checkAndRedirect(eventShortName: string, reservationId: string, component: any) {
         return this.reservationService.getReservationStatusInfo(eventShortName, reservationId).pipe(map(reservation => {
 
             const selectedComponent = getCorrespondingController(reservation.status, reservation.validatedBookingInformations);

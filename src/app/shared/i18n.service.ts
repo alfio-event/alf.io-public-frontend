@@ -8,13 +8,12 @@ import { LocalizedCountry } from '../model/localized-country';
   providedIn: 'root'
 })
 export class I18nService {
-  constructor(private http: HttpClient) { }
 
+  constructor(private http: HttpClient) { }
 
   getCountries(locale: string): Observable<LocalizedCountry[]> {
       return this.http.get<LocalizedCountry[]>(`/api/v2/public/i18n/countries/${locale}`);
   }
-
 
   getVatCountries(locale: string): Observable<LocalizedCountry[]> {
     return this.http.get<LocalizedCountry[]>(`/api/v2/public/i18n/countries-vat/${locale}`);
