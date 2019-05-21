@@ -1,16 +1,16 @@
 import { AbstractControl } from '@angular/forms';
-import { ValidatedResponse, ErrorDescriptor } from '../model/validated-response';
+import { ValidatedResponse } from '../model/validated-response';
 import { HttpErrorResponse } from '@angular/common/http';
 
 
 
-export function applyValidationErrors(form: AbstractControl, response: ValidatedResponse<any>): ErrorDescriptor[] {
+function applyValidationErrors(form: AbstractControl, response: ValidatedResponse<any>): string[] {
 
     if (response.errorCount === 0) {
         return [];
     }
 
-    const globalErrors = [];
+    const globalErrors: string[] = [];
 
     response.validationErrors.forEach(err => {
 
@@ -29,7 +29,7 @@ export function applyValidationErrors(form: AbstractControl, response: Validated
             }
             formControl.markAsTouched();
         } else {
-            globalErrors.push(err);
+            globalErrors.push(err.code);
         }
     });
 
@@ -37,11 +37,11 @@ export function applyValidationErrors(form: AbstractControl, response: Validated
 
 }
 
-export function handleServerSideValidationError(err: any, form: AbstractControl) {
+export function handleServerSideValidationError(err: any, form: AbstractControl): string[] {
     if (err instanceof HttpErrorResponse) {
         if (err.status === 422) {
-            const globalErrors = applyValidationErrors(form, err.error);
-            console.log('global errors are', globalErrors);
+            return applyValidationErrors(form, err.error);
         }
     }
+    return [];
 }

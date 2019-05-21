@@ -19,6 +19,7 @@ export class EventDisplayComponent implements OnInit {
   event: Event;
   ticketCategories: TicketCategory[];
   reservationForm: FormGroup;
+  globalErrors: string[] = [];
 
   //https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
 
@@ -58,7 +59,7 @@ export class EventDisplayComponent implements OnInit {
         this.router.navigate(['event', eventShortName, 'reservation', res.value ,'book'])
       }
     }, (err) => {
-      handleServerSideValidationError(err, this.reservationForm);
+      this.globalErrors = handleServerSideValidationError(err, this.reservationForm);
     });
   }
 }
