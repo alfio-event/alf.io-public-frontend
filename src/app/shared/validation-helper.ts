@@ -16,7 +16,7 @@ function applyValidationErrors(form: AbstractControl, response: ValidatedRespons
 
         //form.get('tickets[207f224c-1df6-4994-9cb2-fa12eb36882d].email') -> not ok
         //form.get('tickets.207f224c-1df6-4994-9cb2-fa12eb36882d.email')  -> ok
-        const transformedFieldName = err.fieldName.replace('[', '.').replace(']', '');
+        const transformedFieldName = err.fieldName.replace(/\[/g, '.').replace(/\]/g, '');
 
         const formControl = form.get(transformedFieldName);
 
