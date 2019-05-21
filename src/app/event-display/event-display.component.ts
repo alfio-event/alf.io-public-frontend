@@ -7,9 +7,7 @@ import { Event } from '../model/event';
 import { TranslateService } from '@ngx-translate/core';
 import { TicketCategory } from '../model/ticket-category';
 import { ReservationRequest } from '../model/reservation-request';
-import { ValidatedResponse } from '../model/validated-response';
-import { HttpErrorResponse } from '@angular/common/http';
-import { applyValidationErrors } from '../shared/validation-helper';
+import { handleServerSideValidationError } from '../shared/validation-helper';
 
 @Component({
   selector: 'app-event-display',
@@ -60,12 +58,7 @@ export class EventDisplayComponent implements OnInit {
         this.router.navigate(['event', eventShortName, 'reservation', res.value ,'book'])
       }
     }, (err) => {
-      if (err instanceof HttpErrorResponse) {
-        if (err.status === 422) {
-          const globalErrors = applyValidationErrors(this.reservationForm, err.error);
-          console.log('global errors are', globalErrors);
-        }
-      }
+      handleServerSideValidationError(err, this.reservationForm);
     });
   }
 }

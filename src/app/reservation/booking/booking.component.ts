@@ -7,8 +7,7 @@ import { ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservat
 import { EventService } from 'src/app/shared/event.service';
 import { Event } from 'src/app/model/event';
 import { zip } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
-import { applyValidationErrors } from 'src/app/shared/validation-helper';
+import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 
 @Component({
   selector: 'app-booking',
@@ -84,12 +83,7 @@ export class BookingComponent implements OnInit {
         this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview'])
       }
     }, (err) => {
-      if (err instanceof HttpErrorResponse) {
-        if (err.status === 422) {
-          const globalErrors = applyValidationErrors(this.contactAndTicketsForm, err.error);
-          console.log('global errors are', globalErrors);
-        }
-      }
+      handleServerSideValidationError(err, this.contactAndTicketsForm);
     })
   }
 

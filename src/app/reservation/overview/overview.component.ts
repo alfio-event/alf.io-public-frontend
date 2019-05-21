@@ -6,6 +6,7 @@ import { Event, PaymentMethod, PaymentProxy } from 'src/app/model/event';
 import { EventService } from 'src/app/shared/event.service';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { PaymentProvider } from 'src/app/payment/payment-provider';
+import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 
 @Component({
   selector: 'app-overview',
@@ -136,9 +137,10 @@ export class OverviewComponent implements OnInit {
             console.log('res is not success');
             this.submitting = false;
           }
-        }, () => {
+        }, (err) => {
           console.log('error');
           this.submitting = false;
+          handleServerSideValidationError(err, this.overviewForm);
         });
       } else {
         console.log('paymentResult is not success (may be cancelled)');

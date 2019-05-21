@@ -1,5 +1,6 @@
 import { AbstractControl } from '@angular/forms';
 import { ValidatedResponse, ErrorDescriptor } from '../model/validated-response';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 
@@ -34,4 +35,13 @@ export function applyValidationErrors(form: AbstractControl, response: Validated
 
     return globalErrors;
 
+}
+
+export function handleServerSideValidationError(err: any, form: AbstractControl) {
+    if (err instanceof HttpErrorResponse) {
+        if (err.status === 422) {
+            const globalErrors = applyValidationErrors(form, err.error);
+            console.log('global errors are', globalErrors);
+        }
+    }
 }
