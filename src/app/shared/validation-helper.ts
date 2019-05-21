@@ -23,7 +23,10 @@ function applyValidationErrors(form: AbstractControl, response: ValidatedRespons
         if (formControl) {
             const formControlErr = formControl.getError('serverError');
             if (formControlErr) {
-                (formControlErr as string[]).push(err.code); //add another error
+                const errors = (formControlErr as string[]);
+                if(errors.indexOf(err.code) < 0) {
+                    errors.push(err.code);
+                }
             } else {
                 formControl.setErrors({serverError: [err.code]});
             }

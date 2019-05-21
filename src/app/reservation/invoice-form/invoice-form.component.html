@@ -11,7 +11,7 @@
         <label translate="invoice.type"></label>
         <div>
           <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" formControlName="addCompanyBillingDetails" [value]="false" id="invoiceTypePrivate">
+              <input class="form-check-input" type="radio" formControlName="addCompanyBillingDetails" [value]="false" id="invoiceTypePrivate" >
               <label class="form-check-label radio-inline" for="invoiceTypePrivate">{{' '}}{{'invoice.type.private' | translate}}</label>
           </div>
           <div class="form-check form-check-inline">
@@ -27,7 +27,7 @@
       <div class="col-12">
           <div class="form-group">
               <label for="billingAddressCompany" class="control-label" translate="reservation-page-complete.company"></label>
-              <input id="billingAddressCompany" formControlName="billingAddressCompany" class="form-control" type="text" maxlength="255" [attr.placeholder]="'reservation-page.if-applicable'|translate">
+              <input id="billingAddressCompany" formControlName="billingAddressCompany" class="form-control" type="text" maxlength="255" [attr.placeholder]="'reservation-page.if-applicable'|translate" appInvalidFeedback>
           </div>
       </div>
   </div>
@@ -36,7 +36,7 @@
       <div class="col-12">
           <div class="form-group">
               <label for="billingAddressLine1" class="control-label">{{'reservation-page.address-line-1' | translate}}{{' *'}}</label>
-              <input id="billingAddressLine1" formControlName="billingAddressLine1" class="form-control" type="text" required maxlength="255">
+              <input id="billingAddressLine1" formControlName="billingAddressLine1" class="form-control" type="text" required maxlength="255" appInvalidFeedback>
           </div>
       </div>
   </div>
@@ -45,7 +45,7 @@
       <div class="col-12">
           <div class="form-group">
               <label for="billingAddressLine2" class="control-label">{{'reservation-page.address-line-2' | translate}}</label>
-              <input id="billingAddressLine2" formControlName="billingAddressLine2" class="form-control" type="text" maxlength="255">
+              <input id="billingAddressLine2" formControlName="billingAddressLine2" class="form-control" type="text" maxlength="255" appInvalidFeedback>
           </div>
       </div>
   </div>
@@ -54,13 +54,13 @@
       <div class="col-12 col-md-3">
           <div class="form-group">
               <label for="billingAddressZip" class="control-label">{{'reservation-page.zip-postal-code' | translate}}{{' *'}}</label>
-              <input id="billingAddressZip" formControlName="billingAddressZip" class="form-control" type="text" required maxlength="50">
+              <input id="billingAddressZip" formControlName="billingAddressZip" class="form-control" type="text" required maxlength="50" appInvalidFeedback>
           </div>
       </div>
       <div class="col-12 col-md-9">
           <div class="form-group">
               <label for="billingAddressCity" class="control-label">{{'reservation-page.city' | translate}}{{' *'}}</label>
-              <input id="billingAddressCity" formControlName="billingAddressCity" class="form-control" type="text" required  maxlength="255">
+              <input id="billingAddressCity" formControlName="billingAddressCity" class="form-control" type="text" required  maxlength="255" appInvalidFeedback>
           </div>
       </div>
   </div>
@@ -69,7 +69,7 @@
       <div class="col-12" [ngClass]="{'col-md-6': customerReferenceEnabled && invoiceBusiness}">
           <div class="form-group">
               <label for="vatCountry" class="control-label">{{'reservation-page-complete.country' | translate}}{{' *'}}</label>
-              <select formControlName="vatCountryCode" id="vatCountry" class="form-control field-required" required>
+              <select formControlName="vatCountryCode" id="vatCountry" class="form-control field-required" required appInvalidFeedback>
                   <option value="">{{'reservation-page.country.select'|translate}}</option>
                   <ng-container *ngIf="!euVatCheckingEnabled">
                     <option *ngFor="let c of countries" [ngValue]="c.isoCode">{{c.isoCode}} - {{c.name}}</option>
@@ -89,7 +89,7 @@
       <div *ngIf="customerReferenceEnabled && invoiceBusiness" class="col-12 col-md-6">
           <div class="form-group">
             <label for="customerReference" class="control-label" translate="common.customer-reference"></label>
-            <input type="text" formControlName="customerReference" id="customerReference" class="form-control" maxlength="50">
+            <input type="text" formControlName="customerReference" id="customerReference" class="form-control" maxlength="50" appInvalidFeedback>
           </div>
       </div>
   </div>
@@ -100,14 +100,14 @@
             <label for="vatNr">{{'invoice.vat' |translate: {'0': 'TODO'} }}</label>
             <div class="input-group">
                 <div class="input-group-prepend" *ngIf="form.value.vatCountryCode"><span class="input-group-text">{{form.value.vatCountryCode}}</span></div>
-                <input id="vatNr" type="text" formControlName="vatNr" class="form-control"/>
+                <input id="vatNr" type="text" formControlName="vatNr" class="form-control" appInvalidFeedback>
             </div>
         </div>
     </div>
     <div class="col-md-6" *ngIf="vatNumberStrictlyRequired">
         <div class="form-group">
             <div class="form-check checkbox-in-form-group">
-                <input class="form-check-input" type="checkbox" formControlName="skipVatNr" [value]="true" id="skip-vat-nr">
+                <input class="form-check-input" type="checkbox" formControlName="skipVatNr" [value]="true" id="skip-vat-nr" appInvalidFeedback>
                 <label class="form-check-label radio-inline" for="skip-vat-nr">{{' '}}{{'reservation-page.skipVatNr' | translate: {'0': 'TODO'} }}</label>
             </div>
         </div>
@@ -120,7 +120,7 @@
     <div class="col-md-12">
         <div class="form-group">
             <label for="italyEInvoicingFiscalCode" translate="invoice-fields.fiscalCode"></label>
-            <input id="italyEInvoicingFiscalCode" type="text" formControlName="italyEInvoicingFiscalCode" class="form-control">
+            <input id="italyEInvoicingFiscalCode" type="text" formControlName="italyEInvoicingFiscalCode" class="form-control" appInvalidFeedback>
         </div>
     </div>
     <div class="col-md-12">
@@ -131,13 +131,13 @@
     <div class="col-md-12">
         <div class="form-group">
             <label><input type="radio" value="ADDRESSEE_CODE" formControlName="italyEInvoicingReferenceType">{{' '}}<span class="label-after-radio" translate="invoice-fields.addressee-code"></span></label>
-            <input type="text" maxlength="7" class="form-control" formControlName="italyEInvoicingReferenceAddresseeCode">
+            <input type="text" maxlength="7" class="form-control" formControlName="italyEInvoicingReferenceAddresseeCode" appInvalidFeedback>
         </div>
     </div>
     <div class="col-md-12">
         <div class="form-group">
             <label><input type="radio" value="PEC"  formControlName="italyEInvoicingReferenceType">{{' '}}<span class="label-after-radio" translate="invoice-fields.pec"></span></label>
-            <input type="email" class="form-control" formControlName="italyEInvoicingReferencePEC">
+            <input type="email" class="form-control" formControlName="italyEInvoicingReferencePEC" appInvalidFeedback>
         </div>
     </div>
     <div class="col-md-12">

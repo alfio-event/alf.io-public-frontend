@@ -6,21 +6,21 @@
     <div class="form-group row">
         <label [attr.for]="ticket.uuid + '-first-name'" class="col-sm-3 col-form-label">{{'common.first-name' | translate}} *</label>
         <div class="col-sm-9">
-            <input [attr.id]="ticket.uuid + '-first-name'" formControlName="firstName" type="text" class="form-control">
+            <input [attr.id]="ticket.uuid + '-first-name'" formControlName="firstName" type="text" class="form-control" appInvalidFeedback>
         </div>
     </div>
 
     <div class="form-group row">
         <label [attr.for]="ticket.uuid + '-last-name'" class="col-sm-3 col-form-label">{{'common.last-name' | translate}} *</label>
         <div class="col-sm-9">
-            <input [attr.id]="ticket.uuid + '-last-name'" formControlName="lastName" type="text" class="form-control">
+            <input [attr.id]="ticket.uuid + '-last-name'" formControlName="lastName" type="text" class="form-control" appInvalidFeedback>
         </div>
     </div>
 
     <div class="form-group row">
         <label [attr.for]="ticket.uuid + '-email'" class="col-sm-3 col-form-label">{{'common.email' | translate}} *</label>
         <div class="col-sm-9">
-            <input [attr.id]="ticket.uuid + '-email'" formControlName="email" type="email" class="form-control">
+            <input [attr.id]="ticket.uuid + '-email'" formControlName="email" type="email" class="form-control" appInvalidFeedback>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
     <div class="form-group row" *ngIf="event && event.contentLanguages.length > 1">
         <label [attr.for]="ticket.uuid + '-userLanguage'" class="col-sm-3 col-form-label" translate="reservation-page-complete.language"></label>
         <div class="col-sm-9">
-            <select [attr.id]="ticketUUID + '-userLanguage'" formControlName="userLanguage" class="form-control">
+            <select [attr.id]="ticketUUID + '-userLanguage'" formControlName="userLanguage" class="form-control" appInvalidFeedback>
                 <option value=""></option>
                 <option *ngFor="let lang of event.contentLanguages" [ngValue]="lang.locale">{{lang.displayLanguage}}</option>
             </select>

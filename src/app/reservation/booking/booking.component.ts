@@ -21,6 +21,7 @@ export class BookingComponent implements OnInit {
   eventShortName: string;
   reservationId: string;
   expired: boolean;
+  globalErrors: string[];
 
   constructor(
     private route: ActivatedRoute,
@@ -83,7 +84,7 @@ export class BookingComponent implements OnInit {
         this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview'])
       }
     }, (err) => {
-      handleServerSideValidationError(err, this.contactAndTicketsForm);
+      this.globalErrors = handleServerSideValidationError(err, this.contactAndTicketsForm);
     })
   }
 

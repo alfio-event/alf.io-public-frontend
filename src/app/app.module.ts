@@ -38,6 +38,7 @@ import { StripePaymentProxyComponent } from './payment/stripe-payment-proxy/stri
 import { ProcessingPaymentComponent } from './reservation/processing-payment/processing-payment.component';
 import { SummaryTableComponent } from './reservation/summary-table/summary-table.component';
 import { InvoiceFormComponent } from './reservation/invoice-form/invoice-form.component';
+import { InvalidFeedbackDirective } from './shared/invalid-feedback.directive';
 
 
 
@@ -71,7 +72,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     StripePaymentProxyComponent,
     ProcessingPaymentComponent,
     SummaryTableComponent,
-    InvoiceFormComponent
+    InvoiceFormComponent,
+    InvalidFeedbackDirective
   ],
   imports: [
     BrowserModule,
