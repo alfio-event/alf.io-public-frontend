@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import countdown from 'countdown'
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-countdown',
@@ -19,17 +20,20 @@ export class CountdownComponent implements OnInit, OnDestroy {
   message: string;
   expired: boolean;
 
+  private langChangeSub: Subscription;
+
   constructor(private translateService: TranslateService) { }
 
   ngOnInit() {
     this.setupCountdown();
 
-    this.translateService.onLangChange.subscribe(e => {
+    this.langChangeSub = this.translateService.onLangChange.subscribe(e => {
       this.setupCountdown();
     });
   }
 
   ngOnDestroy() {
+    this.langChangeSub.unsubscribe();
     clearInterval(this.timerId);
   }
 

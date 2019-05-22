@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TicketCategory } from '../model/ticket-category';
 import { ReservationRequest } from '../model/reservation-request';
 import { handleServerSideValidationError } from '../shared/validation-helper';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-event-display',
@@ -36,16 +37,13 @@ export class EventDisplayComponent implements OnInit {
 
       const eventShortName = params['eventShortName'];
 
-      this.eventService.getEvent(eventShortName).subscribe(e => {
-        this.event = e;
-      });
-
-      this.eventService.getEventTicketsInfo(eventShortName).subscribe(e => {
+      zip(this.eventService.getEvent(eventShortName), this.eventService.getEventTicketsInfo(eventShortName)).subscribe( ([event, ticketCat]) => {
+        this.event = event;
         this.reservationForm = this.formBuilder.group({
-          reservation: this.formBuilder.array(this.createItems(e))
+          reservation: this.formBuilder.array(this.createItems(ticketCat))
         });
-        this.ticketCategories = e;
-      });
+        this.ticketCategories = ticketCat;
+      });  
     })
   }
 

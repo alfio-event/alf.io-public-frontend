@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../shared/event.service';
 import { TicketService } from '../shared/ticket.service';
 import { TicketInfo } from '../model/ticket-info';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-view-ticket',
@@ -24,14 +25,13 @@ export class ViewTicketComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.ticketIdentifier = params['ticketId'];
 
-      this.eventService.getEvent(params['eventShortName']).subscribe(event => {
+      const eventShortName = params['eventShortName'];
+
+      zip(this.eventService.getEvent(eventShortName), this.ticketService.getTicketInfo(eventShortName, this.ticketIdentifier)).subscribe( ([event, ticketInfo]) => {
         this.event = event;
-      });
-
-      this.ticketService.getTicketInfo(params['eventShortName'], this.ticketIdentifier).subscribe(ticketInfo => {
         this.ticketInfo = ticketInfo;
-      });
-
+      })
+      
       //TODO: add navigation here if the route does not correspond!
     });
   }

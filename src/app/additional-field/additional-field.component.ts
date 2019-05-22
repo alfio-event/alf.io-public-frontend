@@ -1,15 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { AdditionalField, Field } from '../model/ticket';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nService } from '../shared/i18n.service';
 import { LocalizedCountry } from '../model/localized-country';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-additional-field',
   templateUrl: './additional-field.component.html'
 })
-export class AdditionalFieldComponent implements OnInit {
+export class AdditionalFieldComponent implements OnInit, OnDestroy {
 
   @Input()
   field: AdditionalField;
@@ -22,15 +23,21 @@ export class AdditionalFieldComponent implements OnInit {
 
   countries: LocalizedCountry[];
 
+  private langChangeSub: Subscription;
+
   constructor(private translate: TranslateService, private i18nService: I18nService) { }
 
   public ngOnInit(): void {
     if (this.field.countryField) {
       this.getCountries();
-      this.translate.onLangChange.subscribe(change => {
+      this.langChangeSub = this.translate.onLangChange.subscribe(change => {
         this.getCountries();
       })
     }
+  }
+
+  public ngOnDestroy(): void {
+    this.langChangeSub.unsubscribe();
   }
 
   public get labelValue(): string {
