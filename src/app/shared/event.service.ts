@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { BasicEventInfo } from '../model/basic-event-info'
 import { Event } from '../model/event'
 import { TicketCategory } from '../model/ticket-category'
+import { ItemsByCategory } from '../model/items-by-category';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class EventService {
     return this.http.get<Event>(`/api/v2/public/event/${eventShortName}`);
   }
 
-  public getEventTicketsInfo(eventShortName: string) : Observable<TicketCategory[]> {
-    return this.http.get<TicketCategory[]>(`/api/v2/public/event/${eventShortName}/ticket-categories`);
+  public getEventTicketsInfo(eventShortName: string) : Observable<ItemsByCategory> {
+    return this.http.get<ItemsByCategory>(`/api/v2/public/event/${eventShortName}/ticket-categories`);
   }
 }

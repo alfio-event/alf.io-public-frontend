@@ -37,17 +37,17 @@ export class EventDisplayComponent implements OnInit {
 
       const eventShortName = params['eventShortName'];
 
-      zip(this.eventService.getEvent(eventShortName), this.eventService.getEventTicketsInfo(eventShortName)).subscribe( ([event, ticketCat]) => {
+      zip(this.eventService.getEvent(eventShortName), this.eventService.getEventTicketsInfo(eventShortName)).subscribe( ([event, itemsByCat]) => {
         this.event = event;
         this.reservationForm = this.formBuilder.group({
-          reservation: this.formBuilder.array(this.createItems(ticketCat))
+          reservation: this.formBuilder.array(this.createItems(itemsByCat.ticketCategories))
         });
-        this.ticketCategories = ticketCat;
+        this.ticketCategories = itemsByCat.ticketCategories;
       });  
     })
   }
 
-  createItems(ticketCategories: TicketCategory[]): FormGroup[] {
+  private createItems(ticketCategories: TicketCategory[]): FormGroup[] {
     return ticketCategories.map(category => this.formBuilder.group({ticketCategoryId: category.id, amount: 0}));
   }
 

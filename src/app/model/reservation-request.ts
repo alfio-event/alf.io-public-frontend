@@ -1,7 +1,7 @@
 export class ReservationRequest {
     promoCode: string;
     reservation: TicketReservation[];
-    additionalService: AdditionalService[];
+    additionalService: SelectedAdditionalService[];
 }
 
 export class TicketReservation {
@@ -9,5 +9,5 @@ export class TicketReservation {
     amount: number;
 }
 
-export class AdditionalService {
+export class SelectedAdditionalService {
 }
