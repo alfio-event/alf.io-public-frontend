@@ -58,7 +58,7 @@
             <h2 translate="show-event.additional-services"></h2>
             <ul class="list-group ticket-categories">
               <li *ngFor="let supplement of supplementCategories" class="list-group-item">
-                <app-additional-service [additionalService]="supplement"></app-additional-service>
+                <app-additional-service [form]="reservationForm" [additionalService]="supplement"></app-additional-service>
               </li>
             </ul>
           </div>
@@ -67,7 +67,7 @@
               <h2 translate="show-event.donations"></h2>
               <ul class="list-group ticket-categories">
                 <li *ngFor="let donation of donationCategories" class="list-group-item">
-                  <app-additional-service [additionalService]="donation"></app-additional-service>
+                  <app-additional-service [form]="reservationForm" [additionalService]="donation"></app-additional-service>
                 </li>
               </ul>
           </div>
