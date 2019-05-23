@@ -11,5 +11,9 @@
     <div class="col-sm-3">
     </div>
     <div class="col-sm-2">
+        <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'MANDATORY_ONE_FOR_TICKET'" translate="show-event.mandatoryOneForTicket"></div>
+        <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'OPTIONAL_UNLIMITED_AMOUNT'">unlimited amount</div>
+        <div *ngIf="additionalService.fixPrice && [null, 'OPTIONAL_MAX_AMOUNT_PER_RESERVATION', 'OPTIONAL_MAX_AMOUNT_PER_TICKET'].indexOf(additionalService.supplementPolicy) >= 0 ">limited amount</div>
+        <div *ngIf="!additionalService.fixPrice">not fixed price</div>
     </div>
 </div>
