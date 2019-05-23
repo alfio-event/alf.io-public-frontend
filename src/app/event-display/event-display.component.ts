@@ -9,6 +9,7 @@ import { TicketCategory } from '../model/ticket-category';
 import { ReservationRequest } from '../model/reservation-request';
 import { handleServerSideValidationError } from '../shared/validation-helper';
 import { zip } from 'rxjs';
+import { AdditionalService } from '../model/additional-service';
 
 @Component({
   selector: 'app-event-display',
@@ -19,6 +20,10 @@ export class EventDisplayComponent implements OnInit {
 
   event: Event;
   ticketCategories: TicketCategory[];
+  //
+  supplementCategories: AdditionalService[];
+  donationCategories: AdditionalService[];
+  //
   reservationForm: FormGroup;
   globalErrors: string[] = [];
 
@@ -43,6 +48,8 @@ export class EventDisplayComponent implements OnInit {
           reservation: this.formBuilder.array(this.createItems(itemsByCat.ticketCategories))
         });
         this.ticketCategories = itemsByCat.ticketCategories;
+        this.supplementCategories = itemsByCat.additionalServices.filter(e => e.type === 'SUPPLEMENT');
+        this.donationCategories = itemsByCat.additionalServices.filter(e => e.type === 'DONATION');
       });  
     })
   }
