@@ -24,7 +24,12 @@
             </select>
         </div>
         <div *ngIf="!additionalService.fixPrice">
-            <input type="number" min="0" step="any" class="form-control" value="0">
+            <div class="input-group mb-3">
+                <input type="number" min="0" step="any" class="form-control" value="0">
+                <div class="input-group-append">
+                    <span class="input-group-text append-currency">{{event.currency}}</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
