@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" [formGroup]="additionalServiceFormGroup">
     <div class="col-sm-7">
         <h3>{{additionalService.title[translate.currentLang]}}</h3>
         <!-- category date handling -->
@@ -12,9 +12,9 @@
     </div>
     <div class="col-sm-2">
         <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'MANDATORY_ONE_FOR_TICKET'" translate="show-event.mandatoryOneForTicket"></div>
-        <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'OPTIONAL_UNLIMITED_AMOUNT'"><input type="number" min="0" step="1" class="form-control" placeholder="0" autocomplete="off"></div>
+        <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'OPTIONAL_UNLIMITED_AMOUNT'"><input type="number" min="0" step="1" class="form-control" placeholder="0" autocomplete="off" formControlName="quantity"></div>
         <div *ngIf="additionalService.fixPrice && [null, 'OPTIONAL_MAX_AMOUNT_PER_RESERVATION', 'OPTIONAL_MAX_AMOUNT_PER_TICKET'].indexOf(additionalService.supplementPolicy) >= 0 ">
-            <select class="form-control text-align-center" placeholder="0" autocomplete="off">
+            <select class="form-control text-align-center" placeholder="0" autocomplete="off" formControlNam="quantity">
                 <ng-container *ngIf="additionalService.supplementPolicy !== 'OPTIONAL_MAX_AMOUNT_PER_TICKET'">
                     <option *ngFor="let amount of additionalService.amounts" [value]="amount">{{amount}}</option>
                 </ng-container>
@@ -25,7 +25,7 @@
         </div>
         <div *ngIf="!additionalService.fixPrice">
             <div class="input-group mb-3">
-                <input type="number" min="0" step="any" class="form-control" value="0">
+                <input type="number" min="0" step="any" class="form-control" value="0" formControlName="amount">
                 <div class="input-group-append">
                     <span class="input-group-text append-currency">{{event.currency}}</span>
                 </div>

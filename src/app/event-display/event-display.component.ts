@@ -44,8 +44,10 @@ export class EventDisplayComponent implements OnInit {
 
       zip(this.eventService.getEvent(eventShortName), this.eventService.getEventTicketsInfo(eventShortName)).subscribe( ([event, itemsByCat]) => {
         this.event = event;
+
         this.reservationForm = this.formBuilder.group({
-          reservation: this.formBuilder.array(this.createItems(itemsByCat.ticketCategories))
+          reservation: this.formBuilder.array(this.createItems(itemsByCat.ticketCategories)),
+          additionalService: this.formBuilder.array([])
         });
         this.ticketCategories = itemsByCat.ticketCategories;
         this.supplementCategories = itemsByCat.additionalServices.filter(e => e.type === 'SUPPLEMENT');
