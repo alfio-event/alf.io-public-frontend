@@ -2,6 +2,11 @@ export class AdditionalService {
     id: number;
     type: AdditionalServiceType;
     supplementPolicy: SupplementPolicy;
+    //
+    fixPrice: boolean;
+    availableQuantity: number;
+    maxQtyPerOrder: number;
+    //
     expired: boolean;
     saleInFuture: boolean;
     formattedInception: {[key:string]: string};
