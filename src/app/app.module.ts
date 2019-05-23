@@ -39,6 +39,7 @@ import { ProcessingPaymentComponent } from './reservation/processing-payment/pro
 import { SummaryTableComponent } from './reservation/summary-table/summary-table.component';
 import { InvoiceFormComponent } from './reservation/invoice-form/invoice-form.component';
 import { InvalidFeedbackDirective } from './shared/invalid-feedback.directive';
+import { AdditionalServiceComponent } from './additional-service/additional-service.component';
 
 
 
@@ -73,7 +74,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProcessingPaymentComponent,
     SummaryTableComponent,
     InvoiceFormComponent,
-    InvalidFeedbackDirective
+    InvalidFeedbackDirective,
+    AdditionalServiceComponent
   ],
   imports: [
     BrowserModule,

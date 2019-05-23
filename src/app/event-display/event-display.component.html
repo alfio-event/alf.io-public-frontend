@@ -52,6 +52,26 @@
                 </li>
               </ul>
           </div>
+
+
+          <div *ngIf="supplementCategories && supplementCategories.length > 0">
+            <h2 translate="show-event.additional-services"></h2>
+            <ul class="list-group ticket-categories">
+              <li *ngFor="let supplement of supplementCategories" class="list-group-item">
+                <app-additional-service [additionalService]="supplement"></app-additional-service>
+              </li>
+            </ul>
+          </div>
+
+          <div *ngIf="donationCategories && donationCategories.length > 0">
+              <h2 translate="show-event.donations"></h2>
+              <ul class="list-group ticket-categories">
+                <li *ngFor="let donation of donationCategories" class="list-group-item">
+                  <app-additional-service [additionalService]="donation"></app-additional-service>
+                </li>
+              </ul>
+          </div>
+
           <hr>
           <div class="row d-flex justify-content-between">
             <div class="col-md-4 order-1 col-12"><button type="submit" class="block-button btn btn-success" translate="show-event.continue"></button></div>
