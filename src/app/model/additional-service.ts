@@ -6,6 +6,13 @@ export class AdditionalService {
     fixPrice: boolean;
     availableQuantity: number;
     maxQtyPerOrder: number;
+
+    //
+    formattedFinalPrice: string;
+    vatApplies: boolean;
+    vatIncluded: boolean;
+    //
+
     //
     expired: boolean;
     saleInFuture: boolean;
