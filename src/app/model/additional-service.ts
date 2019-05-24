@@ -13,6 +13,9 @@ export class AdditionalService {
     formattedExpiration: {[key:string]: string};
     title: {[key:string]: string};
     description: {[key:string]: string};
+
+    //TODO: check if we can remove it
+    amounts: number[];
 }
 
 export type AdditionalServiceType = 'DONATION' | 'SUPPLEMENT';
