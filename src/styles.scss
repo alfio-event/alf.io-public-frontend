@@ -109,3 +109,9 @@ label.radio-inline {
 .checkbox-in-form-group {
     margin-top:38px;
 }
+
+@media (min-width: 576px) {
+    .container { /*override bootstrap value*/
+        max-width: 100%;
+    }
+}
