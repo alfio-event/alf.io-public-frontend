@@ -19,7 +19,7 @@
                     <option *ngFor="let amount of additionalService.amounts" [value]="amount">{{amount}}</option>
                 </ng-container>
                 <ng-container *ngIf="additionalService.supplementPolicy === 'OPTIONAL_MAX_AMOUNT_PER_TICKET'">
-                    <option></option>
+                    <option *ngFor="let amount of validSelectionValues" [value]="amount">{{amount}}</option>
                 </ng-container>
             </select>
         </div>

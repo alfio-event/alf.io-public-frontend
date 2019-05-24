@@ -23,6 +23,8 @@ export class AdditionalServiceComponent implements OnInit, OnDestroy {
   @Input()
   event: Event;
 
+  validSelectionValues : number[] = [];
+
   private formSub: Subscription;
 
   constructor(public translate: TranslateService, private formBuilder: FormBuilder) { }
@@ -41,7 +43,13 @@ export class AdditionalServiceComponent implements OnInit, OnDestroy {
     //we only need to recalculate the select box choice in this specific supplement policy!
     if (this.additionalService.supplementPolicy === 'OPTIONAL_MAX_AMOUNT_PER_TICKET') {
       this.formSub = this.form.get('reservation').valueChanges.subscribe(valueChange => {
-        console.log('value changed!', valueChange);
+        const selectedTicketCount = (valueChange as {amount:string}[]).map(a => parseInt(a.amount, 10)).reduce((sum, n) => sum+n, 0);
+        const rangeEnd = selectedTicketCount * this.additionalService.maxQtyPerOrder;
+        const res = [];
+        for (let i = 0; i <= rangeEnd; i++) {
+          res.push(i);
+        }
+        this.validSelectionValues = res;
       });
     }
   }
