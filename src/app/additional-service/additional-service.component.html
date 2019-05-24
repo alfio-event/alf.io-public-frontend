@@ -9,6 +9,13 @@
         <div [innerHtml]="additionalService.description[translate.currentLang]"></div>
     </div>
     <div class="col-sm-3">
+        <span *ngIf="additionalService.free" translate="common.free"></span>
+        <span *ngIf="!additionalService.free && additionalService.fixPrice">
+            {{additionalService.formattedFinalPrice}} {{event.currency}}
+            <span *ngIf="additionalService.vatApplies">
+                <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{(additionalService.vatIncluded ? 'show-event.incVat' : 'show-event.excVat') | translate:{'0':additionalService.vatPercentage, '1': 'TODO'} }}"></fa-icon>
+            </span>
+        </span>
     </div>
     <div class="col-sm-2">
         <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'MANDATORY_ONE_FOR_TICKET'" translate="show-event.mandatoryOneForTicket"></div>
