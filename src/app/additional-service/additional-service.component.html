@@ -15,12 +15,7 @@
         <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'OPTIONAL_UNLIMITED_AMOUNT'"><input type="number" min="0" step="1" class="form-control" placeholder="0" autocomplete="off" formControlName="quantity"></div>
         <div *ngIf="additionalService.fixPrice && [null, 'OPTIONAL_MAX_AMOUNT_PER_RESERVATION', 'OPTIONAL_MAX_AMOUNT_PER_TICKET'].indexOf(additionalService.supplementPolicy) >= 0 ">
             <select class="form-control text-align-center" placeholder="0" autocomplete="off" formControlNam="quantity">
-                <ng-container *ngIf="additionalService.supplementPolicy !== 'OPTIONAL_MAX_AMOUNT_PER_TICKET'">
-                    <option *ngFor="let amount of additionalService.amounts" [value]="amount">{{amount}}</option>
-                </ng-container>
-                <ng-container *ngIf="additionalService.supplementPolicy === 'OPTIONAL_MAX_AMOUNT_PER_TICKET'">
-                    <option *ngFor="let amount of validSelectionValues" [value]="amount">{{amount}}</option>
-                </ng-container>
+                <option *ngFor="let amount of validSelectionValues" [value]="amount">{{amount}}</option>
             </select>
         </div>
         <div *ngIf="!additionalService.fixPrice">

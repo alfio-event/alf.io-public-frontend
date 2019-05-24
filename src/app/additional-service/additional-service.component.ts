@@ -51,6 +51,12 @@ export class AdditionalServiceComponent implements OnInit, OnDestroy {
         }
         this.validSelectionValues = res;
       });
+    } else if (this.additionalService.supplementPolicy === 'OPTIONAL_MAX_AMOUNT_PER_RESERVATION' || this.additionalService.supplementPolicy === null) {
+      const res = [];
+      for (let i = 0; i <= this.additionalService.maxQtyPerOrder; i++) {
+        res.push(i);
+      }
+      this.validSelectionValues = res;
     }
   }
 
