@@ -8,6 +8,7 @@ export class AdditionalService {
     maxQtyPerOrder: number;
 
     //
+    free: boolean;
     formattedFinalPrice: string;
     vatApplies: boolean;
     vatIncluded: boolean;
