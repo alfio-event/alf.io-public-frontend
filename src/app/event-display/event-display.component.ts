@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EventService } from '../shared/event.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TicketCategory } from '../model/ticket-category';
 import { ReservationRequest } from '../model/reservation-request';
 import { handleServerSideValidationError } from '../shared/validation-helper';
-import { zip, Subscription } from 'rxjs';
+import { zip } from 'rxjs';
 import { AdditionalService } from '../model/additional-service';
 import { I18nService } from '../shared/i18n.service';
 
@@ -17,7 +17,7 @@ import { I18nService } from '../shared/i18n.service';
   templateUrl: './event-display.component.html',
   styleUrls: ['./event-display.component.css']
 })
-export class EventDisplayComponent implements OnInit, OnDestroy {
+export class EventDisplayComponent implements OnInit {
 
   event: Event;
   ticketCategories: TicketCategory[];
@@ -28,7 +28,6 @@ export class EventDisplayComponent implements OnInit, OnDestroy {
   reservationForm: FormGroup;
   globalErrors: string[] = [];
   //
-  private titleSub: Subscription;
 
   //https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
 
@@ -50,7 +49,7 @@ export class EventDisplayComponent implements OnInit, OnDestroy {
         this.event = event;
 
 
-        this.titleSub = this.i18nService.setPageTitle('show-event.header.title', event.displayName);
+        this.i18nService.setPageTitle('show-event.header.title', event.displayName);
 
         this.reservationForm = this.formBuilder.group({
           reservation: this.formBuilder.array(this.createItems(itemsByCat.ticketCategories)),
@@ -61,10 +60,6 @@ export class EventDisplayComponent implements OnInit, OnDestroy {
         this.donationCategories = itemsByCat.additionalServices.filter(e => e.type === 'DONATION');
       });  
     })
-  }
-
-  public ngOnDestroy(): void {
-    this.i18nService.unsetPageTitle(this.titleSub);
   }
 
   private createItems(ticketCategories: TicketCategory[]): FormGroup[] {

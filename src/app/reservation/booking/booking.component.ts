@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ReservationService } from '../../shared/reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -6,7 +6,7 @@ import { TicketService } from 'src/app/shared/ticket.service';
 import { ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
 import { EventService } from 'src/app/shared/event.service';
 import { Event } from 'src/app/model/event';
-import { zip, Subscription } from 'rxjs';
+import { zip } from 'rxjs';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
 
@@ -14,7 +14,7 @@ import { I18nService } from 'src/app/shared/i18n.service';
   selector: 'app-booking',
   templateUrl: './booking.component.html'
 })
-export class BookingComponent implements OnInit, OnDestroy {
+export class BookingComponent implements OnInit {
 
   reservationInfo: ReservationInfo;
   event: Event;
@@ -23,8 +23,6 @@ export class BookingComponent implements OnInit, OnDestroy {
   reservationId: string;
   expired: boolean;
   globalErrors: string[];
-
-  private titleSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -45,7 +43,7 @@ export class BookingComponent implements OnInit, OnDestroy {
         this.event = ev;
         this.reservationInfo = reservationInfo;
 
-        this.titleSub = this.i18nService.setPageTitle('reservation-page.header.title', ev.displayName);
+        this.i18nService.setPageTitle('reservation-page.header.title', ev.displayName);
 
         let invoiceRequested = ev.invoicingConfiguration.onlyInvoice ? true : reservationInfo.invoiceRequested;
 
@@ -72,11 +70,6 @@ export class BookingComponent implements OnInit, OnDestroy {
         });
       });
     });
-  }
-
-
-  public ngOnDestroy(): void {
-    this.i18nService.unsetPageTitle(this.titleSub);
   }
 
   private buildTicketsFormGroup(ticketsByCategory: TicketsByTicketCategory[]): FormGroup {

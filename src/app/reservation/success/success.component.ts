@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ReservationService } from '../../shared/reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Event } from 'src/app/model/event';
@@ -7,14 +7,13 @@ import { TicketService } from 'src/app/shared/ticket.service';
 import { Ticket } from 'src/app/model/ticket';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { I18nService } from 'src/app/shared/i18n.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-success',
   templateUrl: './success.component.html',
   styleUrls: ['./success.component.scss']
 })
-export class SuccessComponent implements OnInit, OnDestroy {
+export class SuccessComponent implements OnInit {
 
   reservationInfo: ReservationInfo;
   eventShortName: string;
@@ -26,8 +25,6 @@ export class SuccessComponent implements OnInit, OnDestroy {
   sendEmailForTicketStatus: {} = {};
   ticketsFormControl: {} = {};
   ticketsFormShow: {} = {};
-
-  private titleSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,14 +40,10 @@ export class SuccessComponent implements OnInit, OnDestroy {
       this.reservationId = params['reservationId'];
       this.eventService.getEvent(this.eventShortName).subscribe(ev => {
         this.event = ev;
-        this.titleSub = this.i18nService.setPageTitle('reservation-page-complete.header.title', ev.displayName);
+        this.i18nService.setPageTitle('reservation-page-complete.header.title', ev.displayName);
       });
       this.loadReservation();
     });
-  }
-
-  public ngOnDestroy(): void {
-    this.i18nService.unsetPageTitle(this.titleSub);
   }
 
   private loadReservation(): void {

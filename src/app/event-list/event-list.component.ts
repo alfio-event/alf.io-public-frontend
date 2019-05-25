@@ -1,20 +1,18 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EventService } from '../shared/event.service';
 import { Router } from '@angular/router';
 import { BasicEventInfo } from '../model/basic-event-info';
 import { I18nService } from '../shared/i18n.service';
 import { Language } from '../model/event';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-event-list',
   templateUrl: './event-list.component.html'
 })
-export class EventListComponent implements OnInit, OnDestroy {
+export class EventListComponent implements OnInit {
 
   events: BasicEventInfo[];
   languages: Language[];
-  private titleSub: Subscription;
 
   constructor(
     private eventService: EventService, 
@@ -34,10 +32,6 @@ export class EventListComponent implements OnInit, OnDestroy {
       this.languages = res;
     });
 
-    this.titleSub = this.i18nService.setPageTitle('event-list.header.title', '');
-  }
-
-  public ngOnDestroy(): void {
-    this.i18nService.unsetPageTitle(this.titleSub);
+    this.i18nService.setPageTitle('event-list.header.title', '');
   }
 }
