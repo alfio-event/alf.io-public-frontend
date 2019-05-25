@@ -33,7 +33,7 @@ export class SuccessComponent implements OnInit {
     private eventService: EventService,
     private ticketService: TicketService) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.route.parent.params.subscribe(params => {
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];

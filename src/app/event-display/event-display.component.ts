@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EventService } from '../shared/event.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -8,15 +8,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { TicketCategory } from '../model/ticket-category';
 import { ReservationRequest } from '../model/reservation-request';
 import { handleServerSideValidationError } from '../shared/validation-helper';
-import { zip } from 'rxjs';
+import { zip, Subscription } from 'rxjs';
 import { AdditionalService } from '../model/additional-service';
+import { I18nService } from '../shared/i18n.service';
 
 @Component({
   selector: 'app-event-display',
   templateUrl: './event-display.component.html',
   styleUrls: ['./event-display.component.css']
 })
-export class EventDisplayComponent implements OnInit {
+export class EventDisplayComponent implements OnInit, OnDestroy {
 
   event: Event;
   ticketCategories: TicketCategory[];
@@ -26,6 +27,8 @@ export class EventDisplayComponent implements OnInit {
   //
   reservationForm: FormGroup;
   globalErrors: string[] = [];
+  //
+  private titleSub: Subscription;
 
   //https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
 
@@ -35,15 +38,19 @@ export class EventDisplayComponent implements OnInit {
     private eventService: EventService,
     private reservationService: ReservationService,
     private formBuilder: FormBuilder,
-    public translate: TranslateService) { }
+    public translate: TranslateService,
+    private i18nService: I18nService) { }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.route.params.subscribe(params => {
 
       const eventShortName = params['eventShortName'];
 
       zip(this.eventService.getEvent(eventShortName), this.eventService.getEventTicketsInfo(eventShortName)).subscribe( ([event, itemsByCat]) => {
         this.event = event;
+
+
+        this.titleSub = this.i18nService.setPageTitle('show-event.header.title', event.displayName);
 
         this.reservationForm = this.formBuilder.group({
           reservation: this.formBuilder.array(this.createItems(itemsByCat.ticketCategories)),
@@ -54,6 +61,10 @@ export class EventDisplayComponent implements OnInit {
         this.donationCategories = itemsByCat.additionalServices.filter(e => e.type === 'DONATION');
       });  
     })
+  }
+
+  public ngOnDestroy(): void {
+    this.i18nService.unsetPageTitle(this.titleSub);
   }
 
   private createItems(ticketCategories: TicketCategory[]): FormGroup[] {

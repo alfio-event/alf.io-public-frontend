@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReservationService } from '../../shared/reservation.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -7,13 +7,15 @@ import { EventService } from 'src/app/shared/event.service';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { PaymentProvider } from 'src/app/payment/payment-provider';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
+import { I18nService } from 'src/app/shared/i18n.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent implements OnInit, OnDestroy {
 
   reservationInfo: ReservationInfo;
   overviewForm: FormGroup;
@@ -27,12 +29,15 @@ export class OverviewComponent implements OnInit {
 
   selectedPaymentProvider: PaymentProvider;
 
+  private titleSub: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private reservationService: ReservationService,
     private eventService: EventService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private i18nService: I18nService) { }
 
   ngOnInit() {
     this.route.parent.params.subscribe(params => {
@@ -42,6 +47,8 @@ export class OverviewComponent implements OnInit {
 
       this.eventService.getEvent(this.eventShortName).subscribe(ev => {
         this.event = ev;
+
+        this.titleSub = this.i18nService.setPageTitle('reservation-page.header.title', ev.displayName);
 
         this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(resInfo => {
           this.reservationInfo = resInfo;
@@ -83,6 +90,10 @@ export class OverviewComponent implements OnInit {
         });
       });
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.i18nService.unsetPageTitle(this.titleSub);
   }
 
   paymentMethodsCount(event: Event) : number {

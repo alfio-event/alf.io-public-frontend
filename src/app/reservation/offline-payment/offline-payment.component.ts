@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EventService } from 'src/app/shared/event.service';
 import { ReservationService } from 'src/app/shared/reservation.service';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { Event } from 'src/app/model/event';
 import { ActivatedRoute } from '@angular/router';
-import { zip } from 'rxjs';
+import { zip, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { I18nService } from 'src/app/shared/i18n.service';
 
 @Component({
   selector: 'app-offline-payment',
   templateUrl: './offline-payment.component.html',
   styleUrls: ['./offline-payment.component.scss']
 })
-export class OfflinePaymentComponent implements OnInit {
+export class OfflinePaymentComponent implements OnInit, OnDestroy {
 
   reservationInfo: ReservationInfo;
   eventShortName: string;
@@ -21,13 +22,16 @@ export class OfflinePaymentComponent implements OnInit {
 
   event: Event;
 
+  private titleSub: Subscription;
+
   constructor(
     private route: ActivatedRoute, 
     private eventService: EventService, 
     private reservationService: ReservationService,
-    public translate: TranslateService) { }
+    public translate: TranslateService,
+    private i18nService: I18nService) { }
 
-  ngOnInit() {
+  public ngOnInit(): void {
 
     this.route.parent.params.subscribe(params => {
       this.eventShortName = params['eventShortName'];
@@ -38,8 +42,14 @@ export class OfflinePaymentComponent implements OnInit {
 
         this.paymentReason = `<mark>${this.event.shortName} ${this.reservationInfo.shortId}</mark>`;
 
+        this.titleSub = this.i18nService.setPageTitle('reservation-page-waiting.header.title', ev.displayName);
+
       });
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.i18nService.unsetPageTitle(this.titleSub);
   }
 
 }

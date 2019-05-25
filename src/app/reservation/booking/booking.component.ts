@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReservationService } from '../../shared/reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -6,14 +6,15 @@ import { TicketService } from 'src/app/shared/ticket.service';
 import { ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
 import { EventService } from 'src/app/shared/event.service';
 import { Event } from 'src/app/model/event';
-import { zip } from 'rxjs';
+import { zip, Subscription } from 'rxjs';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
+import { I18nService } from 'src/app/shared/i18n.service';
 
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html'
 })
-export class BookingComponent implements OnInit {
+export class BookingComponent implements OnInit, OnDestroy {
 
   reservationInfo: ReservationInfo;
   event: Event;
@@ -23,15 +24,18 @@ export class BookingComponent implements OnInit {
   expired: boolean;
   globalErrors: string[];
 
+  private titleSub: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private reservationService: ReservationService,
     private ticketService: TicketService,
     private eventService: EventService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private i18nService: I18nService) { }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.route.parent.params.subscribe(params => {
 
       this.eventShortName = params['eventShortName'];
@@ -40,6 +44,8 @@ export class BookingComponent implements OnInit {
       zip(this.eventService.getEvent(this.eventShortName), this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)).subscribe(([ev, reservationInfo]) => {
         this.event = ev;
         this.reservationInfo = reservationInfo;
+
+        this.titleSub = this.i18nService.setPageTitle('reservation-page.header.title', ev.displayName);
 
         let invoiceRequested = ev.invoicingConfiguration.onlyInvoice ? true : reservationInfo.invoiceRequested;
 
@@ -66,6 +72,11 @@ export class BookingComponent implements OnInit {
         });
       });
     });
+  }
+
+
+  public ngOnDestroy(): void {
+    this.i18nService.unsetPageTitle(this.titleSub);
   }
 
   private buildTicketsFormGroup(ticketsByCategory: TicketsByTicketCategory[]): FormGroup {
