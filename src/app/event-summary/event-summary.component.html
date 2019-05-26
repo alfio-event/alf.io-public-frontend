@@ -12,6 +12,7 @@
       <li *ngIf="dateValidityProvider.sameDay">
         <fa-icon [icon]="['far', 'clock']"></fa-icon>
         {{' '}}{{'event-days.single-day.hours'|translate: {'0': dateValidityProvider.formattedBeginTime[translate.currentLang], '1': dateValidityProvider.formattedEndTime[translate.currentLang]} }}
+        <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': dateValidityProvider.timeZone} }}"></fa-icon>
       </li>
       <!-- more than one day-->
       <li *ngIf="!dateValidityProvider.sameDay">

@@ -6,12 +6,22 @@
   <li *ngFor="let event of events" class="list-group-item">
     <a [routerLink]="['/event', event.shortName]" class="no-decoration">
       <div class="row">
-        <div class="col-12 col-sm-7 col-md-4">
+        <div class="col-3">
             <img [attr.src]="'/file/'+event.fileBlobId" class="img-responsive img-center logo">
         </div>
-        <div class="col-12 col-sm-5 col-md-8">
+        <div class="col-9">
           <h2>{{event.displayName}}</h2>
-          <div></div>
+          <div *ngIf="event.sameDay">
+            {{event.formattedBeginDate[translate.currentLang]}}{{' '}}{{'event-days.single-day.hours'|translate: {'0': event.formattedBeginTime[translate.currentLang], '1': event.formattedEndTime[translate.currentLang]} }}
+            <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
+          </div>
+          <div *ngIf="!event.sameDay">
+            {{'event-days.not-same-day'|translate: {'0': event.formattedBeginDate[translate.currentLang], '1': event.formattedBeginTime[translate.currentLang]} }}
+            {{' - '}}
+            {{'event-days.not-same-day'|translate: {'0': event.formattedEndDate[translate.currentLang], '1': event.formattedEndTime[translate.currentLang]} }}
+            {{' '}}
+            <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
+          </div>
           <div>{{event.location}}</div>
         </div>
       </div>
