@@ -52,6 +52,23 @@
                 <option *ngFor="let l of event.contentLanguages" [value]="l.locale">{{l.displayLanguage}}</option>
               </select>
           </div>
+          <div class="checkbox wMarginTop wMarginBottom" *ngIf="event.privacyPolicyUrl">
+              <label>
+                  <input type="checkbox" required name="privacyPolicyAccepted" value="true">
+                  {{'reservation-page.privacy.prefix'|translate}}{{' '}}<a [href]="event.privacyPolicyUrl" target="_blank" translate="reservation-page.privacy.link.text"></a>{{'reservation-page.privacy.suffix'|translate}}
+              </label>
+          </div>
+          <div class="checkbox">
+              <label>
+                  <input type="checkbox" required name="termAndConditionsAccepted" aria-required="true">
+                  {{'reservation-page.tc.prefix'|translate}}{{' '}}<a [href]="event.termsAndConditionsUrl" target="_blank" translate="reservation-page.tc.link.text"></a>{{'reservation-page.tc.suffix'|translate}}
+              </label>
+          </div>
+          <div class="row justify-content-end">
+              <div class="col-md-4 col-12">
+                <button type="submit" id="waiting-queue-subscribe" class="btn btn-success btn-block " translate="show-event.sold-out.subscribe"></button>
+              </div>
+          </div>
       </form>
     </div>
 
