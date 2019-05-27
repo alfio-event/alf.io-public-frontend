@@ -21,6 +21,20 @@
       <div *ngFor="let err of globalErrors"><strong [translate]="err"></strong></div>
     </div>
 
+    <div *ngIf="waitingList" class="alert alert-warning" role="alert">
+      <ng-container *ngIf="preSales">
+          <h3 class="wMarginBottom" translate="show-event.pre-sales.header"></h3>
+          <h4 translate="show-event.pre-sales.message"></h4>
+      </ng-container>
+      <ng-container *ngIf="!preSales">
+          <h3 class="wMarginBottom" translate="show-event.sold-out.header"></h3>
+          <h4 translate="show-event.sold-out.message"></h4>
+      </ng-container>
+      <hr/>
+      <form>
+      </form>
+    </div>
+
 
     <div *ngIf="ticketCategories">
         <form [formGroup]="reservationForm" (submit)="submitForm(event.shortName, reservationForm.value)">

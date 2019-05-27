@@ -31,6 +31,11 @@ export class EventDisplayComponent implements OnInit {
   ticketCategoryAmount: {[key:number]: number[]};
   //
 
+  //
+  preSales: boolean;
+  waitingList: boolean;
+  //
+
   //https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
 
   constructor(
@@ -68,6 +73,9 @@ export class EventDisplayComponent implements OnInit {
         });
         this.supplementCategories = itemsByCat.additionalServices.filter(e => e.type === 'SUPPLEMENT');
         this.donationCategories = itemsByCat.additionalServices.filter(e => e.type === 'DONATION');
+
+        this.preSales = itemsByCat.preSales;
+        this.waitingList = itemsByCat.waitingList;
       });  
     })
   }
