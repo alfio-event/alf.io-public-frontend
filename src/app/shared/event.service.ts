@@ -3,7 +3,6 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
 import { BasicEventInfo } from '../model/basic-event-info'
 import { Event } from '../model/event'
-import { TicketCategory } from '../model/ticket-category'
 import { ItemsByCategory } from '../model/items-by-category';
 
 @Injectable({
