@@ -32,6 +32,26 @@
       </ng-container>
       <hr/>
       <form>
+          <div class="form-group">
+            <label for="firstName" translate="common.first-name"></label>
+            <input type="text" id="firstName" class="form-control" name="firstName" required="required" aria-required="true" maxlength="255">
+          </div>
+          <div class="form-group">
+            <label for="lastName" translate="common.last-name"></label>
+            <input type="text" id="lastName" class="form-control" name="lastName" required="required" aria-required="true" maxlength="255">
+          </div>
+          <div class="form-group">
+            <label for="email" translate="common.email"></label>
+            <input type="email" id="email" class="form-control" name="email"  required="required" aria-required="true" maxlength="255">
+          </div>
+          <!-- TODO: displayCategorySelectionForWaitingQueue section -->
+          <div class="form-group">
+              <label for="userLanguage" translate="reservation-page-complete.language"></label>
+              <select name="userLanguage" id="userLanguage" id="waiting-queue-language" class="form-control" required="required" aria-required="true">
+                <option value=""></option>
+                <option *ngFor="let l of event.contentLanguages" [value]="l.locale">{{l.displayLanguage}}</option>
+              </select>
+          </div>
       </form>
     </div>
 
