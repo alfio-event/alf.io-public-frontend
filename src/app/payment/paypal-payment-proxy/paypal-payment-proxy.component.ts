@@ -21,7 +21,6 @@ export class PaypalPaymentProxyComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.matchProxyAndMethod && changes.method) {
-      console.log('selected paypal');
       this.paymentProvider.emit(new SimplePaymentProvider());
     }
   }

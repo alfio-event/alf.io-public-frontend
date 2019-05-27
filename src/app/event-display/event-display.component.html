@@ -51,7 +51,7 @@
                                 <option [value]="1">1</option>
                               </ng-container>
                               <ng-container *ngIf="!category.accessRestricted">
-                                <option *ngFor="let amount of category.amountOfTickets" [value]="amount">{{amount}}</option>
+                                <option *ngFor="let amount of ticketCategoryAmount[category.id]" [value]="amount">{{amount}}</option>
                               </ng-container>
                             </select>
                           </ng-container>

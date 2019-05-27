@@ -1,11 +1,10 @@
 export class TicketCategory {
     id: number;
     name: string;
-    amountOfTickets: number[];
+    maximumSaleableTickets: number;
     description: {[key:string]: string}
     free: boolean;
     formattedFinalPrice: string;
-
 
     //
     expired: boolean;

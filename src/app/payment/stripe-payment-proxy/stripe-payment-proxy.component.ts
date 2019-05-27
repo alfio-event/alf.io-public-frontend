@@ -42,7 +42,6 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.matchProxyAndMethod && changes.method) {
-      console.log(this.parameters);
       if(this.parameters['enableSCA']) {
         this.loadSCA();
       } else {
@@ -85,7 +84,6 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
 
   //
   private loadSCA(): void {
-    console.log('load sca');
     if (!document.getElementById(STRIPE_V3_ID_SCRIPT)) {
       const scriptElem = document.createElement('script');
       scriptElem.id = STRIPE_V3_ID_SCRIPT;
@@ -170,7 +168,6 @@ class StripeCheckoutPaymentProvider implements PaymentProvider {
         }
       }
     });
-    console.log('stripe handle open')
     stripeHandler.open({
       name: `${this.reservation.firstName} ${this.reservation.lastName}`,
       description: this.reservation.orderSummary.descriptionForPayment,

@@ -28,6 +28,8 @@ export class EventDisplayComponent implements OnInit {
   reservationForm: FormGroup;
   globalErrors: string[] = [];
   //
+  ticketCategoryAmount: {[key:number]: number[]};
+  //
 
   //https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
 
@@ -56,6 +58,14 @@ export class EventDisplayComponent implements OnInit {
           additionalService: this.formBuilder.array([])
         });
         this.ticketCategories = itemsByCat.ticketCategories;
+
+        this.ticketCategoryAmount = {};
+        this.ticketCategories.forEach(tc => {
+          this.ticketCategoryAmount[tc.id] = [];
+          for (let i = 0; i <= tc.maximumSaleableTickets; i++) {
+            this.ticketCategoryAmount[tc.id].push(i);
+          }
+        });
         this.supplementCategories = itemsByCat.additionalServices.filter(e => e.type === 'SUPPLEMENT');
         this.donationCategories = itemsByCat.additionalServices.filter(e => e.type === 'DONATION');
       });  

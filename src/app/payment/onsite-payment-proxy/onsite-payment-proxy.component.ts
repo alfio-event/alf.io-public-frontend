@@ -21,7 +21,6 @@ export class OnsitePaymentProxyComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.matchProxyAndMethod && changes.method) {
-      console.log('selected onsite');
       this.paymentProvider.emit(new SimplePaymentProvider());
     }
   }

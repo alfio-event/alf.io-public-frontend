@@ -5,4 +5,7 @@ export class ItemsByCategory {
 
     ticketCategories: TicketCategory[];
     additionalServices: AdditionalService[];
+
+    waitingList: boolean;
+    preSales: boolean;
 }
