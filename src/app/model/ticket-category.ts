@@ -12,4 +12,9 @@ export class TicketCategory {
     saleInFuture: boolean;
     formattedInception: {[key:string]: string};
     formattedExpiration: {[key:string]: string};
+    //
+
+    saleableAndLimitNotReached: boolean;
+    accessRestricted: boolean;
+    soldOutOrLimitReached: boolean;
 }
