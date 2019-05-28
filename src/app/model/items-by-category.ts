@@ -8,4 +8,10 @@ export class ItemsByCategory {
 
     waitingList: boolean;
     preSales: boolean;
+    ticketCategoriesForWaitingList: TicketCategoryForWaitingList[];
+}
+
+export class TicketCategoryForWaitingList {
+    id: number;
+    name: string;
 }

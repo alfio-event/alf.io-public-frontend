@@ -12,6 +12,7 @@ import { zip } from 'rxjs';
 import { AdditionalService } from '../model/additional-service';
 import { I18nService } from '../shared/i18n.service';
 import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscription-request';
+import { TicketCategoryForWaitingList } from '../model/items-by-category';
 
 @Component({
   selector: 'app-event-display',
@@ -35,6 +36,7 @@ export class EventDisplayComponent implements OnInit {
   //
   preSales: boolean;
   waitingList: boolean;
+  ticketCategoriesForWaitingList: TicketCategoryForWaitingList[];
   waitingListForm: FormGroup;
   waitingListRequestSubmitted: boolean;
   waitingListRequestResult: boolean;
@@ -80,15 +82,16 @@ export class EventDisplayComponent implements OnInit {
 
         this.preSales = itemsByCat.preSales;
         this.waitingList = itemsByCat.waitingList;
+        this.ticketCategoriesForWaitingList = itemsByCat.ticketCategoriesForWaitingList;
         if(this.waitingList) {
           this.waitingListForm = this.formBuilder.group({
             firstName: null,
             lastName: null,
             email: null,
+            selectedCategory: null,
             userLanguage: null,
             termAndConditionsAccepted: null,
-            privacyPolicyAccepted: null,
-            selectedCategory: null
+            privacyPolicyAccepted: null
           });
         }
       });  

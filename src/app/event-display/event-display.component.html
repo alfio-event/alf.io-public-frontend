@@ -45,7 +45,13 @@
             <label for="email" translate="common.email"></label>
             <input type="email" id="email" class="form-control" name="email" formControlName="email" required="required" aria-required="true" maxlength="255" appInvalidFeedback>
           </div>
-          <!-- TODO: displayCategorySelectionForWaitingQueue section -->
+          <div class="form-group" *ngIf="ticketCategoriesForWaitingList && ticketCategoriesForWaitingList.length > 1">
+            <label for="selectedCategory" translate="reservation-page.category"></label>
+            <select name="selectedCategory" id="selectedCategory" formControlName="selectedCategory" class="form-control" appInvalidFeedback>
+              <option value=""></option>
+              <option *ngFor="let tc of ticketCategoriesForWaitingList" [value]="tc.id">{{tc.name}}</option>
+            </select>
+          </div>
           <div class="form-group">
               <label for="userLanguage" translate="reservation-page-complete.language"></label>
               <select name="userLanguage" formControlName="userLanguage" id="userLanguage" class="form-control" required="required" aria-required="true" appInvalidFeedback>
