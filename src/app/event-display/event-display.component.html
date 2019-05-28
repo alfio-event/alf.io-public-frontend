@@ -21,7 +21,8 @@
       <div *ngFor="let err of globalErrors"><strong [translate]="err"></strong></div>
     </div>
 
-    <div *ngIf="waitingList" class="alert alert-warning" role="alert">
+    <!-- begin waiting list -->
+    <div *ngIf="waitingList && !waitingListRequestSubmitted" class="alert alert-warning" role="alert">
       <ng-container *ngIf="preSales">
           <h3 class="wMarginBottom" translate="show-event.pre-sales.header"></h3>
           <h4 translate="show-event.pre-sales.message"></h4>
@@ -71,6 +72,15 @@
           </div>
       </form>
     </div>
+    <div *ngIf="waitingListRequestSubmitted">
+      <div class="alert alert-danger" role="alert" *ngIf="!waitingListRequestResult">
+        <h4 translate="show-event.sold-out.subscription-error"></h4>
+      </div>
+      <div class="alert alert-success" role="alert" *ngIf="waitingListRequestResult">
+        <h4 translate="show-event.sold-out.subscription-complete"></h4>
+      </div>
+    </div>
+    <!-- end waiting list -->
 
 
     <div *ngIf="ticketCategories">

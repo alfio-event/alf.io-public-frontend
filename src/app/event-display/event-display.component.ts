@@ -36,6 +36,8 @@ export class EventDisplayComponent implements OnInit {
   preSales: boolean;
   waitingList: boolean;
   waitingListForm: FormGroup;
+  waitingListRequestSubmitted: boolean;
+  waitingListRequestResult: boolean;
   //
 
   //https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
@@ -110,7 +112,8 @@ export class EventDisplayComponent implements OnInit {
   submitWaitingListRequest(eventShortName: string, waitingListSubscriptionRequest: WaitingListSubscriptionRequest) {
 
     this.reservationService.submitWaitingListSubscriptionRequest(eventShortName, waitingListSubscriptionRequest).subscribe(res => {
-      console.log(res);
+      this.waitingListRequestSubmitted = true;
+      this.waitingListRequestResult = res.value;
     }, (err) => {
       this.globalErrors = handleServerSideValidationError(err, this.waitingListForm);
     });
