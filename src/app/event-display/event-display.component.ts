@@ -108,6 +108,11 @@ export class EventDisplayComponent implements OnInit {
   }
 
   submitWaitingListRequest(eventShortName: string, waitingListSubscriptionRequest: WaitingListSubscriptionRequest) {
-    console.log('request', waitingListSubscriptionRequest);
+
+    this.reservationService.submitWaitingListSubscriptionRequest(eventShortName, waitingListSubscriptionRequest).subscribe(res => {
+      console.log(res);
+    }, (err) => {
+      this.globalErrors = handleServerSideValidationError(err, this.waitingListForm);
+    });
   }
 }
