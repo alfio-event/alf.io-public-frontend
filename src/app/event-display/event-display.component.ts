@@ -11,6 +11,7 @@ import { handleServerSideValidationError } from '../shared/validation-helper';
 import { zip } from 'rxjs';
 import { AdditionalService } from '../model/additional-service';
 import { I18nService } from '../shared/i18n.service';
+import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscription-request';
 
 @Component({
   selector: 'app-event-display',
@@ -34,6 +35,7 @@ export class EventDisplayComponent implements OnInit {
   //
   preSales: boolean;
   waitingList: boolean;
+  waitingListForm: FormGroup;
   //
 
   //https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
@@ -76,6 +78,17 @@ export class EventDisplayComponent implements OnInit {
 
         this.preSales = itemsByCat.preSales;
         this.waitingList = itemsByCat.waitingList;
+        if(this.waitingList) {
+          this.waitingListForm = this.formBuilder.group({
+            firstName: null,
+            lastName: null,
+            email: null,
+            userLanguage: null,
+            termAndConditionsAccepted: null,
+            privacyPolicyAccepted: null,
+            selectedCategory: null
+          });
+        }
       });  
     })
   }
@@ -92,5 +105,9 @@ export class EventDisplayComponent implements OnInit {
     }, (err) => {
       this.globalErrors = handleServerSideValidationError(err, this.reservationForm);
     });
+  }
+
+  submitWaitingListRequest(eventShortName: string, waitingListSubscriptionRequest: WaitingListSubscriptionRequest) {
+    console.log('request', waitingListSubscriptionRequest);
   }
 }

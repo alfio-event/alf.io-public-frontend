@@ -31,36 +31,36 @@
           <h4 translate="show-event.sold-out.message"></h4>
       </ng-container>
       <hr/>
-      <form>
+      <form [formGroup]="waitingListForm" (submit)="submitWaitingListRequest(event.shortName, waitingListForm.value)">
           <div class="form-group">
             <label for="firstName" translate="common.first-name"></label>
-            <input type="text" id="firstName" class="form-control" name="firstName" required="required" aria-required="true" maxlength="255">
+            <input type="text" id="firstName" class="form-control" name="firstName" formControlName="firstName" required="required" aria-required="true" maxlength="255">
           </div>
           <div class="form-group">
             <label for="lastName" translate="common.last-name"></label>
-            <input type="text" id="lastName" class="form-control" name="lastName" required="required" aria-required="true" maxlength="255">
+            <input type="text" id="lastName" class="form-control" name="lastName" formControlName="lastName" required="required" aria-required="true" maxlength="255">
           </div>
           <div class="form-group">
             <label for="email" translate="common.email"></label>
-            <input type="email" id="email" class="form-control" name="email"  required="required" aria-required="true" maxlength="255">
+            <input type="email" id="email" class="form-control" name="email" formControlName="email" required="required" aria-required="true" maxlength="255">
           </div>
           <!-- TODO: displayCategorySelectionForWaitingQueue section -->
           <div class="form-group">
               <label for="userLanguage" translate="reservation-page-complete.language"></label>
-              <select name="userLanguage" id="userLanguage" id="waiting-queue-language" class="form-control" required="required" aria-required="true">
+              <select name="userLanguage" formControlName="userLanguage" id="userLanguage" class="form-control" required="required" aria-required="true">
                 <option value=""></option>
                 <option *ngFor="let l of event.contentLanguages" [value]="l.locale">{{l.displayLanguage}}</option>
               </select>
           </div>
           <div class="checkbox wMarginTop wMarginBottom" *ngIf="event.privacyPolicyUrl">
               <label>
-                  <input type="checkbox" required name="privacyPolicyAccepted" value="true">
+                  <input type="checkbox" required name="privacyPolicyAccepted" formControlName="privacyPolicyAccepted" value="true">
                   {{'reservation-page.privacy.prefix'|translate}}{{' '}}<a [href]="event.privacyPolicyUrl" target="_blank" translate="reservation-page.privacy.link.text"></a>{{'reservation-page.privacy.suffix'|translate}}
               </label>
           </div>
           <div class="checkbox">
               <label>
-                  <input type="checkbox" required name="termAndConditionsAccepted" aria-required="true">
+                  <input type="checkbox" required name="termAndConditionsAccepted" formControlName="termAndConditionsAccepted" aria-required="true">
                   {{'reservation-page.tc.prefix'|translate}}{{' '}}<a [href]="event.termsAndConditionsUrl" target="_blank" translate="reservation-page.tc.link.text"></a>{{'reservation-page.tc.suffix'|translate}}
               </label>
           </div>
