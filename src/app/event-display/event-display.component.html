@@ -54,13 +54,13 @@
           </div>
           <div class="checkbox wMarginTop wMarginBottom" *ngIf="event.privacyPolicyUrl">
               <label>
-                  <input type="checkbox" required name="privacyPolicyAccepted" formControlName="privacyPolicyAccepted" value="true" appInvalidFeedback>
+                  <input type="checkbox" required name="privacyPolicyAccepted" formControlName="privacyPolicyAccepted" value="true" appInvalidFeedback [invalidFeedbackInLabel]="true">
                   {{'reservation-page.privacy.prefix'|translate}}{{' '}}<a [href]="event.privacyPolicyUrl" target="_blank" translate="reservation-page.privacy.link.text"></a>{{'reservation-page.privacy.suffix'|translate}}
               </label>
           </div>
           <div class="checkbox">
               <label>
-                  <input type="checkbox" required name="termAndConditionsAccepted" formControlName="termAndConditionsAccepted" aria-required="true" appInvalidFeedback>
+                  <input type="checkbox" required name="termAndConditionsAccepted" formControlName="termAndConditionsAccepted" aria-required="true" appInvalidFeedback [invalidFeedbackInLabel]="true">
                   {{'reservation-page.tc.prefix'|translate}}{{' '}}<a [href]="event.termsAndConditionsUrl" target="_blank" translate="reservation-page.tc.link.text"></a>{{'reservation-page.tc.suffix'|translate}}
               </label>
           </div>

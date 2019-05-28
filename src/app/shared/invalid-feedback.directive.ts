@@ -1,4 +1,4 @@
-import { Directive, OnInit, ElementRef, OnDestroy } from '@angular/core';
+import { Directive, OnInit, ElementRef, OnDestroy, Input } from '@angular/core';
 import { FormControlName } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
@@ -9,6 +9,9 @@ import { Subscription } from 'rxjs';
 export class InvalidFeedbackDirective implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
+
+  @Input()
+  invalidFeedbackInLabel: boolean;
 
   constructor(private element: ElementRef, private control : FormControlName, private translation: TranslateService) {
   }
@@ -32,27 +35,39 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
 
   private checkValidation(): void {
 
-    let nextElem: HTMLElement = this.element.nativeElement.nextElementSibling;
+    let errorContainerElement: HTMLElement;
+
+    if(this.invalidFeedbackInLabel) {
+      errorContainerElement = this.element.nativeElement.parentElement.nextElementSibling;
+    } else {
+      errorContainerElement = this.element.nativeElement.nextElementSibling;
+    }
+
     this.clearSubs();
     if (this.control.errors && this.control.errors.serverError && this.control.errors.serverError.length > 0) {
       this.element.nativeElement.classList.add('is-invalid');
-      if(isInvalidFeedbackContainer(nextElem)) {
+      if(isInvalidFeedbackContainer(errorContainerElement)) {
         // remove messages that are already presents
         const rangeObj = new Range();
-        rangeObj.selectNodeContents(nextElem);
+        rangeObj.selectNodeContents(errorContainerElement);
         rangeObj.deleteContents();
-        this.addErrorMessages(nextElem);
+        this.addErrorMessages(errorContainerElement);
         //
       } else {
         const container = document.createElement('div');
         container.classList.add('invalid-feedback');
         this.addErrorMessages(container);
-        this.element.nativeElement.parentNode.insertBefore(container, this.element.nativeElement.nextSibling);
+        if(this.invalidFeedbackInLabel) {
+          container.classList.add('force-display')
+          this.element.nativeElement.parentNode.insertAdjacentElement('afterEnd', container);
+        } else {
+          this.element.nativeElement.insertAdjacentElement('afterEnd', container);
+        }
       }
     } else {
       this.element.nativeElement.classList.remove('is-invalid');
-      if(isInvalidFeedbackContainer(nextElem)) {
-        nextElem.remove();
+      if(isInvalidFeedbackContainer(errorContainerElement)) {
+        errorContainerElement.remove();
       }
     }
   }
