@@ -69,14 +69,16 @@ export class RecaptchaComponent implements OnInit, OnDestroy {
     this.targetElement.nativeElement.appendChild(container)
     //
 
-    grecaptcha.render(container, {
-      sitekey: this.apiKey,
-      hl: this.translate.currentLang,
-      callback: (res) => {
-        this.recaptchaResponse.emit(res);
-      }
-    });
 
+    if (window['grecaptcha']) {
+      grecaptcha.render(container, {
+        sitekey: this.apiKey,
+        hl: this.translate.currentLang,
+        callback: (res) => {
+          this.recaptchaResponse.emit(res);
+        }
+      });
+    }
   }
 
 }
