@@ -2,6 +2,7 @@ export class ReservationRequest {
     promoCode: string;
     reservation: TicketReservation[];
     additionalService: SelectedAdditionalService[];
+    captcha: string;
 }
 
 export class TicketReservation {

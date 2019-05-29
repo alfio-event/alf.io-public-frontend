@@ -66,7 +66,8 @@ export class EventDisplayComponent implements OnInit {
 
         this.reservationForm = this.formBuilder.group({
           reservation: this.formBuilder.array(this.createItems(itemsByCat.ticketCategories)),
-          additionalService: this.formBuilder.array([])
+          additionalService: this.formBuilder.array([]),
+          captcha: null
         });
         this.ticketCategories = itemsByCat.ticketCategories;
 
@@ -120,5 +121,9 @@ export class EventDisplayComponent implements OnInit {
     }, (err) => {
       this.globalErrors = handleServerSideValidationError(err, this.waitingListForm);
     });
+  }
+
+  public handleRecaptchaResponse(recaptchaValue: string): void {
+    this.reservationForm.get('captcha').setValue(recaptchaValue);
   }
 }

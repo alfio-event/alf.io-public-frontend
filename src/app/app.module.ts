@@ -40,6 +40,7 @@ import { SummaryTableComponent } from './reservation/summary-table/summary-table
 import { InvoiceFormComponent } from './reservation/invoice-form/invoice-form.component';
 import { InvalidFeedbackDirective } from './shared/invalid-feedback.directive';
 import { AdditionalServiceComponent } from './additional-service/additional-service.component';
+import { RecaptchaComponent } from './recaptcha/recaptcha.component';
 
 
 
@@ -75,7 +76,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     SummaryTableComponent,
     InvoiceFormComponent,
     InvalidFeedbackDirective,
-    AdditionalServiceComponent
+    AdditionalServiceComponent,
+    RecaptchaComponent
   ],
   imports: [
     BrowserModule,

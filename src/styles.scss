@@ -126,3 +126,11 @@ label.radio-inline {
 .invalid-feedback.force-display {
     display: block;
 }
+
+.c-container {
+    text-align: center;
+}
+
+.c-container > div {
+    display: inline-block;
+}
