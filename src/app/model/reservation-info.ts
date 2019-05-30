@@ -46,6 +46,9 @@ export class ReservationInfo {
     italyEInvoicingReferencePEC: string;
     //
     
+    // group related info
+    containsCategoriesLinkedToGroups: boolean;
+    //
 }
 
 export class ReservationStatusInfo {

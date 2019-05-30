@@ -40,7 +40,9 @@ export class Event implements DateValidity {
     //
     invoicingConfiguration: InvoicingConfiguration;
     //
-    captchaConfiguration : CaptchaConfiguration;
+    captchaConfiguration: CaptchaConfiguration;
+    //
+    assignmentConfiguration: AssignmentConfiguration;
 }
 
 export class InvoicingConfiguration {
@@ -69,4 +71,9 @@ export type PaymentProxy = 'STRIPE' | 'ON_SITE' | 'OFFLINE' | 'PAYPAL'
 export class CaptchaConfiguration {
     captchaForTicketSelection: boolean;
     recaptchaApiKey: string;
+}
+
+export class AssignmentConfiguration {
+    forceAssignment: boolean;
+    enableAttendeeAutocomplete: boolean;
 }
