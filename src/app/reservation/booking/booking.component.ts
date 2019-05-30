@@ -24,6 +24,8 @@ export class BookingComponent implements OnInit {
   expired: boolean;
   globalErrors: string[];
 
+  ticketCounts: number;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -47,6 +49,13 @@ export class BookingComponent implements OnInit {
 
         let invoiceRequested = ev.invoicingConfiguration.onlyInvoice ? true : reservationInfo.invoiceRequested;
 
+        //
+        this.ticketCounts = 0;
+        this.reservationInfo.ticketsByCategory.forEach(t => {
+          this.ticketCounts += t.tickets.length;
+        })
+        //
+
         this.contactAndTicketsForm = this.formBuilder.group({
           firstName: this.formBuilder.control(this.reservationInfo.firstName, [Validators.required, Validators.maxLength(255)]),
           lastName: this.formBuilder.control(this.reservationInfo.lastName, [Validators.required, Validators.maxLength(255)]),
@@ -66,7 +75,8 @@ export class BookingComponent implements OnInit {
           italyEInvoicingFiscalCode: this.reservationInfo.italyEInvoicingFiscalCode,
           italyEInvoicingReferenceType: this.reservationInfo.italyEInvoicingReferenceType,
           italyEInvoicingReferenceAddresseeCode: this.reservationInfo.italyEInvoicingReferenceAddresseeCode,
-          italyEInvoicingReferencePEC: this.reservationInfo.italyEInvoicingReferencePEC
+          italyEInvoicingReferencePEC: this.reservationInfo.italyEInvoicingReferencePEC,
+          postponeAssignment: false // <- TODO: check if we save it somewhere in the db...
         });
       });
     });

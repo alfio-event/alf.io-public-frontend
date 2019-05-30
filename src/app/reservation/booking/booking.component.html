@@ -59,14 +59,20 @@
       <h2 translate="reservation-page.attendees"></h2>
     </div>
 
-    <div *ngFor="let tc of reservationInfo.ticketsByCategory">
-      <div *ngFor="let ticket of tc.tickets" formGroupName="tickets">
-        <div class="attendees-data">
-            <h3><fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- {{tc.name}}</h3>
-            <app-ticket-form [ticket]="ticket" [event]="event" [form]="contactAndTicketsForm.get('tickets.'+ticket.uuid)"></app-ticket-form>
+    <div class="checkbox wMarginBottom" *ngIf="!event.assignmentConfiguration.forceAssignment && ticketCounts > 1 && !reservationInfo.containsCategoriesLinkedToGroups">
+      <label><input type="checkbox" formControlName="postponeAssignment" id="postpone-assignment" value="true">{{' '}}{{'reservation-page.postpone-assignment'|translate}}</label>
+    </div>
+
+    <ng-container *ngIf="!contactAndTicketsForm.value.postponeAssignment">
+      <div *ngFor="let tc of reservationInfo.ticketsByCategory">
+        <div *ngFor="let ticket of tc.tickets" formGroupName="tickets">
+          <div class="attendees-data">
+              <h3><fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- {{tc.name}}</h3>
+              <app-ticket-form [ticket]="ticket" [event]="event" [form]="contactAndTicketsForm.get('tickets.'+ticket.uuid)"></app-ticket-form>
+          </div>
         </div>
       </div>
-    </div>
+    </ng-container>
 
     <p><strong>*</strong>{{' '}}<span translate="common.required-fields"></span></p>
 
