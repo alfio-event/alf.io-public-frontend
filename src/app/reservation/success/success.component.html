@@ -56,16 +56,16 @@
 
         <div class="row">
           <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
-            <a [routerLink]="['/event', event.shortName, 'ticket', ticket.uuid, 'view']" target="_blank" class="btn btn-primary btn-block"><fa-icon [icon]="['fa', 'search-plus']"></fa-icon>{{'reservation-page-complete.show-ticket'|translate}}</a>
+            <a [routerLink]="['/event', event.shortName, 'ticket', ticket.uuid, 'view']" target="_blank" class="btn btn-primary btn-block"><fa-icon [icon]="['fa', 'search-plus']"></fa-icon> {{'reservation-page-complete.show-ticket'|translate}}</a>
           </div>
           <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
-            <a [attr.href]="'/api/v2/public/event/' + event.shortName + '/ticket/' + ticket.uuid + '/download-ticket'" class="btn btn-primary btn-block"><fa-icon [icon]="['fa', 'download']"></fa-icon>{{'reservation-page-complete.download-ticket'|translate}}</a>
+            <a [attr.href]="'/api/v2/public/event/' + event.shortName + '/ticket/' + ticket.uuid + '/download-ticket'" class="btn btn-primary btn-block"><fa-icon [icon]="['fa', 'download']"></fa-icon> {{'reservation-page-complete.download-ticket'|translate}}</a>
           </div>
           <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
-            <button type="button" class="btn btn-primary btn-block send-ticket-by-email" (click)="sendEmailForTicket(ticket.uuid)"><fa-icon [icon]="['far', 'envelope']"></fa-icon>{{'reservation-page-complete.send-ticket-by-email-to'|translate}}</button>
+            <button type="button" class="btn btn-primary btn-block send-ticket-by-email" (click)="sendEmailForTicket(ticket.uuid)"><fa-icon [icon]="['far', 'envelope']"></fa-icon> {{'reservation-page-complete.send-ticket-by-email-to'|translate}}</button>
           </div>
           <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
-            <button type="button" class="btn btn-primary btn-block update-ticket-owner" (click)="ticketsFormShow[ticket.uuid] = true"><fa-icon [icon]="['far', 'edit']"></fa-icon>{{'reservation-page-complete.update-ticket-owner'|translate}}</button>
+            <button type="button" class="btn btn-primary btn-block update-ticket-owner" (click)="ticketsFormShow[ticket.uuid] = true"><fa-icon [icon]="['far', 'edit']"></fa-icon> {{'reservation-page-complete.update-ticket-owner'|translate}}</button>
           </div>
         </div>
       </div>
