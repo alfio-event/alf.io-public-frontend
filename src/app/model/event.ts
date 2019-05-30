@@ -23,7 +23,6 @@ export class Event implements DateValidity {
     activePaymentMethods: {[key in PaymentMethod]?: PaymentProxyWithParameters};
 
     //
-    userCanDownloadReceiptOrInvoice: boolean;
     bankAccount: string;
     bankAccountOwner: string[];
     //
@@ -45,6 +44,7 @@ export class Event implements DateValidity {
 }
 
 export class InvoicingConfiguration {
+    userCanDownloadReceiptOrInvoice: boolean;
     euVatCheckingEnabled: boolean;
     invoiceAllowed: boolean;
     onlyInvoice: boolean;
