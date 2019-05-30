@@ -76,4 +76,5 @@ export class CaptchaConfiguration {
 export class AssignmentConfiguration {
     forceAssignment: boolean;
     enableAttendeeAutocomplete: boolean;
+    enableTicketTransfer: boolean;
 }
