@@ -6,21 +6,21 @@
     <div class="form-group row">
         <label [attr.for]="ticket.uuid + '-first-name'" class="col-sm-3 col-form-label">{{'common.first-name' | translate}} *</label>
         <div class="col-sm-9">
-            <input [attr.id]="ticket.uuid + '-first-name'" formControlName="firstName" type="text" class="form-control" appInvalidFeedback>
+            <input [attr.id]="ticket.uuid + '-first-name'" formControlName="firstName" type="text" [ngClass]="{'form-control':!ticket.locked, 'form-control-plaintext': ticket.locked}" appInvalidFeedback [attr.readonly]="ticket.locked">            
         </div>
     </div>
 
     <div class="form-group row">
         <label [attr.for]="ticket.uuid + '-last-name'" class="col-sm-3 col-form-label">{{'common.last-name' | translate}} *</label>
         <div class="col-sm-9">
-            <input [attr.id]="ticket.uuid + '-last-name'" formControlName="lastName" type="text" class="form-control" appInvalidFeedback>
+            <input [attr.id]="ticket.uuid + '-last-name'" formControlName="lastName" type="text" [ngClass]="{'form-control':!ticket.locked, 'form-control-plaintext': ticket.locked}" appInvalidFeedback [attr.readonly]="ticket.locked">
         </div>
     </div>
 
     <div class="form-group row">
         <label [attr.for]="ticket.uuid + '-email'" class="col-sm-3 col-form-label">{{'common.email' | translate}} *</label>
         <div class="col-sm-9">
-            <input [attr.id]="ticket.uuid + '-email'" formControlName="email" type="email" class="form-control" appInvalidFeedback>
+            <input [attr.id]="ticket.uuid + '-email'" formControlName="email" type="email" [ngClass]="{'form-control':!ticket.locked, 'form-control-plaintext': ticket.locked}" appInvalidFeedback [attr.readonly]="ticket.locked">
         </div>
     </div>
 
