@@ -6,6 +6,7 @@ export class Ticket {
     fullName: string;
     userLanguage: string;
     assigned: boolean;
+    locked: boolean;
     ticketFieldConfigurationBeforeStandard: AdditionalField[];
     ticketFieldConfigurationAfterStandard: AdditionalField[];
 }
