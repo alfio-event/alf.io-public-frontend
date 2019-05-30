@@ -46,71 +46,51 @@
 
   <div *ngFor="let tc of reservationInfo.ticketsByCategory">
     <div *ngFor="let ticket of tc.tickets">
-      <div *ngIf="ticket.assigned">
-        <div class="attendees-data">
-          <h3><fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span></h3>
-        </div>
-        {{'reservation-page-complete.ticket-type'|translate}} <strong>{{tc.name}}</strong>
-        <div class="wMarginBottom">
-            <p [innerHtml]="'reservation-page-complete.assigned-to' | translate: {'0': ticket.fullName, '1': ticket.email}"></p>
+      <div class="attendees-data">
+        <h3><fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span></h3>
+      </div>
+      {{'reservation-page-complete.ticket-type'|translate}} <strong>{{tc.name}}</strong>
 
-            <div class="row">
-              <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
-                <a [routerLink]="['/event', event.shortName, 'ticket', ticket.uuid, 'view']" target="_blank" class="btn btn-primary btn-block">
-                  <fa-icon [icon]="['fa', 'search-plus']"></fa-icon>
-                  {{'reservation-page-complete.show-ticket'|translate}}
-                </a>
-              </div>
-              <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
-                <a [attr.href]="'/api/v2/public/event/' + event.shortName + '/ticket/' + ticket.uuid + '/download-ticket'" class="btn btn-primary btn-block">
-                  <fa-icon [icon]="['fa', 'download']"></fa-icon>
-                  {{'reservation-page-complete.download-ticket'|translate}}
-                </a>
-              </div>
-              <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
-                <button type="button" class="btn btn-primary btn-block send-ticket-by-email" (click)="sendEmailForTicket(ticket.uuid)">
-                  <fa-icon [icon]="['far', 'envelope']"></fa-icon>
-                  {{'reservation-page-complete.send-ticket-by-email-to'|translate}}
-                </button>
-              </div>
-              <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
-                <button type="button" class="btn btn-primary btn-block update-ticket-owner" (click)="ticketsFormShow[ticket.uuid] = true">
-                  <fa-icon [icon]="['far', 'edit']"></fa-icon>
-                  {{'reservation-page-complete.update-ticket-owner'|translate}}
-                </button>
+      <div *ngIf="ticket.assigned" class="wMarginBottom">
+        <p [innerHtml]="'reservation-page-complete.assigned-to' | translate: {'0': ticket.fullName, '1': ticket.email}"></p>
+
+        <div class="row">
+          <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
+            <a [routerLink]="['/event', event.shortName, 'ticket', ticket.uuid, 'view']" target="_blank" class="btn btn-primary btn-block"><fa-icon [icon]="['fa', 'search-plus']"></fa-icon>{{'reservation-page-complete.show-ticket'|translate}}</a>
+          </div>
+          <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
+            <a [attr.href]="'/api/v2/public/event/' + event.shortName + '/ticket/' + ticket.uuid + '/download-ticket'" class="btn btn-primary btn-block"><fa-icon [icon]="['fa', 'download']"></fa-icon>{{'reservation-page-complete.download-ticket'|translate}}</a>
+          </div>
+          <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
+            <button type="button" class="btn btn-primary btn-block send-ticket-by-email" (click)="sendEmailForTicket(ticket.uuid)"><fa-icon [icon]="['far', 'envelope']"></fa-icon>{{'reservation-page-complete.send-ticket-by-email-to'|translate}}</button>
+          </div>
+          <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
+            <button type="button" class="btn btn-primary btn-block update-ticket-owner" (click)="ticketsFormShow[ticket.uuid] = true"><fa-icon [icon]="['far', 'edit']"></fa-icon>{{'reservation-page-complete.update-ticket-owner'|translate}}</button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="ticketsFormShow[ticket.uuid] || !ticket.assigned" class="wMarginBottom">
+        <form [formGroup]="ticketsFormControl[ticket.uuid]" (submit)="updateTicket(ticket.uuid)">
+          <app-ticket-form [ticket]="ticket" [event]="event" [form]="ticketsFormControl[ticket.uuid]"></app-ticket-form>
+          <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9">
+              <div class="row">
+                <div class="order-1 col-6 text-right"><button type="submit" class="btn btn-success">{{ticket.assigned ? 'reservation-page-complete.update' : 'reservation-page-complete.assign' | translate}}</button></div>
+                <div class="order-0 col-6"><button type="button" (click)="ticketsFormShow[ticket.uuid] = false" translate="reservation-page-complete.cancel" class="btn btn-outline-dark" *ngIf="ticket.assigned"></button></div>
               </div>
             </div>
+          </div>
+        </form>
+      </div>
 
-            <div *ngIf="ticketsFormShow[ticket.uuid]">
-              <form [formGroup]="ticketsFormControl[ticket.uuid]" (submit)="updateTicket(ticket.uuid)">
-                  <app-ticket-form [ticket]="ticket" [event]="event" [form]="ticketsFormControl[ticket.uuid]"></app-ticket-form>
-                  <div class="row">
-                      <div class="col-sm-3"></div>
-                      <div class="col-sm-9">
-                        <div class="row">
-                          <div class="order-1 col-6 text-right">
-                              <button type="submit" translate="reservation-page-complete.update" class="btn btn-success"></button>
-                          </div>
-                          <div class="order-0 col-6">
-                              <button type="button" (click)="ticketsFormShow[ticket.uuid] = false" translate="reservation-page-complete.cancel" class="btn btn-outline-dark"></button>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-              </form>
-            </div>
-        </div>
-
-
-        <div class="alert alert-success wMarginTop30px wMarginBottom hidden alert-dismissible" role="alert" *ngIf="sendEmailForTicketStatus[ticket.uuid] === 'SENT'">
-            <button type="button" class="close" (click)="sendEmailForTicketStatus[ticket.uuid] = false"><span aria-hidden="true">&times;</span><span class="sr-only" translate="reservation-page-complete.cancel"></span></button>
-            <strong translate="email.ticket-email-sent"></strong>
-        </div>
+      <div class="alert alert-success wMarginTop30px wMarginBottom hidden alert-dismissible" role="alert" *ngIf="sendEmailForTicketStatus[ticket.uuid] === 'SENT'">
+        <button type="button" class="close" (click)="sendEmailForTicketStatus[ticket.uuid] = false"><span aria-hidden="true">&times;</span><span class="sr-only" translate="reservation-page-complete.cancel"></span></button>
+        <strong translate="email.ticket-email-sent"></strong>
       </div>
     </div>
   </div>
-
-
 
   <div class="row d-flex justify-content-between wMarginTop30px">
     <div class="col-md-4 order-1 col-12 wMarginBottom">
