@@ -20,19 +20,21 @@
       <div class="row">
         <div class="col-sm-12 text-align-right">
           <button type="button" (click)="reSendReservationEmail()" class="btn btn-default"><fa-icon [icon]="['far', 'envelope']"></fa-icon> {{'reservation-page-complete.resend-reservation-email'|translate}}</button>
-          {{' '}}
-          <a *ngIf="reservationInfo.paid && reservationInfo.invoiceOrReceiptDocumentPresent && reservationInfo.invoiceNumber !== null"
-              class="btn btn-default"
-              [href]="'/api/v2/public/event/'+event.shortName+'/reservation/'+reservationInfo.id+'/invoice'"
-              target="_blank">
-              <fa-icon [icon]="['fa', 'download']"></fa-icon> {{'reservation-page-complete.download-your-invoice'|translate}}
+          <ng-container *ngIf="event.invoicingConfiguration.userCanDownloadReceiptOrInvoice && reservationInfo.paid && reservationInfo.invoiceOrReceiptDocumentPresent">
+            {{' '}}
+            <a *ngIf="reservationInfo.invoiceNumber !== null"
+                class="btn btn-default"
+                [href]="'/api/v2/public/event/'+event.shortName+'/reservation/'+reservationInfo.id+'/invoice'"
+                target="_blank">
+                <fa-icon [icon]="['fa', 'download']"></fa-icon> {{'reservation-page-complete.download-your-invoice'|translate}}
             </a>
-          <a *ngIf="reservationInfo.paid && reservationInfo.invoiceOrReceiptDocumentPresent && reservationInfo.invoiceNumber === null"
-              class="btn btn-default"
-              [href]="'/api/v2/public/event/'+event.shortName+'/reservation/'+reservationInfo.id+'/receipt'"
-              target="_blank">
-              <fa-icon [icon]="['fa', 'download']"></fa-icon> {{'reservation-page-complete.download-your-receipt'|translate}}
+            <a *ngIf="reservationInfo.invoiceNumber === null"
+                class="btn btn-default"
+                [href]="'/api/v2/public/event/'+event.shortName+'/reservation/'+reservationInfo.id+'/receipt'"
+                target="_blank">
+                <fa-icon [icon]="['fa', 'download']"></fa-icon> {{'reservation-page-complete.download-your-receipt'|translate}}
             </a>
+          </ng-container>
         </div>
       </div>              
   </div>
