@@ -7,6 +7,7 @@ export class Ticket {
     userLanguage: string;
     assigned: boolean;
     locked: boolean;
+    cancellationEnabled: boolean;
     ticketFieldConfigurationBeforeStandard: AdditionalField[];
     ticketFieldConfigurationAfterStandard: AdditionalField[];
 }

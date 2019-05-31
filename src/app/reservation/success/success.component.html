@@ -52,7 +52,13 @@
       {{'reservation-page-complete.ticket-type'|translate}} <strong>{{tc.name}}</strong>
 
       <div *ngIf="ticket.assigned" class="wMarginBottom">
-        <p [innerHtml]="'reservation-page-complete.assigned-to' | translate: {'0': ticket.fullName, '1': ticket.email}"></p>
+        <p>
+          <span [innerHtml]="'reservation-page-complete.assigned-to' | translate: {'0': ticket.fullName, '1': ticket.email}"></span>
+          <ng-container *ngIf="ticket.cancellationEnabled">
+            {{' '}}
+            <button type="button" class="btn btn-xs btn-danger"><fa-icon [icon]="['fa', 'eraser']" size="xs"></fa-icon> {{'reservation-page-complete.release-button.text'|translate}}</button>
+          </ng-container>
+        </p>
 
         <div class="row">
           <div class="col-lg-3 col-sm-6 col-xs-12 wMarginBottom">
