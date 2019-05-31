@@ -25,6 +25,7 @@ export class SuccessComponent implements OnInit {
   sendEmailForTicketStatus: {} = {};
   ticketsFormControl: {} = {};
   ticketsFormShow: {} = {};
+  ticketsReleaseShow: {} = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -82,6 +83,10 @@ export class SuccessComponent implements OnInit {
         this.loadReservation();
       }
     });
+  }
+
+  releaseTicket(ticket: Ticket) {
+    console.log('release ticket', ticket);
   }
 
 }
