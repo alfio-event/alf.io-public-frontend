@@ -33,6 +33,10 @@ export class TicketService {
       return this.http.put<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}`, ticket);
     }
 
+    releaseTicket(eventName: string, ticketIdentifier: string): Observable<boolean> {
+      return this.http.delete<boolean>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}`, {});
+    }
+
     private buildTicket(ticket: Ticket): {firstName: string, lastName: string, email: string, userLanguage, additional: FormGroup} {
         return {
             firstName: ticket.firstName,

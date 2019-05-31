@@ -7,6 +7,7 @@ import { TicketService } from 'src/app/shared/ticket.service';
 import { Ticket } from 'src/app/model/ticket';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { I18nService } from 'src/app/shared/i18n.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-success',
@@ -55,6 +56,13 @@ export class SuccessComponent implements OnInit {
           this.buildFormControl(ticket);
         })  
       });
+    }, err => {
+      //reservation has been cancelled!
+      if (err instanceof HttpErrorResponse && err.status === 404) {
+        this.router.navigate(['event', this.eventShortName]);
+      } else {
+        console.log('error while loading reservation ', this.reservationId)
+      }
     })
   }
 
@@ -87,6 +95,9 @@ export class SuccessComponent implements OnInit {
 
   releaseTicket(ticket: Ticket) {
     console.log('release ticket', ticket);
+    this.ticketService.releaseTicket(this.event.shortName, ticket.uuid).subscribe(res => {
+      this.loadReservation();
+    });
   }
 
 }
