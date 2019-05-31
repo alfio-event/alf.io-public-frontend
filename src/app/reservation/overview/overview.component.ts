@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Event, PaymentMethod, PaymentProxy } from 'src/app/model/event';
 import { EventService } from 'src/app/shared/event.service';
 import { ReservationInfo } from 'src/app/model/reservation-info';
-import { PaymentProvider } from 'src/app/payment/payment-provider';
+import { PaymentProvider, SimplePaymentProvider } from 'src/app/payment/payment-provider';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
 
@@ -56,6 +56,11 @@ export class OverviewComponent implements OnInit {
           if (!resInfo.orderSummary.free && this.paymentMethodsCount(ev) === 1) {
             selectedPaymentMethod = this.getSinglePaymentMethod(ev);
             paymentProxy = ev.activePaymentMethods[selectedPaymentMethod].paymentProxy;
+          }
+
+          if (resInfo.orderSummary.free) {
+            selectedPaymentMethod = 'NONE';
+            this.selectedPaymentProvider = new SimplePaymentProvider();
           }
 
           //
@@ -158,7 +163,6 @@ export class OverviewComponent implements OnInit {
   }
 
   registerCurrentPaymentProvider(paymentProvider: PaymentProvider) {
-    console.log(paymentProvider);
     this.selectedPaymentProvider = paymentProvider;
   }
 }
