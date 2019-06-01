@@ -26,6 +26,8 @@ export class BookingComponent implements OnInit {
 
   ticketCounts: number;
 
+  enableAttendeeAutocomplete: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -53,7 +55,16 @@ export class BookingComponent implements OnInit {
         this.ticketCounts = 0;
         this.reservationInfo.ticketsByCategory.forEach(t => {
           this.ticketCounts += t.tickets.length;
-        })
+        });
+
+
+        // auto complete (copy by default first/lastname + email to ticket) is enabled only if we have only
+        // one ticket
+        if (this.ticketCounts === 1 && this.event.assignmentConfiguration.enableAttendeeAutocomplete) {
+          this.enableAttendeeAutocomplete = true;
+        }
+        //
+
         //
 
         this.contactAndTicketsForm = this.formBuilder.group({
@@ -116,6 +127,16 @@ export class BookingComponent implements OnInit {
     //set addCompanyBillingDetails to false if it's null
     if (this.contactAndTicketsForm.value.addCompanyBillingDetails === null) {
       this.contactAndTicketsForm.get('addCompanyBillingDetails').setValue(false);
+    }
+  }
+
+  handleAutocomplete(fieldName: string, value: string) {
+    if (this.enableAttendeeAutocomplete) {
+      const ticketUUID = Object.keys(this.contactAndTicketsForm.get('tickets').value)[0];
+      const targetControl = this.contactAndTicketsForm.get(`tickets.${ticketUUID}.${fieldName}`);
+      if (targetControl.pristine && (targetControl.value == null || targetControl.value === '')) {
+        targetControl.setValue(value);
+      }
     }
   }
 
