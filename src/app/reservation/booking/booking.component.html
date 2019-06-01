@@ -64,10 +64,21 @@
     </div>
 
     <ng-container *ngIf="!contactAndTicketsForm.value.postponeAssignment">
-      <div *ngFor="let tc of reservationInfo.ticketsByCategory">
-        <div *ngFor="let ticket of tc.tickets" formGroupName="tickets">
+      <div *ngFor="let tc of reservationInfo.ticketsByCategory; let firstCategory = first; ">
+        <div *ngFor="let ticket of tc.tickets; let firstTicket = first;" formGroupName="tickets">
           <div class="attendees-data">
-              <h3><fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- {{tc.name}}</h3>
+              <h3>
+                <fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon>
+                <span>{{' '}}{{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- {{tc.name}}</span>
+
+                <button *ngIf="!enableAttendeeAutocomplete && firstCategory && firstTicket" 
+                        class="btn btn-outline-dark btn-xs float-right" 
+                        [ngbTooltip]="'reservation-page.copy-attendee'|translate"
+                        type="button"
+                        (click)="copyContactInfoTo(ticket)">
+                  <fa-icon [icon]="['far', 'clone']"></fa-icon>
+                </button>
+              </h3>
               <app-ticket-form [ticket]="ticket" [event]="event" [form]="contactAndTicketsForm.get('tickets.'+ticket.uuid)"></app-ticket-form>
           </div>
         </div>

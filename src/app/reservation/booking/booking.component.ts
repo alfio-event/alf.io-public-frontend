@@ -9,6 +9,7 @@ import { Event } from 'src/app/model/event';
 import { zip } from 'rxjs';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
+import { Ticket } from 'src/app/model/ticket';
 
 @Component({
   selector: 'app-booking',
@@ -138,6 +139,13 @@ export class BookingComponent implements OnInit {
         targetControl.setValue(value);
       }
     }
+  }
+
+  copyContactInfoTo(ticket: Ticket) {
+    ['firstName', 'lastName', 'email'].forEach(field => {
+      const val = this.contactAndTicketsForm.get(field).value;
+      this.contactAndTicketsForm.get(`tickets.${ticket.uuid}.${field}`).setValue(val);
+    });
   }
 
 }
