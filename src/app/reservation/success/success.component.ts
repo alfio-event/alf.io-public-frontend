@@ -28,6 +28,9 @@ export class SuccessComponent implements OnInit {
   ticketsFormShow: {} = {};
   ticketsReleaseShow: {} = {};
 
+  unlockedTicketCount: number = 0;
+  ticketsAllAssigned: boolean = true;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -51,9 +54,17 @@ export class SuccessComponent implements OnInit {
   private loadReservation(): void {
     this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(res => {
       this.reservationInfo = res;
+      //
+      this.ticketsAllAssigned = true;
+      this.unlockedTicketCount = 0;
+      //
       res.ticketsByCategory.forEach((tc) => {
         tc.tickets.forEach((ticket: Ticket) => {
           this.buildFormControl(ticket);
+          if(!ticket.locked) {
+            this.unlockedTicketCount +=1;
+          }
+          this.ticketsAllAssigned = this.ticketsAllAssigned && ticket.assigned;
         })  
       });
     }, err => {

@@ -40,7 +40,7 @@
   </div>
 
 
-  <div>
+  <div *ngIf="event.assignmentConfiguration.enableTicketTransfer && ticketsAllAssigned && unlockedTicketCount > 0">
       <p class="bg-info ticket-info" translate="reservation-page-complete.info-update"></p>
   </div>
 
