@@ -1,15 +1,20 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { I18nService } from './shared/i18n.service';
 import { EventService } from './shared/event.service';
 import { TranslateService } from '@ngx-translate/core';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LanguageGuard implements CanActivate {
+
+  //
+  private applicationLanguages: string[];
+  private eventLanguages: {[name:string]: string[]} = {};
+  //
 
   constructor(private i18nService: I18nService, private eventService: EventService, private translate: TranslateService) {
   }
@@ -24,12 +29,29 @@ export class LanguageGuard implements CanActivate {
     }
     
     const eventShortName = next.params['eventShortName'];
-    const req = eventShortName ? this.eventService.getAvailableLanguageForEvent(eventShortName) : this.i18nService.getAvailableLanguages().pipe(map(languages => languages.map(l => l.locale)));
+    const req = eventShortName ? this.getForEvent(eventShortName) : this.getForApp();
 
     return req.pipe(map(availableLanguages => {
       this.useLanguage(availableLanguages, persisted);
       return true;
     }));
+  }
+
+  private getForEvent(eventShortName: string): Observable<string[]> {
+    if (this.eventLanguages[eventShortName]) {
+      return of(this.eventLanguages[eventShortName]);
+    } else {
+      return this.eventService.getAvailableLanguageForEvent(eventShortName).pipe(tap(val => {this.eventLanguages[eventShortName] = val}));
+    }
+  }
+
+  private getForApp(): Observable<string[]> {
+
+    if (this.applicationLanguages) {
+      return of(this.applicationLanguages);
+    } else {
+      return this.i18nService.getAvailableLanguages().pipe(map(languages => languages.map(l => l.locale)), tap(val => {this.applicationLanguages = val;}));
+    }
   }
 
   private useLanguage(availableLanguages: string[], persisted: string): void {
