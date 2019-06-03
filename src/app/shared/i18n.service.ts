@@ -46,4 +46,12 @@ export class I18nService {
       }
     });
   }
+
+  persistLanguage(lang: string): void {
+    window.sessionStorage['ALFIO_LANG'] = lang;
+  }
+
+  getPersistedLanguage(): string {
+    return window.sessionStorage['ALFIO_LANG'];
+  }
 }
