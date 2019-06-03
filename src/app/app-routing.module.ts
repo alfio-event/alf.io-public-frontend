@@ -10,11 +10,12 @@ import { OfflinePaymentComponent } from './reservation/offline-payment/offline-p
 import { ViewTicketComponent } from './view-ticket/view-ticket.component';
 import { ReservationGuard } from './reservation/reservation.guard';
 import { ProcessingPaymentComponent } from './reservation/processing-payment/processing-payment.component';
+import { LanguageGuard } from './language.guard';
 
 const routes: Routes = [
-  { path: '', component: EventListComponent },
-  { path: 'event/:eventShortName', component: EventDisplayComponent },
-  { path: 'event/:eventShortName/reservation/:reservationId', component: ReservationComponent, canActivate: [ReservationGuard], children: [
+  { path: '', component: EventListComponent, canActivate: [LanguageGuard] },
+  { path: 'event/:eventShortName', component: EventDisplayComponent, canActivate: [LanguageGuard] },
+  { path: 'event/:eventShortName/reservation/:reservationId', component: ReservationComponent, canActivate: [LanguageGuard, ReservationGuard], children: [
     { path: 'book', component: BookingComponent, canActivate: [ReservationGuard] },
     { path: 'overview', component: OverviewComponent, canActivate: [ReservationGuard] },
     { path: 'waitingPayment', redirectTo: 'waiting-payment'},
@@ -22,7 +23,7 @@ const routes: Routes = [
     { path: 'processing-payment', component: ProcessingPaymentComponent, canActivate: [ReservationGuard] },
     { path: 'success', component: SuccessComponent, canActivate: [ReservationGuard]}
   ]},
-  { path: 'event/:eventShortName/ticket/:ticketId/view', component: ViewTicketComponent }
+  { path: 'event/:eventShortName/ticket/:ticketId/view', component: ViewTicketComponent, canActivate: [LanguageGuard] }
 ];
 
 @NgModule({
