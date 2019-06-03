@@ -26,9 +26,13 @@ export class LanguageGuard implements CanActivate {
     const eventShortName = next.params['eventShortName'];
     const req = eventShortName ? this.eventService.getAvailableLanguageForEvent(eventShortName) : this.i18nService.getAvailableLanguages().pipe(map(languages => languages.map(l => l.locale)));
 
-    return req.pipe(map(val => {
-      if (persisted) {
+    return req.pipe(map(availableLanguages => {
+      if (availableLanguages.indexOf(persisted) >= 0) {
         this.translate.use(persisted);
+      } else if (availableLanguages.indexOf(this.translate.getBrowserLang()) >= 0) {
+        this.translate.use(this.translate.getBrowserLang());
+      } else {
+        this.translate.use(availableLanguages[0]);
       }
       return true;
     }));
