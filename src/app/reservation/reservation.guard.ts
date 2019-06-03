@@ -34,7 +34,7 @@ export class ReservationGuard implements CanActivate {
         }
     }
 
-    private checkAndRedirect(eventShortName: string, reservationId: string, component: any) {
+    private checkAndRedirect(eventShortName: string, reservationId: string, component: any): Observable<boolean | UrlTree> {
         return this.reservationService.getReservationStatusInfo(eventShortName, reservationId).pipe(map(reservation => {
 
             const selectedComponent = getCorrespondingController(reservation.status, reservation.validatedBookingInformations);
@@ -47,7 +47,7 @@ export class ReservationGuard implements CanActivate {
     }
 }
 
-function getRouteFromComponent(component: any, eventShortName: string, reservationId: string) {
+function getRouteFromComponent(component: any, eventShortName: string, reservationId: string): string[] {
     if (component === OverviewComponent) {
         return ['event', eventShortName, 'reservation', reservationId, 'overview'];
     } else if (component === BookingComponent) {

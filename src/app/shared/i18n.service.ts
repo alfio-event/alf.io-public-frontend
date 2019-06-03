@@ -54,4 +54,7 @@ export class I18nService {
   getPersistedLanguage(): string {
     return window.sessionStorage['ALFIO_LANG'];
   }
+
+  useDefaultLanguage(): void {
+  }
 }

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { I18nService } from './shared/i18n.service';
 import { EventService } from './shared/event.service';
 import { TranslateService } from '@ngx-translate/core';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,23 +16,22 @@ export class LanguageGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    this.translate.setDefaultLang('en');
+    const persisted = this.i18nService.getPersistedLanguage();
 
-    let persisted = this.i18nService.getPersistedLanguage();
-
-
-    const eventShortName = next.params['eventShortName'];
-    if(eventShortName) {
-      console.log('event short name is ', eventShortName);
-    }
-
-
+    //set before calling, to avoid any strange flashes
     if (persisted) {
       this.translate.use(persisted);
-    } else {
-      this.translate.use('en');
     }
-    return true;
+    
+    const eventShortName = next.params['eventShortName'];
+    const req = eventShortName ? this.eventService.getAvailableLanguageForEvent(eventShortName) : this.i18nService.getAvailableLanguages().pipe(map(languages => languages.map(l => l.locale)));
+
+    return req.pipe(map(val => {
+      if (persisted) {
+        this.translate.use(persisted);
+      }
+      return true;
+    }));
   }
 
 }
