@@ -16,7 +16,7 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
   constructor(private element: ElementRef, private control : FormControlName, private translation: TranslateService) {
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.control.statusChanges.subscribe(e => {
       this.checkValidation();
     });
@@ -29,7 +29,7 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
     this.subs = [];
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.clearSubs();
   }
 

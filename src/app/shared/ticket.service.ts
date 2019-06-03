@@ -15,7 +15,6 @@ export class TicketService {
         private http: HttpClient,
         private formBuilder: FormBuilder) { }
 
-
     getTicketInfo(eventName: string, ticketIdentifier: string): Observable<TicketInfo> {
         return this.http.get<TicketInfo>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}`);
     }
@@ -38,33 +37,33 @@ export class TicketService {
     }
 
     private buildTicket(ticket: Ticket): {firstName: string, lastName: string, email: string, userLanguage, additional: FormGroup} {
-        return {
-            firstName: ticket.firstName,
-            lastName: ticket.lastName,
-            email: ticket.email,
-            userLanguage: ticket.userLanguage,
-            additional: this.buildAdditionalFields(ticket.ticketFieldConfigurationBeforeStandard, ticket.ticketFieldConfigurationAfterStandard)
-        }
+      return {
+          firstName: ticket.firstName,
+          lastName: ticket.lastName,
+          email: ticket.email,
+          userLanguage: ticket.userLanguage,
+          additional: this.buildAdditionalFields(ticket.ticketFieldConfigurationBeforeStandard, ticket.ticketFieldConfigurationAfterStandard)
+      }
     }
 
     private buildAdditionalFields(before: AdditionalField[], after: AdditionalField[]) : FormGroup {
-        let additional = {};
-        if (before) {
-          this.buildSingleAdditionalField(before, additional);
-        }
-        if (after) {
-          this.buildSingleAdditionalField(after, additional);
-        }
-        return this.formBuilder.group(additional);
+      let additional = {};
+      if (before) {
+        this.buildSingleAdditionalField(before, additional);
       }
-    
-      private buildSingleAdditionalField(a: AdditionalField[], additional: {}): void {
-        a.forEach(f => {
-          const arr = [];
-          f.fields.forEach(field => {
-            arr.push(this.formBuilder.control(field.fieldValue));
-          });
-          additional[f.name] = this.formBuilder.array(arr)
-        })
+      if (after) {
+        this.buildSingleAdditionalField(after, additional);
       }
+      return this.formBuilder.group(additional);
+    }
+
+    private buildSingleAdditionalField(a: AdditionalField[], additional: {}): void {
+      a.forEach(f => {
+        const arr = [];
+        f.fields.forEach(field => {
+          arr.push(this.formBuilder.control(field.fieldValue));
+        });
+        additional[f.name] = this.formBuilder.array(arr)
+      })
+    }
 }
