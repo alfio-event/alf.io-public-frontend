@@ -7,7 +7,6 @@ import { OverviewConfirmation } from '../model/overview-confirmation';
 import { ReservationInfo, ReservationStatusInfo } from '../model/reservation-info';
 import { ReservationPaymentResult } from '../model/reservation-payment-result';
 import { TransactionInitializationToken } from '../model/payment';
-import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscription-request';
 
 @Injectable({
     providedIn: 'root'
@@ -18,10 +17,6 @@ export class ReservationService {
 
     reserveTickets(eventShortName: string, reservation: ReservationRequest, lang: string): Observable<ValidatedResponse<string>> {
         return this.http.post<ValidatedResponse<string>>(`/api/v2/public/event/${eventShortName}/reserve-tickets`, reservation, {params: {lang: lang}});
-    }
-
-    submitWaitingListSubscriptionRequest(eventShortName: string, waitingListSubscriptionRequest: WaitingListSubscriptionRequest): Observable<ValidatedResponse<boolean>> {
-        return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventShortName}/waiting-list/subscribe`, waitingListSubscriptionRequest);
     }
 
     getReservationInfo(eventShortName: string, reservationId: string): Observable<ReservationInfo> {

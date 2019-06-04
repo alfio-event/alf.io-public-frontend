@@ -115,7 +115,7 @@ export class EventDisplayComponent implements OnInit {
 
   submitWaitingListRequest(eventShortName: string, waitingListSubscriptionRequest: WaitingListSubscriptionRequest) {
 
-    this.reservationService.submitWaitingListSubscriptionRequest(eventShortName, waitingListSubscriptionRequest).subscribe(res => {
+    this.eventService.submitWaitingListSubscriptionRequest(eventShortName, waitingListSubscriptionRequest).subscribe(res => {
       this.waitingListRequestSubmitted = true;
       this.waitingListRequestResult = res.value;
     }, (err) => {
