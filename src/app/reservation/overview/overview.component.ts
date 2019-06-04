@@ -8,6 +8,7 @@ import { ReservationInfo } from 'src/app/model/reservation-info';
 import { PaymentProvider, SimplePaymentProvider } from 'src/app/payment/payment-provider';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-overview',
@@ -34,7 +35,8 @@ export class OverviewComponent implements OnInit {
     private reservationService: ReservationService,
     private eventService: EventService,
     private formBuilder: FormBuilder,
-    private i18nService: I18nService) { }
+    private i18nService: I18nService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.route.parent.params.subscribe(params => {
@@ -135,7 +137,7 @@ export class OverviewComponent implements OnInit {
 
         const overviewFormValue = this.overviewForm.value;
 
-        this.reservationService.confirmOverview(this.eventShortName, this.reservationId, overviewFormValue).subscribe(res => {
+        this.reservationService.confirmOverview(this.eventShortName, this.reservationId, overviewFormValue, this.translate.currentLang).subscribe(res => {
           if (res.success) {
             if (res.value.redirect) { //handle the case of redirects (e.g. paypal, stripe)
               window.location.href = res.value.redirectUrl;

@@ -16,8 +16,8 @@ export class ReservationService {
 
     constructor(private http: HttpClient) { }
 
-    reserveTickets(eventShortName: string, reservation: ReservationRequest): Observable<ValidatedResponse<string>> {
-        return this.http.post<ValidatedResponse<string>>(`/api/v2/public/event/${eventShortName}/reserve-tickets`, reservation);
+    reserveTickets(eventShortName: string, reservation: ReservationRequest, lang: string): Observable<ValidatedResponse<string>> {
+        return this.http.post<ValidatedResponse<string>>(`/api/v2/public/event/${eventShortName}/reserve-tickets`, reservation, {params: {lang: lang}});
     }
 
     submitWaitingListSubscriptionRequest(eventShortName: string, waitingListSubscriptionRequest: WaitingListSubscriptionRequest): Observable<ValidatedResponse<boolean>> {
@@ -36,12 +36,12 @@ export class ReservationService {
         return this.http.delete<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`);
     }
 
-    validateToOverview(eventShortName: string, reservationId: string, contactsAndTicket: any): Observable<ValidatedResponse<boolean>> {
-        return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/validate-to-overview`, contactsAndTicket);
+    validateToOverview(eventShortName: string, reservationId: string, contactsAndTicket: any, lang: string): Observable<ValidatedResponse<boolean>> {
+        return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/validate-to-overview`, contactsAndTicket, {params: {lang: lang}});
     }
 
-    confirmOverview(eventShortName: string, reservationId: string, overviewForm: OverviewConfirmation): Observable<ValidatedResponse<ReservationPaymentResult>> {
-        return this.http.post<ValidatedResponse<ReservationPaymentResult>>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`, overviewForm);
+    confirmOverview(eventShortName: string, reservationId: string, overviewForm: OverviewConfirmation, lang: string): Observable<ValidatedResponse<ReservationPaymentResult>> {
+        return this.http.post<ValidatedResponse<ReservationPaymentResult>>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`, overviewForm, {params: {lang: lang}});
     }
 
     backToBooking(eventShortName: string, reservationId: string) : Observable<boolean> {

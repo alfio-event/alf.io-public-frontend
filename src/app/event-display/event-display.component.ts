@@ -104,7 +104,7 @@ export class EventDisplayComponent implements OnInit {
   }
 
   submitForm(eventShortName: string, reservation: ReservationRequest) {
-    this.reservationService.reserveTickets(eventShortName, reservation).subscribe(res => {
+    this.reservationService.reserveTickets(eventShortName, reservation, this.translate.currentLang).subscribe(res => {
       if (res.success) {
         this.router.navigate(['event', eventShortName, 'reservation', res.value ,'book'])
       }

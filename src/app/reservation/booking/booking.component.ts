@@ -10,6 +10,7 @@ import { zip } from 'rxjs';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { Ticket } from 'src/app/model/ticket';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-booking',
@@ -36,7 +37,8 @@ export class BookingComponent implements OnInit {
     private ticketService: TicketService,
     private eventService: EventService,
     private formBuilder: FormBuilder,
-    private i18nService: I18nService) { }
+    private i18nService: I18nService,
+    private translate: TranslateService) { }
 
   public ngOnInit(): void {
     this.route.parent.params.subscribe(params => {
@@ -105,7 +107,7 @@ export class BookingComponent implements OnInit {
   }
 
   public submitForm() {
-    this.reservationService.validateToOverview(this.eventShortName, this.reservationId, this.contactAndTicketsForm.value).subscribe(res => {
+    this.reservationService.validateToOverview(this.eventShortName, this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang).subscribe(res => {
       if (res.success) {
         this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview'])
       }
