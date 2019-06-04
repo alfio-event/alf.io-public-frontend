@@ -43,6 +43,8 @@ export class Event implements DateValidity {
     captchaConfiguration: CaptchaConfiguration;
     //
     assignmentConfiguration: AssignmentConfiguration;
+    //
+    promotionsConfiguration: PromotionsConfiguration;
 }
 
 export class InvoicingConfiguration {
@@ -77,4 +79,9 @@ export class AssignmentConfiguration {
     forceAssignment: boolean;
     enableAttendeeAutocomplete: boolean;
     enableTicketTransfer: boolean;
+}
+
+export class PromotionsConfiguration {
+    hasAccessPromotions: boolean;
+    usePartnerCode: boolean;
 }

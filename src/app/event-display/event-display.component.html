@@ -113,13 +113,7 @@
                         <div class="col-sm-2">
                           <ng-container *ngIf="category.saleableAndLimitNotReached">
                             <select formControlName="amount" class="form-control">
-                              <ng-container *ngIf="category.accessRestricted">
-                                <option [value]="0">0</option>
-                                <option [value]="1">1</option>
-                              </ng-container>
-                              <ng-container *ngIf="!category.accessRestricted">
-                                <option *ngFor="let amount of ticketCategoryAmount[category.id]" [value]="amount">{{amount}}</option>
-                              </ng-container>
+                              <option *ngFor="let amount of ticketCategoryAmount[category.id]" [value]="amount">{{amount}}</option>
                             </select>
                           </ng-container>
                           <span *ngIf="!category.saleableAndLimitNotReached && category.souldOutOrLimitReached" translate="show-event.sold-out"></span>
