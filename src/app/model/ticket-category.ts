@@ -5,6 +5,9 @@ export class TicketCategory {
     description: {[key:string]: string}
     free: boolean;
     formattedFinalPrice: string;
+    hasDiscount: boolean;
+    formattedDiscountedPrice: string;
+
 
     //
     expired: boolean;
