@@ -67,7 +67,8 @@ export class EventDisplayComponent implements OnInit {
         this.reservationForm = this.formBuilder.group({
           reservation: this.formBuilder.array(this.createItems(itemsByCat.ticketCategories)),
           additionalService: this.formBuilder.array([]),
-          captcha: null
+          captcha: null,
+          promoCode: null
         });
 
         this.applyItemsByCat(itemsByCat);
@@ -146,6 +147,7 @@ export class EventDisplayComponent implements OnInit {
 
         //
         this.eventService.getEventTicketsInfo(this.event.shortName, promoCode).subscribe(itemsByCat => {
+          this.reservationForm.get('promoCode').setValue(promoCode);
           this.reservationForm.setControl('reservation', this.formBuilder.array(this.createItems(itemsByCat.ticketCategories)));
           this.applyItemsByCat(itemsByCat);
         });
