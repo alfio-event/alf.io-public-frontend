@@ -12,7 +12,7 @@ import { zip } from 'rxjs';
 import { AdditionalService } from '../model/additional-service';
 import { I18nService } from '../shared/i18n.service';
 import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscription-request';
-import { TicketCategoryForWaitingList } from '../model/items-by-category';
+import { TicketCategoryForWaitingList, ItemsByCategory } from '../model/items-by-category';
 
 @Component({
   selector: 'app-event-display',
@@ -69,34 +69,45 @@ export class EventDisplayComponent implements OnInit {
           additionalService: this.formBuilder.array([]),
           captcha: null
         });
-        this.ticketCategories = itemsByCat.ticketCategories;
 
-        this.ticketCategoryAmount = {};
-        this.ticketCategories.forEach(tc => {
-          this.ticketCategoryAmount[tc.id] = [];
-          for (let i = 0; i <= tc.maximumSaleableTickets; i++) {
-            this.ticketCategoryAmount[tc.id].push(i);
-          }
-        });
-        this.supplementCategories = itemsByCat.additionalServices.filter(e => e.type === 'SUPPLEMENT');
-        this.donationCategories = itemsByCat.additionalServices.filter(e => e.type === 'DONATION');
-
-        this.preSales = itemsByCat.preSales;
-        this.waitingList = itemsByCat.waitingList;
-        this.ticketCategoriesForWaitingList = itemsByCat.ticketCategoriesForWaitingList;
-        if(this.waitingList) {
-          this.waitingListForm = this.formBuilder.group({
-            firstName: null,
-            lastName: null,
-            email: null,
-            selectedCategory: null,
-            userLanguage: null,
-            termAndConditionsAccepted: null,
-            privacyPolicyAccepted: null
-          });
-        }
+        this.applyItemsByCat(itemsByCat);
       });  
     })
+  }
+
+  private applyItemsByCat(itemsByCat: ItemsByCategory) {
+    this.ticketCategories = itemsByCat.ticketCategories;
+
+    this.ticketCategoryAmount = {};
+    this.ticketCategories.forEach(tc => {
+      this.ticketCategoryAmount[tc.id] = [];
+      for (let i = 0; i <= tc.maximumSaleableTickets; i++) {
+        this.ticketCategoryAmount[tc.id].push(i);
+      }
+    });
+
+    this.supplementCategories = itemsByCat.additionalServices.filter(e => e.type === 'SUPPLEMENT');
+    this.donationCategories = itemsByCat.additionalServices.filter(e => e.type === 'DONATION');
+
+    this.preSales = itemsByCat.preSales;
+    this.waitingList = itemsByCat.waitingList;
+    this.ticketCategoriesForWaitingList = itemsByCat.ticketCategoriesForWaitingList;
+
+    this.createWaitingListFormIfNecessary();
+  }
+
+  private createWaitingListFormIfNecessary() {
+    if(this.waitingList && !this.waitingListForm) {
+      this.waitingListForm = this.formBuilder.group({
+        firstName: null,
+        lastName: null,
+        email: null,
+        selectedCategory: null,
+        userLanguage: null,
+        termAndConditionsAccepted: null,
+        privacyPolicyAccepted: null
+      });
+    }
   }
 
   private createItems(ticketCategories: TicketCategory[]): FormGroup[] {
@@ -131,7 +142,17 @@ export class EventDisplayComponent implements OnInit {
     this.eventService.validateCode(this.event.shortName, promoCode).subscribe(res => {
       console.log('result is ', res);
       if (res.success) {
+        //this.router.navigate([], {relativeTo: this.route, queryParams: {code: promoCode}, queryParamsHandling: "merge"})
         //TODO, set promo code in url, fetch ticket category, rebuild the reservationForm.reservation
+
+        //
+        this.eventService.getEventTicketsInfo(this.event.shortName, promoCode).subscribe(itemsByCat => {
+          this.applyItemsByCat(itemsByCat);
+          this.reservationForm.setControl('reservations', this.formBuilder.array(this.createItems(itemsByCat.ticketCategories)));
+        });
+        //
+
+
       }
     }, (err) => {
       console.log('validation error ', err);

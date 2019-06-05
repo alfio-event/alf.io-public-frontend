@@ -35,8 +35,9 @@ export class EventService {
     return this.eventCache[eventShortName];
   }
 
-  getEventTicketsInfo(eventShortName: string) : Observable<ItemsByCategory> {
-    return this.http.get<ItemsByCategory>(`/api/v2/public/event/${eventShortName}/ticket-categories`);
+  getEventTicketsInfo(eventShortName: string, code?: string) : Observable<ItemsByCategory> {
+    let params = code ? {params: {code: code}} : {};
+    return this.http.get<ItemsByCategory>(`/api/v2/public/event/${eventShortName}/ticket-categories`, params);
   }
 
   getAvailableLanguageForEvent(eventShortName: string): Observable<string[]> {
