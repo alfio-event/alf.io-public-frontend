@@ -93,7 +93,7 @@
         <form [formGroup]="reservationForm" (submit)="submitForm(event.shortName, reservationForm.value)">
           <div>
               <ul class="list-group ticket-categories">
-                <li *ngFor="let category of ticketCategories;let counter = index" formArrayName="reservation" class="list-group-item">
+                <li *ngFor="let category of ticketCategories;let counter = index" formArrayName="reservation" class="list-group-item" [ngClass]="{'ticket-category-restricted': category.accessRestricted }">
                     <div [formGroupName]="counter" class="row">
                         <div class="col-sm-7">
                           <h3>{{category.name}}</h3>
@@ -149,7 +149,7 @@
           </div>
 
 
-          <div *ngIf="event.promotionsConfiguration.hasAccessPromotions" class="card">
+          <div *ngIf="event.promotionsConfiguration.hasAccessPromotions" class="card wMarginTop">
             <div class="card-header">
               <fa-icon [icon]="event.promotionsConfiguration.usePartnerCode ? ['far', 'handshake'] : ['fa', 'gift']"></fa-icon>{{' '}}
               <span>{{'show-event.promo-code'|translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate } }}</span>

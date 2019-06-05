@@ -12,3 +12,7 @@ h2 {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
 }
+
+.ticket-category-restricted {
+    background-color: #F5F5DC
+}

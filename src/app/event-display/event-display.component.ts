@@ -140,15 +140,14 @@ export class EventDisplayComponent implements OnInit {
 
   applyPromoCode(promoCode: string): void {
     this.eventService.validateCode(this.event.shortName, promoCode).subscribe(res => {
-      console.log('result is ', res);
       if (res.success) {
         //this.router.navigate([], {relativeTo: this.route, queryParams: {code: promoCode}, queryParamsHandling: "merge"})
         //TODO, set promo code in url, fetch ticket category, rebuild the reservationForm.reservation
 
         //
         this.eventService.getEventTicketsInfo(this.event.shortName, promoCode).subscribe(itemsByCat => {
+          this.reservationForm.setControl('reservation', this.formBuilder.array(this.createItems(itemsByCat.ticketCategories)));
           this.applyItemsByCat(itemsByCat);
-          this.reservationForm.setControl('reservations', this.formBuilder.array(this.createItems(itemsByCat.ticketCategories)));
         });
         //
 
