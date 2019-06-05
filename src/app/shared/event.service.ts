@@ -6,11 +6,15 @@ import { Event } from '../model/event'
 import { ItemsByCategory } from '../model/items-by-category';
 import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscription-request';
 import { ValidatedResponse } from '../model/validated-response';
+import { publishReplay, refCount } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
+
+
+  private eventCache: {[key:string]: Observable<Event>} = {};
 
   constructor(private http: HttpClient) { }
 
@@ -19,7 +23,16 @@ export class EventService {
   }
 
   getEvent(eventShortName: string): Observable<Event> {
-    return this.http.get<Event>(`/api/v2/public/event/${eventShortName}`);
+
+    //caching as explained with https://blog.angularindepth.com/fastest-way-to-cache-for-lazy-developers-angular-with-rxjs-444a198ed6a6
+    if (!this.eventCache[eventShortName]) {
+      this.eventCache[eventShortName] = this.http.get<Event>(`/api/v2/public/event/${eventShortName}`).pipe(publishReplay(1), refCount());
+      setTimeout(() => {
+        delete this.eventCache[eventShortName];
+      }, 60000); // clean up cache after 1 minute
+    }
+
+    return this.eventCache[eventShortName];
   }
 
   getEventTicketsInfo(eventShortName: string) : Observable<ItemsByCategory> {

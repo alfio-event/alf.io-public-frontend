@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { I18nService } from './shared/i18n.service';
 import { EventService } from './shared/event.service';
 import { TranslateService } from '@ngx-translate/core';
-import { map, tap } from 'rxjs/operators';
+import { map, publishReplay, refCount } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,8 @@ import { map, tap } from 'rxjs/operators';
 export class LanguageGuard implements CanActivate {
 
   //
-  private applicationLanguages: string[];
-  private eventLanguages: {[name:string]: string[]} = {};
+  private applicationLanguages: Observable<string[]>;
+  private eventLanguages: {[name:string]: Observable<string[]>} = {};
   //
 
   constructor(private i18nService: I18nService, private eventService: EventService, private translate: TranslateService) {
@@ -38,20 +38,21 @@ export class LanguageGuard implements CanActivate {
   }
 
   private getForEvent(eventShortName: string): Observable<string[]> {
-    if (this.eventLanguages[eventShortName]) {
-      return of(this.eventLanguages[eventShortName]);
-    } else {
-      return this.eventService.getAvailableLanguageForEvent(eventShortName).pipe(tap(val => {this.eventLanguages[eventShortName] = val}));
+
+    if (!this.eventLanguages[eventShortName]) {
+      this.eventLanguages[eventShortName] = this.eventService.getAvailableLanguageForEvent(eventShortName).pipe(publishReplay(1), refCount())
     }
+
+    return this.eventLanguages[eventShortName];
   }
 
   private getForApp(): Observable<string[]> {
 
-    if (this.applicationLanguages) {
-      return of(this.applicationLanguages);
-    } else {
-      return this.i18nService.getAvailableLanguages().pipe(map(languages => languages.map(l => l.locale)), tap(val => {this.applicationLanguages = val;}));
+    if (!this.applicationLanguages) {
+      this.applicationLanguages = this.i18nService.getAvailableLanguages().pipe(map(languages => languages.map(l => l.locale)), publishReplay(1), refCount());
     }
+
+    return this.applicationLanguages;
   }
 
   private useLanguage(availableLanguages: string[], persisted: string): void {
