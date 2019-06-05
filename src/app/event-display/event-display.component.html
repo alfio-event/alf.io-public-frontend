@@ -149,7 +149,15 @@
               <fa-icon [icon]="event.promotionsConfiguration.usePartnerCode ? ['far', 'handshake'] : ['fa', 'gift']"></fa-icon>{{' '}}
               <span>{{'show-event.promo-code'|translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate } }}</span>
             </div>
-            <div class="card-body"></div>
+            <div class="card-body">
+              <div class="form-inline justify-content-center">
+                <div class="form-group">
+                    <label for="promo-code">{{'show-event.promo-code-insert' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate } }}</label>
+                    <input autocomplete="off" class="form-control promo-code-input" id="promo-code">
+                    <button class="btn btn-success" type="button" translate="show-event.promo-code.apply"></button>
+                </div>
+              </div>
+            </div>
           </div>
 
 
