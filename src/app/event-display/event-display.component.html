@@ -153,8 +153,8 @@
               <div class="form-inline justify-content-center">
                 <div class="form-group">
                     <label for="promo-code">{{'show-event.promo-code-insert' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate } }}</label>
-                    <input autocomplete="off" class="form-control promo-code-input" id="promo-code">
-                    <button class="btn btn-success" type="button" translate="show-event.promo-code.apply"></button>
+                    <input autocomplete="off" class="form-control promo-code-input" id="promo-code" #promoCodeInput>
+                    <button class="btn btn-success" type="button" translate="show-event.promo-code.apply" (click)="applyPromoCode(promoCodeInput.value)"></button>
                 </div>
               </div>
             </div>

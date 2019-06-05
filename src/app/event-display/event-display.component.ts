@@ -53,7 +53,7 @@ export class EventDisplayComponent implements OnInit {
     public translate: TranslateService,
     private i18nService: I18nService) { }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.route.params.subscribe(params => {
 
       const eventShortName = params['eventShortName'];
@@ -123,7 +123,18 @@ export class EventDisplayComponent implements OnInit {
     });
   }
 
-  public handleRecaptchaResponse(recaptchaValue: string): void {
+  handleRecaptchaResponse(recaptchaValue: string): void {
     this.reservationForm.get('captcha').setValue(recaptchaValue);
+  }
+
+  applyPromoCode(promoCode: string): void {
+    this.eventService.validateCode(this.event.shortName, promoCode).subscribe(res => {
+      console.log('result is ', res);
+      if (res.success) {
+        //TODO, set promo code in url, fetch ticket category, rebuild the reservationForm.reservation
+      }
+    }, (err) => {
+      console.log('validation error ', err);
+    });
   }
 }
