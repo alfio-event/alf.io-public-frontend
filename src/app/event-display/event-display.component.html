@@ -144,6 +144,15 @@
           </div>
 
 
+          <div *ngIf="event.promotionsConfiguration.hasAccessPromotions" class="card">
+            <div class="card-header">
+              <fa-icon [icon]="event.promotionsConfiguration.usePartnerCode ? ['far', 'handshake'] : ['fa', 'gift']"></fa-icon>{{' '}}
+              <span>{{'show-event.promo-code'|translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate } }}</span>
+            </div>
+            <div class="card-body"></div>
+          </div>
+
+
           <app-recaptcha [apiKey]="event.captchaConfiguration.recaptchaApiKey" (recaptchaResponse)="handleRecaptchaResponse($event)" *ngIf="event.captchaConfiguration.captchaForTicketSelection && event.captchaConfiguration.recaptchaApiKey"></app-recaptcha>
 
           <hr>

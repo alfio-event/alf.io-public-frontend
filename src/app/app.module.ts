@@ -11,7 +11,7 @@ import { HttpClientModule, HttpClientXsrfModule, HttpClient }    from '@angular/
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill, faDownload, faSearchPlus, faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser } from '@fortawesome/free-solid-svg-icons'
-import { faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock, faEnvelope, faEdit, faClone } from '@fortawesome/free-regular-svg-icons';
+import { faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake } from '@fortawesome/free-regular-svg-icons';
 import { faGoogle, faPaypal, faStripe } from '@fortawesome/free-brands-svg-icons'
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -106,7 +106,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 export class AppModule { 
   constructor() {
     library.add(faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill, faDownload, faSearchPlus, faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser);
-    library.add(faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock, faEnvelope, faEdit, faClone);
+    library.add(faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake);
     library.add(faGoogle, faPaypal, faStripe);
   }
 }
