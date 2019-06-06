@@ -149,19 +149,25 @@ export class EventDisplayComponent implements OnInit {
         //TODO, set promo code in url, fetch ticket category, rebuild the reservationForm.reservation
 
         //
-        this.eventService.getEventTicketsInfo(this.event.shortName, promoCode).subscribe(itemsByCat => {
-          this.reservationForm.get('promoCode').setValue(promoCode);
-          this.reservationForm.setControl('reservation', this.formBuilder.array(this.createItems(itemsByCat.ticketCategories)));
-          this.applyItemsByCat(itemsByCat);
-          this.eventCode = res.value;
-        });
+        this.reloadTicketsInfo(promoCode, res.value);
         //
       } else {
         this.eventCode = null; //should never enter here
       }
     }, (err) => {
       this.eventCode = null;
+      this.reloadTicketsInfo(null, null);
       console.log('validation error ', err);
+    });
+  }
+
+
+  private reloadTicketsInfo(promoCode: string, eventCode: EventCode) {
+    this.eventService.getEventTicketsInfo(this.event.shortName, promoCode).subscribe(itemsByCat => {
+      this.reservationForm.get('promoCode').setValue(promoCode);
+      this.reservationForm.setControl('reservation', this.formBuilder.array(this.createItems(itemsByCat.ticketCategories)));
+      this.applyItemsByCat(itemsByCat);
+      this.eventCode = eventCode;
     });
   }
 }
