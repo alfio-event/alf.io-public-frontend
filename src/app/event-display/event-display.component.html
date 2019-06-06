@@ -148,21 +148,26 @@
               </ul>
           </div>
 
-          <div *ngIf="eventCode && eventCode.type === 'DISCOUNT'">
+          <div *ngIf="eventCode">
             <hr/>
             <div>
               <ul class="list-group">
                 <li class="list-group-item">
                   <div class="row">
                     <div class="col-sm-7">
-                      {{'show-event.promo-code-applied' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate} }} {{eventCode.code}}</div>
+                      {{'show-event.promo-code-applied' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate} }} {{eventCode.code}}
+                      {{' '}}
+                      <fa-icon [icon]="['fa', 'times']" (click)="applyPromoCode(null)"></fa-icon>
+                    </div>
                     <div class="col-sm-5">
-                      <span *ngIf="eventCode.discountType === 'FIXED_AMOUNT'">
-                        {{'show-event.promo-code-fixed-amount-discount'|translate: {'0': eventCode.discountAmount + ' ' + event.currency} }}
-                      </span>
-                      <span *ngIf="eventCode.discountType === 'PERCENTAGE'">
-                          {{'show-event.promo-code-percentage-discount'|translate: {'0': eventCode.discountAmount + '%'} }}
-                      </span>
+                      <ng-container *ngIf="eventCode.type === 'DISCOUNT'">
+                        <span *ngIf="eventCode.discountType === 'FIXED_AMOUNT'">
+                          {{'show-event.promo-code-fixed-amount-discount'|translate: {'0': eventCode.discountAmount + ' ' + event.currency} }}
+                        </span>
+                        <span *ngIf="eventCode.discountType === 'PERCENTAGE'">
+                            {{'show-event.promo-code-percentage-discount'|translate: {'0': eventCode.discountAmount + '%'} }}
+                        </span>
+                      </ng-container>
                     </div>
                   </div>
                 </li>

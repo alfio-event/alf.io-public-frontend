@@ -153,6 +153,7 @@ export class EventDisplayComponent implements OnInit {
         //
       } else {
         this.eventCode = null; //should never enter here
+        this.reservationForm.get('promoCode').setValue(null);
       }
     }, (err) => {
       this.eventCode = null;
