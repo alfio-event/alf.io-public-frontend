@@ -182,6 +182,7 @@
               <span>{{'show-event.promo-code'|translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate } }}</span>
             </div>
             <div class="card-body">
+              <div class="text-danger text-center wMarginBottom" *ngIf="eventCodeError" translate="error.STEP_1_CODE_NOT_FOUND"></div>
               <div class="form-inline justify-content-center">
                 <div class="form-group">
                     <label for="promo-code">{{'show-event.promo-code-insert' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate } }}</label>

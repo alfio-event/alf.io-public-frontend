@@ -44,6 +44,7 @@ export class EventDisplayComponent implements OnInit {
   //
 
   eventCode: EventCode;
+  eventCodeError: boolean;
 
   //https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
 
@@ -144,6 +145,8 @@ export class EventDisplayComponent implements OnInit {
 
   applyPromoCode(promoCode: string): void {
 
+    this.eventCodeError = false;
+
     if (promoCode === null || promoCode === undefined || promoCode.trim() === "") {
       return;
     }
@@ -163,7 +166,7 @@ export class EventDisplayComponent implements OnInit {
     }, (err) => {
       this.eventCode = null;
       this.reloadTicketsInfo(null, null);
-      console.log('validation error ', err);
+      this.eventCodeError = true;
     });
   }
 
