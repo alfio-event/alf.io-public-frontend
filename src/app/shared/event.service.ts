@@ -7,6 +7,7 @@ import { ItemsByCategory } from '../model/items-by-category';
 import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscription-request';
 import { ValidatedResponse } from '../model/validated-response';
 import { publishReplay, refCount } from 'rxjs/operators';
+import { EventCode } from '../model/event-code';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +49,7 @@ export class EventService {
     return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventShortName}/waiting-list/subscribe`, waitingListSubscriptionRequest);
   }
 
-  validateCode(eventShortName: string, code: string): Observable<ValidatedResponse<boolean>> {
-    return this.http.get<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventShortName}/validate-code`, {params: {code: code}});
+  validateCode(eventShortName: string, code: string): Observable<ValidatedResponse<EventCode>> {
+    return this.http.get<ValidatedResponse<EventCode>>(`/api/v2/public/event/${eventShortName}/validate-code`, {params: {code: code}});
   }
 }
