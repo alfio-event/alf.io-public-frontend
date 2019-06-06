@@ -143,6 +143,11 @@ export class EventDisplayComponent implements OnInit {
   }
 
   applyPromoCode(promoCode: string): void {
+
+    if (promoCode === null || promoCode === undefined || promoCode.trim() === "") {
+      return;
+    }
+
     this.eventService.validateCode(this.event.shortName, promoCode).subscribe(res => {
       if (res.success) {
         //this.router.navigate([], {relativeTo: this.route, queryParams: {code: promoCode}, queryParamsHandling: "merge"})
@@ -160,6 +165,10 @@ export class EventDisplayComponent implements OnInit {
       this.reloadTicketsInfo(null, null);
       console.log('validation error ', err);
     });
+  }
+
+  removePromoCode(): void {
+    this.reloadTicketsInfo(null, null);
   }
 
 

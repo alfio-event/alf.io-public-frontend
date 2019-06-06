@@ -157,7 +157,7 @@
                     <div class="col-sm-7">
                       {{'show-event.promo-code-applied' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate} }} {{eventCode.code}}
                       {{' '}}
-                      <fa-icon [icon]="['fa', 'times']" (click)="applyPromoCode(null)"></fa-icon>
+                      <fa-icon [icon]="['fa', 'times']" (click)="removePromoCode()"></fa-icon>
                     </div>
                     <div class="col-sm-5">
                       <ng-container *ngIf="eventCode.type === 'DISCOUNT'">
