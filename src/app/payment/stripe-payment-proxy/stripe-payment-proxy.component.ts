@@ -99,7 +99,7 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
   }
 
   private configureSCA() {
-    const options = {betas: ['payment_intent_beta_3']};
+    const options = {};
     const stripeHandler = Stripe(this.parameters['stripe_p_key'], options);
     const card = stripeHandler.elements({locale: this.translate.currentLang}).create('card', {style: STRIPE_V3_STYLE});
 
