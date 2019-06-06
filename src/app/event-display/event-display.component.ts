@@ -13,6 +13,7 @@ import { AdditionalService } from '../model/additional-service';
 import { I18nService } from '../shared/i18n.service';
 import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscription-request';
 import { TicketCategoryForWaitingList, ItemsByCategory } from '../model/items-by-category';
+import { EventCode } from '../model/event-code';
 
 @Component({
   selector: 'app-event-display',
@@ -41,6 +42,8 @@ export class EventDisplayComponent implements OnInit {
   waitingListRequestSubmitted: boolean;
   waitingListRequestResult: boolean;
   //
+
+  eventCode: EventCode;
 
   //https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
 
@@ -150,12 +153,14 @@ export class EventDisplayComponent implements OnInit {
           this.reservationForm.get('promoCode').setValue(promoCode);
           this.reservationForm.setControl('reservation', this.formBuilder.array(this.createItems(itemsByCat.ticketCategories)));
           this.applyItemsByCat(itemsByCat);
+          this.eventCode = res.value;
         });
         //
-
-
+      } else {
+        this.eventCode = null; //should never enter here
       }
     }, (err) => {
+      this.eventCode = null;
       console.log('validation error ', err);
     });
   }
