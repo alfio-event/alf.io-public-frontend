@@ -11,7 +11,9 @@
     <div class="col-sm-3">
         <span *ngIf="additionalService.free" translate="common.free"></span>
         <span *ngIf="!additionalService.free && additionalService.fixPrice">
-            {{additionalService.formattedFinalPrice}} {{event.currency}}
+            <ng-container *ngIf="additionalService.hasDiscount"><del>{{additionalService.formattedFinalPrice}}</del>{{' '}}<mark>{{additionalService.formattedDiscountedPrice}}</mark> {{event.currency}}</ng-container>
+            <ng-container *ngIf="!additionalService.hasDiscount">{{additionalService.formattedFinalPrice}} {{event.currency}}</ng-container>
+            {{' '}}
             <span *ngIf="additionalService.vatApplies">
                 <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{(additionalService.vatIncluded ? 'show-event.incVat' : 'show-event.excVat') | translate:{'0':additionalService.vatPercentage, '1': 'TODO'} }}"></fa-icon>
             </span>

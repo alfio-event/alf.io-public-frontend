@@ -10,6 +10,8 @@ export class AdditionalService {
     //
     free: boolean;
     formattedFinalPrice: string;
+    hasDiscount: boolean;
+    formattedDiscountedPrice: string;
     vatApplies: boolean;
     vatIncluded: boolean;
     vatPercentage: number;
