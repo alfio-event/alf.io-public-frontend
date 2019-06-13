@@ -90,7 +90,7 @@ export class SuccessComponent implements OnInit {
   }
 
   reSendReservationEmail(): void {
-    this.reservationService.reSendReservationEmail(this.eventShortName, this.reservationId).subscribe(res => {
+    this.reservationService.reSendReservationEmail(this.eventShortName, this.reservationId, this.i18nService.getCurrentLang()).subscribe(res => {
       this.reservationMailSent = res;
     });
   }

@@ -55,6 +55,7 @@ export class I18nService {
     return window.sessionStorage['ALFIO_LANG'];
   }
 
-  useDefaultLanguage(): void {
+  getCurrentLang(): string {
+    return this.translateService.currentLang;
   }
 }

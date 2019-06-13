@@ -43,8 +43,8 @@ export class ReservationService {
         return this.http.post<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/back-to-booking`, {});
     }
 
-    reSendReservationEmail(eventShortName: string, reservationId: string): Observable<boolean> {
-        return this.http.post<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/re-send-email`, {});
+    reSendReservationEmail(eventShortName: string, reservationId: string, lang:string): Observable<boolean> {
+        return this.http.post<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/re-send-email`, {}, {params: {lang: lang}});
     }
 
     initPayment(eventShortName: string, reservationId: string): Observable<TransactionInitializationToken> {
