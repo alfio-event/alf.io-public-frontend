@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/alfio-event/alf.io-public-frontend.svg?branch=master)](https://travis-ci.org/alfio-event/alf.io-public-frontend)
+
 # AlfioPublicFrontend
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.2.
