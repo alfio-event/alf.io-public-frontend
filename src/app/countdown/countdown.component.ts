@@ -33,7 +33,9 @@ export class CountdownComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.langChangeSub.unsubscribe();
+    if(this.langChangeSub) {
+      this.langChangeSub.unsubscribe();
+    }
     clearInterval(this.timerId);
   }
 

@@ -37,7 +37,9 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.langChangeSub.unsubscribe();
+    if (this.langChangeSub) {
+      this.langChangeSub.unsubscribe();
+    }
   }
 
   public get labelValue(): string {

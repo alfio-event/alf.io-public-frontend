@@ -54,7 +54,9 @@ export class RecaptchaComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.langSub.unsubscribe();
+    if (this.langSub) {
+      this.langSub.unsubscribe();
+    }
     let elem = document.getElementById('recaptcha-api-script');
     if (elem) {
       elem.remove();

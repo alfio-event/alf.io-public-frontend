@@ -39,7 +39,9 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.langChangeSub.unsubscribe();
+    if (this.langChangeSub) {
+      this.langChangeSub.unsubscribe();
+    }
   }
 
 

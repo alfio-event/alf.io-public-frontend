@@ -24,7 +24,9 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
 
   private clearSubs(): void {
     this.subs.forEach(s => {
-      s.unsubscribe();
+      if (s) {
+        s.unsubscribe();
+      }
     });
     this.subs = [];
   }

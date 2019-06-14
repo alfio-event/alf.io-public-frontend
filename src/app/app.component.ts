@@ -21,6 +21,8 @@ export class AppComponent implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.langChangeSub.unsubscribe();
+    if (this.langChangeSub) {
+      this.langChangeSub.unsubscribe();
+    }
   }
 }
