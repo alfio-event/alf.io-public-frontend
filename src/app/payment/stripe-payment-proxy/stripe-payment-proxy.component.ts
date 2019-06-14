@@ -218,8 +218,8 @@ class StripePaymentV3 implements PaymentProvider {
         const clientSecret = res.clientSecret;
 
         this.stripeHandler.handleCardPayment(clientSecret, this.card, {
-          source_data: {
-              owner: {
+          payment_method_data: {
+            billing_details: {
                   name: `${this.reservation.firstName} ${this.reservation.lastName}`,
                   email: this.reservation.email,
                   /*address: {
