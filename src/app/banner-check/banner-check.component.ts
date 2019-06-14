@@ -18,7 +18,7 @@ export class BannerCheckComponent implements OnInit {
   ngOnInit() {
     this.infoService.getInfo().subscribe(info => {
       this.info = info;
-      this.secure = location.protocol.indexOf('https:') === -1
+      this.secure = location.protocol.indexOf('https:') === 0;
     });
   }
 
