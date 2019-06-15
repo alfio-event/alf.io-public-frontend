@@ -1,30 +1,32 @@
-<app-language-selector [contentLanguages]="languages"></app-language-selector>
+<ng-container *ngIf="events">
+  <app-language-selector [contentLanguages]="languages"></app-language-selector>
 
-<h1 translate="event-list.title"></h1>
+  <h1 translate="event-list.title"></h1>
 
-<ul class="list-group">
-  <li *ngFor="let event of events" class="list-group-item">
-    <a [routerLink]="['/event', event.shortName]" class="no-decoration">
-      <div class="row">
-        <div class="col-3">
-            <img [attr.src]="'/file/'+event.fileBlobId" class="img-responsive img-center logo">
-        </div>
-        <div class="col-9">
-          <h2>{{event.displayName}}</h2>
-          <div *ngIf="event.sameDay">
-            {{event.formattedBeginDate[translate.currentLang]}}{{' '}}{{'event-days.single-day.hours'|translate: {'0': event.formattedBeginTime[translate.currentLang], '1': event.formattedEndTime[translate.currentLang]} }}
-            <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
+  <ul class="list-group">
+    <li *ngFor="let event of events" class="list-group-item">
+      <a [routerLink]="['/event', event.shortName]" class="no-decoration">
+        <div class="row">
+          <div class="col-3">
+              <img [attr.src]="'/file/'+event.fileBlobId" class="img-responsive img-center logo">
           </div>
-          <div *ngIf="!event.sameDay">
-            {{'event-days.not-same-day'|translate: {'0': event.formattedBeginDate[translate.currentLang], '1': event.formattedBeginTime[translate.currentLang]} }}
-            {{' - '}}
-            {{'event-days.not-same-day'|translate: {'0': event.formattedEndDate[translate.currentLang], '1': event.formattedEndTime[translate.currentLang]} }}
-            {{' '}}
-            <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
+          <div class="col-9">
+            <h2>{{event.displayName}}</h2>
+            <div *ngIf="event.sameDay">
+              {{event.formattedBeginDate[translate.currentLang]}}{{' '}}{{'event-days.single-day.hours'|translate: {'0': event.formattedBeginTime[translate.currentLang], '1': event.formattedEndTime[translate.currentLang]} }}
+              <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
+            </div>
+            <div *ngIf="!event.sameDay">
+              {{'event-days.not-same-day'|translate: {'0': event.formattedBeginDate[translate.currentLang], '1': event.formattedBeginTime[translate.currentLang]} }}
+              {{' - '}}
+              {{'event-days.not-same-day'|translate: {'0': event.formattedEndDate[translate.currentLang], '1': event.formattedEndTime[translate.currentLang]} }}
+              {{' '}}
+              <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
+            </div>
+            <div>{{event.location}}</div>
           </div>
-          <div>{{event.location}}</div>
         </div>
-      </div>
-    </a>
-  </li>
-</ul>
+      </a>
+    </li>
+  </ul>
+</ng-container>

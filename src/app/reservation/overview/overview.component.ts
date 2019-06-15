@@ -130,7 +130,6 @@ export class OverviewComponent implements OnInit {
     this.submitting = true;
 
     this.selectedPaymentProvider.pay().subscribe(paymentResult => {
-      console.log(paymentResult);
       if (paymentResult.success) {
 
         this.overviewForm.get('gatewayToken').setValue(paymentResult.gatewayToken);
@@ -158,6 +157,14 @@ export class OverviewComponent implements OnInit {
         this.submitting = false;
       }
     });
+  }
+
+  get acceptedPrivacyAndTermAndConditions(): boolean {
+    if (this.event.privacyPolicyUrl) {
+      return this.overviewForm.value.privacyPolicyAccepted && this.overviewForm.value.termAndConditionsAccepted;
+    } else {
+      return this.overviewForm.value.termAndConditionsAccepted;
+    }
   }
 
   handleExpired(expired: boolean) {
