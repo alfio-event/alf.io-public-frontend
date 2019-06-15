@@ -49,8 +49,10 @@ body {
     transform: rotate(-45deg);
 }
 
-label.col-form-label {
-    text-align: right;
+@media (min-width: 576px) {
+    label.col-form-label {
+        text-align: right;
+    }
 }
 
 .list-group-item {
@@ -142,4 +144,12 @@ label.radio-inline {
     font-size: .875rem;
     line-height: .5;
     border-radius: .2rem;
+}
+
+@media (max-width: 767px) {
+    .mobile-add-margin-bottom button.btn,
+    .mobile-add-margin-bottom a.btn
+    {
+        margin-bottom: 1rem;
+    }
 }
