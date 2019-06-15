@@ -28,7 +28,7 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
   constructor(private translate: TranslateService, private i18nService: I18nService) { }
 
   public ngOnInit(): void {
-    if (this.field.countryField) {
+    if (this.field.type === 'country') {
       this.getCountries();
       this.langChangeSub = this.translate.onLangChange.subscribe(change => {
         this.getCountries();

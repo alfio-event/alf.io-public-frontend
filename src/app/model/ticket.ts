@@ -21,14 +21,6 @@ export class AdditionalField {
     maxLength: number;
     restrictedValues: string[];
     fields: Field[];
-
-
-    inputField: boolean;
-    euVat: boolean;
-    textareaField: boolean;
-    countryField: boolean;
-    selectField: boolean;
-
     description: {[key: string]: Description};
 }
 
