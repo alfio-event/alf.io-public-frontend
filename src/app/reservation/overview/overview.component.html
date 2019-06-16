@@ -17,18 +17,18 @@
       <div class="page-header wMarginTop"><h2 translate="reservation-page.payment"></h2></div>
 
       <div *ngIf="paymentMethodsCount(event) > 1">
-          <div class="btn-group btn-group-toggle payment-method-selector wMarginBottom" ngbRadioGroup formControlName="selectedPaymentMethod">
-            <label ngbButtonLabel class="btn btn-outline-dark" *ngIf="event.activePaymentMethods['CREDIT_CARD']">
-              <input ngbButton type="radio" [value]="'CREDIT_CARD'"><fa-icon [icon]="['fas', 'credit-card']"></fa-icon> {{'reservation-page.credit-card'|translate}}
+          <div class="btn-group btn-group-toggle payment-method-selector wMarginBottom">
+            <label  class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'CREDIT_CARD'}" *ngIf="event.activePaymentMethods['CREDIT_CARD']">
+              <input type="radio" formControlName="selectedPaymentMethod" [value]="'CREDIT_CARD'"><fa-icon [icon]="['fas', 'credit-card']"></fa-icon> {{'reservation-page.credit-card'|translate}}
             </label>
-            <label ngbButtonLabel class="btn btn-outline-dark" *ngIf="event.activePaymentMethods['PAYPAL']">
-              <input ngbButton type="radio" [value]="'PAYPAL'"><fa-icon [icon]="['fab', 'paypal']"></fa-icon> {{'reservation-page.paypal'|translate}}
+            <label class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'PAYPAL'}" *ngIf="event.activePaymentMethods['PAYPAL']">
+              <input type="radio" formControlName="selectedPaymentMethod" [value]="'PAYPAL'"><fa-icon [icon]="['fab', 'paypal']"></fa-icon> {{'reservation-page.paypal'|translate}}
             </label>
-            <label ngbButtonLabel class="btn btn-outline-dark" *ngIf="event.activePaymentMethods['BANK_TRANSFER']">
-              <input ngbButton type="radio" [value]="'BANK_TRANSFER'"><fa-icon [icon]="['fas', 'exchange-alt']"></fa-icon> {{'reservation-page.offline'|translate}}
+            <label  class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'BANK_TRANSFER'}" *ngIf="event.activePaymentMethods['BANK_TRANSFER']">
+              <input type="radio" formControlName="selectedPaymentMethod" [value]="'BANK_TRANSFER'"><fa-icon [icon]="['fas', 'exchange-alt']"></fa-icon> {{'reservation-page.offline'|translate}}
             </label>
-            <label ngbButtonLabel class="btn btn-outline-dark" *ngIf="event.activePaymentMethods['ON_SITE']">
-              <input ngbButton type="radio" [value]="'ON_SITE'"><fa-icon [icon]="['fas', 'money-bill']"  size="sm"></fa-icon> {{'reservation-page.on-site'|translate}}
+            <label  class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'ON_SITE'}" *ngIf="event.activePaymentMethods['ON_SITE']">
+              <input type="radio" formControlName="selectedPaymentMethod" [value]="'ON_SITE'"><fa-icon [icon]="['fas', 'money-bill']"  size="sm"></fa-icon> {{'reservation-page.on-site'|translate}}
             </label>
           </div>
       </div>

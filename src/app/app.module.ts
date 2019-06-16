@@ -15,7 +15,7 @@ import { faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock, faE
 import { faGoogle, faPaypal, faStripe } from '@fortawesome/free-brands-svg-icons'
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { NgbTooltipModule, NgbButtonsModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BookingComponent } from './reservation/booking/booking.component';
 import { OverviewComponent } from './reservation/overview/overview.component';
@@ -97,8 +97,7 @@ export function HttpLoaderFactory(http: HttpClient) {
           deps: [HttpClient]
       }
     }),
-    NgbTooltipModule,
-    NgbButtonsModule
+    NgbTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]
