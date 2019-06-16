@@ -50,7 +50,7 @@ body {
 }
 
 @media (min-width: 576px) {
-    label.col-form-label {
+    label.col-form-label, dt.align-right-mobile-aware {
         text-align: right;
     }
 }

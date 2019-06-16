@@ -5,10 +5,10 @@
 
   <div class="ticket">
       <div class="row">
-          <div class="col-8">
+          <div class="col-md-8 col-12">
               <app-event-summary [event]="event" [dateValidityProvider]="ticketInfo"></app-event-summary>
           </div>
-          <div class="col-4">
+          <div class="col-md-4 col-12">
               <img src="/api/v2/public/event/{{event.shortName}}/ticket/{{ticketInfo.uuid}}/code.png" class="img-responsive img-center">
           </div>
       </div>
@@ -16,13 +16,13 @@
       <div class="wMarginTop30px wMarginBottom30px">
           <h2 translate="ticket.ticket"></h2>
           <dl class="row">
-              <dt class="col-sm-3 text-align-right" translate="ticket.holder"></dt>
+              <dt class="col-sm-3 align-right-mobile-aware" translate="ticket.holder"></dt>
               <dd class="col-sm-9">{{ticketInfo.fullName}} &lt;{{ticketInfo.email}}&gt;</dd>
-              <dt class="col-sm-3 text-align-right" translate="ticket.type"></dt>
+              <dt class="col-sm-3 align-right-mobile-aware" translate="ticket.type"></dt>
               <dd class="col-sm-9">{{ticketInfo.ticketCategoryName}}</dd>
-              <dt class="col-sm-3 text-align-right" translate="ticket.reference-number"></dt>
+              <dt class="col-sm-3 align-right-mobile-aware" translate="ticket.reference-number"></dt>
               <dd class="col-sm-9">{{ticketInfo.uuid}}</dd>
-              <dt class="col-sm-3 text-align-right" translate="ticket.order-information"></dt>
+              <dt class="col-sm-3 align-right-mobile-aware" translate="ticket.order-information"></dt>
               <dd class="col-sm-9">{{'ticket.order-information-values' | translate:  {'0': ticketInfo.reservationId, '1': ticketInfo.reservationFullName} }}</dd>
           </dl>
       </div>
