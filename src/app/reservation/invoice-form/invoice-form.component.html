@@ -27,7 +27,7 @@
       <div class="col-12">
           <div class="form-group">
               <label for="billingAddressCompany" class="control-label" translate="reservation-page-complete.company"></label>
-              <input id="billingAddressCompany" formControlName="billingAddressCompany" class="form-control" type="text" maxlength="255" appInvalidFeedback>
+              <input id="billingAddressCompany" formControlName="billingAddressCompany" class="form-control" type="text" [attr.maxlength]="255" appInvalidFeedback>
           </div>
       </div>
   </div>
@@ -36,7 +36,7 @@
       <div class="col-12">
           <div class="form-group">
               <label for="billingAddressLine1" class="control-label">{{'reservation-page.address-line-1' | translate}}{{' *'}}</label>
-              <input id="billingAddressLine1" formControlName="billingAddressLine1" class="form-control" type="text" required maxlength="255" appInvalidFeedback>
+              <input id="billingAddressLine1" formControlName="billingAddressLine1" class="form-control" type="text" required [attr.maxlength]="255" appInvalidFeedback>
           </div>
       </div>
   </div>
@@ -45,7 +45,7 @@
       <div class="col-12">
           <div class="form-group">
               <label for="billingAddressLine2" class="control-label">{{'reservation-page.address-line-2' | translate}}</label>
-              <input id="billingAddressLine2" formControlName="billingAddressLine2" class="form-control" type="text" maxlength="255" appInvalidFeedback>
+              <input id="billingAddressLine2" formControlName="billingAddressLine2" class="form-control" type="text" [attr.maxlength]="255" appInvalidFeedback>
           </div>
       </div>
   </div>
@@ -54,13 +54,13 @@
       <div class="col-12 col-md-3">
           <div class="form-group">
               <label for="billingAddressZip" class="control-label">{{'reservation-page.zip-postal-code' | translate}}{{' *'}}</label>
-              <input id="billingAddressZip" formControlName="billingAddressZip" class="form-control" type="text" required maxlength="50" appInvalidFeedback>
+              <input id="billingAddressZip" formControlName="billingAddressZip" class="form-control" type="text" required [attr.maxlength]="50" appInvalidFeedback>
           </div>
       </div>
       <div class="col-12 col-md-9">
           <div class="form-group">
               <label for="billingAddressCity" class="control-label">{{'reservation-page.city' | translate}}{{' *'}}</label>
-              <input id="billingAddressCity" formControlName="billingAddressCity" class="form-control" type="text" required  maxlength="255" appInvalidFeedback>
+              <input id="billingAddressCity" formControlName="billingAddressCity" class="form-control" type="text" required  [attr.maxlength]="255" appInvalidFeedback>
           </div>
       </div>
   </div>
@@ -89,7 +89,7 @@
       <div *ngIf="customerReferenceEnabled && invoiceBusiness" class="col-12 col-md-6">
           <div class="form-group">
             <label for="customerReference" class="control-label" translate="common.customer-reference"></label>
-            <input type="text" formControlName="customerReference" id="customerReference" class="form-control" maxlength="50" appInvalidFeedback>
+            <input type="text" formControlName="customerReference" id="customerReference" class="form-control" [attr.maxlength]="50" appInvalidFeedback>
           </div>
       </div>
   </div>
@@ -131,7 +131,7 @@
     <div class="col-md-12">
         <div class="form-group">
             <label><input type="radio" value="ADDRESSEE_CODE" formControlName="italyEInvoicingReferenceType">{{' '}}<span class="label-after-radio" translate="invoice-fields.addressee-code"></span></label>
-            <input type="text" maxlength="7" class="form-control" formControlName="italyEInvoicingReferenceAddresseeCode" appInvalidFeedback>
+            <input type="text" [attr.maxlength]="7" class="form-control" formControlName="italyEInvoicingReferenceAddresseeCode" appInvalidFeedback>
         </div>
     </div>
     <div class="col-md-12">
