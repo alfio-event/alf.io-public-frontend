@@ -18,7 +18,7 @@ export class RecaptchaComponent implements OnDestroy, AfterViewInit {
 
   private langSub: Subscription;
 
-  @ViewChild('targetElement')
+  @ViewChild('targetElement', { static: true })
   private targetElement: ElementRef<HTMLDivElement>;
 
   @Output()
