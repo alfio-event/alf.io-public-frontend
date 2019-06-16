@@ -11,11 +11,11 @@
   <div class="alert alert-success">
       <div class="row">
           <div class="col-sm-12">
-            <h3 [innerHtml]="'reservation-page-complete.info-assign' | translate: {'0':event.displayName}"></h3>
+            <h3 [innerHTML]="'reservation-page-complete.info-assign' | translate: {'0':event.displayName}"></h3>
           </div>
       </div>
       <div class="row">
-          <div class="col-sm-12" [innerHtml]="'reservation-page-complete.info-assign-email' | translate: {'0':reservationInfo.email}"></div>
+          <div class="col-sm-12" [innerHTML]="'reservation-page-complete.info-assign-email' | translate: {'0':reservationInfo.email}"></div>
       </div>
       <div class="row">
         <div class="col-sm-12 text-align-right">
@@ -53,7 +53,7 @@
 
       <div *ngIf="ticket.assigned" class="wMarginBottom">
         <p>
-          <span [innerHtml]="'reservation-page-complete.assigned-to' | translate: {'0': ticket.fullName, '1': ticket.email}"></span>
+          <span [innerHTML]="'reservation-page-complete.assigned-to' | translate: {'0': ticket.fullName, '1': ticket.email}"></span>
           <ng-container *ngIf="ticket.cancellationEnabled">
             {{' '}}
             <button type="button" class="btn btn-xs btn-danger" (click)="ticketsReleaseShow[ticket.uuid] = true"><fa-icon [icon]="['fa', 'eraser']" size="xs"></fa-icon> {{'reservation-page-complete.release-button.text'|translate}}</button>

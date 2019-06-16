@@ -6,7 +6,7 @@
         <div *ngIf="!additionalService.expired && !additionalService.saleInFuture">{{'show-event.sales-end'|translate: {'0': additionalService.formattedExpiration[translate.currentLang]} }}</div>
         <div *ngIf="additionalService.expired">{{'show-event.sales-ended'|translate: {'0': additionalService.formattedExpiration[translate.currentLang]} }}</div>
         <!-- -->
-        <div [innerHtml]="additionalService.description[translate.currentLang]"></div>
+        <div [innerHTML]="additionalService.description[translate.currentLang]"></div>
     </div>
     <div class="col-sm-3">
         <span *ngIf="additionalService.free" translate="common.free"></span>

@@ -12,7 +12,7 @@
 
     <hr>
 
-    <div [innerHtml]="event.description[translate.currentLang]"></div>
+    <div [innerHTML]="event.description[translate.currentLang]"></div>
 
 
     <h2 translate="show-event.tickets"></h2>
@@ -104,7 +104,7 @@
                           <div *ngIf="category.expired">{{'show-event.sales-ended'|translate: {'0': category.formattedExpiration[translate.currentLang]} }}</div>
                           <!-- -->
 
-                          <div [innerHtml]="category.description[translate.currentLang]"></div>
+                          <div [innerHTML]="category.description[translate.currentLang]"></div>
                         </div>
                         <div class="col-sm-3">
                           <span *ngIf="category.free" translate="common.free"></span>

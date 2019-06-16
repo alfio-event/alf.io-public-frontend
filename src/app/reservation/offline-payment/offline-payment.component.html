@@ -1,27 +1,27 @@
 <div class="wMarginBottom wMarginTop center-block" *ngIf="event && reservationInfo">
 
   <div class="alert alert-warning wMarginTop wMarginBottom">
-    <h2><fa-icon [icon]="['fa', 'exclamation-triangle']"></fa-icon>{{' '}}<span [innerHtml]="'reservation-page-waiting.title' | translate: {'0': reservationInfo.formattedExpirationDate[translate.currentLang]}"></span></h2>
+    <h2><fa-icon [icon]="['fa', 'exclamation-triangle']"></fa-icon>{{' '}}<span [innerHTML]="'reservation-page-waiting.title' | translate: {'0': reservationInfo.formattedExpirationDate[translate.currentLang]}"></span></h2>
   </div>
 
 
-  <h4 [innerHtml]="'reservation-page-waiting.required-steps'|translate"></h4>
+  <h4 [innerHTML]="'reservation-page-waiting.required-steps'|translate"></h4>
   <ol>
       <li *ngIf="event.bankAccountOwner.length > 0">
-          <p class="no-margin-bottom" [innerHtml]="'reservation-page-waiting.required-steps.1.with-bank-account-owner' | translate: {'0': event.currency+' '+reservationInfo.orderSummary.totalPrice, '1': event.bankAccount}"></p>
+          <p class="no-margin-bottom" [innerHTML]="'reservation-page-waiting.required-steps.1.with-bank-account-owner' | translate: {'0': event.currency+' '+reservationInfo.orderSummary.totalPrice, '1': event.bankAccount}"></p>
           <p class="bank-account-owner-info" *ngFor="let ownerLine of event.bankAccountOwner">{{ownerLine}}</p>
-          <p class="no-margin-bottom" [innerHtml]="'reservation-page-waiting.required-steps.1.with-bank-account-owner.2' | translate: {'0': paymentReason}"></p>
+          <p class="no-margin-bottom" [innerHTML]="'reservation-page-waiting.required-steps.1.with-bank-account-owner.2' | translate: {'0': paymentReason}"></p>
       </li>
       <li *ngIf="event.bankAccountOwner.length === 0"
-          [innerHtml]="'reservation-page-waiting.required-steps.1' | translate: {'0': event.currency+' '+reservationInfo.orderSummary.totalPrice, '1': event.bankAccount, '2': paymentReason}">
+          [innerHTML]="'reservation-page-waiting.required-steps.1' | translate: {'0': event.currency+' '+reservationInfo.orderSummary.totalPrice, '1': event.bankAccount, '2': paymentReason}">
       </li>
-      <li [innerHtml]="'reservation-page-waiting.required-steps.2' | translate: {'0': event.organizationEmail, '1': reservationInfo.id}"></li>
-      <li [innerHtml]="'reservation-page-waiting.required-steps.3' | translate"></li>
+      <li [innerHTML]="'reservation-page-waiting.required-steps.2' | translate: {'0': event.organizationEmail, '1': reservationInfo.id}"></li>
+      <li [innerHTML]="'reservation-page-waiting.required-steps.3' | translate"></li>
   </ol>
 
 
   <div class="text-center wMarginTop">
-    <h4 [innerHtml]="'reservation-page-waiting.questions' | translate: {'0': event.organizationEmail, '1': reservationInfo.id}"></h4>
+    <h4 [innerHTML]="'reservation-page-waiting.questions' | translate: {'0': event.organizationEmail, '1': reservationInfo.id}"></h4>
   </div>
 
   <div class="row d-flex justify-content-between wMarginTop">
