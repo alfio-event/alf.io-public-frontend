@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, Input, ElementRef, OnDestroy, ViewChild, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
@@ -9,9 +9,9 @@ let idCallback = 0;
 
 @Component({
   selector: 'app-recaptcha',
-  templateUrl: './recaptcha.component.html'
+  template: '<div #targetElement class="c-container"></div>'
 })
-export class RecaptchaComponent implements OnInit, OnDestroy {
+export class RecaptchaComponent implements OnDestroy, AfterViewInit {
 
   @Input()
   apiKey: string;
@@ -19,14 +19,14 @@ export class RecaptchaComponent implements OnInit, OnDestroy {
   private langSub: Subscription;
 
   @ViewChild('targetElement')
-  private targetElement: ElementRef;
+  private targetElement: ElementRef<HTMLDivElement>;
 
   @Output()
   recaptchaResponse: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private translate: TranslateService) { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
 
     if (!document.getElementById('recaptcha-api-script')) {
       const scriptElem = document.createElement('script');
