@@ -1,4 +1,5 @@
 import { DateValidity } from './date-validity';
+import { AnalyticsConfiguration } from './analytics-configuration';
 
 export class Event implements DateValidity {
     shortName: string;
@@ -86,10 +87,4 @@ export class AssignmentConfiguration {
 export class PromotionsConfiguration {
     hasAccessPromotions: boolean;
     usePartnerCode: boolean;
-}
-
-export class AnalyticsConfiguration {
-    googleAnalyticsKey: string | null;
-    googleAnalyticsScrambledInfo: boolean;
-    clientId: string | null;
 }
