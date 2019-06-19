@@ -45,6 +45,8 @@ export class Event implements DateValidity {
     assignmentConfiguration: AssignmentConfiguration;
     //
     promotionsConfiguration: PromotionsConfiguration;
+    //
+    analyticsConfiguration: AnalyticsConfiguration;
 }
 
 export class InvoicingConfiguration {
@@ -84,4 +86,9 @@ export class AssignmentConfiguration {
 export class PromotionsConfiguration {
     hasAccessPromotions: boolean;
     usePartnerCode: boolean;
+}
+
+export class AnalyticsConfiguration {
+    googleAnalyticsKey: string | null;
+    googleAnalyticsScrambledInfo: boolean;
 }
