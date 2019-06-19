@@ -7,41 +7,48 @@ import { Observable } from 'rxjs';
 })
 export class AnalyticsService {
 
-  private gaScript: Observable<Function> = null;
+  private gaScript: Observable<[Function, AnalyticsConfiguration, string]> = null;
 
   constructor() {
   }
 
   pageView(conf: AnalyticsConfiguration): void {
+    const locationPathName = location.pathname;
     if (conf.googleAnalyticsKey) {
-      this.handleGoogleAnalytics(conf);
+      this.handleGoogleAnalytics(conf, locationPathName);
     }
   }
 
 
-  private handleGoogleAnalytics(conf: AnalyticsConfiguration) {
+  private handleGoogleAnalytics(conf: AnalyticsConfiguration, locationPathName: string) {
     if(this.gaScript === null) {
-      this.gaScript = new Observable<Function>(subscribe => {
+      this.gaScript = new Observable<[Function, AnalyticsConfiguration, string]>(subscribe => {
         if(!document.getElementById('GA_SCRIPT')) { // <- script is not created
           const scriptElem = document.createElement('script');
           scriptElem.id = 'GA_SCRIPT'
-          scriptElem.addEventListener('load', () => {subscribe.next(window['ga']);})
+          scriptElem.addEventListener('load', () => {subscribe.next([window['ga'], conf, locationPathName]);})
           scriptElem.src = 'https://ssl.google-analytics.com/analytics.js';
           scriptElem.async = true;
           scriptElem.defer = true;
           document.body.appendChild(scriptElem);
         } else if (!window['ga']) { //<- script has been created, but not loaded
           document.getElementById('GA_SCRIPT').addEventListener('load', () => {
-            subscribe.next(window['ga']);
+            subscribe.next([window['ga'], conf, locationPathName]);
           });
         } else { //<- script has been loaded
-          subscribe.next(window['ga']);
+          subscribe.next([window['ga'], conf, locationPathName]);
         }
       });
     }
 
-    this.gaScript.subscribe(ga => {
-      console.log('ga', ga);
+    this.gaScript.subscribe(([ga, conf, locationPathName]) => {
+      if (conf.googleAnalyticsScrambledInfo) {
+        ga('create', conf.googleAnalyticsKey, {'anonymizeIp': true, 'storage': 'none', 'clientId': conf.clientId});
+        ga('send', 'pageview', locationPathName);
+      } else {
+        ga('create', conf.googleAnalyticsKey);
+        ga('send', 'pageview', locationPathName);
+      }
     });
   }
 }
