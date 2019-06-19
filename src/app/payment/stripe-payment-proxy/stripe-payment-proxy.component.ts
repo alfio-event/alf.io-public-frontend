@@ -89,10 +89,15 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
       scriptElem.id = STRIPE_V3_ID_SCRIPT;
       scriptElem.src = 'https://js.stripe.com/v3/';
       scriptElem.async = true;
-      scriptElem.onload = () => {
+      scriptElem.defer = true;
+      scriptElem.addEventListener('load', () => {
         this.configureSCA();
-      }
+      });
       document.body.appendChild(scriptElem);
+    } else if(!window['Stripe']) {
+      document.getElementById(STRIPE_V3_ID_SCRIPT).addEventListener('load', () => {
+        this.configureSCA();
+      });
     } else {
       this.configureSCA();
     }
@@ -149,10 +154,15 @@ class StripeCheckoutPaymentProvider implements PaymentProvider {
       scriptElem.id = STRIPE_CHECKOUT_ID_SCRIPT;
       scriptElem.src = 'https://checkout.stripe.com/checkout.js'
       scriptElem.async = true;
-      scriptElem.onload = () => {
+      scriptElem.defer = true;
+      scriptElem.addEventListener('load', () => {
         this.configureAndOpen(subscriber);
-      }
+      });
       document.body.appendChild(scriptElem);
+    } else if (!window['StripeCheckout']) {
+      document.getElementById(STRIPE_CHECKOUT_ID_SCRIPT).addEventListener('load', () => {
+        this.configureAndOpen(subscriber);
+      });
     } else {
       this.configureAndOpen(subscriber);
     }

@@ -24,10 +24,12 @@ export class RecaptchaComponent implements OnDestroy, AfterViewInit {
   @Output()
   recaptchaResponse: EventEmitter<string> = new EventEmitter<string>();
 
+
+  private widgetId: any = null;
+
   constructor(private translate: TranslateService) { }
 
   ngAfterViewInit() {
-
     if (!document.getElementById('recaptcha-api-script')) {
       const scriptElem = document.createElement('script');
 
@@ -44,6 +46,16 @@ export class RecaptchaComponent implements OnDestroy, AfterViewInit {
         this.enableRecaptcha();
       }
       document.body.appendChild(scriptElem);
+    } else if (!window['grecaptcha']) {
+      //wait until it's available
+      let waiter = () => {
+        if(window['grecaptcha']) {
+          this.enableRecaptcha();
+        } else {
+          setTimeout(waiter, 100);
+        }
+      };
+      setTimeout(waiter, 100);
     } else {
       this.enableRecaptcha();
     }
@@ -57,9 +69,8 @@ export class RecaptchaComponent implements OnDestroy, AfterViewInit {
     if (this.langSub) {
       this.langSub.unsubscribe();
     }
-    let elem = document.getElementById('recaptcha-api-script');
-    if (elem) {
-      elem.remove();
+    if(window['grecaptcha'] && this.widgetId !== null) {
+      grecaptcha.reset(this.widgetId);
     }
   }
 
@@ -77,7 +88,7 @@ export class RecaptchaComponent implements OnDestroy, AfterViewInit {
 
 
     if (window['grecaptcha']) {
-      grecaptcha.render(container, {
+      this.widgetId = grecaptcha.render(container, {
         sitekey: this.apiKey,
         hl: this.translate.currentLang,
         callback: (res) => {
