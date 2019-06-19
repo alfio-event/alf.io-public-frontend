@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { zip } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nService } from 'src/app/shared/i18n.service';
+import { AnalyticsService } from 'src/app/shared/analytics.service';
 
 @Component({
   selector: 'app-offline-payment',
@@ -27,7 +28,8 @@ export class OfflinePaymentComponent implements OnInit {
     private eventService: EventService, 
     private reservationService: ReservationService,
     public translate: TranslateService,
-    private i18nService: I18nService) { }
+    private i18nService: I18nService,
+    private analytics: AnalyticsService) { }
 
   public ngOnInit(): void {
 
@@ -41,7 +43,7 @@ export class OfflinePaymentComponent implements OnInit {
         this.paymentReason = `<mark>${this.event.shortName} ${this.reservationInfo.shortId}</mark>`;
 
         this.i18nService.setPageTitle('reservation-page-waiting.header.title', ev.displayName);
-
+        this.analytics.pageView(ev.analyticsConfiguration);
       });
     });
   }

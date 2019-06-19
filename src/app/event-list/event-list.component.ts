@@ -5,6 +5,9 @@ import { BasicEventInfo } from '../model/basic-event-info';
 import { I18nService } from '../shared/i18n.service';
 import { Language } from '../model/event';
 import { TranslateService } from '@ngx-translate/core';
+import { AnalyticsService } from '../shared/analytics.service';
+import { InfoService } from '../shared/info.service';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-event-list',
@@ -20,14 +23,17 @@ export class EventListComponent implements OnInit {
     private eventService: EventService, 
     private i18nService: I18nService,
     private router: Router,
-    public translate: TranslateService) { }
+    public translate: TranslateService,
+    private info: InfoService,
+    private analytics: AnalyticsService) { }
 
   public ngOnInit(): void {
-    this.eventService.getEvents().subscribe(res => {
+    zip(this.eventService.getEvents(), this.info.getInfo()).subscribe(([res, info]) => {
       if(res.length === 1) {
         this.router.navigate(['/event', res[0].shortName]);
       } else {
         this.events = res;
+        this.analytics.pageView(info.analyticsConfiguration);
       }
     });
 

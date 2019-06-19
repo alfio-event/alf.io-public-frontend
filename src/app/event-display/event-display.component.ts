@@ -14,6 +14,7 @@ import { I18nService } from '../shared/i18n.service';
 import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscription-request';
 import { TicketCategoryForWaitingList, ItemsByCategory } from '../model/items-by-category';
 import { EventCode } from '../model/event-code';
+import { AnalyticsService } from '../shared/analytics.service';
 
 @Component({
   selector: 'app-event-display',
@@ -55,7 +56,8 @@ export class EventDisplayComponent implements OnInit {
     private reservationService: ReservationService,
     private formBuilder: FormBuilder,
     public translate: TranslateService,
-    private i18nService: I18nService) { }
+    private i18nService: I18nService,
+    private analytics: AnalyticsService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -76,6 +78,7 @@ export class EventDisplayComponent implements OnInit {
         });
 
         this.applyItemsByCat(itemsByCat);
+        this.analytics.pageView(event.analyticsConfiguration);
       });  
     })
   }

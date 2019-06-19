@@ -11,6 +11,7 @@ import { handleServerSideValidationError } from 'src/app/shared/validation-helpe
 import { I18nService } from 'src/app/shared/i18n.service';
 import { Ticket } from 'src/app/model/ticket';
 import { TranslateService } from '@ngx-translate/core';
+import { AnalyticsService } from 'src/app/shared/analytics.service';
 
 @Component({
   selector: 'app-booking',
@@ -38,7 +39,8 @@ export class BookingComponent implements OnInit {
     private eventService: EventService,
     private formBuilder: FormBuilder,
     private i18nService: I18nService,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private analytics: AnalyticsService) { }
 
   public ngOnInit(): void {
     this.route.parent.params.subscribe(params => {
@@ -92,6 +94,8 @@ export class BookingComponent implements OnInit {
           italyEInvoicingReferencePEC: this.reservationInfo.italyEInvoicingReferencePEC,
           postponeAssignment: false // <- TODO: check if we save it somewhere in the db...
         });
+
+        this.analytics.pageView(ev.analyticsConfiguration);
       });
     });
   }

@@ -6,6 +6,7 @@ import { TicketService } from '../shared/ticket.service';
 import { TicketInfo } from '../model/ticket-info';
 import { zip } from 'rxjs';
 import { I18nService } from '../shared/i18n.service';
+import { AnalyticsService } from '../shared/analytics.service';
 
 @Component({
   selector: 'app-view-ticket',
@@ -21,7 +22,8 @@ export class ViewTicketComponent implements OnInit {
     private ticketService: TicketService,
     private route: ActivatedRoute,
     private eventService: EventService,
-    private i18nService: I18nService) { }
+    private i18nService: I18nService,
+    private analytics: AnalyticsService) { }
 
   public ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -33,6 +35,7 @@ export class ViewTicketComponent implements OnInit {
         this.event = event;
         this.ticketInfo = ticketInfo;
         this.i18nService.setPageTitle('show-ticket.header.title', event.displayName);
+        this.analytics.pageView(event.analyticsConfiguration);
       })
       
       //TODO: add navigation here if the route does not correspond!

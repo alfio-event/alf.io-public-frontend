@@ -6,6 +6,7 @@ import { EventService } from 'src/app/shared/event.service';
 import { zip } from 'rxjs';
 import { Event } from 'src/app/model/event';
 import { I18nService } from 'src/app/shared/i18n.service';
+import { AnalyticsService } from 'src/app/shared/analytics.service';
 
 @Component({
   selector: 'app-processing-payment',
@@ -26,7 +27,8 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
     private router: Router,
     private reservationService: ReservationService,
     private eventService: EventService,
-    private i18nService: I18nService
+    private i18nService: I18nService,
+    private analytics: AnalyticsService
     ) { }
 
   public ngOnInit(): void {
@@ -38,6 +40,7 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
         this.event = ev;
         this.reservationInfo = reservationInfo;
         this.i18nService.setPageTitle('show-ticket.header.title', ev.displayName);
+        this.analytics.pageView(ev.analyticsConfiguration);
       })
 
       this.intervalId = setInterval(() => {

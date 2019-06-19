@@ -9,6 +9,7 @@ import { PaymentProvider, SimplePaymentProvider } from 'src/app/payment/payment-
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AnalyticsService } from 'src/app/shared/analytics.service';
 
 @Component({
   selector: 'app-overview',
@@ -36,7 +37,8 @@ export class OverviewComponent implements OnInit {
     private eventService: EventService,
     private formBuilder: FormBuilder,
     private i18nService: I18nService,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private analytics: AnalyticsService) { }
 
   ngOnInit() {
     this.route.parent.params.subscribe(params => {
@@ -92,6 +94,8 @@ export class OverviewComponent implements OnInit {
             this.overviewForm.get('paymentMethod').setValue(ev.activePaymentMethods[v as PaymentMethod].paymentProxy);
           });
         });
+
+        this.analytics.pageView(ev.analyticsConfiguration);
       });
     });
   }

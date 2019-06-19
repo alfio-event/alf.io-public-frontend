@@ -8,6 +8,7 @@ import { Ticket } from 'src/app/model/ticket';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AnalyticsService } from 'src/app/shared/analytics.service';
 
 @Component({
   selector: 'app-success',
@@ -37,7 +38,8 @@ export class SuccessComponent implements OnInit {
     private reservationService: ReservationService,
     private eventService: EventService,
     private ticketService: TicketService,
-    private i18nService: I18nService) { }
+    private i18nService: I18nService,
+    private analytics: AnalyticsService) { }
 
   public ngOnInit(): void {
     this.route.parent.params.subscribe(params => {
@@ -46,6 +48,7 @@ export class SuccessComponent implements OnInit {
       this.eventService.getEvent(this.eventShortName).subscribe(ev => {
         this.event = ev;
         this.i18nService.setPageTitle('reservation-page-complete.header.title', ev.displayName);
+        this.analytics.pageView(ev.analyticsConfiguration);
       });
       this.loadReservation();
     });
