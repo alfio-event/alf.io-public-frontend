@@ -44,11 +44,10 @@ export class AnalyticsService {
     this.gaScript.subscribe(([ga, conf, locationPathName]) => {
       if (conf.googleAnalyticsScrambledInfo) {
         ga('create', conf.googleAnalyticsKey, {'anonymizeIp': true, 'storage': 'none', 'clientId': conf.clientId});
-        ga('send', 'pageview', locationPathName);
       } else {
         ga('create', conf.googleAnalyticsKey);
-        ga('send', 'pageview', locationPathName);
       }
+      ga('send', 'pageview', locationPathName);
     });
   }
 }
