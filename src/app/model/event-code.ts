@@ -5,5 +5,5 @@ export class EventCode {
     discountAmount: string;
 }
 
-export type EventCodeType = 'SPECIAL_PRICE' | 'DISCOUNT' | 'ACCESS' | 'NOT_FOUND';
+export type EventCodeType = 'SPECIAL_PRICE' | 'DISCOUNT' | 'ACCESS';
 export type DiscountType = 'FIXED_AMOUNT' | 'PERCENTAGE' | 'NONE';
