@@ -71,7 +71,8 @@
           </app-stripe-payment-proxy>
           <app-paypal-payment-proxy 
             [proxy]="overviewForm.value.paymentMethod" 
-            [method]="overviewForm.value.selectedPaymentMethod" 
+            [method]="overviewForm.value.selectedPaymentMethod"
+            [reservation]="reservationInfo"
             (paymentProvider)="registerCurrentPaymentProvider($event)">
           </app-paypal-payment-proxy>
       </div>
@@ -100,7 +101,12 @@
       <div class="col-md-5 order-1 col-12">
         <button *ngIf="reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" translate="reservation-page.continue" [disabled]="expired"></button>
         <button *ngIf="!reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" [disabled]="expired || !selectedPaymentProvider || !acceptedPrivacyAndTermAndConditions">
-            {{'reservation-page.pay'|translate}} {{reservationInfo.orderSummary.totalPrice}} {{event.currency}}
+          <ng-container *ngIf="!reservationInfo.tokenAcquired">
+            {{'reservation-page.pay'| translate}} {{reservationInfo.orderSummary.totalPrice}} {{event.currency}}
+          </ng-container>
+          <ng-container *ngIf="reservationInfo.tokenAcquired">
+            {{'reservation-page.confirm-button' | translate}}
+          </ng-container>
         </button>
       </div>
       <div class="col-md-5 order-0 col-12 ">
