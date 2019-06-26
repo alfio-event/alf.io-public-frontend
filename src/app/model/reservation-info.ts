@@ -68,6 +68,8 @@ export class OrderSummary {
     displayVat: boolean;
     priceInCents: number;
     descriptionForPayment: string;
+    totalVAT: string;
+    vatPercentage: string;
 }
 
 export class SummaryRow {

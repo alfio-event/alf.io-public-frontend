@@ -60,8 +60,14 @@ export class EventDisplayComponent implements OnInit {
     private analytics: AnalyticsService) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
 
+    const code = this.route.snapshot.queryParams['code'];
+    const errors = this.route.snapshot.queryParams['errors'];
+    if (errors) {
+      this.globalErrors = errors.split(',');
+    }
+
+    this.route.params.subscribe(params => {
       const eventShortName = params['eventShortName'];
 
       zip(this.eventService.getEvent(eventShortName), this.eventService.getEventTicketsInfo(eventShortName)).subscribe( ([event, itemsByCat]) => {
@@ -79,6 +85,10 @@ export class EventDisplayComponent implements OnInit {
 
         this.applyItemsByCat(itemsByCat);
         this.analytics.pageView(event.analyticsConfiguration);
+
+        if(code) {
+          this.applyPromoCode(code);
+        }
       });  
     })
   }
@@ -148,6 +158,7 @@ export class EventDisplayComponent implements OnInit {
 
   applyPromoCode(promoCode: string): void {
 
+    this.globalErrors = [];
     this.eventCodeError = false;
 
     if (promoCode === null || promoCode === undefined || promoCode.trim() === "") {
