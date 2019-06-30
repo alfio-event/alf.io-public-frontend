@@ -14,7 +14,7 @@ export class AdditionalService {
     formattedDiscountedPrice: string;
     vatApplies: boolean;
     vatIncluded: boolean;
-    vatPercentage: number;
+    vatPercentage: string;
     //
 
     //
