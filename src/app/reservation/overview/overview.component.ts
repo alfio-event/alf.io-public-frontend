@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReservationService } from '../../shared/reservation.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Event, PaymentMethod, PaymentProxy } from 'src/app/model/event';
+import { Event, PaymentMethod, PaymentProxy, PaymentProxyWithParameters } from 'src/app/model/event';
 import { EventService } from 'src/app/shared/event.service';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { PaymentProvider, SimplePaymentProvider } from 'src/app/payment/payment-provider';
@@ -30,6 +30,8 @@ export class OverviewComponent implements OnInit {
 
   selectedPaymentProvider: PaymentProvider;
 
+  activePaymentMethods: {[key in PaymentMethod]?: PaymentProxyWithParameters};
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -49,73 +51,81 @@ export class OverviewComponent implements OnInit {
       this.eventService.getEvent(this.eventShortName).subscribe(ev => {
         this.event = ev;
 
+        this.activePaymentMethods = this.event.activePaymentMethods;
+
         this.i18nService.setPageTitle('reservation-page.header.title', ev.displayName);
 
-        this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(resInfo => {
-          this.reservationInfo = resInfo;
-
-          let paymentProxy : PaymentProxy = null;
-          let selectedPaymentMethod: PaymentMethod = null;
-
-          if (!resInfo.orderSummary.free && this.paymentMethodsCount(ev) === 1) {
-            selectedPaymentMethod = this.getSinglePaymentMethod(ev);
-            paymentProxy = ev.activePaymentMethods[selectedPaymentMethod].paymentProxy;
-          }
-
-          if (resInfo.orderSummary.free) {
-            selectedPaymentMethod = 'NONE';
-            this.selectedPaymentProvider = new SimplePaymentProvider();
-          }
-
-          //
-          if (this.reservationInfo.tokenAcquired) {
-            paymentProxy = this.reservationInfo.paymentProxy;
-            selectedPaymentMethod = this.getPaymentMethodMatchingProxy(ev, paymentProxy);
-
-            // we override and keep only the one selected
-            //TODO: kinda ugly, but it works
-            let paymentProxyAndParam = this.event.activePaymentMethods[selectedPaymentMethod];
-            this.event.activePaymentMethods = {};
-            this.event.activePaymentMethods[selectedPaymentMethod] = paymentProxyAndParam
-            //
-          }
-          //
-
-          this.overviewForm = this.formBuilder.group({
-            termAndConditionsAccepted: null,
-            privacyPolicyAccepted: null,
-            selectedPaymentMethod: selectedPaymentMethod, //<- note: not used by the backend
-            paymentMethod: paymentProxy, //<- name mismatch for legacy reasons
-            gatewayToken: null
-          });
-
-          // we synchronize the selectedPaymentMethod with the corresponding paymentMethod (which is a payment proxy)
-          this.overviewForm.get('selectedPaymentMethod').valueChanges.subscribe(v => {
-            this.overviewForm.get('paymentMethod').setValue(ev.activePaymentMethods[v as PaymentMethod].paymentProxy);
-          });
-        });
+        this.loadReservation(ev);
 
         this.analytics.pageView(ev.analyticsConfiguration);
       });
     });
   }
 
-  paymentMethodsCount(event: Event) : number {
-    return Object.keys(event.activePaymentMethods).length;
+
+  loadReservation(ev: Event) {
+    this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(resInfo => {
+      this.reservationInfo = resInfo;
+
+      let paymentProxy : PaymentProxy = null;
+      let selectedPaymentMethod: PaymentMethod = null;
+
+      if (!resInfo.orderSummary.free && this.paymentMethodsCount() === 1) {
+        selectedPaymentMethod = this.getSinglePaymentMethod();
+        paymentProxy = ev.activePaymentMethods[selectedPaymentMethod].paymentProxy;
+      }
+
+      if (resInfo.orderSummary.free) {
+        selectedPaymentMethod = 'NONE';
+        this.selectedPaymentProvider = new SimplePaymentProvider();
+      }
+
+      //
+      if (this.reservationInfo.tokenAcquired) {
+        paymentProxy = this.reservationInfo.paymentProxy;
+        selectedPaymentMethod = this.getPaymentMethodMatchingProxy(paymentProxy);
+
+        // we override and keep only the one selected
+        let paymentProxyAndParam = this.event.activePaymentMethods[selectedPaymentMethod];
+        this.activePaymentMethods = {};
+        this.activePaymentMethods[selectedPaymentMethod] = paymentProxyAndParam
+        //
+      } else {
+        this.activePaymentMethods = this.event.activePaymentMethods;
+      }
+      //
+
+      this.overviewForm = this.formBuilder.group({
+        termAndConditionsAccepted: null,
+        privacyPolicyAccepted: null,
+        selectedPaymentMethod: selectedPaymentMethod, //<- note: not used by the backend
+        paymentMethod: paymentProxy, //<- name mismatch for legacy reasons
+        gatewayToken: null
+      });
+
+      // we synchronize the selectedPaymentMethod with the corresponding paymentMethod (which is a payment proxy)
+      this.overviewForm.get('selectedPaymentMethod').valueChanges.subscribe(v => {
+        this.overviewForm.get('paymentMethod').setValue(ev.activePaymentMethods[v as PaymentMethod].paymentProxy);
+      });
+    });
   }
 
-  getPaymentMethodMatchingProxy(event: Event, paymentProxy: PaymentProxy) : PaymentMethod | null {
-    let keys: PaymentMethod[] = Object.keys(event.activePaymentMethods) as PaymentMethod[];
+  paymentMethodsCount() : number {
+    return Object.keys(this.activePaymentMethods).length;
+  }
+
+  private getPaymentMethodMatchingProxy(paymentProxy: PaymentProxy) : PaymentMethod | null {
+    let keys: PaymentMethod[] = Object.keys(this.activePaymentMethods) as PaymentMethod[];
     for(let idx in keys) {
-      if(event.activePaymentMethods[keys[idx]].paymentProxy === paymentProxy) {
+      if(this.activePaymentMethods[keys[idx]].paymentProxy === paymentProxy) {
         return keys[idx];
       }
     }
     return null;
   }
 
-  getSinglePaymentMethod(event: Event) : PaymentMethod {
-    return (Object.keys(event.activePaymentMethods) as PaymentMethod[])[0];
+  getSinglePaymentMethod() : PaymentMethod {
+    return (Object.keys(this.activePaymentMethods) as PaymentMethod[])[0];
   }
 
   back() {
@@ -177,5 +187,11 @@ export class OverviewComponent implements OnInit {
 
   registerCurrentPaymentProvider(paymentProvider: PaymentProvider) {
     this.selectedPaymentProvider = paymentProvider;
+  }
+
+  clearToken(): void {
+    this.reservationService.removePaymentToken(this.eventShortName, this.reservationId).subscribe(r => {
+      this.loadReservation(this.event);
+    });
   }
 }

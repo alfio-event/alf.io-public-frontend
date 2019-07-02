@@ -54,5 +54,9 @@ export class ReservationService {
     getPaymentStatus(eventShortName: string, reservationId: string): Observable<ReservationPaymentResult> {
         return this.http.get<ReservationPaymentResult>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment/CREDIT_CARD/status`);
     }
-    
+
+    removePaymentToken(eventShortName: string, reservationId: string): Observable<boolean> {
+        return this.http.delete<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment/token`)
+    }
+
 }

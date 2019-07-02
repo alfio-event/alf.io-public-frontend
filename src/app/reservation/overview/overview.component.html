@@ -16,7 +16,7 @@
     <div *ngIf="!reservationInfo.orderSummary.free">
       <div class="page-header wMarginTop"><h2 translate="reservation-page.payment"></h2></div>
 
-      <div *ngIf="paymentMethodsCount(event) > 1">
+      <div *ngIf="paymentMethodsCount() > 1">
           <div class="btn-group btn-group-toggle payment-method-selector wMarginBottom">
             <label  class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'CREDIT_CARD'}" *ngIf="event.activePaymentMethods['CREDIT_CARD']">
               <input type="radio" formControlName="selectedPaymentMethod" [value]="'CREDIT_CARD'"><fa-icon [icon]="['fas', 'credit-card']"></fa-icon> {{'reservation-page.credit-card'|translate}}
@@ -32,8 +32,8 @@
             </label>
           </div>
       </div>
-      <div *ngIf="paymentMethodsCount(event) === 1">
-          <h4 class="wMarginTop" [ngSwitch]="getSinglePaymentMethod(event)">
+      <div *ngIf="paymentMethodsCount() === 1">
+          <h4 class="wMarginTop" [ngSwitch]="getSinglePaymentMethod()">
             <span *ngSwitchCase="'CREDIT_CARD'">
               <fa-icon [icon]="['fas', 'credit-card']"></fa-icon> {{'reservation-page.credit-card'|translate}}
             </span>
@@ -110,7 +110,8 @@
         </button>
       </div>
       <div class="col-md-5 order-0 col-12 ">
-        <button type="button" class="block-button btn btn-outline-dark" (click)="back()" translate="common.back"></button>
+        <button type="button" class="block-button btn btn-outline-dark" (click)="back()" translate="common.back" *ngIf="!reservationInfo.tokenAcquired"></button>
+        <button type="button" class="block-button btn btn-outline-dark" (click)="clearToken()" translate="reservation-page-complete.cancel" *ngIf="reservationInfo.tokenAcquired"></button>
       </div>
     </div>
   </form>
