@@ -153,3 +153,24 @@ label.radio-inline {
         margin-bottom: 1rem;
     }
 }
+
+
+/* basic style for markdown content */
+
+.markdown-content table {
+    width:100%;
+}
+
+.markdown-content table th,
+.markdown-content table td {
+    padding-top:0.6rem;
+    padding-bottom:0.6rem;
+}
+
+.markdown-content table th {
+    border-bottom: 2px solid #e3e3e3;
+}
+
+.markdown-content table td {
+    border-top: 1px solid #e3e3e3;
+}
