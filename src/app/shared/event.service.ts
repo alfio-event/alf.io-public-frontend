@@ -6,7 +6,7 @@ import { Event } from '../model/event'
 import { ItemsByCategory } from '../model/items-by-category';
 import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscription-request';
 import { ValidatedResponse } from '../model/validated-response';
-import { publishReplay, refCount } from 'rxjs/operators';
+import { publishReplay, refCount, map } from 'rxjs/operators';
 import { EventCode } from '../model/event-code';
 
 @Injectable({
@@ -30,7 +30,7 @@ export class EventService {
       this.eventCache[eventShortName] = this.http.get<Event>(`/api/v2/public/event/${eventShortName}`).pipe(publishReplay(1), refCount());
       setTimeout(() => {
         delete this.eventCache[eventShortName];
-      }, 60000); // clean up cache after 1 minute
+      }, 60000*20); // clean up cache after 20 minutes
     }
 
     return this.eventCache[eventShortName];
@@ -42,7 +42,7 @@ export class EventService {
   }
 
   getAvailableLanguageForEvent(eventShortName: string): Observable<string[]> {
-    return this.http.get<string[]>(`/api/v2/public/event/${eventShortName}/languages`);
+    return this.getEvent(eventShortName).pipe(map(event => event.contentLanguages.map(v => v.locale)));
   }
 
   submitWaitingListSubscriptionRequest(eventShortName: string, waitingListSubscriptionRequest: WaitingListSubscriptionRequest): Observable<ValidatedResponse<boolean>> {
