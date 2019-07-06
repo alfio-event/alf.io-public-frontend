@@ -48,6 +48,8 @@ export class Event implements DateValidity {
     promotionsConfiguration: PromotionsConfiguration;
     //
     analyticsConfiguration: AnalyticsConfiguration;
+
+    i18nOverride: {[lang: string]: {[key: string]: string}};
 }
 
 export class InvoicingConfiguration {
