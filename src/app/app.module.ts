@@ -14,7 +14,6 @@ import { faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, f
 import { faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake } from '@fortawesome/free-regular-svg-icons';
 import { faGoogle, faPaypal, faStripe } from '@fortawesome/free-brands-svg-icons'
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BookingComponent } from './reservation/booking/booking.component';
@@ -47,7 +46,7 @@ import { CustomLoader } from './shared/i18n.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '/api/v2/public/i18n/bundle/', '');
+  return new CustomLoader(http);
 }
 
 @NgModule({
@@ -94,9 +93,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TranslateModule.forRoot({
       loader: {
           provide: TranslateLoader,
-          useClass: CustomLoader,
-          /*useFactory: HttpLoaderFactory,
-          deps: [HttpClient]*/
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
       }
     }),
     NgbTooltipModule

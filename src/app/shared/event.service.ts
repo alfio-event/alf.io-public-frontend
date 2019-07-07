@@ -6,7 +6,7 @@ import { Event } from '../model/event'
 import { ItemsByCategory } from '../model/items-by-category';
 import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscription-request';
 import { ValidatedResponse } from '../model/validated-response';
-import { publishReplay, refCount, map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { EventCode } from '../model/event-code';
 
 @Injectable({
@@ -27,7 +27,7 @@ export class EventService {
 
     //caching as explained with https://blog.angularindepth.com/fastest-way-to-cache-for-lazy-developers-angular-with-rxjs-444a198ed6a6
     if (!this.eventCache[eventShortName]) {
-      this.eventCache[eventShortName] = this.http.get<Event>(`/api/v2/public/event/${eventShortName}`).pipe(publishReplay(1), refCount());
+      this.eventCache[eventShortName] = this.http.get<Event>(`/api/v2/public/event/${eventShortName}`).pipe(shareReplay(1));
       setTimeout(() => {
         delete this.eventCache[eventShortName];
       }, 60000*20); // clean up cache after 20 minutes
