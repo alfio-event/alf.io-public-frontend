@@ -41,6 +41,7 @@ import { InvoiceFormComponent } from './reservation/invoice-form/invoice-form.co
 import { InvalidFeedbackDirective } from './shared/invalid-feedback.directive';
 import { AdditionalServiceComponent } from './additional-service/additional-service.component';
 import { RecaptchaComponent } from './recaptcha/recaptcha.component';
+import { CustomLoader } from './shared/i18n.service';
 
 
 
@@ -93,8 +94,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     TranslateModule.forRoot({
       loader: {
           provide: TranslateLoader,
-          useFactory: HttpLoaderFactory,
-          deps: [HttpClient]
+          useClass: CustomLoader,
+          /*useFactory: HttpLoaderFactory,
+          deps: [HttpClient]*/
       }
     }),
     NgbTooltipModule

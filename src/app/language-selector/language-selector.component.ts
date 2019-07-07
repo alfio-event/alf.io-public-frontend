@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Language } from '../model/event';
-import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { I18nService } from '../shared/i18n.service';
 
 @Component({
   selector: 'app-language-selector',
@@ -12,9 +13,10 @@ export class LanguageSelectorComponent {
   @Input()
   contentLanguages: Language[];
 
-  constructor(private translate: TranslateService) { }
+  constructor(private i18nService: I18nService, private router: Router) { }
 
   public changeLanguage(lang: string): void {
-    this.translate.use(lang);
+    const eventShortName = this.router.routerState.snapshot.root.firstChild ? this.router.routerState.snapshot.root.firstChild.params['eventShortName'] : null;
+    this.i18nService.useTranslation(eventShortName, lang).subscribe(r => {});
   }
 }
