@@ -17,7 +17,7 @@
   </tbody>
   <tfoot>
       <tr *ngIf="!reservationInfo.orderSummary.free && reservationInfo.orderSummary.displayVat && !event.vatIncluded">
-          <td colspan="3">{{'reservation-page.vat'|translate:{'0': event.vat, '1': 'TODO'} }}</td>
+          <td colspan="3">{{'reservation-page.vat'|translate:{'0': event.vat, '1': ('common.vat' | translate)} }}</td>
           <td class="text-right">{{reservationInfo.orderSummary.totalVAT}} {{event.currency}}</td>
       </tr>
       <tr>
@@ -25,11 +25,11 @@
         <td class="text-right"><strong>{{reservationInfo.orderSummary.totalPrice}} {{event.currency}}</strong></td>
       </tr>
       <tr *ngIf="!reservationInfo.orderSummary.free && reservationInfo.orderSummary.displayVat && event.vatIncluded">
-          <td colspan="3">{{'reservation-page.vat-included'|translate: {'0': event.vat, '1': 'TODO'} }}</td>
+          <td colspan="3">{{'reservation-page.vat-included'|translate: {'0': event.vat, '1': ('common.vat' | translate)} }}</td>
           <td class="text-right">{{reservationInfo.orderSummary.totalVAT}} {{event.currency}}</td>
       </tr>
       <tr *ngIf="!reservationInfo.orderSummary.free && !reservationInfo.orderSummary.displayVat">
-          <td colspan="4">{{'invoice.vat-voided'|translate: {'0': 'TODO'} }}</td>
+          <td colspan="4">{{'invoice.vat-voided'|translate: {'0': ('common.vat' | translate)} }}</td>
       </tr>
   </tfoot>
 </table>

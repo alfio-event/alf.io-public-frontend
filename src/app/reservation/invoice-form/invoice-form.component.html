@@ -97,7 +97,7 @@
   <div class="row" *ngIf="invoiceBusiness">
     <div [ngClass]="{'col-md-12': !vatNumberStrictlyRequired, 'col-md-6': vatNumberStrictlyRequired}">
         <div class="form-group">
-            <label for="vatNr">{{'invoice.vat' |translate: {'0': 'TODO'} }}</label>
+            <label for="vatNr">{{'invoice.vat' |translate: {'0': ('common.vat' | translate)} }}</label>
             <div class="input-group">
                 <div class="input-group-prepend" *ngIf="form.value.vatCountryCode"><span class="input-group-text">{{form.value.vatCountryCode}}</span></div>
                 <input id="vatNr" type="text" formControlName="vatNr" class="form-control" appInvalidFeedback>
@@ -108,7 +108,7 @@
         <div class="form-group">
             <div class="form-check checkbox-in-form-group">
                 <input class="form-check-input" type="checkbox" formControlName="skipVatNr" [value]="true" id="skip-vat-nr" appInvalidFeedback>
-                <label class="form-check-label radio-inline" for="skip-vat-nr">{{' '}}{{'reservation-page.skipVatNr' | translate: {'0': 'TODO'} }}</label>
+                <label class="form-check-label radio-inline" for="skip-vat-nr">{{' '}}{{'reservation-page.skipVatNr' | translate: {'0': ('common.vat' | translate)} }}</label>
             </div>
         </div>
     </div>

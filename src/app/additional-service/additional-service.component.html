@@ -15,7 +15,7 @@
             <ng-container *ngIf="!additionalService.hasDiscount">{{additionalService.formattedFinalPrice}} {{event.currency}}</ng-container>
             {{' '}}
             <span *ngIf="additionalService.vatApplies">
-                <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{(additionalService.vatIncluded ? 'show-event.incVat' : 'show-event.excVat') | translate:{'0':additionalService.vatPercentage, '1': 'TODO'} }}"></fa-icon>
+                <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{(additionalService.vatIncluded ? 'show-event.incVat' : 'show-event.excVat') | translate:{'0':additionalService.vatPercentage, '1': ('common.vat' | translate)} }}"></fa-icon>
             </span>
         </span>
     </div>

@@ -112,7 +112,7 @@
                             <ng-container *ngIf="category.hasDiscount"><del>{{category.formattedFinalPrice}}</del>{{' '}}<mark>{{category.formattedDiscountedPrice}}</mark> {{event.currency}}</ng-container>
                             <ng-container *ngIf="!category.hasDiscount">{{category.formattedFinalPrice}} {{event.currency}}</ng-container>
                             {{' '}}
-                            <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{(event.vatIncluded ? 'show-event.incVat' : 'show-event.excVat') | translate:{'0': event.vat, '1': 'TODO'} }}"></fa-icon>
+                            <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{(event.vatIncluded ? 'show-event.incVat' : 'show-event.excVat') | translate:{'0': event.vat, '1': ('common.vat' | translate)} }}"></fa-icon>
                           </span>
                         </div>
                         <div class="col-sm-2">
