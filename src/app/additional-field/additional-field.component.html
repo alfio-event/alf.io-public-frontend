@@ -6,10 +6,9 @@
       <input *ngSwitchCase="'input:tel'" [attr.id]="ticketUUID + '-' + field.name" type="tel" [attr.placeholder]="placeholder" class="form-control" formControlName="0" appInvalidFeedback>
       <input *ngSwitchCase="'vat:eu'" [attr.id]="ticketUUID + '-' + field.name" type="text" [attr.placeholder]="placeholder" class="form-control" formControlName="0" appInvalidFeedback>
       <textarea *ngSwitchCase="'textarea'" [attr.id]="ticketUUID + '-' + field.name" class="form-control" [attr.placeholder]="placeholder" formControlName="0" appInvalidFeedback></textarea>
-      <select *ngSwitchCase="'country'" [attr.id]="ticketUUID + '-' + field.name" class="form-control" formControlName="0" appInvalidFeedback>
-        <option value=""></option>
-        <option *ngFor="let c of countries" [ngValue]="c.isoCode">{{c.name}}</option>
-      </select>
+      <ng-select *ngSwitchCase="'country'" [attr.id]="ticketUUID + '-' + field.name" class="form-control" formControlName="0" appInvalidFeedback [items]="countries" bindLabel="name" bindValue="isoCode">
+        <ng-template ng-notfound-tmp let-searchTerm="searchTerm"></ng-template>
+      </ng-select>
       <select *ngSwitchCase="'select'" [attr.id]="ticketUUID + '-' + field.name" class="form-control" formControlName="0" appInvalidFeedback>
           <option value=""></option>
           <option *ngFor="let c of field.restrictedValues" [ngValue]="c">{{getSelectLabel(c)}}</option>

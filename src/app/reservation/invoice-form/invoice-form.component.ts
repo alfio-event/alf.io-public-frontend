@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Event } from 'src/app/model/event';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nService } from 'src/app/shared/i18n.service';
-import { zip, of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { LocalizedCountry } from 'src/app/model/localized-country';
 
 @Component({
@@ -21,7 +21,6 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
   private langChangeSub: Subscription;
 
   countries: LocalizedCountry[];
-  euCountries: LocalizedCountry[];
 
   constructor(private translate: TranslateService, private i18nService: I18nService) { }
 
@@ -63,12 +62,8 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
   }
 
   getCountries(currentLang: string): void {
-
-    const euCountriesObs = this.euVatCheckingEnabled ? this.i18nService.getEUVatCountries(currentLang) : of([]);
-    
-    zip(this.i18nService.getVatCountries(currentLang), euCountriesObs).subscribe( ([countries, euCountries]) => {
+    this.i18nService.getVatCountries(currentLang).subscribe(countries => {
       this.countries = countries;
-      this.euCountries = euCountries;
     });
   }
 
@@ -90,6 +85,14 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
 
   get enabledItalyEInvoicing(): boolean {
     return this.event.invoicingConfiguration.enabledItalyEInvoicing;
+  }
+
+  searchCountry(term: string, country: LocalizedCountry): boolean {
+    if (term) {
+      term = term.toLowerCase();
+      return country.isoCode.toLowerCase().indexOf(term) > -1 || country.name.toLowerCase().indexOf(term) > -1;
+    }
+    return true;
   }
 
 }

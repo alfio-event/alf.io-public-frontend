@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/scss/bootstrap";
 
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 body {
     background-color: #E5E5E5;
@@ -173,4 +174,32 @@ label.radio-inline {
 
 .markdown-content table td {
     border-top: 1px solid #e3e3e3;
+}
+
+.ng-select.form-control {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.ng-select.ng-select-focused.form-control {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.ng-select.form-control .ng-select-container {
+    border: none;
+    border-radius: 0;
+    color: #495057;
+    padding-left: 0!important;
+    outline: 0 !important;
+    background: transparent;
+}
+
+.ng-select.form-control.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+    outline: 0!important;
+    box-shadow: none!important;
 }

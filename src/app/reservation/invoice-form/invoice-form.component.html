@@ -69,20 +69,11 @@
       <div class="col-12" [ngClass]="{'col-md-6': customerReferenceEnabled && invoiceBusiness}">
           <div class="form-group">
               <label for="vatCountry" class="control-label">{{'reservation-page-complete.country' | translate}}{{' *'}}</label>
-              <select formControlName="vatCountryCode" id="vatCountry" class="form-control field-required" required appInvalidFeedback>
-                  <option value="">{{'reservation-page.country.select'|translate}}</option>
-                  <ng-container *ngIf="!euVatCheckingEnabled">
-                    <option *ngFor="let c of countries" [ngValue]="c.isoCode">{{c.isoCode}} - {{c.name}}</option>
-                  </ng-container>
-                  <ng-container *ngIf="euVatCheckingEnabled">
-                    <optgroup [attr.label]="'reservation-page.eu-countries'|translate">
-                        <option *ngFor="let c of euCountries" [ngValue]="c.isoCode">{{c.isoCode}} - {{c.name}}</option>
-                    </optgroup>
-                    <optgroup [attr.label]="'reservation-page.all-countries'|translate">
-                        <option *ngFor="let c of countries" [ngValue]="c.isoCode">{{c.isoCode}} - {{c.name}}</option>
-                    </optgroup>
-                  </ng-container>
-              </select>
+              <ng-select placeholder="{{'reservation-page.country.select'|translate}}" [items]="countries" bindLabel="name" bindValue="isoCode" formControlName="vatCountryCode" id="vatCountry" class="form-control field-required" [searchFn]="searchCountry" required appInvalidFeedback>
+                  <ng-template ng-option-tmp let-item="item">{{item.isoCode}} - {{item.name}}</ng-template>
+                  <ng-template ng-label-tmp let-item="item">{{item.isoCode}} - {{item.name}}</ng-template>
+                  <ng-template ng-notfound-tmp let-searchTerm="searchTerm"></ng-template>
+              </ng-select>
           </div>
       </div>
 
