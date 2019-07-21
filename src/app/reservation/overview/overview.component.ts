@@ -100,7 +100,8 @@ export class OverviewComponent implements OnInit {
         privacyPolicyAccepted: null,
         selectedPaymentMethod: selectedPaymentMethod, //<- note: not used by the backend
         paymentMethod: paymentProxy, //<- name mismatch for legacy reasons
-        gatewayToken: null
+        gatewayToken: null,
+        captcha: null
       });
 
       // we synchronize the selectedPaymentMethod with the corresponding paymentMethod (which is a payment proxy)
@@ -193,5 +194,9 @@ export class OverviewComponent implements OnInit {
     this.reservationService.removePaymentToken(this.eventShortName, this.reservationId).subscribe(r => {
       this.loadReservation(this.event);
     });
+  }
+
+  handleRecaptchaResponse(recaptchaValue: string) {
+    this.overviewForm.get('captcha').setValue(recaptchaValue);
   }
 }

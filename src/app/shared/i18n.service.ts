@@ -70,9 +70,6 @@ export class I18nService {
   useTranslation(eventShortName: string, lang: string) : Observable<boolean> {
     const overrideBundle = eventShortName ? this.eventService.getEvent(eventShortName).pipe(map(e => e.i18nOverride[lang] || {})) : of({});
     return zip(this.customLoader.getTranslation(lang), overrideBundle).pipe(mergeMap(([root, override]) => {
-      console.log('setting translations for lang:', lang);
-      console.log('root bundle is:', root);
-      console.log('override bundle is:', override);
       this.translateService.setTranslation(lang, root, false);
       this.translateService.setTranslation(lang, override, true);
       this.translateService.use(lang);

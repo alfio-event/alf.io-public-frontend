@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { PaymentMethod, PaymentProxy } from 'src/app/model/event';
 import { PaymentProvider, SimplePaymentProvider } from '../payment-provider';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-offline-payment-proxy',
@@ -17,6 +18,9 @@ export class OfflinePaymentProxyComponent implements OnChanges {
   @Input()
   parameters: {[key:string]: any};
 
+  @Input()
+  overviewForm: FormGroup;
+
   @Output()
   paymentProvider: EventEmitter<PaymentProvider> = new EventEmitter<PaymentProvider>();
 
@@ -30,5 +34,9 @@ export class OfflinePaymentProxyComponent implements OnChanges {
 
   public get matchProxyAndMethod(): boolean {
     return this.method === 'BANK_TRANSFER' && this.proxy === 'OFFLINE';
+  }
+
+  handleRecaptchaResponse(recaptchaValue: string) {
+    this.overviewForm.get('captcha').setValue(recaptchaValue);
   }
 }

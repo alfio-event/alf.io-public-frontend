@@ -2,4 +2,7 @@
     <div class="col-12">
         <div class="text-muted">{{'reservation-page.offline.description'|translate: {'0': parameters? parameters['delayForOfflinePayment'] : '-'} }}</div>
     </div>
+    <div class="col-12 wMarginTop" *ngIf="parameters && parameters.captchaRequestedForOffline && parameters.recaptchaApiKey">
+        <app-recaptcha [apiKey]="parameters.recaptchaApiKey" (recaptchaResponse)="handleRecaptchaResponse($event)"></app-recaptcha>
+    </div>
 </div>

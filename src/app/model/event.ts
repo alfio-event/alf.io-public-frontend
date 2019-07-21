@@ -77,7 +77,7 @@ export type PaymentProxy = 'STRIPE' | 'ON_SITE' | 'OFFLINE' | 'PAYPAL'
 
 export class CaptchaConfiguration {
     captchaForTicketSelection: boolean;
-    captchaForOfflinePaymentEnabled: boolean;
+    captchaForOfflinePaymentAndFree: boolean;
     recaptchaApiKey: string;
 }
 
