@@ -8,4 +8,5 @@ export class ValidatedResponse<T> {
 export class ErrorDescriptor {
     fieldName: string;
     code: string;
+    arguments: any[];
 }
