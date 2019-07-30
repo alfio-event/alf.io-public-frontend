@@ -13,6 +13,10 @@
 
     <app-summary-table [event]="event" [reservationInfo]="reservationInfo"></app-summary-table>
 
+    <div class="alert alert-danger" role="alert" *ngIf="globalErrors && globalErrors.length > 0">
+      <div *ngFor="let err of globalErrors"><strong [translate]="err"></strong></div>
+    </div>
+
     <div *ngIf="!reservationInfo.orderSummary.free">
       <div class="page-header wMarginTop"><h2 translate="reservation-page.payment"></h2></div>
 

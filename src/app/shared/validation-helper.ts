@@ -1,6 +1,7 @@
 import { AbstractControl } from '@angular/forms';
 import { ValidatedResponse } from '../model/validated-response';
 import { HttpErrorResponse } from '@angular/common/http';
+import { element } from 'protractor';
 
 function applyValidationErrors(form: AbstractControl, response: ValidatedResponse<any>): string[] {
 
@@ -34,6 +35,20 @@ function applyValidationErrors(form: AbstractControl, response: ValidatedRespons
         }
     });
 
+    // TODO: find better way -> this focus and scroll on the first invalid form input
+    setTimeout(() => {
+        //meh, should find a better way
+        const found = document.querySelectorAll('[appinvalidfeedback].ng-invalid');
+        if (found && found.length > 0) {
+            const elem = found[0] as HTMLElement;
+            window.scroll({
+                behavior: 'smooth',
+                left: 0,
+                top: window.scrollY + elem.getBoundingClientRect().top - 100
+            });
+            elem.focus({ preventScroll: true });
+        }
+    }, 10);
     return globalErrors;
 }
 

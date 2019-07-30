@@ -20,6 +20,7 @@ export class OverviewComponent implements OnInit {
 
   reservationInfo: ReservationInfo;
   overviewForm: FormGroup;
+  globalErrors: string[];
 
   eventShortName: string;
   reservationId: string;
@@ -165,7 +166,7 @@ export class OverviewComponent implements OnInit {
         }, (err) => {
           console.log('error');
           this.submitting = false;
-          handleServerSideValidationError(err, this.overviewForm);
+          this.globalErrors = handleServerSideValidationError(err, this.overviewForm);
         });
       } else {
         console.log('paymentResult is not success (may be cancelled)');
