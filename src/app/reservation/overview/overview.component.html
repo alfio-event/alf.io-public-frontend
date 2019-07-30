@@ -105,7 +105,7 @@
     </div>
 
     <div class="row d-flex justify-content-between mobile-add-margin-bottom" *ngIf="!submitting">
-      <div class="col-md-5 order-1 col-12">
+      <div class="col-md-5 order-md-1 col-12">
         <button *ngIf="reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" translate="reservation-page.continue" [disabled]="expired"></button>
         <button *ngIf="!reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" [disabled]="expired || !selectedPaymentProvider || !acceptedPrivacyAndTermAndConditions">
           <ng-container *ngIf="!reservationInfo.tokenAcquired">
@@ -116,7 +116,7 @@
           </ng-container>
         </button>
       </div>
-      <div class="col-md-5 order-0 col-12 ">
+      <div class="col-md-5 order-md-0 col-12 ">
         <button type="button" class="block-button btn btn-outline-dark" (click)="back()" translate="common.back" *ngIf="!reservationInfo.tokenAcquired"></button>
         <button type="button" class="block-button btn btn-outline-dark" (click)="clearToken()" translate="reservation-page-complete.cancel" *ngIf="reservationInfo.tokenAcquired"></button>
       </div>
