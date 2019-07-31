@@ -15,6 +15,7 @@ import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscripti
 import { TicketCategoryForWaitingList, ItemsByCategory } from '../model/items-by-category';
 import { EventCode } from '../model/event-code';
 import { AnalyticsService } from '../shared/analytics.service';
+import { ErrorDescriptor } from '../model/validated-response';
 
 @Component({
   selector: 'app-event-display',
@@ -30,7 +31,7 @@ export class EventDisplayComponent implements OnInit {
   donationCategories: AdditionalService[];
   //
   reservationForm: FormGroup;
-  globalErrors: string[] = [];
+  globalErrors: ErrorDescriptor[] = [];
   //
   ticketCategoryAmount: {[key:number]: number[]};
   //
@@ -64,7 +65,7 @@ export class EventDisplayComponent implements OnInit {
     const code = this.route.snapshot.queryParams['code'];
     const errors = this.route.snapshot.queryParams['errors'];
     if (errors) {
-      this.globalErrors = errors.split(',');
+      this.globalErrors = errors.split(',').map(val => {let ed = new ErrorDescriptor(); ed.code = val; return ed;});
     }
 
     this.route.params.subscribe(params => {

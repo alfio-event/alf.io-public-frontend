@@ -18,7 +18,7 @@
     <h2 translate="show-event.tickets"></h2>
 
     <div class="alert alert-danger" role="alert" *ngIf="globalErrors && globalErrors.length > 0">
-      <div *ngFor="let err of globalErrors"><strong [translate]="err"></strong></div>
+      <div *ngFor="let err of globalErrors"><strong [translate]="err.code"></strong></div>
     </div>
 
     <!-- begin waiting list -->

@@ -12,6 +12,7 @@ import { I18nService } from 'src/app/shared/i18n.service';
 import { Ticket } from 'src/app/model/ticket';
 import { TranslateService } from '@ngx-translate/core';
 import { AnalyticsService } from 'src/app/shared/analytics.service';
+import { ErrorDescriptor } from 'src/app/model/validated-response';
 
 @Component({
   selector: 'app-booking',
@@ -25,7 +26,7 @@ export class BookingComponent implements OnInit {
   eventShortName: string;
   reservationId: string;
   expired: boolean;
-  globalErrors: string[];
+  globalErrors: ErrorDescriptor[];
 
   ticketCounts: number;
 

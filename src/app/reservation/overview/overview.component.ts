@@ -10,6 +10,7 @@ import { handleServerSideValidationError } from 'src/app/shared/validation-helpe
 import { I18nService } from 'src/app/shared/i18n.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AnalyticsService } from 'src/app/shared/analytics.service';
+import { ErrorDescriptor } from 'src/app/model/validated-response';
 
 @Component({
   selector: 'app-overview',
@@ -20,7 +21,7 @@ export class OverviewComponent implements OnInit {
 
   reservationInfo: ReservationInfo;
   overviewForm: FormGroup;
-  globalErrors: string[];
+  globalErrors: ErrorDescriptor[];
 
   eventShortName: string;
   reservationId: string;

@@ -2,6 +2,7 @@ import { Directive, OnInit, ElementRef, OnDestroy, Input } from '@angular/core';
 import { FormControlName } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { ErrorDescriptor } from '../model/validated-response';
 
 @Directive({
   selector: '[appInvalidFeedback]'
@@ -75,9 +76,9 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
   }
 
   private addErrorMessages(container: HTMLElement): void {
-    this.control.errors.serverError.forEach(e => {
+    this.control.errors.serverError.forEach((e: ErrorDescriptor) => {
       const msg = document.createElement('div');
-      this.subs.push(this.translation.stream(e).subscribe(text => {
+      this.subs.push(this.translation.stream(e.code, e.arguments).subscribe(text => {
         msg.textContent = text;
       }));
       container.appendChild(msg);

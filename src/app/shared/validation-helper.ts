@@ -1,15 +1,14 @@
 import { AbstractControl } from '@angular/forms';
-import { ValidatedResponse } from '../model/validated-response';
+import { ValidatedResponse, ErrorDescriptor } from '../model/validated-response';
 import { HttpErrorResponse } from '@angular/common/http';
-import { element } from 'protractor';
 
-function applyValidationErrors(form: AbstractControl, response: ValidatedResponse<any>): string[] {
+function applyValidationErrors(form: AbstractControl, response: ValidatedResponse<any>): ErrorDescriptor[] {
 
     if (response.errorCount === 0) {
         return [];
     }
 
-    const globalErrors: string[] = [];
+    const globalErrors: ErrorDescriptor[] = [];
 
     response.validationErrors.forEach(err => {
 
@@ -22,16 +21,16 @@ function applyValidationErrors(form: AbstractControl, response: ValidatedRespons
         if (formControl) {
             const formControlErr = formControl.getError('serverError');
             if (formControlErr) {
-                const errors = (formControlErr as string[]);
-                if(errors.indexOf(err.code) < 0) {
-                    errors.push(err.code);
+                const errors = (formControlErr as ErrorDescriptor[]);
+                if(!containsWithKey(errors, err.code)) {
+                    errors.push(err);
                 }
             } else {
-                formControl.setErrors({serverError: [err.code]});
+                formControl.setErrors({serverError: [err]});
             }
             formControl.markAsTouched();
         } else {
-            globalErrors.push(err.code);
+            globalErrors.push(err);
         }
     });
 
@@ -52,7 +51,16 @@ function applyValidationErrors(form: AbstractControl, response: ValidatedRespons
     return globalErrors;
 }
 
-export function handleServerSideValidationError(err: any, form: AbstractControl): string[] {
+function containsWithKey(errors: ErrorDescriptor[], key: string) {
+    for(let i = 0; i < errors.length; i++) {
+        if(errors[i].code === key) {
+            return true;
+        }
+    }
+    return false;
+}
+
+export function handleServerSideValidationError(err: any, form: AbstractControl): ErrorDescriptor[] {
     if (err instanceof HttpErrorResponse) {
         if (err.status === 422) {
             return applyValidationErrors(form, err.error);
