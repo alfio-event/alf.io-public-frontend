@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TicketInfo } from '../model/ticket-info';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -23,12 +23,12 @@ export class TicketService {
         return this.http.post<boolean>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}/send-ticket-by-email`, {});
     }
 
-    buildFormGroupForTicket(ticket: Ticket) : FormGroup {
+    buildFormGroupForTicket(ticket: Ticket): FormGroup {
         return this.formBuilder.group(this.buildTicket(ticket));
     }
 
 
-    updateTicket(eventName: string, ticketIdentifier: string, ticket) : Observable<ValidatedResponse<boolean>> {
+    updateTicket(eventName: string, ticketIdentifier: string, ticket: any): Observable<ValidatedResponse<boolean>> {
       return this.http.put<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}`, ticket);
     }
 
@@ -42,12 +42,13 @@ export class TicketService {
           lastName: ticket.lastName,
           email: ticket.email,
           userLanguage: ticket.userLanguage,
-          additional: this.buildAdditionalFields(ticket.ticketFieldConfigurationBeforeStandard, ticket.ticketFieldConfigurationAfterStandard)
-      }
+          additional: this.buildAdditionalFields(ticket.ticketFieldConfigurationBeforeStandard,
+            ticket.ticketFieldConfigurationAfterStandard)
+      };
     }
 
-    private buildAdditionalFields(before: AdditionalField[], after: AdditionalField[]) : FormGroup {
-      let additional = {};
+    private buildAdditionalFields(before: AdditionalField[], after: AdditionalField[]): FormGroup {
+      const additional = {};
       if (before) {
         this.buildSingleAdditionalField(before, additional);
       }
@@ -63,7 +64,7 @@ export class TicketService {
         f.fields.forEach(field => {
           arr.push(this.formBuilder.control(field.fieldValue));
         });
-        additional[f.name] = this.formBuilder.array(arr)
-      })
+        additional[f.name] = this.formBuilder.array(arr);
+      });
     }
 }

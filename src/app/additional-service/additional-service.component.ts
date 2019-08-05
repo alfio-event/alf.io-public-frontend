@@ -23,7 +23,7 @@ export class AdditionalServiceComponent implements OnInit, OnDestroy {
   @Input()
   event: Event;
 
-  validSelectionValues : number[] = [];
+  validSelectionValues: number[] = [];
 
   private formSub: Subscription;
 
@@ -33,17 +33,17 @@ export class AdditionalServiceComponent implements OnInit, OnDestroy {
 
     const fa = this.form.get('additionalService') as FormArray;
 
-    if(this.additionalService.fixPrice) {
+    if (this.additionalService.fixPrice) {
       this.additionalServiceFormGroup = this.formBuilder.group({additionalServiceId: this.additionalService.id, quantity: null});
     } else {
       this.additionalServiceFormGroup = this.formBuilder.group({additionalServiceId: this.additionalService.id, amount: null});
     }
-    fa.push(this.additionalServiceFormGroup)
+    fa.push(this.additionalServiceFormGroup);
 
-    //we only need to recalculate the select box choice in this specific supplement policy!
+    // we only need to recalculate the select box choice in this specific supplement policy!
     if (this.additionalService.supplementPolicy === 'OPTIONAL_MAX_AMOUNT_PER_TICKET') {
       this.formSub = this.form.get('reservation').valueChanges.subscribe(valueChange => {
-        const selectedTicketCount = (valueChange as {amount:string}[]).map(a => parseInt(a.amount, 10)).reduce((sum, n) => sum+n, 0);
+        const selectedTicketCount = (valueChange as {amount: string}[]).map(a => parseInt(a.amount, 10)).reduce((sum, n) => sum + n, 0);
         const rangeEnd = selectedTicketCount * this.additionalService.maxQtyPerOrder;
         const res = [];
         for (let i = 0; i <= rangeEnd; i++) {
@@ -51,7 +51,8 @@ export class AdditionalServiceComponent implements OnInit, OnDestroy {
         }
         this.validSelectionValues = res;
       });
-    } else if (this.additionalService.supplementPolicy === 'OPTIONAL_MAX_AMOUNT_PER_RESERVATION' || this.additionalService.supplementPolicy === null) {
+    } else if (this.additionalService.supplementPolicy === 'OPTIONAL_MAX_AMOUNT_PER_RESERVATION' ||
+                this.additionalService.supplementPolicy === null) {
       const res = [];
       for (let i = 0; i <= this.additionalService.maxQtyPerOrder; i++) {
         res.push(i);

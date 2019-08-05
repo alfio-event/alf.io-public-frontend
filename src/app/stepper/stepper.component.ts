@@ -8,13 +8,13 @@ import { Component, Input } from '@angular/core';
 export class StepperComponent {
 
   @Input()
-  free: boolean = true;
+  free = true;
 
   @Input()
-  currentStep: number = 1;
+  currentStep = 1;
 
   @Input()
-  inProgress: boolean = false;
+  inProgress = false;
 
   constructor() { }
 }

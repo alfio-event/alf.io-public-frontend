@@ -12,8 +12,8 @@ function applyValidationErrors(form: AbstractControl, response: ValidatedRespons
 
     response.validationErrors.forEach(err => {
 
-        //form.get('tickets[207f224c-1df6-4994-9cb2-fa12eb36882d].email') -> not ok
-        //form.get('tickets.207f224c-1df6-4994-9cb2-fa12eb36882d.email')  -> ok
+        // form.get('tickets[207f224c-1df6-4994-9cb2-fa12eb36882d].email') -> not ok
+        // form.get('tickets.207f224c-1df6-4994-9cb2-fa12eb36882d.email')  -> ok
         const transformedFieldName = err.fieldName.replace(/\[/g, '.').replace(/\]/g, '');
 
         const formControl = form.get(transformedFieldName);
@@ -22,7 +22,7 @@ function applyValidationErrors(form: AbstractControl, response: ValidatedRespons
             const formControlErr = formControl.getError('serverError');
             if (formControlErr) {
                 const errors = (formControlErr as ErrorDescriptor[]);
-                if(!containsWithKey(errors, err.code)) {
+                if (!containsWithKey(errors, err.code)) {
                     errors.push(err);
                 }
             } else {
@@ -36,7 +36,7 @@ function applyValidationErrors(form: AbstractControl, response: ValidatedRespons
 
     // TODO: find better way -> this focus and scroll on the first invalid form input
     setTimeout(() => {
-        //meh, should find a better way
+        // meh, should find a better way
         const found = document.querySelectorAll('[appinvalidfeedback].ng-invalid');
         if (found && found.length > 0) {
             const elem = found[0] as HTMLElement;
@@ -52,8 +52,8 @@ function applyValidationErrors(form: AbstractControl, response: ValidatedRespons
 }
 
 function containsWithKey(errors: ErrorDescriptor[], key: string) {
-    for(let i = 0; i < errors.length; i++) {
-        if(errors[i].code === key) {
+    for (let i = 0; i < errors.length; i++) {
+        if (errors[i].code === key) {
             return true;
         }
     }

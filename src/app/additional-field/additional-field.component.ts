@@ -32,7 +32,7 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
       this.getCountries();
       this.langChangeSub = this.translate.onLangChange.subscribe(change => {
         this.getCountries();
-      })
+      });
     }
   }
 
@@ -46,7 +46,7 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
     if (this.field && this.field.description && this.field.description[this.translate.currentLang]) {
       return this.field.description[this.translate.currentLang].label;
     } else {
-      return "";
+      return '';
     }
   }
 
@@ -54,7 +54,7 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
     if (this.field && this.field.description && this.field.description[this.translate.currentLang]) {
       return this.field.description[this.translate.currentLang].placeholder;
     } else {
-      return "";
+      return '';
     }
   }
 

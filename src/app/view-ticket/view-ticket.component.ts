@@ -31,14 +31,14 @@ export class ViewTicketComponent implements OnInit {
 
       const eventShortName = params['eventShortName'];
 
-      zip(this.eventService.getEvent(eventShortName), this.ticketService.getTicketInfo(eventShortName, this.ticketIdentifier)).subscribe( ([event, ticketInfo]) => {
+      zip(this.eventService.getEvent(eventShortName), this.ticketService.getTicketInfo(eventShortName, this.ticketIdentifier))
+      .subscribe(([event, ticketInfo]) => {
         this.event = event;
         this.ticketInfo = ticketInfo;
         this.i18nService.setPageTitle('show-ticket.header.title', event.displayName);
         this.analytics.pageView(event.analyticsConfiguration);
-      })
-      
-      //TODO: add navigation here if the route does not correspond!
+      });
+      // TODO: add navigation here if the route does not correspond!
     });
   }
 }
