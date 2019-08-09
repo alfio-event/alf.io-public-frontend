@@ -158,6 +158,10 @@ label.radio-inline {
 
 /* basic style for markdown content */
 
+.markdown-content img {
+    max-width:100%;
+}
+
 .markdown-content table {
     width:100%;
 }
@@ -175,6 +179,8 @@ label.radio-inline {
 .markdown-content table td {
     border-top: 1px solid #e3e3e3;
 }
+
+/* end markdown styling */
 
 .ng-select.form-control {
     padding-top: 0;
