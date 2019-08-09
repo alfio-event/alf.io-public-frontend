@@ -25,7 +25,7 @@
   </div>
 
   <div class="row d-flex justify-content-between wMarginTop">
-      <div class="col-md-5 col-12"><a [href]="event.websiteUrl" class="btn btn-outline-dark block-button" translate="to-event-site"></a></div>
+      <div class="col-md-5 col-12"><a [href]="event.websiteUrl" class="btn btn-light block-button" translate="to-event-site"></a></div>
       <div class="col-md-5 col-12" *ngIf="event.invoicingConfiguration.userCanDownloadReceiptOrInvoice && reservationInfo.invoiceNumber !== null">
           <a [href]="'/api/v2/public/event/' + event.shortName + '/reservation/' + reservationInfo.id + '/invoice'" class="btn btn-success block-button" target="_blank" translate="reservation-page-complete.download-your-invoice"></a>
       </div>

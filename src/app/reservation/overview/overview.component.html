@@ -121,8 +121,8 @@
         </button>
       </div>
       <div class="col-md-5 order-md-0 col-12 ">
-        <button type="button" class="block-button btn btn-outline-dark" (click)="back()" translate="common.back" *ngIf="!reservationInfo.tokenAcquired"></button>
-        <button type="button" class="block-button btn btn-outline-dark" (click)="clearToken()" translate="reservation-page-complete.cancel" *ngIf="reservationInfo.tokenAcquired"></button>
+        <button type="button" class="block-button btn btn-light" (click)="back()" translate="common.back" *ngIf="!reservationInfo.tokenAcquired"></button>
+        <button type="button" class="block-button btn btn-light" (click)="clearToken()" translate="reservation-page-complete.cancel" *ngIf="reservationInfo.tokenAcquired"></button>
       </div>
     </div>
   </form>

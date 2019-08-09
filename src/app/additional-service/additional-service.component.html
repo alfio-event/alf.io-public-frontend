@@ -23,7 +23,7 @@
         <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'MANDATORY_ONE_FOR_TICKET'" translate="show-event.mandatoryOneForTicket"></div>
         <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'OPTIONAL_UNLIMITED_AMOUNT'"><input type="number" min="0" step="1" class="form-control" placeholder="0" autocomplete="off" formControlName="quantity"></div>
         <div *ngIf="additionalService.fixPrice && [null, 'OPTIONAL_MAX_AMOUNT_PER_RESERVATION', 'OPTIONAL_MAX_AMOUNT_PER_TICKET'].indexOf(additionalService.supplementPolicy) >= 0 ">
-            <select class="form-control text-align-center" placeholder="0" autocomplete="off" formControlName="quantity">
+            <select class="custom-select text-align-center" placeholder="0" autocomplete="off" formControlName="quantity">
                 <option *ngFor="let amount of validSelectionValues" [value]="amount">{{amount}}</option>
             </select>
         </div>

@@ -72,7 +72,7 @@
                 <span>{{' '}}{{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- {{tc.name}}</span>
 
                 <button *ngIf="!enableAttendeeAutocomplete && firstCategory && firstTicket" 
-                        class="btn btn-outline-dark btn-xs float-right" 
+                        class="btn btn-light btn-xs float-right" 
                         [ngbTooltip]="'reservation-page.copy-attendee'|translate"
                         type="button"
                         (click)="copyContactInfoTo(ticket)">
@@ -92,7 +92,7 @@
         <button type="submit" class="block-button btn btn-success" translate="reservation-page.continue" [disabled]="expired"></button>
       </div>
       <div class="col-md-5 order-md-0 col-12 ">
-        <button type="button" class="block-button btn btn-outline-dark" (click)="cancelPendingReservation()" translate="reservation-page.cancel"></button>
+        <button type="button" class="block-button btn btn-light" (click)="cancelPendingReservation()" translate="reservation-page.cancel"></button>
       </div>
     </div>
   </form>
