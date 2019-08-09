@@ -9,6 +9,7 @@ import { ReservationInfo } from 'src/app/model/reservation-info';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AnalyticsService } from 'src/app/shared/analytics.service';
+import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 
 @Component({
   selector: 'app-success',
@@ -104,6 +105,8 @@ export class SuccessComponent implements OnInit {
       if (res.success) {
         this.loadReservation();
       }
+    }, (err) => {
+      handleServerSideValidationError(err, this.ticketsFormControl[uuid]);
     });
   }
 
