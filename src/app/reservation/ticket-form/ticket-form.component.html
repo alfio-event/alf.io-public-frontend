@@ -31,7 +31,7 @@
     <div class="form-group row" *ngIf="event && event.contentLanguages.length > 1">
         <label [attr.for]="ticket.uuid + '-userLanguage'" class="col-sm-3 col-form-label" translate="reservation-page-complete.language"></label>
         <div class="col-sm-9">
-            <select [attr.id]="ticketUUID + '-userLanguage'" formControlName="userLanguage" class="custom-select" appInvalidFeedback>
+            <select [attr.id]="ticket.uuid + '-userLanguage'" formControlName="userLanguage" class="custom-select" appInvalidFeedback>
                 <option value=""></option>
                 <option *ngFor="let lang of event.contentLanguages" [ngValue]="lang.locale">{{lang.displayLanguage}}</option>
             </select>

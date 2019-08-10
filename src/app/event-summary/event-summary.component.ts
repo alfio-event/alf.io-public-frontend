@@ -15,6 +15,6 @@ export class EventSummaryComponent {
   @Input()
   dateValidityProvider: DateValidity;
 
-  constructor(private translate: TranslateService) { }
+  constructor(public translate: TranslateService) { }
 
 }

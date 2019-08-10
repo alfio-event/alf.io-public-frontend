@@ -5,7 +5,10 @@
     "types": []
   },
   "angularCompilerOptions": {
-    "enableIvy": false
+    "enableIvy": false,
+    "strictMetadataEmit": true,
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
   },
   "exclude": [
     "test.ts",
