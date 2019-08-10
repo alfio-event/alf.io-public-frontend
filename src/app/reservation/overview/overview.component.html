@@ -11,7 +11,30 @@
       <h2 translate="reservation-page.title"></h2>
     </div>
 
-    <app-summary-table [event]="event" [reservationInfo]="reservationInfo"></app-summary-table>
+    <div class="row">
+      <div class="col-12" [ngClass]="{'col-md-7': reservationInfo.invoiceRequested}">
+        <app-summary-table [event]="event" [reservationInfo]="reservationInfo"></app-summary-table>
+      </div>
+      <div class="d-none d-md-flex col-md-1 justify-content-md-center" *ngIf="reservationInfo.invoiceRequested">
+        <div class="border-left separator"></div>
+      </div>
+      <div class="col-12 col-md-4 invoice-details" *ngIf="reservationInfo.invoiceRequested">
+        <div class="d-flex flex-column justify-content-between h-100">
+          <div>
+            <h5 class="d-none d-md-block" translate="reservation-page.invoice-details"></h5>
+            <div class="page-header d-block d-md-none" translate="reservation-page.invoice-details"></div>
+            <div class="preformatted">{{reservationInfo.billingAddress}}</div>
+            <div *ngIf="hasTaxId">{{'invoice.vat' |translate: {'0': ('common.vat' | translate)} }} {{reservationInfo.billingDetails.taxId}}</div>
+            <div *ngIf="enabledItalyEInvoicing">{{italyEInvoicingFiscalCode}}</div>
+            <div *ngIf="enabledItalyEInvoicing">{{italyEInvoicingReference}}</div>
+          </div>
+          <div class="mt-2">
+            <button type="button" class="btn btn-secondary" (click)="back()"><fa-icon [icon]="['far', 'edit']"></fa-icon>{{' '}}<span translate="common.edit"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <div class="alert alert-danger" role="alert" *ngIf="globalErrors && globalErrors.length > 0">
       <div *ngFor="let err of globalErrors"><strong [translate]="err.code"></strong></div>
@@ -54,30 +77,30 @@
       </div>
 
       <div *ngIf="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod]" >
-          <app-offline-payment-proxy 
-            [proxy]="overviewForm.value.paymentMethod" 
-            [method]="overviewForm.value.selectedPaymentMethod" 
+          <app-offline-payment-proxy
+            [proxy]="overviewForm.value.paymentMethod"
+            [method]="overviewForm.value.selectedPaymentMethod"
             [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"
             [overviewForm]="overviewForm"
             (paymentProvider)="registerCurrentPaymentProvider($event)">
           </app-offline-payment-proxy>
-          <app-onsite-payment-proxy 
-            [proxy]="overviewForm.value.paymentMethod" 
+          <app-onsite-payment-proxy
+            [proxy]="overviewForm.value.paymentMethod"
             [method]="overviewForm.value.selectedPaymentMethod"
             [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"
             [overviewForm]="overviewForm"
             (paymentProvider)="registerCurrentPaymentProvider($event)">
           </app-onsite-payment-proxy>
-          <app-stripe-payment-proxy 
+          <app-stripe-payment-proxy
             [event]="event"
             [reservation]="reservationInfo"
-            [proxy]="overviewForm.value.paymentMethod" 
-            [method]="overviewForm.value.selectedPaymentMethod" 
+            [proxy]="overviewForm.value.paymentMethod"
+            [method]="overviewForm.value.selectedPaymentMethod"
             [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"
             (paymentProvider)="registerCurrentPaymentProvider($event)">
           </app-stripe-payment-proxy>
-          <app-paypal-payment-proxy 
-            [proxy]="overviewForm.value.paymentMethod" 
+          <app-paypal-payment-proxy
+            [proxy]="overviewForm.value.paymentMethod"
             [method]="overviewForm.value.selectedPaymentMethod"
             [reservation]="reservationInfo"
             (paymentProvider)="registerCurrentPaymentProvider($event)">

@@ -23,9 +23,9 @@ export class ReservationGuard implements CanActivate {
 
         //handle the case of the parent component
         if (route.component === ReservationComponent) {
-            if (route.children.length === 0) { 
+            if (route.children.length === 0) {
                 //no children! -> go to /event/<eventShortName>/reservation/<reservationId>/ -> redirect
-                return this.checkAndRedirect(route.params['eventShortName'], route.params['reservationId'], route.component);        
+                return this.checkAndRedirect(route.params['eventShortName'], route.params['reservationId'], route.component);
             }
             return true;
         } else {
@@ -37,7 +37,7 @@ export class ReservationGuard implements CanActivate {
     private checkAndRedirect(eventShortName: string, reservationId: string, component: any): Observable<boolean | UrlTree> {
         return this.reservationService.getReservationStatusInfo(eventShortName, reservationId).pipe(map(reservation => {
 
-            const selectedComponent = getCorrespondingController(reservation.status, reservation.validatedBookingInformations);
+            const selectedComponent = getCorrespondingController(reservation.status, reservation.validatedBookingInformation);
             if (component === selectedComponent) {
                 return true;
             }

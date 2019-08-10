@@ -1,3 +1,6 @@
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
 .payment-method-selector {
     width: 100%;
 }
@@ -26,4 +29,18 @@
 
 .dots span:first-child + span + span {
     animation-name: dots-3;
+}
+
+@include media-breakpoint-up(md) {
+  .invoice-details {
+    padding: $table-cell-padding;
+  }
+  .invoice-details h5 {
+    font-weight: bold;
+    font-size: $font-size-base;
+  }
+}
+
+div.separator {
+  height: 100%;
 }
