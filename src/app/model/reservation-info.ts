@@ -13,7 +13,7 @@ export class ReservationInfo {
 
     //
     status: ReservationStatus;
-    validatedBookingInformations: boolean;
+    validatedBookingInformation: boolean;
     //
     formattedExpirationDate: {[key:string]: string};
     //
@@ -27,25 +27,14 @@ export class ReservationInfo {
     tokenAcquired: boolean;
     paymentProxy: PaymentProxy;
     //
-
-
-    //billing info
     addCompanyBillingDetails: boolean;
-    billingAddressCompany: string;
-    billingAddressLine1: string;
-    billingAddressLine2: string;
-    billingAddressZip: string;
-    billingAddressCity: string;
-    vatCountryCode: string;
     customerReference: string;
-    vatNr: string;
     skipVatNr: boolean;
-    italyEInvoicingFiscalCode: string;
-    italyEInvoicingReferenceType: ItalianEInvoicingReferenceType;
-    italyEInvoicingReferenceAddresseeCode: string;
-    italyEInvoicingReferencePEC: string;
+
+    billingAddress: string;
     //
-    
+    billingDetails: BillingDetails;
+
     // group related info
     containsCategoriesLinkedToGroups: boolean;
     //
@@ -53,7 +42,7 @@ export class ReservationInfo {
 
 export class ReservationStatusInfo {
     status: ReservationStatus;
-    validatedBookingInformations: boolean;
+    validatedBookingInformation: boolean;
 }
 
 export class TicketsByTicketCategory {
@@ -79,8 +68,35 @@ export class SummaryRow {
     subTotal: string;
 }
 
-export type ReservationStatus = 'PENDING' | 'IN_PAYMENT' | 'EXTERNAL_PROCESSING_PAYMENT' | 
-                                'WAITING_EXTERNAL_CONFIRMATION' | 'OFFLINE_PAYMENT' | 
+export type ReservationStatus = 'PENDING' | 'IN_PAYMENT' | 'EXTERNAL_PROCESSING_PAYMENT' |
+                                'WAITING_EXTERNAL_CONFIRMATION' | 'OFFLINE_PAYMENT' |
                                 'COMPLETE' | 'STUCK' | 'CANCELLED' | 'CREDIT_NOTE_ISSUED';
 
 export type ItalianEInvoicingReferenceType = 'ADDRESSEE_CODE' | 'PEC' | 'NONE'
+
+export interface BillingDetails {
+  companyName: string;
+  addressLine1: string;
+  addressLine2: string;
+  zip: string;
+  city: string;
+  country: string;
+  taxId: string;
+  invoicingAdditionalInfo: TicketReservationInvoicingAdditionalInfo;
+}
+
+export interface TicketReservationInvoicingAdditionalInfo {
+  italianEInvoicing: ItalianEInvoicing;
+
+}
+
+export interface ItalianEInvoicing {
+  referenceType: ItalianEInvoicingReferenceType;
+  fiscalCode: string;
+  addresseeCode: string;
+  pec: string;
+  /**
+   * either addressee code, pec, or null
+   */
+  reference: string;
+}

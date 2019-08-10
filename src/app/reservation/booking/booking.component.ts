@@ -3,7 +3,12 @@ import { ReservationService } from '../../shared/reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TicketService } from 'src/app/shared/ticket.service';
-import { ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
+import {
+  BillingDetails,
+  ItalianEInvoicing,
+  ReservationInfo,
+  TicketsByTicketCategory
+} from 'src/app/model/reservation-info';
 import { EventService } from 'src/app/shared/event.service';
 import { Event } from 'src/app/model/event';
 import { zip } from 'rxjs';
@@ -73,6 +78,8 @@ export class BookingComponent implements OnInit {
 
         //
 
+        let billingDetails = this.reservationInfo.billingDetails;
+
         this.contactAndTicketsForm = this.formBuilder.group({
           firstName: this.formBuilder.control(this.reservationInfo.firstName, [Validators.required, Validators.maxLength(255)]),
           lastName: this.formBuilder.control(this.reservationInfo.lastName, [Validators.required, Validators.maxLength(255)]),
@@ -80,25 +87,33 @@ export class BookingComponent implements OnInit {
           tickets: this.buildTicketsFormGroup(this.reservationInfo.ticketsByCategory),
           invoiceRequested: invoiceRequested,
           addCompanyBillingDetails: this.reservationInfo.addCompanyBillingDetails,
-          billingAddressCompany: this.reservationInfo.billingAddressCompany,
-          billingAddressLine1: this.reservationInfo.billingAddressLine1,
-          billingAddressLine2: this.reservationInfo.billingAddressLine2,
-          billingAddressZip: this.reservationInfo.billingAddressZip,
-          billingAddressCity: this.reservationInfo.billingAddressCity,
-          vatCountryCode: this.reservationInfo.vatCountryCode,
+          billingAddressCompany: billingDetails.companyName,
+          billingAddressLine1: billingDetails.addressLine1,
+          billingAddressLine2: billingDetails.addressLine2,
+          billingAddressZip: billingDetails.zip,
+          billingAddressCity: billingDetails.city,
+          vatCountryCode: billingDetails.country,
           customerReference: this.reservationInfo.customerReference,
-          vatNr: this.reservationInfo.vatNr,
+          vatNr: billingDetails.taxId,
           skipVatNr: this.reservationInfo.skipVatNr,
-          italyEInvoicingFiscalCode: this.reservationInfo.italyEInvoicingFiscalCode,
-          italyEInvoicingReferenceType: this.reservationInfo.italyEInvoicingReferenceType,
-          italyEInvoicingReferenceAddresseeCode: this.reservationInfo.italyEInvoicingReferenceAddresseeCode,
-          italyEInvoicingReferencePEC: this.reservationInfo.italyEInvoicingReferencePEC,
+          italyEInvoicingFiscalCode: BookingComponent.optionalGet(billingDetails, (i) => i.fiscalCode),
+          italyEInvoicingReferenceType: BookingComponent.optionalGet(billingDetails, (i) => i.referenceType),
+          italyEInvoicingReferenceAddresseeCode: BookingComponent.optionalGet(billingDetails, (i) => i.addresseeCode),
+          italyEInvoicingReferencePEC: BookingComponent.optionalGet(billingDetails, (i) => i.pec),
           postponeAssignment: false // <- TODO: check if we save it somewhere in the db...
         });
 
         this.analytics.pageView(ev.analyticsConfiguration);
       });
     });
+  }
+
+  private static optionalGet(billingDetails: BillingDetails, consumer: (b: ItalianEInvoicing) => any): any {
+    let italianEInvoicing = billingDetails.invoicingAdditionalInfo.italianEInvoicing;
+    if(italianEInvoicing != null) {
+      return consumer(italianEInvoicing);
+    }
+    return null;
   }
 
   private buildTicketsFormGroup(ticketsByCategory: TicketsByTicketCategory[]): FormGroup {

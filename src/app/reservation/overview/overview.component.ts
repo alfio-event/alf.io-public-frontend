@@ -201,4 +201,28 @@ export class OverviewComponent implements OnInit {
   handleRecaptchaResponse(recaptchaValue: string) {
     this.overviewForm.get('captcha').setValue(recaptchaValue);
   }
+
+  get enabledItalyEInvoicing(): boolean {
+    return this.event.invoicingConfiguration.enabledItalyEInvoicing;
+  }
+
+  get hasTaxId(): boolean {
+    return this.reservationInfo.invoiceRequested && this.reservationInfo.billingDetails.taxId != null;
+  }
+
+  get italyEInvoicingReference(): string {
+    let itEInvoicing = this.reservationInfo.billingDetails.invoicingAdditionalInfo.italianEInvoicing;
+    if(!this.enabledItalyEInvoicing || itEInvoicing == null) {
+      return "";
+    }
+    return itEInvoicing.reference;
+  }
+
+  get italyEInvoicingFiscalCode(): string {
+    let itEInvoicing = this.reservationInfo.billingDetails.invoicingAdditionalInfo.italianEInvoicing;
+    if(!this.enabledItalyEInvoicing || itEInvoicing == null) {
+      return "";
+    }
+    return itEInvoicing.fiscalCode;
+  }
 }
