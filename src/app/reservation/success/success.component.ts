@@ -24,14 +24,14 @@ export class SuccessComponent implements OnInit {
 
   event: Event;
 
-  reservationMailSent: boolean = false;
+  reservationMailSent = false;
   sendEmailForTicketStatus: {} = {};
   ticketsFormControl: {} = {};
   ticketsFormShow: {} = {};
   ticketsReleaseShow: {} = {};
 
-  unlockedTicketCount: number = 0;
-  ticketsAllAssigned: boolean = true;
+  unlockedTicketCount = 0;
+  ticketsAllAssigned = true;
 
   constructor(
     private route: ActivatedRoute,
