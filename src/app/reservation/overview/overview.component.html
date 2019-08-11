@@ -112,26 +112,24 @@
       <app-recaptcha [apiKey]="event.captchaConfiguration.recaptchaApiKey" (recaptchaResponse)="handleRecaptchaResponse($event)"></app-recaptcha>
     </div>
 
-    <div>
-      <p *ngIf="event.privacyPolicyUrl">
-        <label>
-          <input formControlName="privacyPolicyAccepted" type="checkbox">{{' '}} <!-- ugly, see  https://github.com/angular/angular/issues/21049 -->
+    <div class="custom-control custom-checkbox" *ngIf="event.privacyPolicyUrl">
+        <input class="custom-control-input" id="privacyPolicyAccepted" formControlName="privacyPolicyAccepted" type="checkbox">{{' '}} <!-- ugly, see  https://github.com/angular/angular/issues/21049 -->
+        <label for="privacyPolicyAccepted" class="custom-control-label">
           <span translate="reservation-page.privacy.prefix"></span>{{' '}}<a [attr.href]="event.privacyPolicyUrl" target="_blank" translate="reservation-page.privacy.link.text"></a><span translate="reservation-page.privacy.suffix"></span>
         </label>
-      </p>
-      <p>
-        <label>
-          <input formControlName="termAndConditionsAccepted" type="checkbox">{{' '}}
-          <span translate="reservation-page.tc.prefix"></span>{{' '}}<a [attr.href]="event.termsAndConditionsUrl" target="_blank" translate="reservation-page.tc.link.text"></a><span translate="reservation-page.tc.suffix"></span>
+    </div>
+    <div class="custom-control custom-checkbox">
+        <input class="custom-control-input" id="termsAndConditionsAccepted" formControlName="termAndConditionsAccepted" type="checkbox">
+        <label class="custom-control-label" for="termsAndConditionsAccepted">
+          {{' '}}<span translate="reservation-page.tc.prefix"></span>{{' '}}<a [attr.href]="event.termsAndConditionsUrl" target="_blank" translate="reservation-page.tc.link.text"></a><span translate="reservation-page.tc.suffix"></span>
         </label>
-      </p>
     </div>
 
     <div class="alert alert-info text-center" *ngIf="submitting">
       <strong ><span translate="reservation.payment-in-progress"></span><span class="dots"><span>.</span><span>.</span><span>.</span></span></strong>
     </div>
 
-    <div class="row d-flex justify-content-between mobile-add-margin-bottom" *ngIf="!submitting">
+    <div class="row d-flex justify-content-between mobile-add-margin-bottom mt-4" *ngIf="!submitting">
       <div class="col-md-5 order-md-1 col-12">
         <button *ngIf="reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" translate="reservation-page.continue" [disabled]="expired"></button>
         <button *ngIf="!reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" [disabled]="expired || !selectedPaymentProvider || !acceptedPrivacyAndTermAndConditions">

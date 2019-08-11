@@ -42,11 +42,10 @@
       <app-invoice-form [form]="contactAndTicketsForm" [event]="event"></app-invoice-form>
     </div>
     <div *ngIf="!reservationInfo.orderSummary.free && event.invoicingConfiguration.invoiceAllowed && !event.invoicingConfiguration.onlyInvoice">
-      <div class="checkbox wMarginTop">
-        <label>
-          <input type="checkbox" formControlName="invoiceRequested" (change)="handleInvoiceRequestedChange()">
-          {{' '}}
-          <span translate="reservation-page.i-need-an-invoice"></span>
+      <div class="custom-control custom-checkbox wMarginTop">
+        <input class="custom-control-input" type="checkbox" formControlName="invoiceRequested" (change)="handleInvoiceRequestedChange()" id="invoiceRequested">
+        <label for="invoiceRequested" class="custom-control-label">
+          {{' '}}<span translate="reservation-page.i-need-an-invoice"></span>
         </label>
       </div>
 
@@ -59,8 +58,9 @@
       <h2 translate="reservation-page.attendees"></h2>
     </div>
 
-    <div class="checkbox wMarginBottom" *ngIf="!event.assignmentConfiguration.forceAssignment && ticketCounts > 1 && !reservationInfo.containsCategoriesLinkedToGroups">
-      <label><input type="checkbox" formControlName="postponeAssignment" id="postpone-assignment" value="true">{{' '}}{{'reservation-page.postpone-assignment'|translate}}</label>
+    <div class="custom-control custom-checkbox wMarginBottom" *ngIf="!event.assignmentConfiguration.forceAssignment && ticketCounts > 1 && !reservationInfo.containsCategoriesLinkedToGroups">
+      <input id="postponeAssignment" class="custom-control-input" type="checkbox" formControlName="postponeAssignment" id="postpone-assignment" value="true">
+      <label class="custom-control-label" for="postpone-assignment">{{' '}}{{'reservation-page.postpone-assignment'|translate}}</label>
     </div>
 
     <ng-container *ngIf="!contactAndTicketsForm.value.postponeAssignment">
@@ -71,8 +71,8 @@
                 <fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon>
                 <span>{{' '}}{{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- {{tc.name}}</span>
 
-                <button *ngIf="!enableAttendeeAutocomplete && firstCategory && firstTicket" 
-                        class="btn btn-light btn-xs float-right" 
+                <button *ngIf="!enableAttendeeAutocomplete && firstCategory && firstTicket"
+                        class="btn btn-light btn-xs float-right"
                         [ngbTooltip]="'reservation-page.copy-attendee'|translate"
                         type="button"
                         (click)="copyContactInfoTo(ticket)">
