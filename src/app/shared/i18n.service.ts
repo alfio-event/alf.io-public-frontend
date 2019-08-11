@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 import { Observable, of, zip } from 'rxjs';
 import { Language } from '../model/event';
 import { LocalizedCountry } from '../model/localized-country';
@@ -17,10 +17,16 @@ export class I18nService {
 
   private applicationLanguages: Observable<Language[]>;
 
-  constructor(private http: HttpClient, private title: Title, private translateService: TranslateService, private router: Router, private customLoader: CustomLoader, private eventService: EventService) { }
+  constructor(
+    private http: HttpClient,
+    private title: Title,
+    private translateService: TranslateService,
+    private router: Router,
+    private customLoader: CustomLoader,
+    private eventService: EventService) { }
 
   getCountries(locale: string): Observable<LocalizedCountry[]> {
-      return this.http.get<LocalizedCountry[]>(`/api/v2/public/i18n/countries/${locale}`);
+    return this.http.get<LocalizedCountry[]>(`/api/v2/public/i18n/countries/${locale}`);
   }
 
   getVatCountries(locale: string): Observable<LocalizedCountry[]> {
@@ -32,7 +38,7 @@ export class I18nService {
   }
 
   getAvailableLanguages(): Observable<Language[]> {
-    if(!this.applicationLanguages) {
+    if (!this.applicationLanguages) {
       this.applicationLanguages = this.http.get<Language[]>(`/api/v2/public/i18n/languages`).pipe(shareReplay(1));
     }
     return this.applicationLanguages;
@@ -40,14 +46,14 @@ export class I18nService {
 
   setPageTitle(titleCode: string, eventName: string): void {
 
-    let obs = this.translateService.stream(titleCode, {'0': eventName});
+    const obs = this.translateService.stream(titleCode, {'0': eventName});
 
-    let titleSub =  obs.subscribe(res => {
+    const titleSub =  obs.subscribe(res => {
       this.title.setTitle(res);
     });
 
-    let routerSub = this.router.events.subscribe(ev => {
-      if(ev instanceof NavigationStart) {
+    const routerSub = this.router.events.subscribe(ev => {
+      if (ev instanceof NavigationStart) {
         routerSub.unsubscribe();
         titleSub.unsubscribe();
         this.title.setTitle(null);
@@ -67,7 +73,7 @@ export class I18nService {
     return this.translateService.currentLang;
   }
 
-  useTranslation(eventShortName: string, lang: string) : Observable<boolean> {
+  useTranslation(eventShortName: string, lang: string): Observable<boolean> {
     const overrideBundle = eventShortName ? this.eventService.getEvent(eventShortName).pipe(map(e => e.i18nOverride[lang] || {})) : of({});
     return zip(this.customLoader.getTranslation(lang), overrideBundle).pipe(mergeMap(([root, override]) => {
       this.translateService.setTranslation(lang, root, false);
@@ -78,7 +84,7 @@ export class I18nService {
   }
 }
 
-const translationCache: {[key:string]: Observable<any>} = {};
+const translationCache: {[key: string]: Observable<any>} = {};
 
 @Injectable({providedIn: 'root'})
 export class CustomLoader implements TranslateLoader {

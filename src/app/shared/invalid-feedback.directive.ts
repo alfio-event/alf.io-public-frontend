@@ -14,7 +14,7 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
   @Input()
   invalidFeedbackInLabel: boolean;
 
-  constructor(private element: ElementRef, private control : FormControlName, private translation: TranslateService) {
+  constructor(private element: ElementRef, private control: FormControlName, private translation: TranslateService) {
   }
 
   ngOnInit(): void {
@@ -40,7 +40,7 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
 
     let errorContainerElement: HTMLElement;
 
-    if(this.invalidFeedbackInLabel) {
+    if (this.invalidFeedbackInLabel) {
       errorContainerElement = this.element.nativeElement.parentElement.nextElementSibling;
     } else {
       errorContainerElement = this.element.nativeElement.nextElementSibling;
@@ -49,7 +49,7 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
     this.clearSubs();
     if (this.control.errors && this.control.errors.serverError && this.control.errors.serverError.length > 0) {
       this.element.nativeElement.classList.add('is-invalid');
-      if(isInvalidFeedbackContainer(errorContainerElement)) {
+      if (isInvalidFeedbackContainer(errorContainerElement)) {
         // remove messages that are already presents
         const rangeObj = new Range();
         rangeObj.selectNodeContents(errorContainerElement);
@@ -60,8 +60,8 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
         const container = document.createElement('div');
         container.classList.add('invalid-feedback');
         this.addErrorMessages(container);
-        if(this.invalidFeedbackInLabel) {
-          container.classList.add('force-display')
+        if (this.invalidFeedbackInLabel) {
+          container.classList.add('force-display');
           this.element.nativeElement.parentNode.insertAdjacentElement('afterEnd', container);
         } else {
           this.element.nativeElement.insertAdjacentElement('afterEnd', container);
@@ -69,7 +69,7 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
       }
     } else {
       this.element.nativeElement.classList.remove('is-invalid');
-      if(isInvalidFeedbackContainer(errorContainerElement)) {
+      if (isInvalidFeedbackContainer(errorContainerElement)) {
         errorContainerElement.remove();
       }
     }
@@ -88,12 +88,12 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
 }
 
 function isInvalidFeedbackContainer(container: HTMLElement): boolean {
-  return container && container.classList.contains('invalid-feedback')
+  return container && container.classList.contains('invalid-feedback');
 }
 
 
 
-//<div class="invalid-feedback" *ngIf="contactAndTicketsForm.get('firstName').errors?.serverError">
-//  <div *ngFor="let err of contactAndTicketsForm.get('firstName').errors.serverError" [translate]="err"></div>
-//</div>
+// <div class="invalid-feedback" *ngIf="contactAndTicketsForm.get('firstName').errors?.serverError">
+//   <div *ngFor="let err of contactAndTicketsForm.get('firstName').errors.serverError" [translate]="err"></div>
+// </div>
 

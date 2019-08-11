@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ReservationRequest } from '../model/reservation-request';
 import { ValidatedResponse } from '../model/validated-response';
@@ -39,11 +39,11 @@ export class ReservationService {
         return this.http.post<ValidatedResponse<ReservationPaymentResult>>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`, overviewForm, {params: {lang: lang}});
     }
 
-    backToBooking(eventShortName: string, reservationId: string) : Observable<boolean> {
+    backToBooking(eventShortName: string, reservationId: string): Observable<boolean> {
         return this.http.post<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/back-to-booking`, {});
     }
 
-    reSendReservationEmail(eventShortName: string, reservationId: string, lang:string): Observable<boolean> {
+    reSendReservationEmail(eventShortName: string, reservationId: string, lang: string): Observable<boolean> {
         return this.http.post<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/re-send-email`, {}, {params: {lang: lang}});
     }
 
@@ -56,7 +56,6 @@ export class ReservationService {
     }
 
     removePaymentToken(eventShortName: string, reservationId: string): Observable<boolean> {
-        return this.http.delete<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment/token`)
+        return this.http.delete<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment/token`);
     }
-
 }
