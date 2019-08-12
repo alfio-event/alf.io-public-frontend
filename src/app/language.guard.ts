@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { I18nService } from './shared/i18n.service';
 import { EventService } from './shared/event.service';
 import { TranslateService } from '@ngx-translate/core';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +34,7 @@ export class LanguageGuard implements CanActivate {
   }
 
   private getForEvent(eventShortName: string): Observable<string[]> {
-    return this.eventService.getAvailableLanguageForEvent(eventShortName);
+    return this.eventService.getAvailableLanguageForEvent(eventShortName).pipe(catchError(val => this.getForApp()));
   }
 
   private getForApp(): Observable<string[]> {
@@ -42,7 +42,7 @@ export class LanguageGuard implements CanActivate {
   }
 
   private extractLang(availableLanguages: string[], persisted: string, override: string): string {
-    let lang;
+    let lang: string;
     if (override && availableLanguages.indexOf(override) >= 0) {
       lang = override;
     } else if (availableLanguages.indexOf(persisted) >= 0) {

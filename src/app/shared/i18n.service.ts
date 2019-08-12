@@ -6,7 +6,7 @@ import { LocalizedCountry } from '../model/localized-country';
 import { Title } from '@angular/platform-browser';
 import { TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { Router, NavigationStart } from '@angular/router';
-import { map, mergeMap, shareReplay } from 'rxjs/operators';
+import { map, mergeMap, shareReplay, catchError } from 'rxjs/operators';
 import { EventService } from './event.service';
 
 @Injectable({
@@ -74,7 +74,7 @@ export class I18nService {
   }
 
   useTranslation(eventShortName: string, lang: string): Observable<boolean> {
-    const overrideBundle = eventShortName ? this.eventService.getEvent(eventShortName).pipe(map(e => e.i18nOverride[lang] || {})) : of({});
+    const overrideBundle = eventShortName ? this.eventService.getEvent(eventShortName).pipe(catchError(e => of({i18nOverride: {}})), map(e => e.i18nOverride[lang] || {})) : of({});
     return zip(this.customLoader.getTranslation(lang), overrideBundle).pipe(mergeMap(([root, override]) => {
       this.translateService.setTranslation(lang, root, false);
       this.translateService.setTranslation(lang, override, true);
