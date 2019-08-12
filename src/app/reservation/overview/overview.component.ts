@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import { ReservationService } from '../../shared/reservation.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Event, PaymentMethod, PaymentProxy, PaymentProxyWithParameters } from 'src/app/model/event';
@@ -131,14 +131,20 @@ export class OverviewComponent implements OnInit {
     return (Object.keys(this.activePaymentMethods) as PaymentMethod[])[0];
   }
 
-  back() {
+  back(requestInvoice?: boolean): void {
+    const extras: NavigationExtras = {};
+    if(requestInvoice != null) {
+      extras.queryParams = {
+        'requestInvoice': requestInvoice
+      };
+    }
     if (this.expired) {
       this.reservationService.cancelPendingReservation(this.eventShortName, this.reservationId).subscribe(res => {
         this.router.navigate(['event', this.eventShortName]);
       });
     } else {
       this.reservationService.backToBooking(this.eventShortName, this.reservationId).subscribe(res => {
-        this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'book'])
+        this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'book'], extras);
       });
     }
   }
@@ -216,6 +222,14 @@ export class OverviewComponent implements OnInit {
       return "";
     }
     return itEInvoicing.reference;
+  }
+
+  get italyEInvoicingSelectedAddresseeKey(): string {
+    if(!this.enabledItalyEInvoicing) {
+      return '';
+    }
+    const referenceType = this.reservationInfo.billingDetails.invoicingAdditionalInfo.italianEInvoicing.referenceType;
+    return referenceType === 'ADDRESSEE_CODE' ? 'invoice-fields.addressee-code' : 'invoice-fields.pec';
   }
 
   get italyEInvoicingFiscalCode(): string {

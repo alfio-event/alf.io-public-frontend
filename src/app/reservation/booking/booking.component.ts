@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { ReservationService } from '../../shared/reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -11,19 +11,20 @@ import {
 } from 'src/app/model/reservation-info';
 import { EventService } from 'src/app/shared/event.service';
 import { Event } from 'src/app/model/event';
-import { zip } from 'rxjs';
+import {Observable, timer, zip} from 'rxjs';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { Ticket } from 'src/app/model/ticket';
 import { TranslateService } from '@ngx-translate/core';
 import { AnalyticsService } from 'src/app/shared/analytics.service';
 import { ErrorDescriptor } from 'src/app/model/validated-response';
+import {filter, first, mergeMap} from "rxjs/operators";
 
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html'
 })
-export class BookingComponent implements OnInit {
+export class BookingComponent implements OnInit, AfterViewInit {
 
   reservationInfo: ReservationInfo;
   event: Event;
@@ -32,6 +33,8 @@ export class BookingComponent implements OnInit {
   reservationId: string;
   expired: boolean;
   globalErrors: ErrorDescriptor[];
+  @ViewChild('invoiceAnchor', {static: false})
+  private invoiceElement: ElementRef<HTMLAnchorElement>;
 
   ticketCounts: number;
 
@@ -105,6 +108,22 @@ export class BookingComponent implements OnInit {
 
         this.analytics.pageView(ev.analyticsConfiguration);
       });
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.route.parent.queryParams.subscribe(queryParams => {
+      const requestInvoice: boolean = !!queryParams['requestInvoice'];
+      if(requestInvoice) {
+        timer(100)
+          .pipe(
+            filter(v => this.contactAndTicketsForm != null),
+            first()
+          ).subscribe(() => {
+            this.contactAndTicketsForm.get('invoiceRequested').setValue(true);
+            this.invoiceElement.nativeElement.scrollIntoView(true);
+          });
+      }
     });
   }
 

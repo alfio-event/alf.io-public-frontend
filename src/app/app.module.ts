@@ -8,9 +8,8 @@ import { EventListComponent } from './event-list/event-list.component';
 import { EventDisplayComponent } from './event-display/event-display.component';
 import { HttpClientModule, HttpClientXsrfModule, HttpClient } from '@angular/common/http';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill, faDownload, faSearchPlus, faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill, faDownload, faSearchPlus, faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice } from '@fortawesome/free-solid-svg-icons';
 import { faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake } from '@fortawesome/free-regular-svg-icons';
 import { faGoogle, faPaypal, faStripe } from '@fortawesome/free-brands-svg-icons';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -107,9 +106,9 @@ export function HttpLoaderFactory(http: HttpClient) {
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor() {
-    library.add(faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill, faDownload, faSearchPlus, faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes);
-    library.add(faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake);
-    library.add(faGoogle, faPaypal, faStripe);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill, faDownload, faSearchPlus, faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice);
+    library.addIcons(faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake);
+    library.addIcons(faGoogle, faPaypal, faStripe);
   }
 }

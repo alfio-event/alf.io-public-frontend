@@ -38,6 +38,7 @@
     </div>
 
     <!-- invoicing section -->
+    <a id="invoiceSection" #invoiceAnchor></a>
     <div *ngIf="event.invoicingConfiguration.onlyInvoice">
       <app-invoice-form [form]="contactAndTicketsForm" [event]="event"></app-invoice-form>
     </div>
