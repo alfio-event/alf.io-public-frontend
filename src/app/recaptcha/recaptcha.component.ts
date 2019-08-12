@@ -44,12 +44,12 @@ export class RecaptchaComponent implements OnDestroy, AfterViewInit {
 
       window[callBackName] = () => {
         this.enableRecaptcha();
-      }
+      };
       document.body.appendChild(scriptElem);
     } else if (!window['grecaptcha']) {
-      //wait until it's available
-      let waiter = () => {
-        if(window['grecaptcha']) {
+      // wait until it's available
+      const waiter = () => {
+        if (window['grecaptcha']) {
           this.enableRecaptcha();
         } else {
           setTimeout(waiter, 100);
@@ -62,14 +62,14 @@ export class RecaptchaComponent implements OnDestroy, AfterViewInit {
 
     this.langSub = this.translate.onLangChange.subscribe(change => {
       this.enableRecaptcha();
-    })
+    });
   }
 
   ngOnDestroy() {
     if (this.langSub) {
       this.langSub.unsubscribe();
     }
-    if(window['grecaptcha'] && this.widgetId !== null) {
+    if (window['grecaptcha'] && this.widgetId !== null) {
       grecaptcha.reset(this.widgetId);
     }
   }
@@ -83,7 +83,7 @@ export class RecaptchaComponent implements OnDestroy, AfterViewInit {
     //
 
     const container = document.createElement('div');
-    this.targetElement.nativeElement.appendChild(container)
+    this.targetElement.nativeElement.appendChild(container);
     //
 
 

@@ -2,7 +2,7 @@
 
   <app-stepper [currentStep]="2" [free]="event.free"></app-stepper>
 
-  <app-countdown [validity]="reservationInfo.validity" (onExpired)="handleExpired($event)"></app-countdown>
+  <app-countdown [validity]="reservationInfo.validity" (expired)="handleExpired($event)"></app-countdown>
 
   <form [formGroup]="contactAndTicketsForm" (submit)="submitForm()">
 

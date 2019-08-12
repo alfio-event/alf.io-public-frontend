@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import countdown from 'countdown'
+import countdown from 'countdown';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,12 +13,12 @@ export class CountdownComponent implements OnInit, OnDestroy {
   validity: number;
 
   @Output()
-  onExpired: EventEmitter<boolean> = new EventEmitter<boolean>()
+  expired: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   timerId: number;
 
   message: string;
-  expired: boolean;
+  isExpired: boolean;
 
   private langChangeSub: Subscription;
 
@@ -33,7 +33,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.langChangeSub) {
+    if (this.langChangeSub) {
       this.langChangeSub.unsubscribe();
     }
     clearInterval(this.timerId);
@@ -51,13 +51,13 @@ export class CountdownComponent implements OnInit, OnDestroy {
     countdown.setLabels(singular, plural, ' ' + and + ' ', ', ');
     this.timerId = countdown(new Date(this.validity), (ts) => {
       if (ts.value < 0) {
-        this.message = msg.replace('##time##', ts.toHTML("strong"));
+        this.message = msg.replace('##time##', ts.toHTML('strong'));
       } else {
-        this.expired = true;
+        this.isExpired = true;
         clearInterval(this.timerId);
-        this.onExpired.emit(true);
+        this.expired.emit(true);
       }
-    }, countdown.MONTHS|countdown.WEEKS|countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
+    }, countdown.MONTHS | countdown.WEEKS | countdown.DAYS | countdown.HOURS | countdown.MINUTES | countdown.SECONDS);
   }
 
 }

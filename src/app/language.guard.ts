@@ -11,9 +11,6 @@ import { map, switchMap } from 'rxjs/operators';
 })
 export class LanguageGuard implements CanActivate {
 
-
-  //
-
   constructor(private i18nService: I18nService, private eventService: EventService, private translate: TranslateService) {
   }
 
@@ -22,18 +19,18 @@ export class LanguageGuard implements CanActivate {
     const langQueryParam = next.queryParams['lang'];
     const persisted = this.i18nService.getPersistedLanguage();
 
-    //set before calling, to avoid any strange flashes
-    if (persisted && this.translate.currentLang != persisted) {
+    // set before calling, to avoid any strange flashes
+    if (persisted && this.translate.currentLang !== persisted) {
       this.translate.use(persisted);
     }
-    
+
     const eventShortName = next.params['eventShortName'];
     const req = eventShortName ? this.getForEvent(eventShortName) : this.getForApp();
 
     return req.pipe(switchMap(availableLanguages => {
       const lang = this.extractLang(availableLanguages, persisted, langQueryParam);
       return this.i18nService.useTranslation(eventShortName, lang);
-    }))
+    }));
   }
 
   private getForEvent(eventShortName: string): Observable<string[]> {
@@ -45,7 +42,7 @@ export class LanguageGuard implements CanActivate {
   }
 
   private extractLang(availableLanguages: string[], persisted: string, override: string): string {
-    var lang;
+    let lang;
     if (override && availableLanguages.indexOf(override) >= 0) {
       lang = override;
     } else if (availableLanguages.indexOf(persisted) >= 0) {

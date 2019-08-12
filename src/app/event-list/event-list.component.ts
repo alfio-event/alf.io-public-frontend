@@ -20,7 +20,7 @@ export class EventListComponent implements OnInit {
   languages: Language[];
 
   constructor(
-    private eventService: EventService, 
+    private eventService: EventService,
     private i18nService: I18nService,
     private router: Router,
     public translate: TranslateService,
@@ -29,7 +29,7 @@ export class EventListComponent implements OnInit {
 
   public ngOnInit(): void {
     zip(this.eventService.getEvents(), this.info.getInfo()).subscribe(([res, info]) => {
-      if(res.length === 1) {
+      if (res.length === 1) {
         this.router.navigate(['/event', res[0].shortName]);
       } else {
         this.events = res;
