@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Event } from '../model/event';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '../shared/event.service';
 import { TicketService } from '../shared/ticket.service';
 import { TicketInfo } from '../model/ticket-info';
 import { zip } from 'rxjs';
 import { I18nService } from '../shared/i18n.service';
 import { AnalyticsService } from '../shared/analytics.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-view-ticket',
@@ -21,6 +22,7 @@ export class ViewTicketComponent implements OnInit {
   constructor(
     private ticketService: TicketService,
     private route: ActivatedRoute,
+    private router: Router,
     private eventService: EventService,
     private i18nService: I18nService,
     private analytics: AnalyticsService) { }
@@ -37,8 +39,11 @@ export class ViewTicketComponent implements OnInit {
         this.ticketInfo = ticketInfo;
         this.i18nService.setPageTitle('show-ticket.header.title', event.displayName);
         this.analytics.pageView(event.analyticsConfiguration);
+      }, e => {
+        if (e instanceof HttpErrorResponse && e.status == 404) {
+          this.router.navigate(['']);
+        }
       });
-      // TODO: add navigation here if the route does not correspond!
     });
   }
 }
