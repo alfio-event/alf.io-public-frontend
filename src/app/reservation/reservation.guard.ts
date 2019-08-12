@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { ReservationService } from '../shared/reservation.service';
 import { ReservationStatus } from '../model/reservation-info';
 import { SuccessComponent } from './success/success.component';
@@ -10,6 +10,7 @@ import { BookingComponent } from './booking/booking.component';
 import { OfflinePaymentComponent } from './offline-payment/offline-payment.component';
 import { ReservationComponent } from './reservation.component';
 import { ProcessingPaymentComponent } from './processing-payment/processing-payment.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @Injectable({
     providedIn: 'root'
@@ -34,13 +35,11 @@ export class ReservationGuard implements CanActivate {
     }
 
     private checkAndRedirect(eventShortName: string, reservationId: string, component: any): Observable<boolean | UrlTree> {
-        return this.reservationService.getReservationStatusInfo(eventShortName, reservationId).pipe(map(reservation => {
-
+        return this.reservationService.getReservationStatusInfo(eventShortName, reservationId).pipe(catchError(err => of({status: <ReservationStatus>'NOT_FOUND' , validatedBookingInformation: false})), map(reservation => {
             const selectedComponent = getCorrespondingController(reservation.status, reservation.validatedBookingInformation);
             if (component === selectedComponent) {
                 return true;
             }
-
             return this.router.createUrlTree(getRouteFromComponent(selectedComponent, eventShortName, reservationId));
         }));
     }
@@ -57,6 +56,8 @@ function getRouteFromComponent(component: any, eventShortName: string, reservati
         return ['event', eventShortName, 'reservation', reservationId, 'waiting-payment'];
     } else if (component === ProcessingPaymentComponent) {
         return ['event', eventShortName, 'reservation', reservationId, 'processing-payment'];
+    } else if (component === NotFoundComponent) {
+        return ['event', eventShortName, 'reservation', reservationId, 'not-found']
     }
 }
 
@@ -67,6 +68,7 @@ function getCorrespondingController(status: ReservationStatus, validatedBookingI
         case 'OFFLINE_PAYMENT': return OfflinePaymentComponent;
         case 'EXTERNAL_PROCESSING_PAYMENT':
         case 'WAITING_EXTERNAL_CONFIRMATION': return ProcessingPaymentComponent;
+        case 'NOT_FOUND': return NotFoundComponent;
         case 'IN_PAYMENT':
         case 'STUCK': break;
     }

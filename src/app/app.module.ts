@@ -42,6 +42,7 @@ import { InvalidFeedbackDirective } from './shared/invalid-feedback.directive';
 import { AdditionalServiceComponent } from './additional-service/additional-service.component';
 import { RecaptchaComponent } from './recaptcha/recaptcha.component';
 import { CustomLoader } from './shared/i18n.service';
+import { NotFoundComponent } from './reservation/not-found/not-found.component';
 
 
 
@@ -78,7 +79,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     InvoiceFormComponent,
     InvalidFeedbackDirective,
     AdditionalServiceComponent,
-    RecaptchaComponent
+    RecaptchaComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

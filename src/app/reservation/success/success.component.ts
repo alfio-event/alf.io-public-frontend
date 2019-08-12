@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ReservationService } from '../../shared/reservation.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Event } from 'src/app/model/event';
 import { EventService } from 'src/app/shared/event.service';
 import { TicketService } from 'src/app/shared/ticket.service';
 import { Ticket } from 'src/app/model/ticket';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { I18nService } from 'src/app/shared/i18n.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { AnalyticsService } from 'src/app/shared/analytics.service';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { FormGroup } from '@angular/forms';
@@ -36,7 +35,6 @@ export class SuccessComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private reservationService: ReservationService,
     private eventService: EventService,
     private ticketService: TicketService,
@@ -72,13 +70,6 @@ export class SuccessComponent implements OnInit {
           this.ticketsAllAssigned = this.ticketsAllAssigned && ticket.assigned;
         });
       });
-    }, err => {
-      // reservation has been cancelled!
-      if (err instanceof HttpErrorResponse && err.status === 404) {
-        this.router.navigate(['event', this.eventShortName]);
-      } else {
-        console.log('error while loading reservation ', this.reservationId);
-      }
     });
   }
 

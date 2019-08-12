@@ -11,6 +11,7 @@ import { ViewTicketComponent } from './view-ticket/view-ticket.component';
 import { ReservationGuard } from './reservation/reservation.guard';
 import { ProcessingPaymentComponent } from './reservation/processing-payment/processing-payment.component';
 import { LanguageGuard } from './language.guard';
+import { NotFoundComponent } from './reservation/not-found/not-found.component';
 
 const routes: Routes = [
   { path: '', component: EventListComponent, canActivate: [LanguageGuard] },
@@ -21,7 +22,8 @@ const routes: Routes = [
     { path: 'waitingPayment', redirectTo: 'waiting-payment'},
     { path: 'waiting-payment', component: OfflinePaymentComponent, canActivate: [ReservationGuard] },
     { path: 'processing-payment', component: ProcessingPaymentComponent, canActivate: [ReservationGuard] },
-    { path: 'success', component: SuccessComponent, canActivate: [ReservationGuard]}
+    { path: 'success', component: SuccessComponent, canActivate: [ReservationGuard]},
+    { path: 'not-found', component: NotFoundComponent, canActivate: [ReservationGuard]}
   ]},
   { path: 'event/:eventShortName/ticket/:ticketId/view', component: ViewTicketComponent, canActivate: [LanguageGuard] }
 ];
