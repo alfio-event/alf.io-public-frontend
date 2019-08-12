@@ -26,7 +26,7 @@ export class SuccessComponent implements OnInit {
   event: Event;
 
   reservationMailSent = false;
-  sendEmailForTicketStatus: {[key: string]: string} = {};
+  sendEmailForTicketStatus: {[key: string]: boolean} = {};
   ticketsFormControl: {[key: string]: FormGroup} = {};
   ticketsFormShow: {[key: string]: boolean} = {};
   ticketsReleaseShow: {[key: string]: boolean} = {};
@@ -89,7 +89,7 @@ export class SuccessComponent implements OnInit {
   sendEmailForTicket(ticketIdentifier: string): void {
     this.ticketService.sendTicketByEmail(this.eventShortName, ticketIdentifier).subscribe(res => {
       if (res) {
-        this.sendEmailForTicketStatus[ticketIdentifier] = 'SENT';
+        this.sendEmailForTicketStatus[ticketIdentifier] = true;
       }
     });
   }
