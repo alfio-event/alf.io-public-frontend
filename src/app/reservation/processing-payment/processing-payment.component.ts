@@ -41,13 +41,13 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
         this.reservationInfo = reservationInfo;
         this.i18nService.setPageTitle('show-ticket.header.title', ev.displayName);
         this.analytics.pageView(ev.analyticsConfiguration);
-      })
+      });
 
       this.intervalId = setInterval(() => {
         this.reservationService.getReservationStatusInfo(this.eventShortName, this.reservationId).subscribe(res => {
           if (res.status === 'COMPLETE') {
             clearInterval(this.intervalId);
-            this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success'])
+            this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
           }
         });
       }, 2000);

@@ -10,6 +10,7 @@ import { I18nService } from 'src/app/shared/i18n.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AnalyticsService } from 'src/app/shared/analytics.service';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-success',
@@ -25,10 +26,10 @@ export class SuccessComponent implements OnInit {
   event: Event;
 
   reservationMailSent = false;
-  sendEmailForTicketStatus: {} = {};
-  ticketsFormControl: {} = {};
-  ticketsFormShow: {} = {};
-  ticketsReleaseShow: {} = {};
+  sendEmailForTicketStatus: {[key: string]: string} = {};
+  ticketsFormControl: {[key: string]: FormGroup} = {};
+  ticketsFormShow: {[key: string]: boolean} = {};
+  ticketsReleaseShow: {[key: string]: boolean} = {};
 
   unlockedTicketCount = 0;
   ticketsAllAssigned = true;
@@ -65,20 +66,20 @@ export class SuccessComponent implements OnInit {
       res.ticketsByCategory.forEach((tc) => {
         tc.tickets.forEach((ticket: Ticket) => {
           this.buildFormControl(ticket);
-          if(!ticket.locked) {
-            this.unlockedTicketCount +=1;
+          if (!ticket.locked) {
+            this.unlockedTicketCount += 1;
           }
           this.ticketsAllAssigned = this.ticketsAllAssigned && ticket.assigned;
-        })  
+        });
       });
     }, err => {
-      //reservation has been cancelled!
+      // reservation has been cancelled!
       if (err instanceof HttpErrorResponse && err.status === 404) {
         this.router.navigate(['event', this.eventShortName]);
       } else {
-        console.log('error while loading reservation ', this.reservationId)
+        console.log('error while loading reservation ', this.reservationId);
       }
-    })
+    });
   }
 
   private buildFormControl(ticket: Ticket): void {
@@ -111,7 +112,6 @@ export class SuccessComponent implements OnInit {
   }
 
   releaseTicket(ticket: Ticket) {
-    console.log('release ticket', ticket);
     this.ticketService.releaseTicket(this.event.shortName, ticket.uuid).subscribe(res => {
       this.loadReservation();
     });
