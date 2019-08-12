@@ -6,14 +6,13 @@ import { TicketService } from 'src/app/shared/ticket.service';
 import { BillingDetails, ItalianEInvoicing, ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
 import { EventService } from 'src/app/shared/event.service';
 import { Event } from 'src/app/model/event';
-import {Observable, Subject, timer, zip} from 'rxjs';
+import {Subject, zip} from 'rxjs';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { Ticket } from 'src/app/model/ticket';
 import { TranslateService } from '@ngx-translate/core';
 import { AnalyticsService } from 'src/app/shared/analytics.service';
 import { ErrorDescriptor } from 'src/app/model/validated-response';
-import {filter, first, mergeMap} from "rxjs/operators";
 
 @Component({
   selector: 'app-booking',
