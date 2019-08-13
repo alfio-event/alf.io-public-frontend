@@ -11,7 +11,7 @@ import {
 } from 'src/app/model/reservation-info';
 import { EventService } from 'src/app/shared/event.service';
 import { Event } from 'src/app/model/event';
-import {Observable, timer, zip} from 'rxjs';
+import {Observable, Subject, timer, zip} from 'rxjs';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { Ticket } from 'src/app/model/ticket';
@@ -35,6 +35,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
   globalErrors: ErrorDescriptor[];
   @ViewChild('invoiceAnchor', {static: false})
   private invoiceElement: ElementRef<HTMLAnchorElement>;
+  private doScroll = new Subject<boolean>();
 
   ticketCounts: number;
 
@@ -106,25 +107,22 @@ export class BookingComponent implements OnInit, AfterViewInit {
           postponeAssignment: false // <- TODO: check if we save it somewhere in the db...
         });
 
+        setTimeout(() => this.doScroll.next(this.invoiceElement != null));
+
         this.analytics.pageView(ev.analyticsConfiguration);
       });
     });
   }
 
   ngAfterViewInit(): void {
-    this.route.parent.queryParams.subscribe(queryParams => {
-      const requestInvoice: boolean = !!queryParams['requestInvoice'];
-      if(requestInvoice) {
-        timer(100)
-          .pipe(
-            filter(v => this.contactAndTicketsForm != null),
-            first()
-          ).subscribe(() => {
-            this.contactAndTicketsForm.get('invoiceRequested').setValue(true);
-            this.invoiceElement.nativeElement.scrollIntoView(true);
-          });
-      }
-    });
+    zip(this.route.parent.queryParams, this.doScroll.asObservable())
+      .subscribe(results => {
+        const requestInvoice: boolean = !!results[0].requestInvoice;
+        if(requestInvoice && results[1]) {
+          this.contactAndTicketsForm.get('invoiceRequested').setValue(true);
+          this.invoiceElement.nativeElement.scrollIntoView(true);
+        }
+      });
   }
 
   private static optionalGet(billingDetails: BillingDetails, consumer: (b: ItalianEInvoicing) => any): any {
