@@ -10,12 +10,12 @@ export class Event implements DateValidity {
     location: string;
     privacyPolicyUrl: string;
     termsAndConditionsUrl: string;
-    mapUrl:string;
+    mapUrl: string;
 
     organizationName: string;
     organizationEmail: string;
 
-    description: {[key:string]: string};
+    description: {[key: string]: string};
     vatIncluded: boolean;
     vat: string;
     free: boolean;
@@ -29,13 +29,13 @@ export class Event implements DateValidity {
     //
     currency: string;
 
-    //date related
+    // date related
     timeZone: string;
     sameDay: boolean;
-    formattedBeginDate: {[key:string]: string}; // day, month, year
-    formattedBeginTime: {[key:string]: string}; //the hour/minute component
-    formattedEndDate: {[key:string]: string};
-    formattedEndTime: {[key:string]: string};
+    formattedBeginDate: {[key: string]: string}; // day, month, year
+    formattedBeginTime: {[key: string]: string}; // the hour/minute component
+    formattedEndDate: {[key: string]: string};
+    formattedEndTime: {[key: string]: string};
     //
 
     //
@@ -69,11 +69,11 @@ export class Language {
 
 export class PaymentProxyWithParameters {
     paymentProxy: PaymentProxy;
-    parameters: {[key:string]: any}
+    parameters: {[key: string]: any};
 }
 
-export type PaymentMethod = 'CREDIT_CARD' | 'PAYPAL' | 'IDEAL' | 'BANK_TRANSFER' | 'ON_SITE' | 'NONE'
-export type PaymentProxy = 'STRIPE' | 'ON_SITE' | 'OFFLINE' | 'PAYPAL'
+export type PaymentMethod = 'CREDIT_CARD' | 'PAYPAL' | 'IDEAL' | 'BANK_TRANSFER' | 'ON_SITE' | 'NONE';
+export type PaymentProxy = 'STRIPE' | 'ON_SITE' | 'OFFLINE' | 'PAYPAL';
 
 export class CaptchaConfiguration {
     captchaForTicketSelection: boolean;

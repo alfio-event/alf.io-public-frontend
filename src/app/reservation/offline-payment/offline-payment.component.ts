@@ -24,8 +24,8 @@ export class OfflinePaymentComponent implements OnInit {
   event: Event;
 
   constructor(
-    private route: ActivatedRoute, 
-    private eventService: EventService, 
+    private route: ActivatedRoute,
+    private eventService: EventService,
     private reservationService: ReservationService,
     public translate: TranslateService,
     private i18nService: I18nService,

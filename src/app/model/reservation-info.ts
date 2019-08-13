@@ -15,7 +15,7 @@ export class ReservationInfo {
     status: ReservationStatus;
     validatedBookingInformation: boolean;
     //
-    formattedExpirationDate: {[key:string]: string};
+    formattedExpirationDate: {[key: string]: string};
     //
 
     //
@@ -72,7 +72,7 @@ export type ReservationStatus = 'PENDING' | 'IN_PAYMENT' | 'EXTERNAL_PROCESSING_
                                 'WAITING_EXTERNAL_CONFIRMATION' | 'OFFLINE_PAYMENT' |
                                 'COMPLETE' | 'STUCK' | 'CANCELLED' | 'CREDIT_NOTE_ISSUED' | 'NOT_FOUND';
 
-export type ItalianEInvoicingReferenceType = 'ADDRESSEE_CODE' | 'PEC' | 'NONE'
+export type ItalianEInvoicingReferenceType = 'ADDRESSEE_CODE' | 'PEC' | 'NONE';
 
 export interface BillingDetails {
   companyName: string;

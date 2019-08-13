@@ -81,7 +81,7 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
   }
 
   get invoiceBusiness(): boolean {
-    return this.form.value.addCompanyBillingDetails
+    return this.form.value.addCompanyBillingDetails;
   }
 
   get vatNumberStrictlyRequired(): boolean {

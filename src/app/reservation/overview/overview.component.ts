@@ -69,7 +69,7 @@ export class OverviewComponent implements OnInit {
     this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(resInfo => {
       this.reservationInfo = resInfo;
 
-      let paymentProxy : PaymentProxy = null;
+      let paymentProxy: PaymentProxy = null;
       let selectedPaymentMethod: PaymentMethod = null;
 
       if (!resInfo.orderSummary.free && this.paymentMethodsCount() === 1) {
@@ -88,9 +88,9 @@ export class OverviewComponent implements OnInit {
         selectedPaymentMethod = this.getPaymentMethodMatchingProxy(paymentProxy);
 
         // we override and keep only the one selected
-        let paymentProxyAndParam = this.event.activePaymentMethods[selectedPaymentMethod];
+        const paymentProxyAndParam = this.event.activePaymentMethods[selectedPaymentMethod];
         this.activePaymentMethods = {};
-        this.activePaymentMethods[selectedPaymentMethod] = paymentProxyAndParam
+        this.activePaymentMethods[selectedPaymentMethod] = paymentProxyAndParam;
         //
       } else {
         this.activePaymentMethods = this.event.activePaymentMethods;
@@ -100,8 +100,8 @@ export class OverviewComponent implements OnInit {
       this.overviewForm = this.formBuilder.group({
         termAndConditionsAccepted: null,
         privacyPolicyAccepted: null,
-        selectedPaymentMethod: selectedPaymentMethod, //<- note: not used by the backend
-        paymentMethod: paymentProxy, //<- name mismatch for legacy reasons
+        selectedPaymentMethod: selectedPaymentMethod, // <- note: not used by the backend
+        paymentMethod: paymentProxy, // <- name mismatch for legacy reasons
         gatewayToken: null,
         captcha: null
       });
@@ -113,21 +113,21 @@ export class OverviewComponent implements OnInit {
     });
   }
 
-  paymentMethodsCount() : number {
+  paymentMethodsCount(): number {
     return Object.keys(this.activePaymentMethods).length;
   }
 
-  private getPaymentMethodMatchingProxy(paymentProxy: PaymentProxy) : PaymentMethod | null {
-    let keys: PaymentMethod[] = Object.keys(this.activePaymentMethods) as PaymentMethod[];
-    for(let idx in keys) {
-      if(this.activePaymentMethods[keys[idx]].paymentProxy === paymentProxy) {
+  private getPaymentMethodMatchingProxy(paymentProxy: PaymentProxy): PaymentMethod | null {
+    const keys: PaymentMethod[] = Object.keys(this.activePaymentMethods) as PaymentMethod[];
+    for (const idx in keys) {
+      if (this.activePaymentMethods[keys[idx]].paymentProxy === paymentProxy) {
         return keys[idx];
       }
     }
     return null;
   }
 
-  getSinglePaymentMethod() : PaymentMethod {
+  getSinglePaymentMethod(): PaymentMethod {
     return (Object.keys(this.activePaymentMethods) as PaymentMethod[])[0];
   }
 
@@ -161,7 +161,7 @@ export class OverviewComponent implements OnInit {
 
         this.reservationService.confirmOverview(this.eventShortName, this.reservationId, overviewFormValue, this.translate.currentLang).subscribe(res => {
           if (res.success) {
-            if (res.value.redirect) { //handle the case of redirects (e.g. paypal, stripe)
+            if (res.value.redirect) { // handle the case of redirects (e.g. paypal, stripe)
               window.location.href = res.value.redirectUrl;
             } else {
               this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
@@ -217,9 +217,9 @@ export class OverviewComponent implements OnInit {
   }
 
   get italyEInvoicingReference(): string {
-    let itEInvoicing = this.reservationInfo.billingDetails.invoicingAdditionalInfo.italianEInvoicing;
-    if(!this.enabledItalyEInvoicing || itEInvoicing == null) {
-      return "";
+    const itEInvoicing = this.reservationInfo.billingDetails.invoicingAdditionalInfo.italianEInvoicing;
+    if (!this.enabledItalyEInvoicing || itEInvoicing == null) {
+      return '';
     }
     return itEInvoicing.reference;
   }
@@ -233,9 +233,9 @@ export class OverviewComponent implements OnInit {
   }
 
   get italyEInvoicingFiscalCode(): string {
-    let itEInvoicing = this.reservationInfo.billingDetails.invoicingAdditionalInfo.italianEInvoicing;
-    if(!this.enabledItalyEInvoicing || itEInvoicing == null) {
-      return "";
+    const itEInvoicing = this.reservationInfo.billingDetails.invoicingAdditionalInfo.italianEInvoicing;
+    if (!this.enabledItalyEInvoicing || itEInvoicing == null) {
+      return '';
     }
     return itEInvoicing.fiscalCode;
   }

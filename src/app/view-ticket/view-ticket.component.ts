@@ -40,7 +40,7 @@ export class ViewTicketComponent implements OnInit {
         this.i18nService.setPageTitle('show-ticket.header.title', event.displayName);
         this.analytics.pageView(event.analyticsConfiguration);
       }, e => {
-        if (e instanceof HttpErrorResponse && e.status == 404) {
+        if (e instanceof HttpErrorResponse && e.status === 404) {
           this.router.navigate(['']);
         }
       });
