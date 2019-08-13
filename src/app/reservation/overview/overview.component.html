@@ -48,7 +48,7 @@
 
 
     <div class="alert alert-danger" role="alert" *ngIf="globalErrors && globalErrors.length > 0">
-      <div *ngFor="let err of globalErrors"><strong [translate]="err.code"></strong></div>
+      <div *ngFor="let err of globalErrors"><strong>{{err.code | translate: err.arguments}}</strong></div>
     </div>
 
     <div *ngIf="!reservationInfo.orderSummary.free">
