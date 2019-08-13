@@ -12,7 +12,7 @@ import { ReservationGuard } from './reservation/reservation.guard';
 import { ProcessingPaymentComponent } from './reservation/processing-payment/processing-payment.component';
 import { LanguageGuard } from './language.guard';
 import { NotFoundComponent } from './reservation/not-found/not-found.component';
-import { EventGuard } from './event.guard'
+import { EventGuard } from './event.guard';
 
 const routes: Routes = [
   { path: '', component: EventListComponent, canActivate: [LanguageGuard] },

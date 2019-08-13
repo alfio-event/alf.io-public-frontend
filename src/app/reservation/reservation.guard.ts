@@ -57,7 +57,7 @@ function getRouteFromComponent(component: any, eventShortName: string, reservati
     } else if (component === ProcessingPaymentComponent) {
         return ['event', eventShortName, 'reservation', reservationId, 'processing-payment'];
     } else if (component === NotFoundComponent) {
-        return ['event', eventShortName, 'reservation', reservationId, 'not-found']
+        return ['event', eventShortName, 'reservation', reservationId, 'not-found'];
     }
 }
 

@@ -16,7 +16,7 @@ export class OnsitePaymentProxyComponent implements OnChanges {
   proxy: PaymentProxy;
 
   @Input()
-  parameters: {[key:string]: any};
+  parameters: {[key: string]: any};
 
   @Input()
   overviewForm: FormGroup;

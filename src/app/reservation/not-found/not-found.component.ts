@@ -24,7 +24,7 @@ export class NotFoundComponent implements OnInit {
     this.route.parent.params.subscribe(params => {
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
-      this.eventUrl = this.serializer.serialize(this.router.createUrlTree(['event', this.eventShortName]))
+      this.eventUrl = this.serializer.serialize(this.router.createUrlTree(['event', this.eventShortName]));
       this.eventService.getEvent(this.eventShortName).subscribe(ev => {
         this.i18nService.setPageTitle('reservation-page-not-found.header.title', ev.displayName);
       });
