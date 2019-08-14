@@ -33,7 +33,7 @@ export class EventDisplayComponent implements OnInit {
   reservationForm: FormGroup;
   globalErrors: ErrorDescriptor[] = [];
   //
-  ticketCategoryAmount: {[key:number]: number[]};
+  ticketCategoryAmount: {[key: number]: number[]};
   //
 
   //
@@ -48,7 +48,7 @@ export class EventDisplayComponent implements OnInit {
   eventCode: EventCode;
   eventCodeError: boolean;
 
-  //https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
+  // https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
 
   constructor(
     private route: ActivatedRoute,
@@ -65,7 +65,7 @@ export class EventDisplayComponent implements OnInit {
     const code = this.route.snapshot.queryParams['code'];
     const errors = this.route.snapshot.queryParams['errors'];
     if (errors) {
-      this.globalErrors = errors.split(',').map(val => {let ed = new ErrorDescriptor(); ed.code = val; return ed;});
+      this.globalErrors = errors.split(',').map(val => { const ed = new ErrorDescriptor(); ed.code = val; return ed; });
     }
 
     this.route.params.subscribe(params => {
@@ -87,11 +87,11 @@ export class EventDisplayComponent implements OnInit {
         this.applyItemsByCat(itemsByCat);
         this.analytics.pageView(event.analyticsConfiguration);
 
-        if(code) {
+        if (code) {
           this.applyPromoCode(code);
         }
-      });  
-    })
+      });
+    });
   }
 
   private applyItemsByCat(itemsByCat: ItemsByCategory) {
@@ -116,7 +116,7 @@ export class EventDisplayComponent implements OnInit {
   }
 
   private createWaitingListFormIfNecessary() {
-    if(this.waitingList && !this.waitingListForm) {
+    if (this.waitingList && !this.waitingListForm) {
       this.waitingListForm = this.formBuilder.group({
         firstName: null,
         lastName: null,
@@ -136,7 +136,7 @@ export class EventDisplayComponent implements OnInit {
   submitForm(eventShortName: string, reservation: ReservationRequest) {
     this.reservationService.reserveTickets(eventShortName, reservation, this.translate.currentLang).subscribe(res => {
       if (res.success) {
-        this.router.navigate(['event', eventShortName, 'reservation', res.value ,'book'])
+        this.router.navigate(['event', eventShortName, 'reservation', res.value, 'book']);
       }
     }, (err) => {
       this.globalErrors = handleServerSideValidationError(err, this.reservationForm);
@@ -162,20 +162,20 @@ export class EventDisplayComponent implements OnInit {
     this.globalErrors = [];
     this.eventCodeError = false;
 
-    if (promoCode === null || promoCode === undefined || promoCode.trim() === "") {
+    if (promoCode === null || promoCode === undefined || promoCode.trim() === '') {
       return;
     }
 
     this.eventService.validateCode(this.event.shortName, promoCode).subscribe(res => {
       if (res.success) {
-        //this.router.navigate([], {relativeTo: this.route, queryParams: {code: promoCode}, queryParamsHandling: "merge"})
-        //TODO, set promo code in url, fetch ticket category, rebuild the reservationForm.reservation
+        // this.router.navigate([], {relativeTo: this.route, queryParams: {code: promoCode}, queryParamsHandling: "merge"})
+        // TODO, set promo code in url, fetch ticket category, rebuild the reservationForm.reservation
 
         //
         this.reloadTicketsInfo(promoCode, res.value);
         //
       } else {
-        this.eventCode = null; //should never enter here
+        this.eventCode = null; // should never enter here
         this.reservationForm.get('promoCode').setValue(null);
       }
     }, (err) => {
