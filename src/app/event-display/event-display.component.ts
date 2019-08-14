@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { EventService } from '../shared/event.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -48,6 +48,11 @@ export class EventDisplayComponent implements OnInit {
   eventCode: EventCode;
   eventCodeError: boolean;
 
+  displayPromoCodeForm: boolean;
+  promoCodeForm: FormGroup;
+  @ViewChild('promoCode', {static: false})
+  promoCodeElement: ElementRef<HTMLInputElement>;
+
   // https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
 
   constructor(
@@ -84,11 +89,15 @@ export class EventDisplayComponent implements OnInit {
           promoCode: null
         });
 
+        this.promoCodeForm = this.formBuilder.group({
+          promoCode: this.formBuilder.control(code)
+        });
+
         this.applyItemsByCat(itemsByCat);
         this.analytics.pageView(event.analyticsConfiguration);
 
         if (code) {
-          this.applyPromoCode(code);
+          this.internalApplyPromoCode(code, err => this.globalErrors = err);
         }
       });
     });
@@ -157,8 +166,7 @@ export class EventDisplayComponent implements OnInit {
     this.reservationForm.get('captcha').setValue(recaptchaValue);
   }
 
-  applyPromoCode(promoCode: string): void {
-
+  private internalApplyPromoCode(promoCode: string, errorHandler: ((errors: ErrorDescriptor[]) => void)): void {
     this.globalErrors = [];
     this.eventCodeError = false;
 
@@ -179,14 +187,28 @@ export class EventDisplayComponent implements OnInit {
         this.reservationForm.get('promoCode').setValue(null);
       }
     }, (err) => {
+      errorHandler(handleServerSideValidationError(err, this.promoCodeForm));
       this.eventCode = null;
       this.reloadTicketsInfo(null, null);
       this.eventCodeError = true;
     });
   }
 
+  applyPromoCode(): void {
+    const promoCode = this.promoCodeForm.get("promoCode").value;
+    this.globalErrors = [];
+    this.internalApplyPromoCode(promoCode, errors => {});
+  }
+
   removePromoCode(): void {
     this.reloadTicketsInfo(null, null);
+  }
+
+  togglePromoCodeVisible(): void {
+    this.displayPromoCodeForm = !this.displayPromoCodeForm;
+    if(this.displayPromoCodeForm) {
+      setTimeout(() => this.promoCodeElement.nativeElement.focus());
+    }
   }
 
 

@@ -157,7 +157,7 @@
                     <div class="col-sm-7">
                       {{'show-event.promo-code-applied' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate} }} {{eventCode.code}}
                       {{' '}}
-                      <fa-icon [icon]="['fa', 'times']" (click)="removePromoCode()"></fa-icon>
+                      <fa-icon [icon]="['fas', 'times']" (click)="removePromoCode()"></fa-icon>
                     </div>
                     <div class="col-sm-5">
                       <ng-container *ngIf="eventCode.type === 'DISCOUNT'">
@@ -176,27 +176,35 @@
           </div>
 
 
-          <div *ngIf="event.promotionsConfiguration.hasAccessPromotions" class="card wMarginTop">
-            <div class="card-header">
-              <fa-icon [icon]="event.promotionsConfiguration.usePartnerCode ? ['far', 'handshake'] : ['fa', 'gift']"></fa-icon>{{' '}}
-              <span>{{'show-event.promo-code'|translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate } }}</span>
+          <div *ngIf="event.promotionsConfiguration.hasAccessPromotions" [ngClass]="{'alert alert-info': displayPromoCodeForm}" class="mt-4 mt-md-0">
+            <div class="d-flex justify-content-end" *ngIf="!displayPromoCodeForm">
+              <button type="button" class="btn btn-link" (click)="togglePromoCodeVisible()">
+                <fa-icon [icon]="event.promotionsConfiguration.usePartnerCode ? ['far', 'handshake'] : ['fas', 'gift']"></fa-icon>{{' '}}
+                <span>{{'show-event.promo-code'|translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate } }}</span>
+              </button>
             </div>
-            <div class="card-body">
-              <div class="text-danger text-center wMarginBottom" *ngIf="eventCodeError" translate="error.STEP_1_CODE_NOT_FOUND"></div>
-              <div class="form-inline justify-content-center">
-                <div class="form-group">
-                    <label for="promo-code">{{'show-event.promo-code-insert' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate } }}</label>
-                    <input autocomplete="off" class="form-control promo-code-input" id="promo-code" #promoCodeInput>
-                    <button class="btn btn-success" type="button" translate="show-event.promo-code.apply" (click)="applyPromoCode(promoCodeInput.value)"></button>
+            <div *ngIf="displayPromoCodeForm" class="mt-2">
+              <form [formGroup]="promoCodeForm" (submit)="applyPromoCode()">
+                <div class="form-row">
+                  <div class="col-12 col-md-5 offset-md-2">
+                    <div class="form-group">
+                      <label for="promo-code" class="sr-only">{{'show-event.promo-code-insert' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate } }}</label>
+                      <input formControlName="promoCode" [placeholder]="'show-event.promo-code-insert' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate }" autocomplete="off" class="form-control" id="promo-code" appInvalidFeedback #promoCode>
+                      <div class="invalid-feedback"></div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-3 text-center">
+                    <button class="btn btn-success" translate="show-event.promo-code.apply"></button>
+                    <button class="btn btn-light ml-2" translate="reservation-page-complete.cancel" (click)="togglePromoCodeVisible()"></button>
+                  </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
 
-
           <app-recaptcha [apiKey]="event.captchaConfiguration.recaptchaApiKey" (recaptchaResponse)="handleRecaptchaResponse($event)" *ngIf="event.captchaConfiguration.captchaForTicketSelection && event.captchaConfiguration.recaptchaApiKey"></app-recaptcha>
 
-          <hr>
+          <hr class="mt-5">
           <div class="row d-flex justify-content-between mobile-add-margin-bottom">
             <div class="col-md-5 order-md-1 col-12"><button type="submit" class="block-button btn btn-success" translate="show-event.continue"></button></div>
             <div class="col-md-5 order-md-0 col-12 "><a [href]="event.websiteUrl" class="block-button btn btn-light" translate="to-event-site"></a></div>
