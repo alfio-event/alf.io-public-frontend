@@ -127,14 +127,6 @@ export class BookingComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private static optionalGet(billingDetails: BillingDetails, consumer: (b: ItalianEInvoicing) => any): any {
-    let italianEInvoicing = billingDetails.invoicingAdditionalInfo.italianEInvoicing;
-    if(italianEInvoicing != null) {
-      return consumer(italianEInvoicing);
-    }
-    return null;
-  }
-
   private buildTicketsFormGroup(ticketsByCategory: TicketsByTicketCategory[]): FormGroup {
     const tickets = {};
     ticketsByCategory.forEach(t => {
