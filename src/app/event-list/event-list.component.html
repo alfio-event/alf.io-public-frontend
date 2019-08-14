@@ -14,14 +14,14 @@
             <h2>{{event.displayName}}</h2>
             <div *ngIf="event.sameDay">
               {{event.formattedBeginDate[translate.currentLang]}}{{' '}}{{'event-days.single-day.hours'|translate: {'0': event.formattedBeginTime[translate.currentLang], '1': event.formattedEndTime[translate.currentLang]} }}
-              <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
+              <fa-icon [icon]="['fas', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
             </div>
             <div *ngIf="!event.sameDay">
               {{'event-days.not-same-day'|translate: {'0': event.formattedBeginDate[translate.currentLang], '1': event.formattedBeginTime[translate.currentLang]} }}
               {{' - '}}
               {{'event-days.not-same-day'|translate: {'0': event.formattedEndDate[translate.currentLang], '1': event.formattedEndTime[translate.currentLang]} }}
               {{' '}}
-              <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
+              <fa-icon [icon]="['fas', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
             </div>
             <div>{{event.location}}</div>
           </div>

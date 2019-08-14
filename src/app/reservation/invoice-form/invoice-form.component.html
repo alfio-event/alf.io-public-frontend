@@ -105,34 +105,37 @@
 
 
 
-  <div class="row" id="italyEInvoicing" *ngIf="enabledItalyEInvoicing && form.value.vatCountryCode === 'IT'">
-    <div class="col-md-12">
-        <div class="form-group">
-            <label for="italyEInvoicingFiscalCode" translate="invoice-fields.fiscalCode"></label>
-            <input id="italyEInvoicingFiscalCode" type="text" formControlName="italyEInvoicingFiscalCode" class="form-control" appInvalidFeedback>
-        </div>
+  <div id="italyEInvoicing" *ngIf="enabledItalyEInvoicing && form.value.vatCountryCode === 'IT'">
+
+    <div class="row">
+      <div class="col-12">
+          <div class="form-group">
+              <label for="italyEInvoicingFiscalCode">{{'invoice-fields.fiscalCode'|translate}}{{' *'}}</label>
+              <input id="italyEInvoicingFiscalCode" type="text" formControlName="italyEInvoicingFiscalCode" class="form-control" appInvalidFeedback>
+          </div>
+      </div>
     </div>
-    <div class="col-md-12">
+    <div class="row">
+      <div class="col-12 col-md-6">
         <div class="form-group">
-            <label for="" translate="invoice-fields.addresseeItalyEInvoice"></label>
+          <label for="italyEInvoicingReferenceType">{{'invoice-fields.addresseeItalyEInvoice' | translate}}{{' *'}}</label>
+          <select class="custom-select" id="italyEInvoicingReferenceType" required formControlName="italyEInvoicingReferenceType">
+            <option value="ADDRESSEE_CODE" translate="invoice-fields.addressee-code"></option>
+            <option value="PEC" translate="invoice-fields.pec"></option>
+            <option value="NONE" translate="invoice.fields.neither"></option>
+          </select>
         </div>
-    </div>
-    <div class="col-md-12">
-        <div class="form-group">
-            <label><input type="radio" value="ADDRESSEE_CODE" formControlName="italyEInvoicingReferenceType">{{' '}}<span class="label-after-radio" translate="invoice-fields.addressee-code"></span></label>
-            <input type="text" [attr.maxlength]="7" class="form-control" formControlName="italyEInvoicingReferenceAddresseeCode" appInvalidFeedback>
+      </div>
+      <div class="col-12 col-md-6" *ngIf="addresseeCodeSelected || pecSelected">
+        <div class="form-group" *ngIf="addresseeCodeSelected">
+          <label for="italyEInvoicingReferenceAddresseeCode">{{'invoice-fields.addressee-code'|translate}}{{' *'}}</label>
+          <input id="italyEInvoicingReferenceAddresseeCode" required type="text" [attr.maxlength]="7" class="form-control" formControlName="italyEInvoicingReferenceAddresseeCode" appInvalidFeedback>
         </div>
-    </div>
-    <div class="col-12">
-        <div class="form-group">
-            <label><input type="radio" value="PEC"  formControlName="italyEInvoicingReferenceType">{{' '}}<span class="label-after-radio" translate="invoice-fields.pec"></span></label>
-            <input type="email" class="form-control" formControlName="italyEInvoicingReferencePEC" appInvalidFeedback>
+        <div class="form-group" *ngIf="pecSelected">
+          <label for="italyEInvoicingReferencePEC">{{'invoice-fields.pec' | translate}}{{' *'}}</label>
+          <input id="italyEInvoicingReferencePEC" type="email" class="form-control" formControlName="italyEInvoicingReferencePEC" appInvalidFeedback>
         </div>
-    </div>
-    <div class="col-12">
-        <div class="form-group">
-            <label><input type="radio" value="NONE"  formControlName="italyEInvoicingReferenceType">{{' '}}<span class="label-after-radio" translate="invoice.fields.neither"></span></label>
-        </div>
+      </div>
     </div>
   </div>
 

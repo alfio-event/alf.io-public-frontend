@@ -45,9 +45,6 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
 
 
   updateItalyEInvoicingFields(): void {
-    this.form.get('italyEInvoicingReferenceAddresseeCode').disable();
-    this.form.get('italyEInvoicingReferencePEC').disable();
-
     const refType = this.form.get('italyEInvoicingReferenceType').value;
     if (refType === 'ADDRESSEE_CODE') {
       this.form.get('italyEInvoicingReferencePEC').setValue(null);
@@ -59,6 +56,14 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
       this.form.get('italyEInvoicingReferencePEC').setValue(null);
       this.form.get('italyEInvoicingReferenceAddresseeCode').setValue(null);
     }
+  }
+
+  get addresseeCodeSelected(): boolean {
+    return this.form.get('italyEInvoicingReferenceType').value === 'ADDRESSEE_CODE';
+  }
+
+  get pecSelected(): boolean {
+    return this.form.get('italyEInvoicingReferenceType').value === 'PEC';
   }
 
   getCountries(currentLang: string): void {

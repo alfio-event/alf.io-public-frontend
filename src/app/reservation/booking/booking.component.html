@@ -38,6 +38,7 @@
     </div>
 
     <!-- invoicing section -->
+    <a id="invoiceSection" #invoiceAnchor></a>
     <div *ngIf="event.invoicingConfiguration.onlyInvoice">
       <app-invoice-form [form]="contactAndTicketsForm" [event]="event"></app-invoice-form>
     </div>
@@ -68,7 +69,7 @@
         <div *ngFor="let ticket of tc.tickets; let firstTicket = first;" formGroupName="tickets">
           <div class="attendees-data">
               <h3>
-                <fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon>
+                <fa-icon [icon]="['fas', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon>
                 <span>{{' '}}{{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- {{tc.name}}</span>
 
                 <button *ngIf="!enableAttendeeAutocomplete && firstCategory && firstTicket"

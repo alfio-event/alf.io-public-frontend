@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { ReservationService } from '../../shared/reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -6,7 +6,7 @@ import { TicketService } from 'src/app/shared/ticket.service';
 import { BillingDetails, ItalianEInvoicing, ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
 import { EventService } from 'src/app/shared/event.service';
 import { Event } from 'src/app/model/event';
-import { zip } from 'rxjs';
+import {Subject, zip} from 'rxjs';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { Ticket } from 'src/app/model/ticket';
@@ -18,7 +18,7 @@ import { ErrorDescriptor } from 'src/app/model/validated-response';
   selector: 'app-booking',
   templateUrl: './booking.component.html'
 })
-export class BookingComponent implements OnInit {
+export class BookingComponent implements OnInit, AfterViewInit {
 
   reservationInfo: ReservationInfo;
   event: Event;
@@ -27,6 +27,9 @@ export class BookingComponent implements OnInit {
   reservationId: string;
   expired: boolean;
   globalErrors: ErrorDescriptor[];
+  @ViewChild('invoiceAnchor', {static: false})
+  private invoiceElement: ElementRef<HTMLAnchorElement>;
+  private doScroll = new Subject<boolean>();
 
   ticketCounts: number;
 
@@ -106,9 +109,22 @@ export class BookingComponent implements OnInit {
           postponeAssignment: false // <- TODO: check if we save it somewhere in the db...
         });
 
+        setTimeout(() => this.doScroll.next(this.invoiceElement != null));
+
         this.analytics.pageView(ev.analyticsConfiguration);
       });
     });
+  }
+
+  ngAfterViewInit(): void {
+    zip(this.route.parent.queryParams, this.doScroll.asObservable())
+      .subscribe(results => {
+        const requestInvoice: boolean = !!results[0].requestInvoice;
+        if(requestInvoice && results[1]) {
+          this.contactAndTicketsForm.get('invoiceRequested').setValue(true);
+          this.invoiceElement.nativeElement.scrollIntoView(true);
+        }
+      });
   }
 
   private buildTicketsFormGroup(ticketsByCategory: TicketsByTicketCategory[]): FormGroup {
