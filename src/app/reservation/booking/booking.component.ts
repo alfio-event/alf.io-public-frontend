@@ -3,12 +3,7 @@ import { ReservationService } from '../../shared/reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TicketService } from 'src/app/shared/ticket.service';
-import {
-  BillingDetails,
-  ItalianEInvoicing,
-  ReservationInfo,
-  TicketsByTicketCategory
-} from 'src/app/model/reservation-info';
+import { BillingDetails, ItalianEInvoicing, ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
 import { EventService } from 'src/app/shared/event.service';
 import { Event } from 'src/app/model/event';
 import {Observable, Subject, timer, zip} from 'rxjs';
@@ -41,6 +36,14 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
   enableAttendeeAutocomplete: boolean;
 
+  private static optionalGet<T>(billingDetails: BillingDetails, consumer: (b: ItalianEInvoicing) => T): T | null {
+    const italianEInvoicing = billingDetails.invoicingAdditionalInfo.italianEInvoicing;
+    if (italianEInvoicing != null) {
+      return consumer(italianEInvoicing);
+    }
+    return null;
+  }
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -64,7 +67,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
         this.i18nService.setPageTitle('reservation-page.header.title', ev.displayName);
 
-        let invoiceRequested = ev.invoicingConfiguration.onlyInvoice ? true : reservationInfo.invoiceRequested;
+        const invoiceRequested = ev.invoicingConfiguration.onlyInvoice ? true : reservationInfo.invoiceRequested;
 
         //
         this.ticketCounts = 0;
@@ -82,7 +85,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
         //
 
-        let billingDetails = this.reservationInfo.billingDetails;
+        const billingDetails = this.reservationInfo.billingDetails;
 
         this.contactAndTicketsForm = this.formBuilder.group({
           firstName: this.formBuilder.control(this.reservationInfo.firstName, [Validators.required, Validators.maxLength(255)]),
@@ -125,35 +128,27 @@ export class BookingComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private static optionalGet(billingDetails: BillingDetails, consumer: (b: ItalianEInvoicing) => any): any {
-    let italianEInvoicing = billingDetails.invoicingAdditionalInfo.italianEInvoicing;
-    if(italianEInvoicing != null) {
-      return consumer(italianEInvoicing);
-    }
-    return null;
-  }
-
   private buildTicketsFormGroup(ticketsByCategory: TicketsByTicketCategory[]): FormGroup {
-    let tickets = {};
+    const tickets = {};
     ticketsByCategory.forEach(t => {
       t.tickets.forEach((ticket) => {
         tickets[ticket.uuid] = this.ticketService.buildFormGroupForTicket(ticket);
-      })
+      });
     });
     return this.formBuilder.group(tickets);
   }
 
-  public submitForm() {
+  submitForm() {
     this.reservationService.validateToOverview(this.eventShortName, this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang).subscribe(res => {
       if (res.success) {
-        this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview'])
+        this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview']);
       }
     }, (err) => {
       this.globalErrors = handleServerSideValidationError(err, this.contactAndTicketsForm);
-    })
+    });
   }
 
-  public cancelPendingReservation() {
+  cancelPendingReservation() {
     this.reservationService.cancelPendingReservation(this.eventShortName, this.reservationId).subscribe(res => {
       this.router.navigate(['event', this.eventShortName]);
     });
@@ -163,8 +158,8 @@ export class BookingComponent implements OnInit, AfterViewInit {
     this.expired = expired;
   }
 
-  public handleInvoiceRequestedChange() {
-    //set addCompanyBillingDetails to false if it's null
+  handleInvoiceRequestedChange() {
+    // set addCompanyBillingDetails to false if it's null
     if (this.contactAndTicketsForm.value.addCompanyBillingDetails === null) {
       this.contactAndTicketsForm.get('addCompanyBillingDetails').setValue(false);
     }
