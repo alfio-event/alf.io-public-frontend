@@ -28,6 +28,7 @@ export class Event implements DateValidity {
     bankAccountOwner: string[];
     //
     currency: string;
+    currencyDescriptor: CurrencyDescriptor;
 
     // date related
     timeZone: string;
@@ -90,4 +91,11 @@ export class AssignmentConfiguration {
 export class PromotionsConfiguration {
     hasAccessPromotions: boolean;
     usePartnerCode: boolean;
+}
+
+export interface CurrencyDescriptor {
+    code: string;
+    name: string;
+    symbol: string;
+    fractionDigits: number;
 }
