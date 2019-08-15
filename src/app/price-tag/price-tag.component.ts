@@ -17,7 +17,7 @@ import {CurrencyDescriptor, Event} from '../model/event';
 })
 export class PriceTagComponent implements OnInit {
   @Input()
-  private event: Event;
+  event: Event;
   @Input()
   formattedPrice: string;
   @Input()
