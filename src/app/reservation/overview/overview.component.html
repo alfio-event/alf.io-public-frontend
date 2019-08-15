@@ -23,7 +23,7 @@
         <div class="d-flex flex-column justify-content-between h-100">
           <h5 class="d-none d-md-block" translate="reservation-page.invoice-details"></h5>
           <div class="page-header d-block d-md-none" translate="reservation-page.invoice-details"></div>
-          <div class="d-flex justify-content-center">
+          <div>
             <address *ngIf="reservationInfo.invoiceRequested" class="text-left">
               <div class="preformatted">{{reservationInfo.billingAddress}}</div>
               <div *ngIf="hasTaxId">{{'invoice.vat' |translate: {'0': ('common.vat' | translate)} }} {{reservationInfo.billingDetails.taxId}}</div>
@@ -144,7 +144,7 @@
         <button *ngIf="reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" translate="reservation-page.continue" [disabled]="expired"></button>
         <button *ngIf="!reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" [disabled]="expired || !selectedPaymentProvider || !acceptedPrivacyAndTermAndConditions">
           <ng-container *ngIf="!reservationInfo.tokenAcquired">
-            {{'reservation-page.pay'| translate}} {{reservationInfo.orderSummary.totalPrice}} {{event.currency}}
+            {{'reservation-page.pay'| translate}} <app-price-tag [event]="event" [formattedPrice]="reservationInfo.orderSummary.totalPrice" [displayTextInline]="true"></app-price-tag>
           </ng-container>
           <ng-container *ngIf="reservationInfo.tokenAcquired">
             {{'reservation-page.confirm-button' | translate}}

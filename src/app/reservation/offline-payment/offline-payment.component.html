@@ -1,7 +1,7 @@
 <div class="wMarginBottom wMarginTop center-block" *ngIf="event && reservationInfo">
 
   <div class="alert alert-warning wMarginTop wMarginBottom">
-    <h2><fa-icon [icon]="['fa', 'exclamation-triangle']"></fa-icon>{{' '}}<span [innerHTML]="'reservation-page-waiting.title' | translate: {'0': reservationInfo.formattedExpirationDate[translate.currentLang]}"></span></h2>
+    <h2><fa-icon [icon]="['fas', 'exclamation-triangle']"></fa-icon>{{' '}}<span [innerHTML]="'reservation-page-waiting.title' | translate: {'0': reservationInfo.formattedExpirationDate[translate.currentLang]}"></span></h2>
   </div>
 
 

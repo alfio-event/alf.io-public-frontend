@@ -45,6 +45,7 @@ import { AdditionalServiceComponent } from './additional-service/additional-serv
 import { RecaptchaComponent } from './recaptcha/recaptcha.component';
 import { CustomLoader } from './shared/i18n.service';
 import { NotFoundComponent } from './reservation/not-found/not-found.component';
+import {PriceTagComponent} from "./price-tag/price-tag.component";
 
 
 
@@ -82,6 +83,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     InvalidFeedbackDirective,
     AdditionalServiceComponent,
     RecaptchaComponent,
+    PriceTagComponent,
     NotFoundComponent
   ],
   imports: [

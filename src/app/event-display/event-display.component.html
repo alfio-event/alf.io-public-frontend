@@ -95,7 +95,7 @@
               <ul class="list-group ticket-categories">
                 <li *ngFor="let category of ticketCategories;let counter = index" formArrayName="reservation" class="list-group-item" [ngClass]="{'ticket-category-restricted': category.accessRestricted }">
                     <div [formGroupName]="counter" class="row">
-                        <div class="col-sm-7">
+                        <div class="col-8 col-md-7">
                           <h3>{{category.name}}</h3>
 
                           <!-- ticket category date handling -->
@@ -106,23 +106,21 @@
 
                           <div class="markdown-content" [innerHTML]="category.description[translate.currentLang]"></div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-2">
                           <span *ngIf="category.free" translate="common.free"></span>
                           <span *ngIf="!category.free">
-                            <ng-container *ngIf="category.hasDiscount"><del>{{category.formattedFinalPrice}}</del>{{' '}}<mark>{{category.formattedDiscountedPrice}}</mark> {{event.currency}}</ng-container>
-                            <ng-container *ngIf="!category.hasDiscount">{{category.formattedFinalPrice}} {{event.currency}}</ng-container>
-                            {{' '}}
-                            <fa-icon [icon]="['fa', 'info-circle']" class="text-info" ngbTooltip="{{(event.vatIncluded ? 'show-event.incVat' : 'show-event.excVat') | translate:{'0': event.vat, '1': ('common.vat' | translate)} }}"></fa-icon>
+                            <ng-container *ngIf="category.hasDiscount"><app-price-tag [event]="event" [formattedPrice]="category.formattedFinalPrice" [showTaxDetails]="true" [discountedPrice]="category.formattedDiscountedPrice"></app-price-tag></ng-container>
+                            <ng-container *ngIf="!category.hasDiscount"><app-price-tag [event]="event" [formattedPrice]="category.formattedFinalPrice" [showTaxDetails]="true"></app-price-tag></ng-container>
                           </span>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-md-2 offset-md-1">
                           <ng-container *ngIf="category.saleableAndLimitNotReached">
                             <select formControlName="amount" class="custom-select">
                               <option *ngFor="let amount of ticketCategoryAmount[category.id]" [value]="amount">{{amount}}</option>
                             </select>
                           </ng-container>
-                          <span *ngIf="!category.saleableAndLimitNotReached && category.souldOutOrLimitReached" translate="show-event.sold-out"></span>
-                          <span *ngIf="!category.saleableAndLimitNotReached && !category.souldOutOrLimitReached" translate="show-event.not-available"></span>
+                          <span *ngIf="!category.saleableAndLimitNotReached && category.soldOutOrLimitReached" translate="show-event.sold-out"></span>
+                          <span *ngIf="!category.saleableAndLimitNotReached && !category.soldOutOrLimitReached" translate="show-event.not-available"></span>
                         </div>
                     </div>
                 </li>
