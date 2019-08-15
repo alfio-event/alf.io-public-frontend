@@ -19,11 +19,11 @@
         <div class="border-left separator"></div>
       </div>
 
-      <div class="col-12 col-md-3 invoice-details text-center" *ngIf="event.invoicingConfiguration.invoiceAllowed">
+      <div class="col-12 col-md-3 invoice-details" *ngIf="event.invoicingConfiguration.invoiceAllowed">
         <div class="d-flex flex-column justify-content-between h-100">
           <h5 class="d-none d-md-block" translate="reservation-page.invoice-details"></h5>
           <div class="page-header d-block d-md-none" translate="reservation-page.invoice-details"></div>
-          <div class="d-flex justify-content-center">
+          <div class="d-flex justify-content-start">
             <address *ngIf="reservationInfo.invoiceRequested" class="text-left">
               <div class="preformatted">{{reservationInfo.billingAddress}}</div>
               <div *ngIf="hasTaxId">{{'invoice.vat' |translate: {'0': ('common.vat' | translate)} }} {{reservationInfo.billingDetails.taxId}}</div>
