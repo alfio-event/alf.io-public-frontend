@@ -140,7 +140,15 @@ export class BookingComponent implements OnInit, AfterViewInit {
     return this.formBuilder.group(tickets);
   }
 
-  submitForm() {
+  private removeUnnecessaryFields(): void {
+    // check invoice data, remove company data if private invoice has been chosen
+    if (this.contactAndTicketsForm.get("invoiceRequested").value && !this.contactAndTicketsForm.get("addCompanyBillingDetails").value) {
+      ["billingAddressCompany", "vatNr", "skipVatNr"].forEach(n => this.contactAndTicketsForm.get(n).setValue(null));
+    }
+  }
+
+  submitForm(): void {
+    this.removeUnnecessaryFields();
     this.reservationService.validateToOverview(this.eventShortName, this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang).subscribe(res => {
       if (res.success) {
         this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview']);

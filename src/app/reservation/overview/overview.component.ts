@@ -209,7 +209,8 @@ export class OverviewComponent implements OnInit {
   }
 
   get enabledItalyEInvoicing(): boolean {
-    return this.event.invoicingConfiguration.enabledItalyEInvoicing;
+    return this.event.invoicingConfiguration.enabledItalyEInvoicing &&
+      this.reservationInfo.billingDetails.invoicingAdditionalInfo.italianEInvoicing != null;
   }
 
   get hasTaxId(): boolean {

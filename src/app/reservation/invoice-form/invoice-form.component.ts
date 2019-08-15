@@ -48,10 +48,8 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
     const refType = this.form.get('italyEInvoicingReferenceType').value;
     if (refType === 'ADDRESSEE_CODE') {
       this.form.get('italyEInvoicingReferencePEC').setValue(null);
-      this.form.get('italyEInvoicingReferenceAddresseeCode').enable();
     } else if (refType === 'PEC') {
       this.form.get('italyEInvoicingReferenceAddresseeCode').setValue(null);
-      this.form.get('italyEInvoicingReferencePEC').enable();
     } else if (refType === 'NONE') {
       this.form.get('italyEInvoicingReferencePEC').setValue(null);
       this.form.get('italyEInvoicingReferenceAddresseeCode').setValue(null);
