@@ -208,6 +208,8 @@ export class EventDisplayComponent implements OnInit {
     this.displayPromoCodeForm = !this.displayPromoCodeForm;
     if (this.displayPromoCodeForm) {
       setTimeout(() => this.promoCodeElement.nativeElement.focus());
+    } else {
+      this.promoCodeForm.get("promoCode").setValue(null);
     }
   }
 
