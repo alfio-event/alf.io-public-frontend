@@ -35,13 +35,14 @@ export class ReservationGuard implements CanActivate {
     }
 
     private checkAndRedirect(eventShortName: string, reservationId: string, component: any): Observable<boolean | UrlTree> {
-        return this.reservationService.getReservationStatusInfo(eventShortName, reservationId).pipe(catchError(err => of({status: <ReservationStatus>'NOT_FOUND' , validatedBookingInformation: false})), map(reservation => {
-            const selectedComponent = getCorrespondingController(reservation.status, reservation.validatedBookingInformation);
-            if (component === selectedComponent) {
-                return true;
-            }
-            return this.router.createUrlTree(getRouteFromComponent(selectedComponent, eventShortName, reservationId));
-        }));
+        return this.reservationService.getReservationStatusInfo(eventShortName, reservationId)
+            .pipe(catchError(err => of({ status: <ReservationStatus>'NOT_FOUND', validatedBookingInformation: false })), map(reservation => {
+                const selectedComponent = getCorrespondingController(reservation.status, reservation.validatedBookingInformation);
+                if (component === selectedComponent) {
+                    return true;
+                }
+                return this.router.createUrlTree(getRouteFromComponent(selectedComponent, eventShortName, reservationId));
+            }));
     }
 }
 

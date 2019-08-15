@@ -32,11 +32,13 @@ export class ReservationService {
     }
 
     validateToOverview(eventShortName: string, reservationId: string, contactsAndTicket: any, lang: string): Observable<ValidatedResponse<boolean>> {
-        return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/validate-to-overview`, contactsAndTicket, {params: {lang: lang}});
+        const url = `/api/v2/public/event/${eventShortName}/reservation/${reservationId}/validate-to-overview`;
+        return this.http.post<ValidatedResponse<boolean>>(url, contactsAndTicket, {params: {lang: lang}});
     }
 
     confirmOverview(eventShortName: string, reservationId: string, overviewForm: OverviewConfirmation, lang: string): Observable<ValidatedResponse<ReservationPaymentResult>> {
-        return this.http.post<ValidatedResponse<ReservationPaymentResult>>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`, overviewForm, {params: {lang: lang}});
+        const url = `/api/v2/public/event/${eventShortName}/reservation/${reservationId}`;
+        return this.http.post<ValidatedResponse<ReservationPaymentResult>>(url, overviewForm, {params: {lang: lang}});
     }
 
     backToBooking(eventShortName: string, reservationId: string): Observable<boolean> {

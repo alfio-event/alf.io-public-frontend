@@ -60,7 +60,10 @@ export class BookingComponent implements OnInit, AfterViewInit {
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
 
-      zip(this.eventService.getEvent(this.eventShortName), this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)).subscribe(([ev, reservationInfo]) => {
+      zip(
+        this.eventService.getEvent(this.eventShortName),
+        this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)
+      ).subscribe(([ev, reservationInfo]) => {
         this.event = ev;
         this.reservationInfo = reservationInfo;
 
@@ -120,7 +123,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
     zip(this.route.parent.queryParams, this.doScroll.asObservable())
       .subscribe(results => {
         const requestInvoice: boolean = !!results[0].requestInvoice;
-        if(requestInvoice && results[1]) {
+        if (requestInvoice && results[1]) {
           this.contactAndTicketsForm.get('invoiceRequested').setValue(true);
           this.invoiceElement.nativeElement.scrollIntoView(true);
         }

@@ -36,7 +36,10 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
 
-      zip(this.eventService.getEvent(this.eventShortName), this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)).subscribe(([ev, reservationInfo]) => {
+      zip(
+        this.eventService.getEvent(this.eventShortName),
+        this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)
+      ).subscribe(([ev, reservationInfo]) => {
         this.event = ev;
         this.reservationInfo = reservationInfo;
         this.i18nService.setPageTitle('show-ticket.header.title', ev.displayName);

@@ -133,7 +133,7 @@ export class OverviewComponent implements OnInit {
 
   back(requestInvoice?: boolean): void {
     const extras: NavigationExtras = {};
-    if(requestInvoice != null) {
+    if (requestInvoice != null) {
       extras.queryParams = {
         'requestInvoice': requestInvoice
       };
@@ -225,7 +225,7 @@ export class OverviewComponent implements OnInit {
   }
 
   get italyEInvoicingSelectedAddresseeKey(): string {
-    if(!this.enabledItalyEInvoicing) {
+    if (!this.enabledItalyEInvoicing) {
       return '';
     }
     const referenceType = this.reservationInfo.billingDetails.invoicingAdditionalInfo.italianEInvoicing.referenceType;

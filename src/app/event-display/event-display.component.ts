@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { EventService } from '../shared/event.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -195,7 +195,7 @@ export class EventDisplayComponent implements OnInit {
   }
 
   applyPromoCode(): void {
-    const promoCode = this.promoCodeForm.get("promoCode").value;
+    const promoCode = this.promoCodeForm.get('promoCode').value;
     this.globalErrors = [];
     this.internalApplyPromoCode(promoCode, errors => {});
   }
@@ -206,7 +206,7 @@ export class EventDisplayComponent implements OnInit {
 
   togglePromoCodeVisible(): void {
     this.displayPromoCodeForm = !this.displayPromoCodeForm;
-    if(this.displayPromoCodeForm) {
+    if (this.displayPromoCodeForm) {
       setTimeout(() => this.promoCodeElement.nativeElement.focus());
     }
   }
