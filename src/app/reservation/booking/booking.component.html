@@ -70,7 +70,7 @@
           <div class="attendees-data">
               <h3>
                 <fa-icon [icon]="['fas', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon>
-                <span>{{' '}}{{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- {{tc.name}}</span>
+                <span>{{' '}}{{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- <span class="text-muted">{{tc.name}}</span></span>
 
                 <button *ngIf="!enableAttendeeAutocomplete && firstCategory && firstTicket"
                         class="btn btn-light btn-xs float-right"
@@ -87,6 +87,8 @@
     </ng-container>
 
     <p><strong>*</strong>{{' '}}<span translate="common.required-fields"></span></p>
+    <hr>
+
 
     <div class="row d-flex justify-content-between mobile-add-margin-bottom">
       <div class="col-md-5 order-md-1 col-12">
