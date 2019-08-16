@@ -99,12 +99,12 @@
                           <h3>{{category.name}}</h3>
 
                           <!-- ticket category date handling -->
-                          <div *ngIf="!category.expired && category.saleInFuture">{{'show-event.sales-not-started'|translate: {'0': category.formattedInception[translate.currentLang]} }}</div>
-                          <div *ngIf="!category.expired && !category.saleInFuture">{{'show-event.sales-end'|translate: {'0': category.formattedExpiration[translate.currentLang]} }}</div>
-                          <div *ngIf="category.expired">{{'show-event.sales-ended'|translate: {'0': category.formattedExpiration[translate.currentLang]} }}</div>
+                          <div class="text-muted" *ngIf="!category.expired && category.saleInFuture">{{'show-event.sales-not-started'|translate: {'0': category.formattedInception[translate.currentLang]} }}</div>
+                          <div class="text-muted" *ngIf="!category.expired && !category.saleInFuture">{{'show-event.sales-end'|translate: {'0': category.formattedExpiration[translate.currentLang]} }}</div>
+                          <div class="text-muted" *ngIf="category.expired">{{'show-event.sales-ended'|translate: {'0': category.formattedExpiration[translate.currentLang]} }}</div>
                           <!-- -->
 
-                          <div class="markdown-content" [innerHTML]="category.description[translate.currentLang]"></div>
+                          <div class="markdown-content mt-2" [innerHTML]="category.description[translate.currentLang]"></div>
                         </div>
                         <div class="col-2">
                           <span *ngIf="category.free" translate="common.free"></span>

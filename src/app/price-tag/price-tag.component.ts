@@ -25,6 +25,10 @@ export class PriceTagComponent implements OnInit {
     this.displayCurrencySymbol = this.currencyDescriptor.symbol !== this.currencyDescriptor.code;
   }
 
+  get displayDiscountedPrice(): boolean {
+    return this.discountedPrice != null && this.discountedPrice !== this.formattedPrice;
+  }
+
   removeRedundantPrecision(input: string): string {
     const decimalSeparatorPosition = input.lastIndexOf('.');
     if (decimalSeparatorPosition > -1) {

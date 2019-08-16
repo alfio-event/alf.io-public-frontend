@@ -1,22 +1,17 @@
 <div class="row" [formGroup]="additionalServiceFormGroup">
     <div class="col-sm-7">
-        <h3>{{additionalService.title[translate.currentLang]}}</h3>
+        <h3 class="additional-service-title">{{additionalService.title[translate.currentLang]}}</h3>
         <!-- category date handling -->
-        <div *ngIf="!additionalService.expired && additionalService.saleInFuture">{{'show-event.sales-not-started'|translate: {'0': additionalService.formattedInception[translate.currentLang]} }}</div>
-        <div *ngIf="!additionalService.expired && !additionalService.saleInFuture">{{'show-event.sales-end'|translate: {'0': additionalService.formattedExpiration[translate.currentLang]} }}</div>
-        <div *ngIf="additionalService.expired">{{'show-event.sales-ended'|translate: {'0': additionalService.formattedExpiration[translate.currentLang]} }}</div>
+        <div class="text-muted" *ngIf="!additionalService.expired && additionalService.saleInFuture">{{'show-event.sales-not-started'|translate: {'0': additionalService.formattedInception[translate.currentLang]} }}</div>
+        <div class="text-muted" *ngIf="!additionalService.expired && !additionalService.saleInFuture">{{'show-event.sales-end'|translate: {'0': additionalService.formattedExpiration[translate.currentLang]} }}</div>
+        <div class="text-muted" *ngIf="additionalService.expired">{{'show-event.sales-ended'|translate: {'0': additionalService.formattedExpiration[translate.currentLang]} }}</div>
         <!-- -->
-        <div class="markdown-content" [innerHTML]="additionalService.description[translate.currentLang]"></div>
+        <div class="markdown-content mt-2" [innerHTML]="additionalService.description[translate.currentLang]"></div>
     </div>
     <div class="col-sm-3">
         <span *ngIf="additionalService.free" translate="common.free"></span>
         <span *ngIf="!additionalService.free && additionalService.fixPrice">
-            <ng-container *ngIf="additionalService.hasDiscount"><del>{{additionalService.formattedFinalPrice}}</del>{{' '}}<mark>{{additionalService.formattedDiscountedPrice}}</mark> {{event.currency}}</ng-container>
-            <ng-container *ngIf="!additionalService.hasDiscount">{{additionalService.formattedFinalPrice}} {{event.currency}}</ng-container>
-            {{' '}}
-            <span *ngIf="additionalService.vatApplies">
-                <fa-icon [icon]="['fas', 'info-circle']" class="text-info" ngbTooltip="{{(additionalService.vatIncluded ? 'show-event.incVat' : 'show-event.excVat') | translate:{'0':additionalService.vatPercentage, '1': ('common.vat' | translate)} }}"></fa-icon>
-            </span>
+            <app-price-tag [event]="event" [formattedPrice]="additionalService.formattedFinalPrice" [discountedPrice]="additionalService.formattedDiscountedPrice" [showTaxDetails]="additionalService.vatApplies"></app-price-tag>
         </span>
     </div>
     <div class="col-sm-2">
