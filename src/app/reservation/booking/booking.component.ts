@@ -142,8 +142,8 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
   private removeUnnecessaryFields(): void {
     // check invoice data, remove company data if private invoice has been chosen
-    if (this.contactAndTicketsForm.get("invoiceRequested").value && !this.contactAndTicketsForm.get("addCompanyBillingDetails").value) {
-      ["billingAddressCompany", "vatNr", "skipVatNr"].forEach(n => this.contactAndTicketsForm.get(n).setValue(null));
+    if (this.contactAndTicketsForm.get('invoiceRequested').value && !this.contactAndTicketsForm.get('addCompanyBillingDetails').value) {
+      ['billingAddressCompany', 'vatNr', 'skipVatNr'].forEach(n => this.contactAndTicketsForm.get(n).setValue(null));
     }
   }
 
