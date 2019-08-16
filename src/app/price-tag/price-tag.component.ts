@@ -30,9 +30,19 @@ export class PriceTagComponent implements OnInit {
   }
 
   removeRedundantPrecision(input: string): string {
-    const decimalSeparatorPosition = input.lastIndexOf('.');
-    if (decimalSeparatorPosition > -1) {
-      return input.substring(0, decimalSeparatorPosition);
+    let substringEnd = input.lastIndexOf('.');
+    if (substringEnd > -1) {
+      const fraction = input.substring(substringEnd + 1);
+      let additionalChars = 1;
+      for (let i = 0; i < fraction.length; i++) {
+        if (fraction.charAt(i) !== '0') {
+          additionalChars++;
+        }
+      }
+      if (additionalChars > 1) {
+        substringEnd += additionalChars;
+      }
+      return input.substring(0, substringEnd);
     }
     return input;
   }
