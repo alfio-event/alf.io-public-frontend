@@ -26,13 +26,13 @@
                 class="btn btn-default"
                 [href]="'/api/v2/public/event/'+event.shortName+'/reservation/'+reservationInfo.id+'/invoice'"
                 target="_blank">
-                <fa-icon [icon]="['fa', 'download']"></fa-icon> {{'reservation-page-complete.download-your-invoice'|translate}}
+                <fa-icon [icon]="['fas', 'download']"></fa-icon> {{'reservation-page-complete.download-your-invoice'|translate}}
             </a>
             <a *ngIf="reservationInfo.invoiceNumber === null"
                 class="btn btn-default"
                 [href]="'/api/v2/public/event/'+event.shortName+'/reservation/'+reservationInfo.id+'/receipt'"
                 target="_blank">
-                <fa-icon [icon]="['fa', 'download']"></fa-icon> {{'reservation-page-complete.download-your-receipt'|translate}}
+                <fa-icon [icon]="['fas', 'download']"></fa-icon> {{'reservation-page-complete.download-your-receipt'|translate}}
             </a>
           </ng-container>
         </div>
@@ -47,7 +47,7 @@
   <div *ngFor="let tc of reservationInfo.ticketsByCategory">
     <div *ngFor="let ticket of tc.tickets">
       <div class="attendees-data">
-        <h3><fa-icon [icon]="['fa', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span></h3>
+        <h3><fa-icon [icon]="['fas', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span></h3>
       </div>
       {{'reservation-page-complete.ticket-type'|translate}} <strong>{{tc.name}}</strong>
 
@@ -72,10 +72,10 @@
 
         <div class="row">
           <div class="col-lg-3 col-sm-6 col-12 wMarginBottom">
-            <a [routerLink]="['/event', event.shortName, 'ticket', ticket.uuid, 'view']" target="_blank" class="btn btn-primary btn-block"><fa-icon [icon]="['fa', 'search-plus']"></fa-icon> {{'reservation-page-complete.show-ticket'|translate}}</a>
+            <a [routerLink]="['/event', event.shortName, 'ticket', ticket.uuid, 'view']" target="_blank" class="btn btn-primary btn-block"><fa-icon [icon]="['fas', 'search-plus']"></fa-icon> {{'reservation-page-complete.show-ticket'|translate}}</a>
           </div>
           <div class="col-lg-3 col-sm-6 col-12 wMarginBottom">
-            <a [attr.href]="'/api/v2/public/event/' + event.shortName + '/ticket/' + ticket.uuid + '/download-ticket'" class="btn btn-primary btn-block"><fa-icon [icon]="['fa', 'download']"></fa-icon> {{'reservation-page-complete.download-ticket'|translate}}</a>
+            <a [attr.href]="'/api/v2/public/event/' + event.shortName + '/ticket/' + ticket.uuid + '/download-ticket'" class="btn btn-primary btn-block"><fa-icon [icon]="['fas', 'download']"></fa-icon> {{'reservation-page-complete.download-ticket'|translate}}</a>
           </div>
           <div class="col-lg-3 col-sm-6 col-12 wMarginBottom">
             <button type="button" class="btn btn-primary btn-block send-ticket-by-email" (click)="sendEmailForTicket(ticket.uuid)"><fa-icon [icon]="['far', 'envelope']"></fa-icon> {{'reservation-page-complete.send-ticket-by-email-to'|translate}}</button>
