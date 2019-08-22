@@ -14,8 +14,6 @@ body {
 
 .application-container {
     background-color: white;
-    padding-top: 1em;
-    padding-bottom: 1em;
 }
 
 .block-button {
@@ -153,6 +151,10 @@ label.radio-inline {
     font-size: .875rem;
     line-height: .5;
     border-radius: .2rem;
+}
+
+.add-margin-bottom {
+    margin-bottom: 1rem;
 }
 
 @media (max-width: 767px) {
