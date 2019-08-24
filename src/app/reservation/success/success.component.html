@@ -56,7 +56,7 @@
           <span [innerHTML]="'reservation-page-complete.assigned-to' | translate: {'0': ticket.fullName, '1': ticket.email}"></span>
           <ng-container *ngIf="ticket.cancellationEnabled">
             {{' '}}
-            <button type="button" class="btn btn-xs btn-danger" (click)="ticketsReleaseShow[ticket.uuid] = true"><fa-icon [icon]="['fa', 'eraser']" size="xs"></fa-icon> {{'reservation-page-complete.release-button.text'|translate}}</button>
+            <button type="button" class="btn btn-xs btn-danger" (click)="ticketsReleaseShow[ticket.uuid] = true"><fa-icon [icon]="['fas', 'eraser']" size="xs"></fa-icon> {{'reservation-page-complete.release-button.text'|translate}}</button>
           </ng-container>
         </p>
 
