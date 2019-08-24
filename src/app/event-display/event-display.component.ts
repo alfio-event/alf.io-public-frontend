@@ -20,7 +20,7 @@ import { ErrorDescriptor } from '../model/validated-response';
 @Component({
   selector: 'app-event-display',
   templateUrl: './event-display.component.html',
-  styleUrls: ['./event-display.component.css']
+  styleUrls: ['./event-display.component.scss']
 })
 export class EventDisplayComponent implements OnInit {
 
@@ -78,7 +78,6 @@ export class EventDisplayComponent implements OnInit {
 
       zip(this.eventService.getEvent(eventShortName), this.eventService.getEventTicketsInfo(eventShortName)).subscribe( ([event, itemsByCat]) => {
         this.event = event;
-
 
         this.i18nService.setPageTitle('show-event.header.title', event.displayName);
 
@@ -211,6 +210,12 @@ export class EventDisplayComponent implements OnInit {
     } else {
       this.promoCodeForm.get('promoCode').setValue(null);
     }
+  }
+
+  ticketsLeftCountVisible(): boolean {
+    return this.event.availableTicketsCount != null
+      && this.event.availableTicketsCount > 0
+      && this.ticketCategories.every(tc => !tc.bounded);
   }
 
 

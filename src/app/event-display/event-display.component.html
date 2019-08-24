@@ -15,7 +15,7 @@
     <div class="markdown-content" [innerHTML]="event.description[translate.currentLang]"></div>
 
 
-    <h2 translate="show-event.tickets"></h2>
+    <h2 class="mt-4 mb-4">{{'show-event.tickets' | translate}} <span *ngIf="ticketsLeftCountVisible()" class="badge badge-secondary">{{"show-event.tickets.left" | translate: {'0': event.availableTicketsCount} }}</span></h2>
 
     <div class="alert alert-danger" role="alert" *ngIf="globalErrors && globalErrors.length > 0">
       <div *ngFor="let err of globalErrors"><strong>{{err.code | translate: err.arguments}}</strong></div>
@@ -92,44 +92,45 @@
     <div *ngIf="ticketCategories">
         <form [formGroup]="reservationForm" (submit)="submitForm(event.shortName, reservationForm.value)">
           <div>
-              <ul class="list-group ticket-categories">
-                <li *ngFor="let category of ticketCategories;let counter = index" formArrayName="reservation" class="list-group-item" [ngClass]="{'ticket-category-restricted': category.accessRestricted }">
-                    <div [formGroupName]="counter" class="row">
-                        <div class="col-8 col-md-7">
-                          <h3>{{category.name}}</h3>
-
-                          <!-- ticket category date handling -->
-                          <div class="text-muted" *ngIf="!category.expired && category.saleInFuture">{{'show-event.sales-not-started'|translate: {'0': category.formattedInception[translate.currentLang]} }}</div>
-                          <div class="text-muted" *ngIf="!category.expired && !category.saleInFuture">{{'show-event.sales-end'|translate: {'0': category.formattedExpiration[translate.currentLang]} }}</div>
-                          <div class="text-muted" *ngIf="category.expired">{{'show-event.sales-ended'|translate: {'0': category.formattedExpiration[translate.currentLang]} }}</div>
-                          <!-- -->
-
-                          <div class="markdown-content mt-2" [innerHTML]="category.description[translate.currentLang]"></div>
-                        </div>
-                        <div class="col-2">
+              <ul class="list-group">
+                <li *ngFor="let category of ticketCategories;let counter = index" formArrayName="reservation" class="list-group-item pt-4" [ngClass]="{'ticket-category-restricted': category.accessRestricted}">
+                  <div [formGroupName]="counter" class="row">
+                    <div class="col-8 col-md-9">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h4>{{category.name}} <span class="badge badge-warning ml-2" *ngIf="category.availableTickets != null && category.availableTickets > 0">{{"show-event.tickets.left" | translate: {'0': category.availableTickets} }}</span></h4>
+                        <div>
                           <span *ngIf="category.free" translate="common.free"></span>
                           <span *ngIf="!category.free">
                             <ng-container *ngIf="category.hasDiscount"><app-price-tag [event]="event" [formattedPrice]="category.formattedFinalPrice" [showTaxDetails]="true" [discountedPrice]="category.formattedDiscountedPrice"></app-price-tag></ng-container>
                             <ng-container *ngIf="!category.hasDiscount"><app-price-tag [event]="event" [formattedPrice]="category.formattedFinalPrice" [showTaxDetails]="true"></app-price-tag></ng-container>
                           </span>
                         </div>
-                        <div class="col-md-2 offset-md-1">
-                          <ng-container *ngIf="category.saleableAndLimitNotReached">
-                            <select formControlName="amount" class="custom-select">
-                              <option *ngFor="let amount of ticketCategoryAmount[category.id]" [value]="amount">{{amount}}</option>
-                            </select>
-                          </ng-container>
-                          <span *ngIf="!category.saleableAndLimitNotReached && category.soldOutOrLimitReached" translate="show-event.sold-out"></span>
-                          <span *ngIf="!category.saleableAndLimitNotReached && !category.soldOutOrLimitReached" translate="show-event.not-available"></span>
-                        </div>
+                      </div>
+                      <!-- ticket category date handling -->
+                      <div class="text-muted" *ngIf="!category.expired && category.saleInFuture">{{'show-event.sales-not-started'|translate: {'0': category.formattedInception[translate.currentLang]} }}</div>
+                      <div class="text-muted" *ngIf="!category.expired && !category.saleInFuture">{{'show-event.sales-end'|translate: {'0': category.formattedExpiration[translate.currentLang]} }}</div>
+                      <div class="text-muted" *ngIf="category.expired">{{'show-event.sales-ended'|translate: {'0': category.formattedExpiration[translate.currentLang]} }}</div>
+                      <!-- -->
+
+                      <div class="markdown-content mt-2" [innerHTML]="category.description[translate.currentLang]"></div>
                     </div>
+                    <div class="col-md-2 offset-md-1">
+                      <ng-container *ngIf="category.saleableAndLimitNotReached">
+                        <select formControlName="amount" class="custom-select">
+                          <option *ngFor="let amount of ticketCategoryAmount[category.id]" [value]="amount">{{amount}}</option>
+                        </select>
+                      </ng-container>
+                      <span *ngIf="!category.saleableAndLimitNotReached && category.soldOutOrLimitReached" translate="show-event.sold-out"></span>
+                      <span *ngIf="!category.saleableAndLimitNotReached && !category.soldOutOrLimitReached" translate="show-event.not-available"></span>
+                    </div>
+                  </div>
                 </li>
               </ul>
           </div>
 
 
           <div *ngIf="supplementCategories && supplementCategories.length > 0">
-            <h2 translate="show-event.additional-services"></h2>
+            <h2 class="mt-4 mb-4" translate="show-event.additional-services"></h2>
             <ul class="list-group ticket-categories">
               <li *ngFor="let supplement of supplementCategories" class="list-group-item">
                 <app-additional-service [form]="reservationForm" [additionalService]="supplement" [event]="event"></app-additional-service>
@@ -138,7 +139,7 @@
           </div>
 
           <div *ngIf="donationCategories && donationCategories.length > 0">
-              <h2 translate="show-event.donations"></h2>
+              <h2 class="mt-4 mb-4" translate="show-event.donations"></h2>
               <ul class="list-group ticket-categories">
                 <li *ngFor="let donation of donationCategories" class="list-group-item">
                   <app-additional-service [form]="reservationForm" [additionalService]="donation" [event]="event"></app-additional-service>
