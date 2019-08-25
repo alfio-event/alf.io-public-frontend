@@ -47,8 +47,9 @@ import { CustomLoader } from './shared/i18n.service';
 import { NotFoundComponent } from './reservation/not-found/not-found.component';
 import {PriceTagComponent} from './price-tag/price-tag.component';
 import {TicketQuantitySelectorComponent} from "./ticket-quantity-selector/ticket-quantity-selector.component";
-import {CategorySalePeriodComponent} from "./category-sale-period/category-sale-period.component";
+import {ItemSalePeriodComponent} from "./category-sale-period/item-sale-period.component";
 import {ItemCardComponent} from "./item-card/item-card.component";
+import {AdditionalServiceQuantitySelectorComponent} from "./additional-service-quantity-selector/additional-service-quantity-selector.component";
 
 
 
@@ -89,8 +90,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     PriceTagComponent,
     NotFoundComponent,
     TicketQuantitySelectorComponent,
-    CategorySalePeriodComponent,
-    ItemCardComponent
+    ItemSalePeriodComponent,
+    ItemCardComponent,
+    AdditionalServiceQuantitySelectorComponent
   ],
   imports: [
     BrowserModule,

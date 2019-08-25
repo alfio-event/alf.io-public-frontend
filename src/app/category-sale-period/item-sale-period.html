@@ -1,0 +1,5 @@
+<!-- ticket category date handling -->
+<h6 class="card-subtitle text-muted" *ngIf="!item.expired && item.saleInFuture">{{'show-event.sales-not-started'|translate: {'0': item.formattedInception[currentLang]} }}</h6>
+<h6 class="card-subtitle text-muted" *ngIf="!item.expired && !item.saleInFuture">{{'show-event.sales-end'|translate: {'0': item.formattedExpiration[currentLang]} }}</h6>
+<h6 class="card-subtitle text-muted" *ngIf="item.expired">{{'show-event.sales-ended'|translate: {'0': item.formattedExpiration[currentLang]} }}</h6>
+<!-- -->

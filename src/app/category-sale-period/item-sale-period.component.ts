@@ -3,12 +3,12 @@ import {TicketCategory} from "../model/ticket-category";
 import {AdditionalService} from "../model/additional-service";
 
 @Component({
-  selector: 'app-category-sale-period',
-  templateUrl: './category-sale-period.html'
+  selector: 'app-item-sale-period',
+  templateUrl: './item-sale-period.html'
 })
-export class CategorySalePeriodComponent {
+export class ItemSalePeriodComponent {
   @Input()
-  category: TicketCategory | AdditionalService;
+  item: TicketCategory | AdditionalService;
   @Input()
   currentLang: string;
 }

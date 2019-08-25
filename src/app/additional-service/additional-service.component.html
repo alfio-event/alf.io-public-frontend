@@ -8,21 +8,10 @@
       </span>
     </div>
     <div class="item-qty-selector">
-      <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'MANDATORY_ONE_FOR_TICKET'" translate="show-event.mandatoryOneForTicket"></div>
-      <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'OPTIONAL_UNLIMITED_AMOUNT'"><input type="number" min="0" step="1" class="form-control" placeholder="0" autocomplete="off" formControlName="quantity"></div>
-      <div *ngIf="additionalService.fixPrice && [null, 'OPTIONAL_MAX_AMOUNT_PER_RESERVATION', 'OPTIONAL_MAX_AMOUNT_PER_TICKET'].indexOf(additionalService.supplementPolicy) >= 0 ">
-        <select class="custom-select text-align-center" placeholder="0" autocomplete="off" formControlName="quantity">
-          <option *ngFor="let amount of validSelectionValues" [value]="amount">{{amount}}</option>
-        </select>
-      </div>
-      <div *ngIf="!additionalService.fixPrice">
-        <div class="input-group mb-3">
-          <input type="number" min="0" step="any" class="form-control" value="0" formControlName="amount">
-          <div class="input-group-append">
-            <span class="input-group-text append-currency">{{event.currency}}</span>
-          </div>
-        </div>
-      </div>
+      <app-additional-service-quantity-selector [event]="event" [additionalService]="additionalService" [validSelectionValues]="validSelectionValues"></app-additional-service-quantity-selector>
+    </div>
+    <div class="item-qty-selector-mobile">
+      <app-additional-service-quantity-selector [event]="event" [additionalService]="additionalService" [validSelectionValues]="validSelectionValues"></app-additional-service-quantity-selector>
     </div>
   </app-item-card>
 </div>
