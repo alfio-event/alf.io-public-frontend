@@ -1,21 +1,21 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { EventService } from '../shared/event.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import {FormGroup, FormBuilder, FormArray} from '@angular/forms';
-import { ReservationService } from '../shared/reservation.service';
-import { Event } from '../model/event';
-import { TranslateService } from '@ngx-translate/core';
-import { TicketCategory } from '../model/ticket-category';
-import { ReservationRequest } from '../model/reservation-request';
-import { handleServerSideValidationError } from '../shared/validation-helper';
-import { zip } from 'rxjs';
-import { AdditionalService } from '../model/additional-service';
-import { I18nService } from '../shared/i18n.service';
-import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscription-request';
-import { TicketCategoryForWaitingList, ItemsByCategory } from '../model/items-by-category';
-import { EventCode } from '../model/event-code';
-import { AnalyticsService } from '../shared/analytics.service';
-import { ErrorDescriptor } from '../model/validated-response';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {EventService} from '../shared/event.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {ReservationService} from '../shared/reservation.service';
+import {Event} from '../model/event';
+import {TranslateService} from '@ngx-translate/core';
+import {TicketCategory} from '../model/ticket-category';
+import {ReservationRequest} from '../model/reservation-request';
+import {handleServerSideValidationError} from '../shared/validation-helper';
+import {zip} from 'rxjs';
+import {AdditionalService} from '../model/additional-service';
+import {I18nService} from '../shared/i18n.service';
+import {WaitingListSubscriptionRequest} from '../model/waiting-list-subscription-request';
+import {ItemsByCategory, TicketCategoryForWaitingList} from '../model/items-by-category';
+import {EventCode} from '../model/event-code';
+import {AnalyticsService} from '../shared/analytics.service';
+import {ErrorDescriptor} from '../model/validated-response';
 
 @Component({
   selector: 'app-event-display',
@@ -239,5 +239,13 @@ export class EventDisplayComponent implements OnInit {
         setTimeout(() => this.tickets.nativeElement.scrollIntoView(true), 10);
       }
     });
+  }
+
+  promoCodeOnEnter(ev: KeyboardEvent) {
+    ev.preventDefault();
+    if (this.promoCodeForm.invalid) {
+      return;
+    }
+    this.applyPromoCode();
   }
 }
