@@ -52,6 +52,8 @@ export class EventDisplayComponent implements OnInit {
   promoCodeForm: FormGroup;
   @ViewChild('promoCode', {static: false})
   promoCodeElement: ElementRef<HTMLInputElement>;
+  @ViewChild('tickets', { static: false })
+  tickets: ElementRef<HTMLDivElement>;
 
   // https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
 
@@ -180,6 +182,7 @@ export class EventDisplayComponent implements OnInit {
 
         //
         this.reloadTicketsInfo(promoCode, res.value);
+        this.displayPromoCodeForm = false;
         //
       } else {
         this.eventCode = null; // should never enter here
@@ -196,7 +199,7 @@ export class EventDisplayComponent implements OnInit {
   applyPromoCode(): void {
     const promoCode = this.promoCodeForm.get('promoCode').value;
     this.globalErrors = [];
-    this.internalApplyPromoCode(promoCode, errors => {});
+    this.internalApplyPromoCode(promoCode, () => {});
   }
 
   removePromoCode(): void {
@@ -232,6 +235,9 @@ export class EventDisplayComponent implements OnInit {
       this.reservationForm.setControl('reservation', this.formBuilder.array(this.createItems(itemsByCat.ticketCategories)));
       this.applyItemsByCat(itemsByCat);
       this.eventCode = eventCode;
+      if (eventCode != null) {
+        setTimeout(() => this.tickets.nativeElement.scrollIntoView(true), 10);
+      }
     });
   }
 }

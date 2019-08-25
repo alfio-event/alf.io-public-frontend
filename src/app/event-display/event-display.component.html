@@ -14,7 +14,7 @@
 
     <div class="markdown-content" [innerHTML]="event.description[translate.currentLang]"></div>
 
-
+    <div #tickets></div>
     <h2 class="mt-4 mb-4">{{'show-event.tickets' | translate}} <span *ngIf="ticketsLeftCountVisible()" class="badge badge-warning ml-2">{{"show-event.tickets.left" | translate: {'0': event.availableTicketsCount} }}</span></h2>
 
     <div class="alert alert-danger" role="alert" *ngIf="globalErrors && globalErrors.length > 0">
@@ -117,36 +117,28 @@
           <app-additional-service *ngFor="let donation of donationCategories" [form]="reservationForm" [additionalService]="donation" [event]="event"></app-additional-service>
       </div>
 
-      <div *ngIf="eventCode">
-        <hr/>
-        <div>
-          <ul class="list-group">
-            <li class="list-group-item">
-              <div class="row">
-                <div class="col-sm-7">
-                  {{'show-event.promo-code-applied' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate} }} {{eventCode.code}}
-                  {{' '}}
-                  <fa-icon [icon]="['fas', 'times']" (click)="removePromoCode()"></fa-icon>
-                </div>
-                <div class="col-sm-5">
-                  <ng-container *ngIf="eventCode.type === 'DISCOUNT'">
-                    <span *ngIf="eventCode.discountType === 'FIXED_AMOUNT'">
-                      {{'show-event.promo-code-fixed-amount-discount'|translate: {'0': eventCode.discountAmount + ' ' + event.currency} }}
-                    </span>
-                    <span *ngIf="eventCode.discountType === 'PERCENTAGE'">
-                        {{'show-event.promo-code-percentage-discount'|translate: {'0': eventCode.discountAmount + '%'} }}
-                    </span>
-                  </ng-container>
-                </div>
-              </div>
-            </li>
-          </ul>
+      <div class="alert alert-light" *ngIf="eventCode">
+        <div class="d-flex justify-content-between">
+          <div class="h-100">
+            <h5 class="alert-heading"><fa-icon [icon]="event.promotionsConfiguration.usePartnerCode ? ['far', 'handshake'] : ['fas', 'gift']"></fa-icon>{{' '}}{{'show-event.promo-code-applied' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate} }} {{eventCode.code}}</h5>
+            <p *ngIf="eventCode.type === 'DISCOUNT'">
+              <span *ngIf="eventCode.discountType === 'FIXED_AMOUNT'">
+                {{'show-event.promo-code-fixed-amount-discount'|translate: {'0': eventCode.discountAmount + ' ' + event.currency} }}
+              </span>
+              <span *ngIf="eventCode.discountType === 'PERCENTAGE'">
+                  {{'show-event.promo-code-percentage-discount'|translate: {'0': eventCode.discountAmount + '%'} }}
+              </span>
+            </p>
+          </div>
+          <div>
+            <button class="btn btn-sm btn-light" type="button" (click)="removePromoCode()" translate="reservation-page.cancel"></button>
+          </div>
         </div>
       </div>
 
 
       <div *ngIf="event.promotionsConfiguration.hasAccessPromotions" [ngClass]="{'alert alert-info': displayPromoCodeForm}" class="mt-4 mt-md-0">
-        <div class="d-flex justify-content-end" *ngIf="!displayPromoCodeForm">
+        <div class="d-flex justify-content-end" *ngIf="!displayPromoCodeForm && eventCode == null">
           <button type="button" class="btn btn-link" (click)="togglePromoCodeVisible()">
             <fa-icon [icon]="event.promotionsConfiguration.usePartnerCode ? ['far', 'handshake'] : ['fas', 'gift']"></fa-icon>{{' '}}
             <span>{{'show-event.promo-code'|translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate } }}</span>
