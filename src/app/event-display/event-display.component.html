@@ -151,18 +151,18 @@
           </button>
         </div>
         <div *ngIf="displayPromoCodeForm" class="mt-2">
-          <ng-form [formGroup]="promoCodeForm" (submit)="applyPromoCode()">
+          <ng-form [formGroup]="promoCodeForm">
             <div class="form-row">
               <div class="col-12 col-md-6 offset-md-1">
                 <div class="form-group">
                   <label for="promo-code" class="sr-only">{{'show-event.promo-code-insert' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate } }}</label>
-                  <input formControlName="promoCode" [placeholder]="'show-event.promo-code-insert' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate }" autocomplete="off" class="form-control" id="promo-code" appInvalidFeedback #promoCode>
+                  <input required formControlName="promoCode" [placeholder]="'show-event.promo-code-insert' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate }" autocomplete="off" class="form-control" id="promo-code" appInvalidFeedback #promoCode>
                   <div class="invalid-feedback"></div>
                 </div>
               </div>
               <div class="col-12 col-md-4 text-center">
-                <button class="btn btn-success" translate="show-event.promo-code.apply"></button>
-                <button class="btn btn-light ml-2" translate="reservation-page-complete.cancel" (click)="togglePromoCodeVisible()"></button>
+                <button class="btn btn-success" translate="show-event.promo-code.apply" type="button" [disabled]="promoCodeForm.invalid" (click)="applyPromoCode()"></button>
+                <button class="btn btn-light ml-2" translate="reservation-page-complete.cancel" type="button" (click)="togglePromoCodeVisible()"></button>
               </div>
             </div>
           </ng-form>
