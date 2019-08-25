@@ -51,6 +51,8 @@ export class Event implements DateValidity {
     analyticsConfiguration: AnalyticsConfiguration;
 
     i18nOverride: {[lang: string]: {[key: string]: string}};
+
+    availableTicketsCount: number | null;
 }
 
 export class InvoicingConfiguration {

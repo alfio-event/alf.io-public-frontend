@@ -1,26 +1,26 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { EventService } from '../shared/event.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { ReservationService } from '../shared/reservation.service';
-import { Event } from '../model/event';
-import { TranslateService } from '@ngx-translate/core';
-import { TicketCategory } from '../model/ticket-category';
-import { ReservationRequest } from '../model/reservation-request';
-import { handleServerSideValidationError } from '../shared/validation-helper';
-import { zip } from 'rxjs';
-import { AdditionalService } from '../model/additional-service';
-import { I18nService } from '../shared/i18n.service';
-import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscription-request';
-import { TicketCategoryForWaitingList, ItemsByCategory } from '../model/items-by-category';
-import { EventCode } from '../model/event-code';
-import { AnalyticsService } from '../shared/analytics.service';
-import { ErrorDescriptor } from '../model/validated-response';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {EventService} from '../shared/event.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {ReservationService} from '../shared/reservation.service';
+import {Event} from '../model/event';
+import {TranslateService} from '@ngx-translate/core';
+import {TicketCategory} from '../model/ticket-category';
+import {ReservationRequest} from '../model/reservation-request';
+import {handleServerSideValidationError} from '../shared/validation-helper';
+import {zip} from 'rxjs';
+import {AdditionalService} from '../model/additional-service';
+import {I18nService} from '../shared/i18n.service';
+import {WaitingListSubscriptionRequest} from '../model/waiting-list-subscription-request';
+import {ItemsByCategory, TicketCategoryForWaitingList} from '../model/items-by-category';
+import {EventCode} from '../model/event-code';
+import {AnalyticsService} from '../shared/analytics.service';
+import {ErrorDescriptor} from '../model/validated-response';
 
 @Component({
   selector: 'app-event-display',
   templateUrl: './event-display.component.html',
-  styleUrls: ['./event-display.component.css']
+  styleUrls: ['./event-display.component.scss']
 })
 export class EventDisplayComponent implements OnInit {
 
@@ -52,6 +52,8 @@ export class EventDisplayComponent implements OnInit {
   promoCodeForm: FormGroup;
   @ViewChild('promoCode', {static: false})
   promoCodeElement: ElementRef<HTMLInputElement>;
+  @ViewChild('tickets', { static: false })
+  tickets: ElementRef<HTMLDivElement>;
 
   // https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
 
@@ -78,7 +80,6 @@ export class EventDisplayComponent implements OnInit {
 
       zip(this.eventService.getEvent(eventShortName), this.eventService.getEventTicketsInfo(eventShortName)).subscribe( ([event, itemsByCat]) => {
         this.event = event;
-
 
         this.i18nService.setPageTitle('show-event.header.title', event.displayName);
 
@@ -181,6 +182,7 @@ export class EventDisplayComponent implements OnInit {
 
         //
         this.reloadTicketsInfo(promoCode, res.value);
+        this.displayPromoCodeForm = false;
         //
       } else {
         this.eventCode = null; // should never enter here
@@ -197,7 +199,7 @@ export class EventDisplayComponent implements OnInit {
   applyPromoCode(): void {
     const promoCode = this.promoCodeForm.get('promoCode').value;
     this.globalErrors = [];
-    this.internalApplyPromoCode(promoCode, errors => {});
+    this.internalApplyPromoCode(promoCode, () => {});
   }
 
   removePromoCode(): void {
@@ -213,6 +215,19 @@ export class EventDisplayComponent implements OnInit {
     }
   }
 
+  ticketsLeftCountVisible(): boolean {
+     return this.event.availableTicketsCount != null
+       && this.event.availableTicketsCount > 0
+       && this.ticketCategories.every(tc => !tc.bounded);
+  }
+
+  reservationFormItem(parent: FormGroup, counter: number): FormGroup {
+    return (parent.get('reservation') as FormArray).at(counter) as FormGroup;
+  }
+
+  ticketsLeftCountVisibleForCategory(category: TicketCategory): boolean {
+    return category.availableTickets != null && category.availableTickets > 0;
+  }
 
   private reloadTicketsInfo(promoCode: string, eventCode: EventCode) {
     this.eventService.getEventTicketsInfo(this.event.shortName, promoCode).subscribe(itemsByCat => {
@@ -220,6 +235,17 @@ export class EventDisplayComponent implements OnInit {
       this.reservationForm.setControl('reservation', this.formBuilder.array(this.createItems(itemsByCat.ticketCategories)));
       this.applyItemsByCat(itemsByCat);
       this.eventCode = eventCode;
+      if (eventCode != null) {
+        setTimeout(() => this.tickets.nativeElement.scrollIntoView(true), 10);
+      }
     });
+  }
+
+  promoCodeOnEnter(ev: KeyboardEvent) {
+    ev.preventDefault();
+    if (this.promoCodeForm.invalid) {
+      return;
+    }
+    this.applyPromoCode();
   }
 }

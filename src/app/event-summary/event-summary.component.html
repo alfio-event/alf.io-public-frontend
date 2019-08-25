@@ -1,5 +1,5 @@
 <div *ngIf="event && dateValidityProvider">
-  <h2 translate="ticket.event-info"></h2>
+  <h2 translate="ticket.event-info" class="mt-4 mb-4"></h2>
   <div>{{'show-event.by'|translate}} <strong>{{event.organizationName}}</strong> &lt;<a [href]="'mailto:'+ event.organizationEmail">{{event.organizationEmail}}</a>&gt;</div>
   <div>
     <ul class="list-unstyled">

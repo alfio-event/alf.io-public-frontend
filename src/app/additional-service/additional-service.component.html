@@ -1,34 +1,17 @@
-<div class="row" [formGroup]="additionalServiceFormGroup">
-    <div class="col-sm-7">
-        <h3 class="additional-service-title">{{additionalService.title[translate.currentLang]}}</h3>
-        <!-- category date handling -->
-        <div class="text-muted" *ngIf="!additionalService.expired && additionalService.saleInFuture">{{'show-event.sales-not-started'|translate: {'0': additionalService.formattedInception[translate.currentLang]} }}</div>
-        <div class="text-muted" *ngIf="!additionalService.expired && !additionalService.saleInFuture">{{'show-event.sales-end'|translate: {'0': additionalService.formattedExpiration[translate.currentLang]} }}</div>
-        <div class="text-muted" *ngIf="additionalService.expired">{{'show-event.sales-ended'|translate: {'0': additionalService.formattedExpiration[translate.currentLang]} }}</div>
-        <!-- -->
-        <div class="markdown-content mt-2" [innerHTML]="additionalService.description[translate.currentLang]"></div>
+<div [formGroup]="additionalServiceFormGroup">
+  <app-item-card [currentLang]="translate.currentLang" [item]="additionalService" [parentFormGroup]="additionalServiceFormGroup">
+    <span class="item-title">{{additionalService.title[translate.currentLang]}}</span>
+    <div class="item-price">
+      <span *ngIf="additionalService.free" translate="common.free"></span>
+      <span *ngIf="!additionalService.free && additionalService.fixPrice">
+        <app-price-tag [event]="event" [formattedPrice]="additionalService.formattedFinalPrice" [discountedPrice]="additionalService.formattedDiscountedPrice" [showTaxDetails]="additionalService.vatApplies"></app-price-tag>
+      </span>
     </div>
-    <div class="col-sm-3">
-        <span *ngIf="additionalService.free" translate="common.free"></span>
-        <span *ngIf="!additionalService.free && additionalService.fixPrice">
-            <app-price-tag [event]="event" [formattedPrice]="additionalService.formattedFinalPrice" [discountedPrice]="additionalService.formattedDiscountedPrice" [showTaxDetails]="additionalService.vatApplies"></app-price-tag>
-        </span>
+    <div class="item-qty-selector">
+      <app-additional-service-quantity-selector [parentGroup]="additionalServiceFormGroup" [event]="event" [additionalService]="additionalService" [validSelectionValues]="validSelectionValues"></app-additional-service-quantity-selector>
     </div>
-    <div class="col-sm-2">
-        <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'MANDATORY_ONE_FOR_TICKET'" translate="show-event.mandatoryOneForTicket"></div>
-        <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'OPTIONAL_UNLIMITED_AMOUNT'"><input type="number" min="0" step="1" class="form-control" placeholder="0" autocomplete="off" formControlName="quantity"></div>
-        <div *ngIf="additionalService.fixPrice && [null, 'OPTIONAL_MAX_AMOUNT_PER_RESERVATION', 'OPTIONAL_MAX_AMOUNT_PER_TICKET'].indexOf(additionalService.supplementPolicy) >= 0 ">
-            <select class="custom-select text-align-center" placeholder="0" autocomplete="off" formControlName="quantity">
-                <option *ngFor="let amount of validSelectionValues" [value]="amount">{{amount}}</option>
-            </select>
-        </div>
-        <div *ngIf="!additionalService.fixPrice">
-            <div class="input-group mb-3">
-                <input type="number" min="0" step="any" class="form-control" value="0" formControlName="amount">
-                <div class="input-group-append">
-                    <span class="input-group-text append-currency">{{event.currency}}</span>
-                </div>
-            </div>
-        </div>
+    <div class="item-qty-selector-mobile">
+      <app-additional-service-quantity-selector [parentGroup]="additionalServiceFormGroup" [event]="event" [additionalService]="additionalService" [validSelectionValues]="validSelectionValues"></app-additional-service-quantity-selector>
     </div>
+  </app-item-card>
 </div>

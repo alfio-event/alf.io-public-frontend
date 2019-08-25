@@ -1,6 +1,7 @@
 export class TicketCategory {
     id: number;
     name: string;
+    bounded: boolean;
     maximumSaleableTickets: number;
     description: {[key: string]: string};
     free: boolean;
@@ -19,4 +20,6 @@ export class TicketCategory {
     saleableAndLimitNotReached: boolean;
     accessRestricted: boolean;
     soldOutOrLimitReached: boolean;
+
+    availableTickets: number | null;
 }
