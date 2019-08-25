@@ -16,5 +16,8 @@ export class ItemCardComponent {
   item: TicketCategory | AdditionalService;
 
   @Input()
+  additionalClass = '';
+
+  @Input()
   currentLang: string;
 }

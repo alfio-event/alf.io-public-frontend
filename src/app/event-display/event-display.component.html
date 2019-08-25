@@ -7,7 +7,7 @@
         <div [ngClass]="{'col-md-7': event.mapUrl, 'col-md-12': !event.mapUrl}">
           <app-event-summary [event]="event" [dateValidityProvider]="event"></app-event-summary>
         </div>
-        <div class="col-md-5" *ngIf="event.mapUrl"><img [src]="event.mapUrl" class="img-responsive margin-auto"></div>
+        <div class="col-md-5" *ngIf="event.mapUrl"><img [src]="event.mapUrl" class="img-responsive margin-auto" [alt]="event.location"></div>
     </div>
 
     <hr>
@@ -90,7 +90,7 @@
 
     <form [formGroup]="reservationForm" (submit)="submitForm(event.shortName, reservationForm.value)" *ngIf="ticketCategories">
       <div *ngFor="let category of ticketCategories;let counter = index" formArrayName="reservation">
-        <app-item-card [currentLang]="translate.currentLang" [item]="category" [formGroupName]="''+counter" [parentFormGroup]="reservationFormItem(reservationForm, counter)" [ngClass]="{'ticket-category-restricted': category.accessRestricted}">
+        <app-item-card [currentLang]="translate.currentLang" [item]="category" [formGroupName]="''+counter" [parentFormGroup]="reservationFormItem(reservationForm, counter)" [additionalClass]="category.accessRestricted ? 'ticket-category-restricted border-warning shadow-sm ': ''">
           <span class="item-title">
             {{category.name}} <span class="d-none d-md-inline badge badge-warning ml-2" *ngIf="ticketsLeftCountVisibleForCategory(category)">{{"show-event.tickets.left" | translate: {'0': category.availableTickets} }}</span>
           </span>
