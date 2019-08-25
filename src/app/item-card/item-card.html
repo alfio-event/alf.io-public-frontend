@@ -1,0 +1,31 @@
+<div class="card mt-4" [formGroup]="parentFormGroup">
+  <div class="card-body">
+    <div class="d-flex w-100 justify-content-between">
+      <div class="d-flex flex-grow-1 justify-content-between pr-md-5">
+        <div>
+          <h4 class="card-title pr-1">
+            <ng-content select=".item-title"></ng-content>
+          </h4>
+          <div class="d-none d-md-block">
+            <app-category-sale-period [category]="item" [currentLang]="currentLang"></app-category-sale-period>
+          </div>
+        </div>
+        <div>
+          <ng-content select=".item-price"></ng-content>
+        </div>
+      </div>
+      <div class="d-none d-md-block qty-container">
+        <ng-content select=".item-qty-selector"></ng-content>
+      </div>
+    </div>
+    <div class="d-md-none mt-3"><!-- mobile layout -->
+      <app-category-sale-period [category]="item" [currentLang]="currentLang"></app-category-sale-period>
+      <div class="mt-3">
+        <ng-content select=".item-qty-selector"></ng-content>
+      </div>
+    </div>
+    <div class="card-text pt-2">
+      <div class="markdown-content mt-2" [innerHTML]="item.description[currentLang]"></div>
+    </div>
+  </div>
+</div>

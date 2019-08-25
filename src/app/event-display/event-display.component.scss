@@ -1,13 +1,3 @@
-h2 .badge {
-  font-size: 42%;
-  vertical-align: middle;
-}
-
-h4 .badge {
-  font-size: 52%;
-  vertical-align: middle;
-}
-
 .promo-code-input {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
@@ -19,4 +9,8 @@ h4 .badge {
 
 .margin-auto {
     margin: auto;
+}
+
+.badge-block {
+  display: block;
 }

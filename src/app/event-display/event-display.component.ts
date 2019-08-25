@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { EventService } from '../shared/event.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import {FormGroup, FormBuilder, FormArray} from '@angular/forms';
 import { ReservationService } from '../shared/reservation.service';
 import { Event } from '../model/event';
 import { TranslateService } from '@ngx-translate/core';
@@ -213,11 +213,18 @@ export class EventDisplayComponent implements OnInit {
   }
 
   ticketsLeftCountVisible(): boolean {
-    return this.event.availableTicketsCount != null
-      && this.event.availableTicketsCount > 0
-      && this.ticketCategories.every(tc => !tc.bounded);
+     return this.event.availableTicketsCount != null
+       && this.event.availableTicketsCount > 0
+       && this.ticketCategories.every(tc => !tc.bounded);
   }
 
+  reservationFormItem(parent: FormGroup, counter: number): FormGroup {
+    return (parent.get('reservation') as FormArray).at(counter) as FormGroup;
+  }
+
+  ticketsLeftCountVisibleForCategory(category: TicketCategory): boolean {
+    return category.availableTickets != null && category.availableTickets > 0;
+  }
 
   private reloadTicketsInfo(promoCode: string, eventCode: EventCode) {
     this.eventService.getEventTicketsInfo(this.event.shortName, promoCode).subscribe(itemsByCat => {
