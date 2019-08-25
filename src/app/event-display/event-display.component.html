@@ -148,7 +148,7 @@
           </button>
         </div>
         <div *ngIf="displayPromoCodeForm" class="mt-2">
-          <form [formGroup]="promoCodeForm" (submit)="applyPromoCode()">
+          <ng-form [formGroup]="promoCodeForm" (submit)="applyPromoCode()">
             <div class="form-row">
               <div class="col-12 col-md-6 offset-md-1">
                 <div class="form-group">
@@ -162,7 +162,7 @@
                 <button class="btn btn-light ml-2" translate="reservation-page-complete.cancel" (click)="togglePromoCodeVisible()"></button>
               </div>
             </div>
-          </form>
+          </ng-form>
         </div>
       </div>
 
