@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { AdditionalField, Field } from '../model/ticket';
+import { FormGroup, FormArray } from '@angular/forms';
+import { AdditionalField } from '../model/ticket';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nService } from '../shared/i18n.service';
 import { LocalizedCountry } from '../model/localized-country';
@@ -27,7 +27,7 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
 
   constructor(private translate: TranslateService, private i18nService: I18nService) { }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     if (this.field.type === 'country') {
       this.getCountries();
       this.langChangeSub = this.translate.onLangChange.subscribe(change => {
@@ -36,13 +36,13 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
     }
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     if (this.langChangeSub) {
       this.langChangeSub.unsubscribe();
     }
   }
 
-  public get labelValue(): string {
+  get labelValue(): string {
     if (this.field && this.field.description && this.field.description[this.translate.currentLang]) {
       return this.field.description[this.translate.currentLang].label;
     } else {
@@ -50,7 +50,7 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
     }
   }
 
-  public get placeholder(): string {
+  get placeholder(): string {
     if (this.field && this.field.description && this.field.description[this.translate.currentLang]) {
       return this.field.description[this.translate.currentLang].placeholder;
     } else {
@@ -64,11 +64,16 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
     });
   }
 
-  public getSelectLabel(value: string): string {
+  getRestrictedValueLabel(value: string): string {
     if (this.field.description[this.translate.currentLang]) {
       return this.field.description[this.translate.currentLang].restrictedValuesDescription[value] || value;
     } else {
       return value;
     }
+  }
+
+  selectedCheckBox(index: number, value: string, checked: boolean) {
+    let fa = this.form.get(this.field.name) as FormArray;
+    fa.controls[index].setValue(checked ? value : null, {emitEvent: false, emitViewToModelChange: false});
   }
 }

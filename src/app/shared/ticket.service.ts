@@ -61,8 +61,15 @@ export class TicketService {
     private buildSingleAdditionalField(a: AdditionalField[], additional: {}): void {
       a.forEach(f => {
         const arr = [];
+
+        if (f.type === 'checkbox') { //pre fill with empty values for the checkbox cases, as we can have multiple values!
+          for (let i = 0; i < f.restrictedValues.length; i++) {
+            arr.push(this.formBuilder.control(null));
+          }
+        }
+
         f.fields.forEach(field => {
-          arr.push(this.formBuilder.control(field.fieldValue));
+          arr[field.fieldIndex] = this.formBuilder.control(field.fieldValue);
         });
         additional[f.name] = this.formBuilder.array(arr);
       });

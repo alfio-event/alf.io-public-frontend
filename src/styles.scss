@@ -29,6 +29,7 @@ html[lang=it] .language-selector button[lang=it],
 html[lang=fr] .language-selector button[lang=fr],
 html[lang=ro] .language-selector button[lang=ro],
 html[lang=pt] .language-selector button[lang=pt],
+html[lang=es] .language-selector button[lang=es],
 html[lang=tr] .language-selector button[lang=tr] {
     font-weight: bold;
 }
@@ -233,4 +234,8 @@ h2 .badge {
 h4 .badge {
   font-size: 52%;
   vertical-align: middle;
+}
+
+.font-weight-normal {
+    font-weight: normal
 }

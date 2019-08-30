@@ -11,8 +11,18 @@
       </ng-select>
       <select *ngSwitchCase="'select'" [attr.id]="ticketUUID + '-' + field.name" class="custom-select" formControlName="0" appInvalidFeedback>
           <option value="" *ngIf="!field.required"></option>
-          <option *ngFor="let c of field.restrictedValues" [ngValue]="c">{{getSelectLabel(c)}}</option>
+          <option *ngFor="let c of field.restrictedValues" [ngValue]="c">{{getRestrictedValueLabel(c)}}</option>
       </select>
+      <div *ngSwitchCase="'checkbox'" [attr.id]="ticketUUID + '-' + field.name">
+        <div *ngFor="let c of field.restrictedValues; let i = index">
+          <label class="font-weight-normal"><input type="checkbox" [formControlName]="i" (ngModelChange)="selectedCheckBox(i, c, $event)"> {{getRestrictedValueLabel(c)}}</label>
+        </div>
+      </div>
+      <div *ngSwitchCase="'radio'" [attr.id]="ticketUUID + '-' + field.name">
+        <div *ngFor="let c of field.restrictedValues">
+          <label class="font-weight-normal"><input type="radio" [value]="c" formControlName="0"> {{getRestrictedValueLabel(c)}}</label>
+        </div>
+      </div>
     </ng-container>
   </div>
 </div>
