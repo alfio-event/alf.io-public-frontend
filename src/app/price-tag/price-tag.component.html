@@ -1,6 +1,6 @@
 <div class="d-inline-flex flex-column">
     <div class="text-align-right">
-        <span [ngClass]="{'mr-2': !displayTextInline && displayCurrencySymbol, 'mr-1': !displayTextInline && !displayCurrencySymbol}">{{currencyDescriptor.symbol}}</span><ng-container *ngIf="displayTextInline">{{' '}}</ng-container>
+        <span *ngIf="currencyDescriptor" [ngClass]="{'mr-2': !displayTextInline && displayCurrencySymbol, 'mr-1': !displayTextInline && !displayCurrencySymbol}">{{currencyDescriptor.symbol}}</span><ng-container *ngIf="displayTextInline">{{' '}}</ng-container>
         <span *ngIf="displayDiscountedPrice" class="text-align-right"><del>{{formattedPrice}}</del>{{' '}}<mark>{{discountedPrice}}</mark></span>
         <span *ngIf="!displayDiscountedPrice" class="text-align-right">{{formattedPrice}}</span>
     </div>

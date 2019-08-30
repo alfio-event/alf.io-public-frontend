@@ -22,7 +22,7 @@ export class PriceTagComponent implements OnInit {
 
   ngOnInit(): void {
     this.currencyDescriptor = this.event.currencyDescriptor;
-    this.displayCurrencySymbol = this.currencyDescriptor.symbol !== this.currencyDescriptor.code;
+    this.displayCurrencySymbol = this.currencyDescriptor && this.currencyDescriptor.symbol !== this.currencyDescriptor.code;
   }
 
   get displayDiscountedPrice(): boolean {
