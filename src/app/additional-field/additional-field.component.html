@@ -13,12 +13,12 @@
           <option value="" *ngIf="!field.required"></option>
           <option *ngFor="let c of field.restrictedValues" [ngValue]="c">{{getRestrictedValueLabel(c)}}</option>
       </select>
-      <div *ngSwitchCase="'checkbox'" [attr.id]="ticketUUID + '-' + field.name">
+      <div *ngSwitchCase="'checkbox'" [attr.id]="ticketUUID + '-' + field.name" appInvalidFeedback [invalidFeedbackFieldName]="field.name" [invalidFeedbackForm]="form">
         <div *ngFor="let c of field.restrictedValues; let i = index">
           <label class="font-weight-normal"><input type="checkbox" [formControlName]="i" (ngModelChange)="selectedCheckBox(i, c, $event)"> {{getRestrictedValueLabel(c)}}</label>
         </div>
       </div>
-      <div *ngSwitchCase="'radio'" [attr.id]="ticketUUID + '-' + field.name">
+      <div *ngSwitchCase="'radio'" [attr.id]="ticketUUID + '-' + field.name" appInvalidFeedback [invalidFeedbackFieldName]="field.name+'.0'" [invalidFeedbackForm]="form">
         <div *ngFor="let c of field.restrictedValues">
           <label class="font-weight-normal"><input type="radio" [value]="c" formControlName="0"> {{getRestrictedValueLabel(c)}}</label>
         </div>

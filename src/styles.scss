@@ -239,3 +239,7 @@ h4 .badge {
 .font-weight-normal {
     font-weight: normal
 }
+
+div.is-invalid ~ div.invalid-feedback {
+    display: block;
+}

@@ -37,7 +37,7 @@ function applyValidationErrors(form: AbstractControl, response: ValidatedRespons
     // TODO: find better way -> this focus and scroll on the first invalid form input
     setTimeout(() => {
         // meh, should find a better way
-        const found = document.querySelectorAll('[appinvalidfeedback].ng-invalid');
+        const found = document.querySelectorAll('[appinvalidfeedback].ng-invalid, [appinvalidfeedback].is-invalid');
         if (found && found.length > 0) {
             const elem = found[0] as HTMLElement;
             window.scroll({

@@ -1,5 +1,5 @@
-import { Directive, OnInit, ElementRef, OnDestroy, Input } from '@angular/core';
-import { FormControlName } from '@angular/forms';
+import { Directive, OnInit, ElementRef, OnDestroy, Input, Optional } from '@angular/core';
+import { FormGroup, AbstractControl, FormControlName, ValidationErrors } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ErrorDescriptor } from '../model/validated-response';
@@ -14,13 +14,32 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
   @Input()
   invalidFeedbackInLabel: boolean;
 
-  constructor(private element: ElementRef, private control: FormControlName, private translation: TranslateService) {
+  @Input()
+  invalidFeedbackFieldName: string;
+
+  @Input()
+  invalidFeedbackForm: FormGroup;
+
+  private targetControl: AbstractControl;
+
+  constructor(private element: ElementRef, @Optional() private control: FormControlName, private translation: TranslateService) {
   }
 
   ngOnInit(): void {
-    this.control.statusChanges.subscribe(e => {
-      this.checkValidation();
-    });
+
+    if (this.control == null && this.invalidFeedbackForm != null && this.invalidFeedbackFieldName != null) {
+      this.targetControl = this.invalidFeedbackForm.get(this.invalidFeedbackFieldName);
+      this.targetControl.statusChanges.subscribe(e => {
+        this.checkValidation();
+      });
+    }
+
+    if (this.control) {
+      this.control.statusChanges.subscribe(e => {
+        this.checkValidation();
+      });
+    }
+    
   }
 
   private clearSubs(): void {
@@ -36,6 +55,10 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
     this.clearSubs();
   }
 
+  private get errors(): ValidationErrors {
+    return this.targetControl ? this.targetControl.errors : this.control.errors;
+  }
+
   private checkValidation(): void {
 
     let errorContainerElement: HTMLElement;
@@ -47,7 +70,7 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
     }
 
     this.clearSubs();
-    if (this.control.errors && this.control.errors.serverError && this.control.errors.serverError.length > 0) {
+    if (this.errors && this.errors.serverError && this.errors.serverError.length > 0) {
       this.element.nativeElement.classList.add('is-invalid');
       if (isInvalidFeedbackContainer(errorContainerElement)) {
         // remove messages that are already presents
@@ -76,7 +99,7 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
   }
 
   private addErrorMessages(container: HTMLElement): void {
-    this.control.errors.serverError.forEach((e: ErrorDescriptor) => {
+    this.errors.serverError.forEach((e: ErrorDescriptor) => {
       const msg = document.createElement('div');
       this.subs.push(this.translation.stream(e.code, e.arguments).subscribe(text => {
         msg.textContent = text;
