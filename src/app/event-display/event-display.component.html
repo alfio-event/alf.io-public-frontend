@@ -123,7 +123,7 @@
           <app-additional-service *ngFor="let donation of donationCategories" [form]="reservationForm" [additionalService]="donation" [event]="event"></app-additional-service>
       </div>
 
-      <div class="alert alert-light" *ngIf="eventCode">
+      <div class="alert alert-light mt-4" *ngIf="eventCode">
         <div class="d-flex justify-content-between">
           <div class="h-100">
             <h5 class="alert-heading"><fa-icon [icon]="event.promotionsConfiguration.usePartnerCode ? ['far', 'handshake'] : ['fas', 'gift']"></fa-icon>{{' '}}{{'show-event.promo-code-applied' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate} }} {{eventCode.code}}</h5>
