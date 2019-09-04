@@ -21,6 +21,10 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
   @Input()
   ticketUUID: string;
 
+  @Input()
+  ticketAcquired: boolean;
+
+
   countries: LocalizedCountry[];
 
   private langChangeSub: Subscription;
@@ -30,7 +34,7 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.field.type === 'country') {
       this.getCountries();
-      this.langChangeSub = this.translate.onLangChange.subscribe(change => {
+      this.langChangeSub = this.translate.onLangChange.subscribe(() => {
         this.getCountries();
       });
     }
@@ -56,6 +60,10 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
     } else {
       return '';
     }
+  }
+
+  get editAllowed(): boolean {
+    return !this.ticketAcquired || this.field.value == null || this.field.value.trim().length == 0 || this.field.editable;
   }
 
   getCountries(): void {

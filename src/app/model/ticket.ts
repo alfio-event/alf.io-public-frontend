@@ -7,6 +7,7 @@ export class Ticket {
     userLanguage: string;
     assigned: boolean;
     locked: boolean;
+    acquired: boolean;
     cancellationEnabled: boolean;
     ticketFieldConfigurationBeforeStandard: AdditionalField[];
     ticketFieldConfigurationAfterStandard: AdditionalField[];
@@ -17,6 +18,7 @@ export class AdditionalField {
     value: string;
     type: AdditionalFieldType;
     required: boolean;
+    editable: boolean;
     minLength: number;
     maxLength: number;
     restrictedValues: string[];
