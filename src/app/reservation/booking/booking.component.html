@@ -1,6 +1,6 @@
 <div *ngIf="reservationInfo && event">
 
-  <app-stepper [currentStep]="2" [free]="event.free"></app-stepper>
+  <app-stepper [currentStep]="2" [free]="reservationInfo.orderSummary.free"></app-stepper>
 
   <app-countdown [validity]="reservationInfo.validity" (expired)="handleExpired($event)"></app-countdown>
 
@@ -39,10 +39,10 @@
 
     <!-- invoicing section -->
     <a id="invoiceSection" #invoiceAnchor></a>
-    <div *ngIf="event.invoicingConfiguration.onlyInvoice">
+    <div *ngIf="!reservationInfo.orderSummary.free && event.invoicingConfiguration.onlyInvoice">
       <app-invoice-form [form]="contactAndTicketsForm" [event]="event"></app-invoice-form>
     </div>
-    <div *ngIf="!reservationInfo.orderSummary.free && event.invoicingConfiguration.invoiceAllowed && !event.invoicingConfiguration.onlyInvoice">
+    <div *ngIf="!reservationInfo.orderSummary.free && !event.invoicingConfiguration.onlyInvoice && event.invoicingConfiguration.invoiceAllowed">
       <div class="custom-control custom-checkbox wMarginTop">
         <input class="custom-control-input" type="checkbox" formControlName="invoiceRequested" (change)="handleInvoiceRequestedChange()" id="invoiceRequested">
         <label for="invoiceRequested" class="custom-control-label">
