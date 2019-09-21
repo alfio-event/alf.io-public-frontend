@@ -12,14 +12,14 @@
     </div>
 
     <div class="row">
-      <div class="col-12" [ngClass]="{'col-md-7': event.invoicingConfiguration.invoiceAllowed}">
+      <div class="col-12" [ngClass]="{'col-md-7': !reservationInfo.orderSummary.free && event.invoicingConfiguration.invoiceAllowed}">
         <app-summary-table [event]="event" [reservationInfo]="reservationInfo"></app-summary-table>
       </div>
       <div class="d-none d-md-flex col-md-1 justify-content-md-center" *ngIf="event.invoicingConfiguration.invoiceAllowed">
         <div class="border-left separator"></div>
       </div>
 
-      <div class="col-12 col-md-4 invoice-details" *ngIf="event.invoicingConfiguration.invoiceAllowed">
+      <div class="col-12 col-md-4 invoice-details" *ngIf="!reservationInfo.orderSummary.free && event.invoicingConfiguration.invoiceAllowed">
         <div class="d-flex flex-column justify-content-between h-100">
           <h5 class="d-none d-md-block" translate="reservation-page.invoice-details"></h5>
           <div class="page-header d-block d-md-none" translate="reservation-page.invoice-details"></div>
