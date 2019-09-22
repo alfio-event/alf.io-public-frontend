@@ -1,6 +1,6 @@
 <div *ngIf="reservationInfo && event">
 
-  <app-stepper [currentStep]="3" [free]="event.free" [inProgress]="true"></app-stepper>
+  <app-stepper [currentStep]="3" [free]="reservationInfo.orderSummary.free" [inProgress]="true"></app-stepper>
 
   <div class="page-header">
     <h2 translate="reservation-page.title"></h2>
