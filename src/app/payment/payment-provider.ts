@@ -5,7 +5,7 @@ export interface PaymentProvider {
 }
 
 export class PaymentResult {
-    constructor(public success: boolean, public gatewayToken: string) {}
+    constructor(public success: boolean, public gatewayToken: string, public reason: string = null) {}
 }
 
 export class SimplePaymentProvider implements PaymentProvider {

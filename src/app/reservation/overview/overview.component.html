@@ -46,7 +46,7 @@
     </div>
 
 
-    <div class="alert alert-danger" role="alert" *ngIf="globalErrors && globalErrors.length > 0">
+    <div class="alert alert-danger mt-3 mb-3" role="alert" *ngIf="globalErrors && globalErrors.length > 0">
       <div *ngFor="let err of globalErrors"><strong>{{err.code | translate: err.arguments}}</strong></div>
     </div>
 
@@ -135,7 +135,7 @@
         </label>
     </div>
 
-    <div class="alert alert-info text-center" *ngIf="submitting">
+    <div class="alert alert-info mt-3 mb-3 text-center" *ngIf="submitting">
       <strong ><span translate="reservation.payment-in-progress"></span><span class="dots"><span>.</span><span>.</span><span>.</span></span></strong>
     </div>
 

@@ -1,28 +1,35 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
 .StripeElement {
     box-sizing: border-box;
 
-    height: 34px;
+    height: $input-height;
 
-    padding: 8px 12px;
+    padding: 0.5rem $input-padding-x;
 
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: white;
+    border: $input-border-width solid $input-border-color;
+    border-radius: $input-border-radius;
+    background-color: $input-bg;
 
-    /*box-shadow: 0 1px 3px 0 #e6ebf1;*/
+    box-shadow: $input-box-shadow;
     -webkit-transition: box-shadow 150ms ease;
     transition: box-shadow 150ms ease;
 }
 
 .StripeElement--focus {
-    border-color: #66afe9;
+    background-color: $input-bg;
+    border-color: $input-focus-border-color;
+    color: $input-focus-color;
     outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    -webkit-box-shadow: $input-focus-box-shadow;
+    box-shadow: $input-focus-box-shadow;
 }
 
 .StripeElement--invalid {
-    border-color: #a94442;
+    border-color: $form-feedback-invalid-color;
+    -webkit-box-shadow: 0 0 0 $input-focus-width rgba($form-feedback-invalid-color, .25);
+    box-shadow: 0 0 0 $input-focus-width rgba($form-feedback-invalid-color, .25);
 }
 
 .StripeElement--webkit-autofill {
