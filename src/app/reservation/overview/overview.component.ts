@@ -5,12 +5,12 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Event, PaymentMethod, PaymentProxy, PaymentProxyWithParameters } from 'src/app/model/event';
 import { EventService } from 'src/app/shared/event.service';
 import { ReservationInfo } from 'src/app/model/reservation-info';
-import { PaymentProvider, SimplePaymentProvider } from 'src/app/payment/payment-provider';
+import { PaymentProvider, SimplePaymentProvider, PaymentResult } from 'src/app/payment/payment-provider';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AnalyticsService } from 'src/app/shared/analytics.service';
-import { ErrorDescriptor } from 'src/app/model/validated-response';
+import { ErrorDescriptor, ValidatedResponse } from 'src/app/model/validated-response';
 
 @Component({
   selector: 'app-overview',
@@ -150,36 +150,72 @@ export class OverviewComponent implements OnInit {
   }
 
   confirm() {
-    this.submitting = true;
 
+    if (!this.overviewForm.valid || this.selectedPaymentProvider == null) {
+      return; // prevent accidental submissions
+    }
+
+    this.submitting = true;
+    this.registerUnloadHook();
     this.selectedPaymentProvider.pay().subscribe(paymentResult => {
       if (paymentResult.success) {
-
         this.overviewForm.get('gatewayToken').setValue(paymentResult.gatewayToken);
-
         const overviewFormValue = this.overviewForm.value;
-
         this.reservationService.confirmOverview(this.eventShortName, this.reservationId, overviewFormValue, this.translate.currentLang).subscribe(res => {
           if (res.success) {
+            this.unregisterHook();
             if (res.value.redirect) { // handle the case of redirects (e.g. paypal, stripe)
               window.location.href = res.value.redirectUrl;
             } else {
               this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
             }
           } else {
-            console.log('res is not success');
             this.submitting = false;
+            this.unregisterHook();
+            this.globalErrors = handleServerSideValidationError(res, this.overviewForm);
           }
         }, (err) => {
-          console.log('error');
           this.submitting = false;
+          this.unregisterHook();
           this.globalErrors = handleServerSideValidationError(err, this.overviewForm);
         });
       } else {
         console.log('paymentResult is not success (may be cancelled)');
+        this.unregisterHook();
         this.submitting = false;
       }
+    }, (err) => {
+      this.submitting = false;
+      this.unregisterHook();
+      this.notifyPaymentError(err);
     });
+  }
+
+  private registerUnloadHook(): void {
+    window.addEventListener('beforeunload', onUnLoadListener);
+    console.log('warn on page reload: on');
+  }
+
+  private unregisterHook(): void {
+    window.removeEventListener('beforeunload', onUnLoadListener);
+    console.log('warn on page reload: off');
+  }
+
+  private notifyPaymentError(response: any): void {
+    const errorDescriptor = new ErrorDescriptor();
+    errorDescriptor.fieldName = '';
+    if (response != null && response instanceof PaymentResult) {
+      errorDescriptor.code = 'error.STEP_2_PAYMENT_PROCESSING_ERROR';
+      errorDescriptor.arguments = {
+        '0': (<PaymentResult>response).reason
+      };
+    } else {
+      errorDescriptor.code = 'error.STEP_2_PAYMENT_REQUEST_CREATION';
+    }
+    const validatedResponse = new ValidatedResponse();
+    validatedResponse.errorCount = 1;
+    validatedResponse.validationErrors = [errorDescriptor];
+    this.globalErrors = handleServerSideValidationError(validatedResponse, this.overviewForm);
   }
 
   get acceptedPrivacyAndTermAndConditions(): boolean {
@@ -241,3 +277,10 @@ export class OverviewComponent implements OnInit {
     return itEInvoicing.fiscalCode;
   }
 }
+
+function onUnLoadListener(e: BeforeUnloadEvent) {
+  // Cancel the event
+  e.preventDefault();
+  // Chrome requires returnValue to be set
+  e.returnValue = '';
+};

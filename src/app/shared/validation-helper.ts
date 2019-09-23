@@ -65,6 +65,8 @@ export function handleServerSideValidationError(err: any, form: AbstractControl)
         if (err.status === 422) {
             return applyValidationErrors(form, err.error);
         }
+    } else if (err instanceof ValidatedResponse) {
+        return applyValidationErrors(form, err);
     }
     return [];
 }

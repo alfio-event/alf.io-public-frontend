@@ -91,22 +91,28 @@ export class StripePaymentV3 implements PaymentProvider {
 
             this.reservationService.initPayment(this.event.shortName, this.reservation.id).subscribe(res => {
                 const clientSecret = res.clientSecret;
-
-                this.stripeHandler.handleCardPayment(clientSecret, this.card, {
+                let billingAddress = null;
+                if (this.reservation.billingDetails.addressLine1 != null) {
+                    billingAddress = {
+                        line1: this.reservation.billingDetails.addressLine1,
+                        postal_code: this.reservation.billingDetails.zip,
+                        country: this.reservation.billingDetails.country.toLowerCase()
+                   };
+                }
+                const paymentData = {
                     payment_method_data: {
                         billing_details: {
                             name: `${this.reservation.firstName} ${this.reservation.lastName}`,
                             email: this.reservation.email,
-                            /*address: {
-                                 line1: stripeEl.getAttribute('data-stripe-contact-address'),
-                                 postal_code: stripeEl.getAttribute('data-stripe-contact-zip'),
-                                 country: stripeEl.getAttribute('data-stripe-contact-country').toLowerCase()
-                            }*/
+                            address: billingAddress
                         }
                     }
-                }).then(cardPaymentResult => {
+                };
+
+                this.stripeHandler.handleCardPayment(clientSecret, this.card, paymentData).then(cardPaymentResult => {
                     if (cardPaymentResult.error) {
-                        console.log('error!');
+                        this.reservationService.resetPaymentStatus(this.event.shortName, this.reservation.id)
+                            .subscribe(() => subscriber.error(new PaymentResult(false, null, cardPaymentResult.error.message)));
                     } else {
                         let handleCheck;
                         const checkIfPaid = () => {
@@ -116,7 +122,8 @@ export class StripePaymentV3 implements PaymentProvider {
                                     subscriber.next(new PaymentResult(true, status.gatewayIdOrNull));
                                 }
                                 if (status.failed) {
-                                    subscriber.next(new PaymentResult(false, null));
+                                    this.reservationService.resetPaymentStatus(this.event.shortName, this.reservation.id)
+                                        .subscribe(() => subscriber.next(new PaymentResult(false, null)));
                                 }
                             });
                         };

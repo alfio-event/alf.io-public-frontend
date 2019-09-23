@@ -60,4 +60,12 @@ export class ReservationService {
     removePaymentToken(eventShortName: string, reservationId: string): Observable<boolean> {
         return this.http.delete<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment/token`);
     }
+
+    resetPaymentStatus(eventShortName: string, reservationId: string): Observable<boolean> {
+        return this.http.delete<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment`);
+    }
+
+    registerPaymentAttempt(eventShortName: string, reservationId: string): Observable<boolean> {
+        return this.http.put<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment`, {});
+    }
 }

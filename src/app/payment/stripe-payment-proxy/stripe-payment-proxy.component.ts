@@ -115,11 +115,13 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
     const card = stripeHandler.elements({ locale: this.translate.currentLang }).create('card', {
       style: {
         base: {
-          color: '#000000',
-          /*lineHeight: '18px',*/
-          fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+          color: '#495057',
+          lineHeight: '18px',
+          fontFamily: `"Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                       "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+                       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`,
           fontSmoothing: 'antialiased',
-          fontSize: '14px',
+          fontSize: '1rem',
           '::placeholder': {
             color: '#aab7c4'
           }
