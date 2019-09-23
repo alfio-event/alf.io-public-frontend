@@ -192,19 +192,13 @@ export class OverviewComponent implements OnInit {
   }
 
   private registerUnloadHook(): void {
+    window.addEventListener('beforeunload', onUnLoadListener);
     console.log('warn on page reload: on');
-    // source: https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onbeforeunload
-    window.onbeforeunload = function (e: BeforeUnloadEvent) {
-        // Cancel the event
-        e.preventDefault();
-        // Chrome requires returnValue to be set
-        e.returnValue = '';
-    };
   }
 
   private unregisterHook(): void {
+    window.removeEventListener('beforeunload', onUnLoadListener);
     console.log('warn on page reload: off');
-    window.onbeforeunload = null;
   }
 
   private notifyPaymentError(response: any): void {
@@ -283,3 +277,10 @@ export class OverviewComponent implements OnInit {
     return itEInvoicing.fiscalCode;
   }
 }
+
+function onUnLoadListener(e: BeforeUnloadEvent) {
+  // Cancel the event
+  e.preventDefault();
+  // Chrome requires returnValue to be set
+  e.returnValue = '';
+};
