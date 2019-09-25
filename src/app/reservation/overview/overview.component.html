@@ -2,7 +2,7 @@
 
   <app-stepper [currentStep]="3" [free]="reservationInfo.orderSummary.free"></app-stepper>
 
-  <app-countdown [validity]="reservationInfo.validity" (expired)="handleExpired($event)"></app-countdown>
+  <app-countdown *ngIf="!expired" [validity]="reservationInfo.validity" (expired)="handleExpired($event)"></app-countdown>
 
   <form [formGroup]="overviewForm" (submit)="confirm()">
 
