@@ -2,7 +2,7 @@
 
   <app-stepper [currentStep]="2" [free]="reservationInfo.orderSummary.free"></app-stepper>
 
-  <app-countdown [validity]="reservationInfo.validity" (expired)="handleExpired($event)"></app-countdown>
+  <app-countdown *ngIf="!expired" [validity]="reservationInfo.validity" (expired)="handleExpired($event)"></app-countdown>
 
   <form [formGroup]="contactAndTicketsForm" (submit)="submitForm()">
 
@@ -39,11 +39,11 @@
 
     <!-- invoicing section -->
     <a id="invoiceSection" #invoiceAnchor></a>
-    <div *ngIf="!reservationInfo.orderSummary.free && event.invoicingConfiguration.onlyInvoice">
+    <div *ngIf="!reservationInfo.orderSummary.free && event.invoicingConfiguration.onlyInvoice" class="mb-4 mt-4">
       <app-invoice-form [form]="contactAndTicketsForm" [event]="event"></app-invoice-form>
     </div>
-    <div *ngIf="!reservationInfo.orderSummary.free && !event.invoicingConfiguration.onlyInvoice && event.invoicingConfiguration.invoiceAllowed">
-      <div class="custom-control custom-checkbox wMarginTop">
+    <div *ngIf="!reservationInfo.orderSummary.free && !event.invoicingConfiguration.onlyInvoice && event.invoicingConfiguration.invoiceAllowed" class="mb-4 mt-4">
+      <div class="custom-control custom-checkbox">
         <input class="custom-control-input" type="checkbox" formControlName="invoiceRequested" (change)="handleInvoiceRequestedChange()" id="invoiceRequested">
         <label for="invoiceRequested" class="custom-control-label">
           {{' '}}<span translate="reservation-page.i-need-an-invoice"></span>
@@ -55,9 +55,7 @@
     <!-- -->
 
 
-    <div class="page-header">
-      <h2 translate="reservation-page.attendees"></h2>
-    </div>
+    <h2 translate="reservation-page.attendees"></h2>
 
     <div class="custom-control custom-checkbox wMarginBottom" *ngIf="!event.assignmentConfiguration.forceAssignment && ticketCounts > 1 && !reservationInfo.containsCategoriesLinkedToGroups">
       <input id="postponeAssignment" class="custom-control-input" type="checkbox" formControlName="postponeAssignment" id="postpone-assignment" value="true">
@@ -66,27 +64,31 @@
 
     <ng-container *ngIf="!contactAndTicketsForm.value.postponeAssignment">
       <div *ngFor="let tc of reservationInfo.ticketsByCategory; let firstCategory = first; ">
-        <div *ngFor="let ticket of tc.tickets; let firstTicket = first;" formGroupName="tickets">
-          <div class="attendees-data">
-              <h3>
-                <fa-icon [icon]="['fas', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon>
-                <span>{{' '}}{{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span>- <span class="text-muted">{{tc.name}}</span></span>
-
-                <button *ngIf="!enableAttendeeAutocomplete && firstCategory && firstTicket"
-                        class="btn btn-light btn-xs float-right"
-                        [ngbTooltip]="'reservation-page.copy-attendee'|translate"
-                        type="button"
-                        (click)="copyContactInfoTo(ticket)">
-                  <fa-icon [icon]="['far', 'clone']"></fa-icon>
-                </button>
-              </h3>
+        <div *ngFor="let ticket of tc.tickets; let firstTicket = first;" formGroupName="tickets" class="card mt-4">
+          <div class="attendees-data card-body">
+              <div class="d-flex w-100 justify-content-between">
+                  <h3 class="card-title">
+                      <fa-icon [icon]="['fas', 'ticket-alt']" size="xs" [classes]="['rotate-45']"></fa-icon>
+                      <span>{{' '}}{{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span></span>
+                  </h3>
+                  <div class="h3" *ngIf="!enableAttendeeAutocomplete && firstCategory && firstTicket">
+                    <button class="btn btn-light btn-xs"
+                            [ngbTooltip]="'reservation-page.copy-attendee'|translate"
+                            type="button"
+                            (click)="copyContactInfoTo(ticket)">
+                      <fa-icon [icon]="['far', 'clone']"></fa-icon>
+                      <span class="sr-only" translate="reservation-page.copy-attendee"></span>
+                    </button>
+                  </div>
+              </div>
+              <div class="h3 mb-3"><small class="text-muted">{{tc.name}}</small></div>
               <app-ticket-form [ticket]="ticket" [event]="event" [form]="contactAndTicketsForm.get('tickets.'+ticket.uuid)"></app-ticket-form>
           </div>
         </div>
       </div>
     </ng-container>
 
-    <p><strong>*</strong>{{' '}}<span translate="common.required-fields"></span></p>
+    <div class="mt-3 mb-3"><strong>*</strong>{{' '}}<span translate="common.required-fields"></span></div>
     <hr>
 
 
@@ -94,7 +96,7 @@
       <div class="col-md-5 order-md-1 col-12">
         <button type="submit" class="block-button btn btn-success" translate="reservation-page.continue" [disabled]="expired"></button>
       </div>
-      <div class="col-md-5 order-md-0 col-12 ">
+      <div class="col-md-5 order-md-0 col-12">
         <button type="button" class="block-button btn btn-light" (click)="cancelPendingReservation()" translate="reservation-page.cancel"></button>
       </div>
     </div>

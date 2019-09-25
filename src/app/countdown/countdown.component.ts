@@ -5,7 +5,8 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-countdown',
-  templateUrl: './countdown.component.html'
+  templateUrl: './countdown.component.html',
+  styleUrls: ['./countdown.scss']
 })
 export class CountdownComponent implements OnInit, OnDestroy {
 
@@ -19,6 +20,8 @@ export class CountdownComponent implements OnInit, OnDestroy {
 
   message: string;
   isExpired: boolean;
+  alertType = 'info';
+  displaySticky = false;
 
   private langChangeSub: Subscription;
 
@@ -47,13 +50,22 @@ export class CountdownComponent implements OnInit, OnDestroy {
     const singular = this.translateService.instant('reservation-page.time-for-completion.labels.singular');
     const plural = this.translateService.instant('reservation-page.time-for-completion.labels.plural');
     const and = this.translateService.instant('reservation-page.time-for-completion.labels.and');
+    const oneSecond   = 1000;
+    const oneMinute   = 60 * oneSecond;
+    const fiveMinutes = 5 * oneMinute;
 
     countdown.setLabels(singular, plural, ' ' + and + ' ', ', ');
     this.timerId = countdown(new Date(this.validity), (ts) => {
-      if (ts.value < 0) {
+      const absDifference = Math.abs(ts.value);
+      if (ts.value < 0 && absDifference >= oneSecond) {
+        if (absDifference < fiveMinutes) {
+          this.alertType = absDifference < oneMinute ? 'danger' : 'warning';
+          this.displaySticky = true;
+        }
         this.message = msg.replace('##time##', ts.toHTML('strong'));
       } else {
         this.isExpired = true;
+        this.alertType = 'danger';
         clearInterval(this.timerId);
         this.expired.emit(true);
       }

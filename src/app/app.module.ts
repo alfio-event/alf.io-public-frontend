@@ -16,7 +16,7 @@ import {
 import { faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake } from '@fortawesome/free-regular-svg-icons';
 import { faGoogle, faPaypal, faStripe } from '@fortawesome/free-brands-svg-icons';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { BookingComponent } from './reservation/booking/booking.component';
@@ -50,6 +50,8 @@ import {TicketQuantitySelectorComponent} from "./ticket-quantity-selector/ticket
 import {ItemSalePeriodComponent} from "./category-sale-period/item-sale-period.component";
 import {ItemCardComponent} from "./item-card/item-card.component";
 import {AdditionalServiceQuantitySelectorComponent} from "./additional-service-quantity-selector/additional-service-quantity-selector.component";
+import { ReservationExpiredComponent } from './reservation/expired-notification/reservation-expired.component';
+import { NgbModalBackdrop } from '@ng-bootstrap/ng-bootstrap/modal/modal-backdrop';
 
 
 
@@ -92,7 +94,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TicketQuantitySelectorComponent,
     ItemSalePeriodComponent,
     ItemCardComponent,
-    AdditionalServiceQuantitySelectorComponent
+    AdditionalServiceQuantitySelectorComponent,
+    ReservationExpiredComponent
   ],
   imports: [
     BrowserModule,
@@ -113,10 +116,12 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     }),
     NgbTooltipModule,
-    NgSelectModule
+    NgSelectModule,
+    NgbModalModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ReservationExpiredComponent]
 })
 export class AppModule {
   constructor(library: FaIconLibrary) {

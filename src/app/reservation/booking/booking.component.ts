@@ -13,6 +13,8 @@ import { Ticket } from 'src/app/model/ticket';
 import { TranslateService } from '@ngx-translate/core';
 import { AnalyticsService } from 'src/app/shared/analytics.service';
 import { ErrorDescriptor } from 'src/app/model/validated-response';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ReservationExpiredComponent } from '../expired-notification/reservation-expired.component';
 
 @Component({
   selector: 'app-booking',
@@ -52,7 +54,8 @@ export class BookingComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private i18nService: I18nService,
     private translate: TranslateService,
-    private analytics: AnalyticsService) { }
+    private analytics: AnalyticsService,
+    private modalService: NgbModal) { }
 
   public ngOnInit(): void {
     this.route.parent.params.subscribe(params => {
@@ -160,12 +163,18 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
   cancelPendingReservation() {
     this.reservationService.cancelPendingReservation(this.eventShortName, this.reservationId).subscribe(res => {
-      this.router.navigate(['event', this.eventShortName]);
+      this.router.navigate(['event', this.eventShortName], {replaceUrl: true});
     });
   }
 
   handleExpired(expired: boolean) {
-    this.expired = expired;
+    setTimeout(() => {
+      if (!this.expired) {
+        this.expired = expired;
+        this.modalService.open(ReservationExpiredComponent, {centered: true, backdrop: 'static'})
+        .result.then(() => this.router.navigate(['event', this.eventShortName], {replaceUrl: true}));
+      }
+    });
   }
 
   handleInvoiceRequestedChange() {
