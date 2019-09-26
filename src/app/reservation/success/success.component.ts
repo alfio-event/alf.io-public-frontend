@@ -96,6 +96,7 @@ export class SuccessComponent implements OnInit {
     this.ticketService.updateTicket(this.event.shortName, uuid, ticketValue).subscribe(res => {
       if (res.success) {
         this.loadReservation();
+        this.hideTicketForm(uuid);
       }
     }, (err) => {
       handleServerSideValidationError(err, this.ticketsFormControl[uuid]);
@@ -106,6 +107,14 @@ export class SuccessComponent implements OnInit {
     this.ticketService.releaseTicket(this.event.shortName, ticket.uuid).subscribe(res => {
       this.loadReservation();
     });
+  }
+
+  get ticketFormVisible(): boolean {
+    return Object.keys(this.ticketsFormShow).length > 0;
+  }
+
+  hideTicketForm(uuid: string): void {
+    delete this.ticketsFormShow[uuid];
   }
 
 }

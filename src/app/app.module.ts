@@ -11,8 +11,7 @@ import { HttpClientModule, HttpClientXsrfModule, HttpClient } from '@angular/com
 import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {
   faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill, faDownload, faSearchPlus,
-  faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice
-} from '@fortawesome/free-solid-svg-icons';
+  faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice} from '@fortawesome/free-solid-svg-icons';
 import { faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake } from '@fortawesome/free-regular-svg-icons';
 import { faGoogle, faPaypal, faStripe } from '@fortawesome/free-brands-svg-icons';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -46,12 +45,11 @@ import { RecaptchaComponent } from './recaptcha/recaptcha.component';
 import { CustomLoader } from './shared/i18n.service';
 import { NotFoundComponent } from './reservation/not-found/not-found.component';
 import {PriceTagComponent} from './price-tag/price-tag.component';
-import {TicketQuantitySelectorComponent} from "./ticket-quantity-selector/ticket-quantity-selector.component";
-import {ItemSalePeriodComponent} from "./category-sale-period/item-sale-period.component";
-import {ItemCardComponent} from "./item-card/item-card.component";
-import {AdditionalServiceQuantitySelectorComponent} from "./additional-service-quantity-selector/additional-service-quantity-selector.component";
+import {TicketQuantitySelectorComponent} from './ticket-quantity-selector/ticket-quantity-selector.component';
+import {ItemSalePeriodComponent} from './category-sale-period/item-sale-period.component';
+import {ItemCardComponent} from './item-card/item-card.component';
+import {AdditionalServiceQuantitySelectorComponent} from './additional-service-quantity-selector/additional-service-quantity-selector.component';
 import { ReservationExpiredComponent } from './reservation/expired-notification/reservation-expired.component';
-import { NgbModalBackdrop } from '@ng-bootstrap/ng-bootstrap/modal/modal-backdrop';
 
 
 
