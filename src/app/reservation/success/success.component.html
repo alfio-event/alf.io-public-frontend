@@ -16,23 +16,25 @@
           <div class="col-sm-12" [innerHTML]="'reservation-page-complete.info-assign-email' | translate: {'0':reservationInfo.email}"></div>
       </div>
       <div class="row">
-        <div class="col-sm-12 text-align-right">
-          <button type="button" (click)="reSendReservationEmail()" class="btn btn-default"><fa-icon [icon]="['far', 'envelope']"></fa-icon> {{'reservation-page-complete.resend-reservation-email'|translate}}</button>
-          <ng-container *ngIf="event.invoicingConfiguration.userCanDownloadReceiptOrInvoice && reservationInfo.paid && reservationInfo.invoiceOrReceiptDocumentPresent">
-            {{' '}}
-            <a *ngIf="reservationInfo.invoiceNumber !== null"
-                class="btn btn-default"
-                [href]="'/api/v2/public/event/'+event.shortName+'/reservation/'+reservationInfo.id+'/invoice'"
-                target="_blank">
-                <fa-icon [icon]="['fas', 'download']"></fa-icon> {{'reservation-page-complete.download-your-invoice'|translate}}
-            </a>
-            <a *ngIf="reservationInfo.invoiceNumber === null"
-                class="btn btn-default"
-                [href]="'/api/v2/public/event/'+event.shortName+'/reservation/'+reservationInfo.id+'/receipt'"
-                target="_blank">
-                <fa-icon [icon]="['fas', 'download']"></fa-icon> {{'reservation-page-complete.download-your-receipt'|translate}}
-            </a>
-          </ng-container>
+        <div class="col-12 col-md-4 offset-md-4 mt-2 mb-1 mb-md-0">
+          <button type="button" (click)="reSendReservationEmail()" class="btn btn-default btn-block"><fa-icon [icon]="['far', 'envelope']"></fa-icon> {{'reservation-page-complete.resend-reservation-email'|translate}}</button>
+        </div>
+        <div class="col-12 col-md-4 mb-md-0 mt-2">
+            <ng-container *ngIf="event.invoicingConfiguration.userCanDownloadReceiptOrInvoice && reservationInfo.paid && reservationInfo.invoiceOrReceiptDocumentPresent">
+                {{' '}}
+                <a *ngIf="reservationInfo.invoiceNumber !== null"
+                    class="btn btn-default btn-block"
+                    [href]="'/api/v2/public/event/'+event.shortName+'/reservation/'+reservationInfo.id+'/invoice'"
+                    target="_blank">
+                    <fa-icon [icon]="['fas', 'download']"></fa-icon> {{'reservation-page-complete.download-your-invoice'|translate}}
+                </a>
+                <a *ngIf="reservationInfo.invoiceNumber === null"
+                    class="btn btn-default btn-block"
+                    [href]="'/api/v2/public/event/'+event.shortName+'/reservation/'+reservationInfo.id+'/receipt'"
+                    target="_blank">
+                    <fa-icon [icon]="['fas', 'download']"></fa-icon> {{'reservation-page-complete.download-your-receipt'|translate}}
+                </a>
+              </ng-container>
         </div>
       </div>
   </div>
@@ -42,8 +44,8 @@
     
     <div class="card mt-4" *ngFor="let ticket of tc.tickets" [ngClass]="{'border-left-warning': !ticket.assigned, 'shadow': ticketsFormShow[ticket.uuid], 'border-left-success': ticket.assigned && !ticketsFormShow[ticket.uuid]}">
       <div class="card-body">
-        <div class="attendees-data d-flex w-100 justify-content-between">
-          <h3 class="card-title"><fa-icon [icon]="['fas', ticket.assigned ? 'check' : 'exclamation-triangle']" size="xs" [classes]="[ ticket.assigned ? 'text-success' : 'text-warning']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span> <small class="ml-2 text-muted">- {{tc.name}}</small></h3>
+        <div class="attendees-data d-md-flex w-100 justify-content-between">
+          <h3 class="card-title"><fa-icon [icon]="['fas', ticket.assigned ? 'check' : 'exclamation-triangle']" size="xs" [classes]="[ ticket.assigned ? 'text-success' : 'text-warning', 'd-none', 'd-md-inline']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span> <small class="ml-2 text-muted">- {{tc.name}}</small></h3>
           <h3 class="card-title" *ngIf="ticket.assigned">
             {{ticket.fullName}}
             <ng-container *ngIf="ticket.cancellationEnabled">
@@ -68,17 +70,20 @@
         </div>
 
         <div class="row" *ngIf="!ticketFormVisible">
-          <div class="col-lg-3 col-sm-6 col-12" *ngIf="ticket.assigned">
+          <div class="col-lg-3 col-sm-6 col-12 mb-2" *ngIf="ticket.assigned && !ticket.cancellationEnabled" >
             <a [routerLink]="['/event', event.shortName, 'ticket', ticket.uuid, 'view']" target="_blank" class="btn btn-default btn-block"><fa-icon [icon]="['fas', 'search-plus']"></fa-icon> {{'reservation-page-complete.show-ticket'|translate}}</a>
           </div>
-          <div class="col-lg-3 col-sm-6 col-12" *ngIf="ticket.assigned">
+          <div class="col-lg-3 col-sm-6 col-12 mt-2 mt-md-0 mb-2" *ngIf="ticket.assigned">
             <a [attr.href]="'/api/v2/public/event/' + event.shortName + '/ticket/' + ticket.uuid + '/download-ticket'" class="btn btn-default btn-block"><fa-icon [icon]="['fas', 'download']"></fa-icon> {{'reservation-page-complete.download-ticket'|translate}}</a>
           </div>
-          <div class="col-lg-3 col-sm-6 col-12" *ngIf="ticket.assigned">
+          <div class="col-lg-3 col-sm-6 col-12 mt-2 mt-md-0 mb-2" *ngIf="ticket.assigned">
             <button type="button" class="btn btn-default btn-block send-ticket-by-email" (click)="sendEmailForTicket(ticket.uuid)"><fa-icon [icon]="['far', 'envelope']"></fa-icon> {{'reservation-page-complete.send-ticket-by-email-to'|translate}}</button>
           </div>
-          <div class="col-lg-3 col-sm-6 col-12" [ngClass]="{'offset-lg-9 offset-sm-6': !ticket.assigned}">
+          <div class="col-lg-3 col-sm-6 col-12 mt-2 mt-md-0 mb-2" [ngClass]="{'offset-lg-9 offset-sm-6': !ticket.assigned}">
             <button type="button" class="btn btn-default btn-block update-ticket-owner" (click)="ticketsFormShow[ticket.uuid] = true"><fa-icon [icon]="ticket.assigned ? ['far', 'edit'] : ['fas', 'check']"></fa-icon> {{(ticket.assigned ? 'reservation-page-complete.update-ticket-owner' : 'reservation-page-complete.assign') |translate}}</button>
+          </div>
+          <div class="col-lg-3 col-sm-6 col-12 mt-2 mt-md-0 mb-2" *ngIf="ticket.assigned && ticket.cancellationEnabled">
+            <button type="button" class="btn btn-danger btn-block" (click)="releaseTicket(ticket)"><fa-icon [icon]="['fas', 'eraser']"></fa-icon> {{'reservation-page-complete.release-button.text'|translate}}</button>
           </div>
         </div>
   
@@ -111,7 +116,7 @@
     <div class="col-md-5 order-md-1 col-12 mb-2">
       <a class="block-button btn btn-success" [routerLink]="['/event', event.shortName]" translate="buy-other-tickets"></a>
     </div>
-    <div class="col-md-5 order-md-0 col-12 mb-2">
+    <div class="col-md-5 order-md-0 col-12 mt-2 mt-md-0 mb-2">
       <a class="block-button btn btn-light" [attr.href]="event.websiteUrl" translate="to-event-site"></a>
     </div>
   </div>
