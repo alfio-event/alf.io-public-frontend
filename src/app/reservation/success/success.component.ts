@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReservationService } from '../../shared/reservation.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Event } from 'src/app/model/event';
 import { EventService } from 'src/app/shared/event.service';
 import { TicketService } from 'src/app/shared/ticket.service';
@@ -10,6 +10,8 @@ import { I18nService } from 'src/app/shared/i18n.service';
 import { AnalyticsService } from 'src/app/shared/analytics.service';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { FormGroup } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ReleaseTicketComponent } from '../release-ticket/release-ticket.component';
 
 @Component({
   selector: 'app-success',
@@ -39,7 +41,9 @@ export class SuccessComponent implements OnInit {
     private eventService: EventService,
     private ticketService: TicketService,
     private i18nService: I18nService,
-    private analytics: AnalyticsService) { }
+    private analytics: AnalyticsService,
+    private modalService: NgbModal,
+    private router: Router) { }
 
   public ngOnInit(): void {
     this.route.parent.params.subscribe(params => {
@@ -96,6 +100,7 @@ export class SuccessComponent implements OnInit {
     this.ticketService.updateTicket(this.event.shortName, uuid, ticketValue).subscribe(res => {
       if (res.success) {
         this.loadReservation();
+        this.hideTicketForm(uuid);
       }
     }, (err) => {
       handleServerSideValidationError(err, this.ticketsFormControl[uuid]);
@@ -103,9 +108,32 @@ export class SuccessComponent implements OnInit {
   }
 
   releaseTicket(ticket: Ticket) {
-    this.ticketService.releaseTicket(this.event.shortName, ticket.uuid).subscribe(res => {
-      this.loadReservation();
+    this.modalService.open(ReleaseTicketComponent, {centered: true}).result.then(res => {
+      if (res === 'yes') {
+        const singleTicket = this.reservationInfo.ticketsByCategory.map((c) => c.tickets.length).reduce((c1, c2) => c1 + c2) === 1;
+        this.ticketService.releaseTicket(this.event.shortName, ticket.uuid).subscribe(() => {
+          if (singleTicket) {
+            this.router.navigate(['event', this.event.shortName]);
+          } else {
+            this.loadReservation();
+          }
+        });
+      }
     });
+  }
+
+  get ticketFormVisible(): boolean {
+    return Object.keys(this.ticketsFormShow).length > 0;
+  }
+
+  hideTicketForm(uuid: string): void {
+    delete this.ticketsFormShow[uuid];
+  }
+
+  get downloadBillingDocumentVisible(): boolean {
+    return this.event.invoicingConfiguration.userCanDownloadReceiptOrInvoice
+        && this.reservationInfo.paid
+        && this.reservationInfo.invoiceOrReceiptDocumentPresent;
   }
 
 }

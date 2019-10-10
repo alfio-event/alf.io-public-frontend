@@ -11,6 +11,8 @@ import { I18nService } from 'src/app/shared/i18n.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AnalyticsService } from 'src/app/shared/analytics.service';
 import { ErrorDescriptor, ValidatedResponse } from 'src/app/model/validated-response';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ReservationExpiredComponent } from '../expired-notification/reservation-expired.component';
 
 @Component({
   selector: 'app-overview',
@@ -42,7 +44,8 @@ export class OverviewComponent implements OnInit {
     private formBuilder: FormBuilder,
     private i18nService: I18nService,
     private translate: TranslateService,
-    private analytics: AnalyticsService) { }
+    private analytics: AnalyticsService,
+    private modalService: NgbModal) { }
 
   ngOnInit() {
     this.route.parent.params.subscribe(params => {
@@ -227,7 +230,13 @@ export class OverviewComponent implements OnInit {
   }
 
   handleExpired(expired: boolean) {
-    this.expired = expired;
+    setTimeout(() => {
+      if (!this.expired) {
+        this.expired = expired;
+        this.modalService.open(ReservationExpiredComponent, {centered: true, backdrop: 'static'})
+            .result.then(() => this.router.navigate(['event', this.eventShortName], {replaceUrl: true}));
+      }
+    });
   }
 
   registerCurrentPaymentProvider(paymentProvider: PaymentProvider) {
@@ -283,4 +292,4 @@ function onUnLoadListener(e: BeforeUnloadEvent) {
   e.preventDefault();
   // Chrome requires returnValue to be set
   e.returnValue = '';
-};
+}

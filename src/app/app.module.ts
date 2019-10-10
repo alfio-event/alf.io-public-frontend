@@ -11,12 +11,11 @@ import { HttpClientModule, HttpClientXsrfModule, HttpClient } from '@angular/com
 import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {
   faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill, faDownload, faSearchPlus,
-  faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice
-} from '@fortawesome/free-solid-svg-icons';
+  faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice} from '@fortawesome/free-solid-svg-icons';
 import { faCalendarAlt, faCalendarPlus, faCalendarCheck, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake } from '@fortawesome/free-regular-svg-icons';
 import { faGoogle, faPaypal, faStripe } from '@fortawesome/free-brands-svg-icons';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { BookingComponent } from './reservation/booking/booking.component';
@@ -46,10 +45,12 @@ import { RecaptchaComponent } from './recaptcha/recaptcha.component';
 import { CustomLoader } from './shared/i18n.service';
 import { NotFoundComponent } from './reservation/not-found/not-found.component';
 import {PriceTagComponent} from './price-tag/price-tag.component';
-import {TicketQuantitySelectorComponent} from "./ticket-quantity-selector/ticket-quantity-selector.component";
-import {ItemSalePeriodComponent} from "./category-sale-period/item-sale-period.component";
-import {ItemCardComponent} from "./item-card/item-card.component";
-import {AdditionalServiceQuantitySelectorComponent} from "./additional-service-quantity-selector/additional-service-quantity-selector.component";
+import {TicketQuantitySelectorComponent} from './ticket-quantity-selector/ticket-quantity-selector.component';
+import {ItemSalePeriodComponent} from './category-sale-period/item-sale-period.component';
+import {ItemCardComponent} from './item-card/item-card.component';
+import {AdditionalServiceQuantitySelectorComponent} from './additional-service-quantity-selector/additional-service-quantity-selector.component';
+import { ReservationExpiredComponent } from './reservation/expired-notification/reservation-expired.component';
+import { ReleaseTicketComponent } from './reservation/release-ticket/release-ticket.component';
 
 
 
@@ -92,7 +93,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     TicketQuantitySelectorComponent,
     ItemSalePeriodComponent,
     ItemCardComponent,
-    AdditionalServiceQuantitySelectorComponent
+    AdditionalServiceQuantitySelectorComponent,
+    ReservationExpiredComponent,
+    ReleaseTicketComponent
   ],
   imports: [
     BrowserModule,
@@ -113,10 +116,12 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     }),
     NgbTooltipModule,
-    NgSelectModule
+    NgSelectModule,
+    NgbModalModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ReservationExpiredComponent, ReleaseTicketComponent]
 })
 export class AppModule {
   constructor(library: FaIconLibrary) {

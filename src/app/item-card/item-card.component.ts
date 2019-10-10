@@ -1,7 +1,7 @@
-import {Component, Input} from "@angular/core";
-import {FormGroup} from "@angular/forms";
-import {TicketCategory} from "../model/ticket-category";
-import {AdditionalService} from "../model/additional-service";
+import {Component, Input} from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {TicketCategory} from '../model/ticket-category';
+import {AdditionalService} from '../model/additional-service';
 
 @Component({
   selector: 'app-item-card',

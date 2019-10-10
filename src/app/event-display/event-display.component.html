@@ -144,7 +144,7 @@
 
 
       <div *ngIf="event.promotionsConfiguration.hasAccessPromotions" [ngClass]="{'alert alert-info': displayPromoCodeForm}" class="mt-4 mt-md-0">
-        <div class="d-flex justify-content-end" *ngIf="!displayPromoCodeForm && eventCode == null">
+        <div class="d-flex justify-content-center justify-content-md-end" *ngIf="!displayPromoCodeForm && eventCode == null">
           <button type="button" class="btn btn-link" (click)="togglePromoCodeVisible()">
             <fa-icon [icon]="event.promotionsConfiguration.usePartnerCode ? ['far', 'handshake'] : ['fas', 'gift']"></fa-icon>{{' '}}
             <span>{{'show-event.promo-code'|translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate } }}</span>
@@ -172,6 +172,12 @@
       <app-recaptcha [apiKey]="event.captchaConfiguration.recaptchaApiKey" (recaptchaResponse)="handleRecaptchaResponse($event)" *ngIf="event.captchaConfiguration.captchaForTicketSelection && event.captchaConfiguration.recaptchaApiKey"></app-recaptcha>
 
       <hr class="mt-5">
+      <div class="mb-5 d-md-flex text-center text-md-left justify-content-md-center">
+        <div><a [href]="event.privacyPolicyUrl" target="_blank">{{'reservation-page.tc.link.text'|translate}}</a></div>
+        <div class="ml-3 mr-3 d-none d-md-block" *ngIf="event.privacyPolicyUrl">&ndash;</div>
+        <div *ngIf="event.privacyPolicyUrl"><a [href]="event.privacyPolicyUrl" target="_blank">{{'reservation-page.privacy.link.text'|translate}}</a></div>
+      </div>
+
       <div class="row d-flex justify-content-between mobile-add-margin-bottom">
         <div class="col-md-5 order-md-1 col-12"><button type="submit" class="block-button btn btn-success" translate="show-event.continue"></button></div>
         <div class="col-md-5 order-md-0 col-12 "><a [href]="event.websiteUrl" class="block-button btn btn-light" translate="to-event-site"></a></div>
