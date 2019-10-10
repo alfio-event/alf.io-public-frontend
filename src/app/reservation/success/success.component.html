@@ -15,12 +15,12 @@
       <div class="row mt-2">
           <div class="col-sm-12" [innerHTML]="'reservation-page-complete.info-assign-email' | translate: {'0':reservationInfo.email}"></div>
       </div>
-      <div class="row">
-        <div class="col-12 col-md-4 offset-md-4 mt-2 mb-1 mb-md-0">
+      <div class="row mt-3">
+        <div class="col-12 col-md-5 mb-1 mb-md-0" [class.offset-md-2]="downloadBillingDocumentVisible" [class.offset-md-7]="!downloadBillingDocumentVisible">
           <button type="button" (click)="reSendReservationEmail()" class="btn btn-default btn-block"><fa-icon [icon]="['far', 'envelope']"></fa-icon> {{'reservation-page-complete.resend-reservation-email'|translate}}</button>
         </div>
-        <div class="col-12 col-md-4 mb-md-0 mt-2">
-            <ng-container *ngIf="event.invoicingConfiguration.userCanDownloadReceiptOrInvoice && reservationInfo.paid && reservationInfo.invoiceOrReceiptDocumentPresent">
+        <div class="col-12 col-md-5 mb-md-0" *ngIf="downloadBillingDocumentVisible">
+            <ng-container>
                 {{' '}}
                 <a *ngIf="reservationInfo.invoiceNumber !== null"
                     class="btn btn-default btn-block"
@@ -46,28 +46,10 @@
       <div class="card-body">
         <div class="attendees-data d-md-flex w-100 justify-content-between">
           <h3 class="card-title"><fa-icon [icon]="['fas', ticket.assigned ? 'check' : 'exclamation-triangle']" size="xs" [classes]="[ ticket.assigned ? 'text-success' : 'text-warning', 'd-none', 'd-md-inline']"></fa-icon> {{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span> <small class="ml-2 text-muted">- {{tc.name}}</small></h3>
-          <h3 class="card-title" *ngIf="ticket.assigned">
-            {{ticket.fullName}}
-            <ng-container *ngIf="ticket.cancellationEnabled">
-              {{' '}}
-              <button type="button" class="btn btn-xs btn-danger" (click)="ticketsReleaseShow[ticket.uuid] = true"><fa-icon [icon]="['fas', 'eraser']" size="xs"></fa-icon> {{'reservation-page-complete.release-button.text'|translate}}</button>
-            </ng-container>
-          </h3>
+          <h3 class="card-title" *ngIf="ticket.assigned">{{ticket.fullName}}</h3>
           <h3 class="card-title text-muted" *ngIf="!ticket.assigned">{{'reservation-page-complete.ticket-not-assigned' | translate }}</h3>
         </div>
         <hr *ngIf="!ticketFormVisible">
-        
-        <div *ngIf="ticket.assigned">
-          <div tabindex="-1" role="dialog" *ngIf="ticketsReleaseShow[ticket.uuid]"> <!-- TODO ng-template -->
-            <div class="alert alert-danger">
-              <h4>{{'reservation-page-complete.confirm-cancellation.text' | translate}}{{' '}}
-                <button type="button" (click)="ticketsReleaseShow[ticket.uuid] = false" class="btn btn-default cancel-update" translate="reservation-page-complete.confirm-cancellation.button.no"></button>
-                {{' '}}
-                <button type="button" (click)="releaseTicket(ticket)" class="btn btn-danger" translate="reservation-page-complete.confirm-cancellation.button.yes"></button>
-              </h4>
-            </div>
-          </div>
-        </div>
 
         <div class="row" *ngIf="!ticketFormVisible">
           <div class="col-lg-3 col-sm-6 col-12 mb-2" *ngIf="ticket.assigned && !ticket.cancellationEnabled" >

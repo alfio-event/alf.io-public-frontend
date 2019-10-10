@@ -172,7 +172,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
       if (!this.expired) {
         this.expired = expired;
         this.modalService.open(ReservationExpiredComponent, {centered: true, backdrop: 'static'})
-        .result.then(() => this.router.navigate(['event', this.eventShortName], {replaceUrl: true}));
+            .result.then(() => this.router.navigate(['event', this.eventShortName], {replaceUrl: true}));
       }
     });
   }

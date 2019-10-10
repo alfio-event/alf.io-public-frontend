@@ -50,6 +50,7 @@ import {ItemSalePeriodComponent} from './category-sale-period/item-sale-period.c
 import {ItemCardComponent} from './item-card/item-card.component';
 import {AdditionalServiceQuantitySelectorComponent} from './additional-service-quantity-selector/additional-service-quantity-selector.component';
 import { ReservationExpiredComponent } from './reservation/expired-notification/reservation-expired.component';
+import { ReleaseTicketComponent } from './reservation/release-ticket/release-ticket.component';
 
 
 
@@ -93,7 +94,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ItemSalePeriodComponent,
     ItemCardComponent,
     AdditionalServiceQuantitySelectorComponent,
-    ReservationExpiredComponent
+    ReservationExpiredComponent,
+    ReleaseTicketComponent
   ],
   imports: [
     BrowserModule,
@@ -119,7 +121,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [ReservationExpiredComponent]
+  entryComponents: [ReservationExpiredComponent, ReleaseTicketComponent]
 })
 export class AppModule {
   constructor(library: FaIconLibrary) {
