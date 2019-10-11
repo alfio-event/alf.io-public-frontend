@@ -1,7 +1,8 @@
-<div class="row" *ngIf="contentLanguages">
-  <div *ngIf="contentLanguages.length > 1" class="col-12 text-right">
-    <ul class="language-selector">
-      <li *ngFor="let lang of contentLanguages"><button [lang]="lang.locale" (click)="changeLanguage(lang.locale)" class="btn btn-link" [title]="lang.displayLanguage">{{lang.locale}}</button></li>
-    </ul>
+<div class="d-flex justify-content-end" *ngIf="filteredLanguages && filteredLanguages.length > 1">
+  <div class="text-right" ngbDropdown>
+      <button class="btn btn-link text-muted" id="languageDropdown" ngbDropdownToggle><fa-icon [icon]="['fas', 'globe']" ></fa-icon> {{currentLanguage}}</button>
+      <div ngbDropdownMenu aria-labelledby="languageDropdown">
+        <button ngbDropdownItem *ngFor="let lang of filteredLanguages" (click)="changeLanguage(lang.locale)" class="btn btn-link">{{lang.displayLanguage}}</button>
+      </div>
   </div>
 </div>
