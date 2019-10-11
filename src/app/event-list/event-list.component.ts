@@ -12,11 +12,11 @@ import { zip } from 'rxjs';
 @Component({
   selector: 'app-event-list',
   templateUrl: './event-list.component.html',
-  styles: ['a.no-decoration:hover {text-decoration:none}']
+  styleUrls: ['./event-list.component.scss']
 })
 export class EventListComponent implements OnInit {
 
-  events: BasicEventInfo[];
+  events: Array<BasicEventInfo[]>;
   languages: Language[];
 
   constructor(
@@ -27,20 +27,24 @@ export class EventListComponent implements OnInit {
     private info: InfoService,
     private analytics: AnalyticsService) { }
 
-  public ngOnInit(): void {
-    zip(this.eventService.getEvents(), this.info.getInfo()).subscribe(([res, info]) => {
-      if (res.length === 1) {
-        this.router.navigate(['/event', res[0].shortName]);
-      } else {
-        this.events = res;
-        this.analytics.pageView(info.analyticsConfiguration);
-      }
-    });
+    public ngOnInit(): void {
+      zip(this.eventService.getEvents(), this.info.getInfo()).subscribe(([res, info]) => {
+        if (res.length === 1) {
+          this.router.navigate(['/event', res[0].shortName]);
+        } else {
+          const chunkSize = 2;
+          // thanks to https://gist.github.com/webinista/11240585#gistcomment-2363393
+          this.events = res.reduce((prevVal: any, currVal: any, currIndx: number, array: Array<BasicEventInfo>) =>
+                        !(currIndx % chunkSize) ? prevVal.concat([array.slice(currIndx, currIndx + chunkSize)]) : prevVal, []);
+          this.analytics.pageView(info.analyticsConfiguration);
+        }
+      });
 
-    this.i18nService.getAvailableLanguages().subscribe(res => {
-      this.languages = res;
-    });
+      this.i18nService.getAvailableLanguages().subscribe(res => {
+        this.languages = res;
+      });
 
-    this.i18nService.setPageTitle('event-list.header.title', '');
-  }
+      this.i18nService.setPageTitle('event-list.header.title', '');
+    }
+
 }
