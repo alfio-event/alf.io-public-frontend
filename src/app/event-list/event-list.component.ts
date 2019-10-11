@@ -33,6 +33,7 @@ export class EventListComponent implements OnInit {
           this.router.navigate(['/event', res[0].shortName]);
         } else {
           const chunkSize = 2;
+          // thanks to https://gist.github.com/webinista/11240585#gistcomment-2363393
           this.events = res.reduce((prevVal: any, currVal: any, currIndx: number, array: Array<BasicEventInfo>) =>
                         !(currIndx % chunkSize) ? prevVal.concat([array.slice(currIndx, currIndx + chunkSize)]) : prevVal, []);
           this.analytics.pageView(info.analyticsConfiguration);
