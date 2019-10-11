@@ -3,30 +3,34 @@
 
   <h1 translate="event-list.title"></h1>
 
-  <ul class="list-group">
-    <li *ngFor="let event of events" class="list-group-item">
-      <a [routerLink]="['/event', event.shortName]" class="no-decoration">
-        <div class="row">
-          <div class="col-3">
-              <img [attr.src]="'/file/'+event.fileBlobId" class="img-responsive img-center logo">
-          </div>
-          <div class="col-9">
-            <h2>{{event.displayName}}</h2>
-            <div *ngIf="event.sameDay">
-              {{event.formattedBeginDate[translate.currentLang]}}{{' '}}{{'event-days.single-day.hours'|translate: {'0': event.formattedBeginTime[translate.currentLang], '1': event.formattedEndTime[translate.currentLang]} }}
-              <fa-icon [icon]="['fas', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
-            </div>
-            <div *ngIf="!event.sameDay">
-              {{'event-days.not-same-day'|translate: {'0': event.formattedBeginDate[translate.currentLang], '1': event.formattedBeginTime[translate.currentLang]} }}
-              {{' - '}}
-              {{'event-days.not-same-day'|translate: {'0': event.formattedEndDate[translate.currentLang], '1': event.formattedEndTime[translate.currentLang]} }}
-              {{' '}}
-              <fa-icon [icon]="['fas', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
-            </div>
-            <div>{{event.location}}</div>
-          </div>
-        </div>
-      </a>
-    </li>
-  </ul>
+  <div class="card-deck" *ngFor="let chunk of events">
+    <div class="card card-light event-card mb-3" *ngFor="let event of chunk">
+      <div class="card-header bg-white event-header">
+        <img [src]="'/file/'+event.fileBlobId" class="mx-auto d-block">
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">{{event.displayName}}</h2>
+        <p class="card-text" *ngIf="event.sameDay">
+            {{event.formattedBeginDate[translate.currentLang]}}{{' '}}{{'event-days.single-day.hours'|translate: {'0': event.formattedBeginTime[translate.currentLang], '1': event.formattedEndTime[translate.currentLang]} }}
+            <fa-icon [icon]="['fas', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
+        </p>
+
+        <p class="card-text" *ngIf="!event.sameDay">
+            {{'event-days.from'|translate: {'0': event.formattedBeginDate[translate.currentLang]} }}{{ ' ' }}{{'event-days.to'|translate: {'0': event.formattedEndDate[translate.currentLang]} }}
+            <fa-icon [icon]="['fas', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
+        </p>
+
+        <p class="card-text text-muted">{{event.location}}</p>
+        
+      </div>
+      <div class="card-footer border-top-0 bg-white text-right">
+        <a [routerLink]="['event', event.shortName]" class="btn btn-success stretched-link" translate="event-list.link"></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert text-center" *ngIf="events.length == 0">
+    <h3 translate="event-list.no-events"></h3>
+  </div>
+
 </ng-container>
