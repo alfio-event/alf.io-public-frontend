@@ -15,6 +15,7 @@ import { AnalyticsService } from 'src/app/shared/analytics.service';
 import { ErrorDescriptor } from 'src/app/model/validated-response';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReservationExpiredComponent } from '../expired-notification/reservation-expired.component';
+import { CancelReservationComponent } from '../cancel-reservation/cancel-reservation.component';
 
 @Component({
   selector: 'app-booking',
@@ -162,8 +163,12 @@ export class BookingComponent implements OnInit, AfterViewInit {
   }
 
   cancelPendingReservation() {
-    this.reservationService.cancelPendingReservation(this.eventShortName, this.reservationId).subscribe(res => {
-      this.router.navigate(['event', this.eventShortName], {replaceUrl: true});
+    this.modalService.open(CancelReservationComponent, {centered: true}).result.then(res => {
+      if (res === 'yes') {
+        this.reservationService.cancelPendingReservation(this.eventShortName, this.reservationId).subscribe(() => {
+          this.router.navigate(['event', this.eventShortName], {replaceUrl: true});
+        });
+      }
     });
   }
 
