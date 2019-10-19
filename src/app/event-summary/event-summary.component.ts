@@ -33,7 +33,7 @@ export class EventSummaryComponent {
     //    nothing special, the offset is returned as it should be (positive if ahead of UTC, negative otherwise), in seconds
 
     const clientOffset = new Date(serverTs).getTimezoneOffset() * 60;
-    return (clientOffset + serverOffset) !== 0; // client offset is negative if the current time is ahe
+    return (clientOffset + serverOffset) !== 0;
   }
 
 }
