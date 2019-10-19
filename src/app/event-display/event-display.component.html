@@ -113,12 +113,12 @@
         </app-item-card>
       </div>
 
-      <div *ngIf="supplementCategories && supplementCategories.length > 0" class="mt-5 mb-5">
+      <div *ngIf="supplementCategories && supplementCategories.length > 0" class="mt-5">
         <h2 translate="show-event.additional-services"></h2>
         <app-additional-service *ngFor="let supplement of supplementCategories" [form]="reservationForm" [additionalService]="supplement" [event]="event"></app-additional-service>
       </div>
 
-      <div *ngIf="donationCategories && donationCategories.length > 0" class="mt-5 mb-5">
+      <div *ngIf="donationCategories && donationCategories.length > 0" class="mt-5">
           <h2 translate="show-event.donations"></h2>
           <app-additional-service *ngFor="let donation of donationCategories" [form]="reservationForm" [additionalService]="donation" [event]="event"></app-additional-service>
       </div>
@@ -143,7 +143,7 @@
       </div>
 
 
-      <div *ngIf="event.promotionsConfiguration.hasAccessPromotions" [ngClass]="{'alert alert-info': displayPromoCodeForm}" class="mt-4 mt-md-0">
+      <div *ngIf="event.promotionsConfiguration.hasAccessPromotions" [ngClass]="{'alert alert-info': displayPromoCodeForm}" class="mt-4">
         <div class="d-flex justify-content-center justify-content-md-end" *ngIf="!displayPromoCodeForm && eventCode == null">
           <button type="button" class="btn btn-link" (click)="togglePromoCodeVisible()">
             <fa-icon [icon]="event.promotionsConfiguration.usePartnerCode ? ['far', 'handshake'] : ['fas', 'gift']"></fa-icon>{{' '}}
