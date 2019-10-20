@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from '../shared/event.service';
+import { EventService, shouldDisplayTimeZoneInfo } from '../shared/event.service';
 import { Router } from '@angular/router';
 import { BasicEventInfo } from '../model/basic-event-info';
 import { I18nService } from '../shared/i18n.service';
@@ -45,6 +45,10 @@ export class EventListComponent implements OnInit {
       });
 
       this.i18nService.setPageTitle('event-list.header.title', '');
+    }
+
+    public displayTimeZoneInfo(event: BasicEventInfo): boolean {
+      return shouldDisplayTimeZoneInfo(event);
     }
 
 }

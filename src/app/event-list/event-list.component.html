@@ -10,21 +10,13 @@
       </div>
       <div class="card-body">
         <h2 class="card-title">{{event.displayName}}</h2>
-        <p class="card-text" *ngIf="event.sameDay">
-            {{event.formattedBeginDate[translate.currentLang]}}{{' '}}{{'event-days.single-day.hours'|translate: {'0': event.formattedBeginTime[translate.currentLang], '1': event.formattedEndTime[translate.currentLang]} }}
-            <fa-icon [icon]="['fas', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
-        </p>
-
-        <p class="card-text" *ngIf="!event.sameDay">
-            {{'event-days.from'|translate: {'0': event.formattedBeginDate[translate.currentLang]} }}{{ ' ' }}{{'event-days.to'|translate: {'0': event.formattedEndDate[translate.currentLang]} }}
-            <fa-icon [icon]="['fas', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': event.timeZone} }}"></fa-icon>
-        </p>
-
-        <p class="card-text text-muted">{{event.location}}</p>
-        
+        <p class="card-text"><fa-icon [icon]="['far', 'calendar-alt']" class="text-muted"></fa-icon>&nbsp;{{event.formattedBeginDate[translate.currentLang]}}</p>
+        <p class="card-text text-muted mt-1">{{event.location}}</p>
       </div>
-      <div class="card-footer border-top-0 bg-white text-right">
-        <a [routerLink]="['event', event.shortName]" class="btn btn-success stretched-link" translate="event-list.link"></a>
+      <div class="card-footer border-top-0 bg-white">
+        <div class="d-flex justify-content-end">
+          <a [routerLink]="['event', event.shortName]" class="btn btn-success stretched-link" translate="event-list.link"></a>
+        </div>
       </div>
     </div>
   </div>

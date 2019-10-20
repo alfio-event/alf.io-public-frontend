@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Event } from '../model/event';
 import { TranslateService } from '@ngx-translate/core';
 import { DateValidity } from '../model/date-validity';
+import { EventService, shouldDisplayTimeZoneInfo } from '../shared/event.service';
 
 @Component({
   selector: 'app-event-summary',
@@ -18,22 +19,21 @@ export class EventSummaryComponent {
   constructor(public translate: TranslateService) { }
 
   get displayTimeZoneInfo(): boolean {
-    const datesWithOffset = this.event.datesWithOffset;
-    return EventSummaryComponent.differentTimeZone(datesWithOffset.startDateTime, datesWithOffset.startTimeZoneOffset)
-      || EventSummaryComponent.differentTimeZone(datesWithOffset.endDateTime, datesWithOffset.endTimeZoneOffset);
+    return shouldDisplayTimeZoneInfo(this.event);
   }
 
-  private static differentTimeZone(serverTs: number, serverOffset: number): boolean {
-    // client:
-    //    The time-zone offset is the difference, in minutes, from local time to UTC.
-    //    Note that this means that the offset is positive if the local timezone is behind UTC and negative if it is ahead.
-    //    source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTimezoneOffset
-    //
-    // server:
-    //    nothing special, the offset is returned as it should be (positive if ahead of UTC, negative otherwise), in seconds
+  get localizedStartDateForMultiDay(): string {
+    return this.translate.instant('event-days.not-same-day', {
+      '0': this.dateValidityProvider.formattedBeginDate[this.translate.currentLang],
+      '1': this.dateValidityProvider.formattedBeginTime[this.translate.currentLang]
+    });
+  }
 
-    const clientOffset = new Date(serverTs).getTimezoneOffset() * 60;
-    return (clientOffset + serverOffset) !== 0;
+  get localizedEndDateForMultiDay(): string {
+    return this.translate.instant('event-days.not-same-day', {
+      '0': this.dateValidityProvider.formattedEndDate[this.translate.currentLang],
+      '1': this.dateValidityProvider.formattedEndTime[this.translate.currentLang]
+    });
   }
 
 }

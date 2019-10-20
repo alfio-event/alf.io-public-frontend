@@ -1,41 +1,39 @@
 <div *ngIf="event && dateValidityProvider">
-  <h2 translate="ticket.event-info" class="mt-4 mb-4"></h2>
-  <div>{{'show-event.by'|translate}} <strong>{{event.organizationName}}</strong> &lt;<a [href]="'mailto:'+ event.organizationEmail">{{event.organizationEmail}}</a>&gt;</div>
+  <h2 translate="ticket.event-info" class="mt-4 mb-4 d-none d-md-block"></h2>
+
   <div>
-    <ul class="list-unstyled">
-
-      <!-- same day-->
-      <li *ngIf="dateValidityProvider.sameDay">
-        <fa-icon [icon]="['far', 'calendar-alt']"></fa-icon>
-        {{' ' + dateValidityProvider.formattedBeginDate[translate.currentLang]}}
-      </li>
-      <li *ngIf="dateValidityProvider.sameDay">
-        <fa-icon [icon]="['far', 'clock']"></fa-icon>
-        {{' '}}{{'event-days.single-day.hours'|translate: {'0': dateValidityProvider.formattedBeginTime[translate.currentLang], '1': dateValidityProvider.formattedEndTime[translate.currentLang]} }}
-        <fa-icon *ngIf="displayTimeZoneInfo" [icon]="['fas', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': dateValidityProvider.timeZone} }}"></fa-icon>
-      </li>
-      <!-- more than one day-->
-      <li *ngIf="!dateValidityProvider.sameDay">
-          <fa-icon [icon]="['far', 'calendar-alt']"></fa-icon>
-          {{'event-days.not-same-day'|translate: {'0': dateValidityProvider.formattedBeginDate[translate.currentLang], '1': dateValidityProvider.formattedBeginTime[translate.currentLang]} }}
-          {{' - '}}
-          {{'event-days.not-same-day'|translate: {'0': dateValidityProvider.formattedEndDate[translate.currentLang], '1': dateValidityProvider.formattedEndTime[translate.currentLang]} }}
-          {{' '}}
-          <fa-icon *ngIf="displayTimeZoneInfo" [icon]="['fas', 'info-circle']" class="text-info" ngbTooltip="{{'show-event.timezone.warn' | translate:{'0': dateValidityProvider.timeZone} }}"></fa-icon>
-      </li>
-
-
-      <li>
-        <fa-icon [icon]="['far', 'calendar-plus']"></fa-icon> {{'show-event.add-to-calendar' | translate}}
-        <a ngbTooltip="{{'show-event.add-to-calendar' | translate}} google" target="_blank"
-          href="/api/v2/public/event/{{event.shortName}}/calendar/{{translate.currentLang}}?type=google"><fa-icon [icon]="['fab', 'google']"></fa-icon></a>
-        {{' '}} <!-- ugly, see  https://github.com/angular/angular/issues/21049 -->
-        <a ngbTooltip="{{'show-event.add-to-calendar' | translate}} iCalendar" target="_blank"
-          href="/api/v2/public/event/{{event.shortName}}/calendar/{{translate.currentLang}}"><fa-icon [icon]="['far', 'calendar-check']"></fa-icon></a>
-      </li>
-      <li>
-        <fa-icon [icon]="['far', 'compass']"></fa-icon> {{event.location}}
-      </li>
-    </ul>
+    <dl class="row">
+        <dt class="col-1 text-muted"><fa-icon [icon]="['far', 'building']"></fa-icon></dt>
+        <dd class="col-11">{{'show-event.by'|translate}} <strong><a [href]="'mailto:'+ event.organizationEmail">{{event.organizationName}}</a></strong></dd>
+        <dt class="col-1 text-muted"><fa-icon [icon]="['far', 'calendar-alt']"></fa-icon></dt>
+        <dd class="col-11">
+          <!-- same day-->
+          <span *ngIf="dateValidityProvider.sameDay">
+            {{' ' + dateValidityProvider.formattedBeginDate[translate.currentLang]}}&nbsp;{{'event-days.single-day.hours'|translate: {'0': dateValidityProvider.formattedBeginTime[translate.currentLang], '1': dateValidityProvider.formattedEndTime[translate.currentLang]} }}
+            <span class="text-muted" *ngIf="displayTimeZoneInfo">&nbsp; ({{dateValidityProvider.timeZone}})</span>
+          </span>
+          <!-- more than one day-->
+          <div *ngIf="!dateValidityProvider.sameDay">
+            <div class="row">
+              <div class="col-2"><strong translate="event-days.from"></strong></div>
+              <div class="col-10">{{localizedStartDateForMultiDay}}</div>
+            </div>
+            <div class="row">
+              <div class="col-2"><strong translate="event-days.to"></strong></div>
+              <div class="col-10">{{localizedEndDateForMultiDay}}</div>
+            </div>
+          </div>
+        </dd>
+        <dt class="col-1 text-muted"><fa-icon [icon]="['far', 'calendar-plus']"></fa-icon></dt>
+        <dd class="col-11">
+          {{'show-event.add-to-calendar' | translate}} &nbsp;
+          <a target="_blank" href="/api/v2/public/event/{{event.shortName}}/calendar/{{translate.currentLang}}?type=google">Google</a>
+          &nbsp;&ndash;&nbsp;
+          <a target="_blank" href="/api/v2/public/event/{{event.shortName}}/calendar/{{translate.currentLang}}">iCalendar</a>
+        </dd>
+        <dt class="col-1 text-muted"><fa-icon [icon]="['far', 'compass']"></fa-icon></dt>
+        <dd class="col-11">{{event.location}}</dd>
+        
+    </dl>
   </div>
 </div>

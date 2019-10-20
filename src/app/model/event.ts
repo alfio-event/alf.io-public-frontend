@@ -1,4 +1,4 @@
-import { DateValidity } from './date-validity';
+import { DateValidity, EventDatesWithOffset } from './date-validity';
 import { AnalyticsConfiguration } from './analytics-configuration';
 
 export class Event implements DateValidity {
@@ -54,13 +54,6 @@ export class Event implements DateValidity {
     i18nOverride: {[lang: string]: {[key: string]: string}};
 
     availableTicketsCount: number | null;
-}
-
-export interface EventDatesWithOffset {
-    startDateTime: number;
-    startTimeZoneOffset: number;
-    endDateTime: number;
-    endTimeZoneOffset: number;
 }
 
 export class InvoicingConfiguration {

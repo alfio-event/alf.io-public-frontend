@@ -8,6 +8,7 @@ import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscripti
 import { ValidatedResponse } from '../model/validated-response';
 import { map, shareReplay } from 'rxjs/operators';
 import { EventCode } from '../model/event-code';
+import { DateValidity } from '../model/date-validity';
 
 @Injectable({
   providedIn: 'root'
@@ -50,4 +51,23 @@ export class EventService {
   validateCode(eventShortName: string, code: string): Observable<ValidatedResponse<EventCode>> {
     return this.http.get<ValidatedResponse<EventCode>>(`/api/v2/public/event/${eventShortName}/validate-code`, {params: {code: code}});
   }
+}
+
+export function shouldDisplayTimeZoneInfo(provider: DateValidity): boolean {
+  const datesWithOffset = provider.datesWithOffset;
+  return isDifferentTimeZone(datesWithOffset.startDateTime, datesWithOffset.startTimeZoneOffset)
+      || isDifferentTimeZone(datesWithOffset.endDateTime, datesWithOffset.endTimeZoneOffset);
+}
+
+function isDifferentTimeZone(serverTs: number, serverOffset: number): boolean {
+  // client:
+  //    The time-zone offset is the difference, in minutes, from local time to UTC.
+  //    Note that this means that the offset is positive if the local timezone is behind UTC and negative if it is ahead.
+  //    source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTimezoneOffset
+  //
+  // server:
+  //    nothing special, the offset is returned as it should be (positive if ahead of UTC, negative otherwise), in seconds
+
+  const clientOffset = new Date(serverTs).getTimezoneOffset() * 60;
+  return (clientOffset + serverOffset) !== 0;
 }
