@@ -21,9 +21,6 @@ export class Event implements DateValidity {
     free: boolean;
 
     //
-    activePaymentMethods: {[key in PaymentMethod]?: PaymentProxyWithParameters};
-
-    //
     bankAccount: string;
     bankAccountOwner: string[];
     //

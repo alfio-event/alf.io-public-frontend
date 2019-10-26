@@ -1,5 +1,5 @@
 import { Ticket } from './ticket';
-import { PaymentProxy } from './event';
+import { PaymentProxy, PaymentMethod, PaymentProxyWithParameters } from './event';
 
 export class ReservationInfo {
     id: string;
@@ -38,6 +38,8 @@ export class ReservationInfo {
     // group related info
     containsCategoriesLinkedToGroups: boolean;
     //
+
+    activePaymentMethods: {[key in PaymentMethod]?: PaymentProxyWithParameters};
 }
 
 export class ReservationStatusInfo {

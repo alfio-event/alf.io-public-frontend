@@ -55,16 +55,16 @@
 
       <div *ngIf="paymentMethodsCount() > 1">
           <div class="btn-group btn-group-toggle payment-method-selector wMarginBottom">
-            <label class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'CREDIT_CARD'}" *ngIf="event.activePaymentMethods['CREDIT_CARD']">
+            <label class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'CREDIT_CARD'}" *ngIf="reservationInfo.activePaymentMethods['CREDIT_CARD']">
               <input type="radio" formControlName="selectedPaymentMethod" [value]="'CREDIT_CARD'"><fa-icon [icon]="['fas', 'credit-card']"></fa-icon> {{'reservation-page.credit-card'|translate}}
             </label>
-            <label class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'PAYPAL'}" *ngIf="event.activePaymentMethods['PAYPAL']">
+            <label class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'PAYPAL'}" *ngIf="reservationInfo.activePaymentMethods['PAYPAL']">
               <input type="radio" formControlName="selectedPaymentMethod" [value]="'PAYPAL'"><fa-icon [icon]="['fab', 'paypal']"></fa-icon> {{'reservation-page.paypal'|translate}}
             </label>
-            <label class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'BANK_TRANSFER'}" *ngIf="event.activePaymentMethods['BANK_TRANSFER']">
+            <label class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'BANK_TRANSFER'}" *ngIf="reservationInfo.activePaymentMethods['BANK_TRANSFER']">
               <input type="radio" formControlName="selectedPaymentMethod" [value]="'BANK_TRANSFER'"><fa-icon [icon]="['fas', 'exchange-alt']"></fa-icon> {{'reservation-page.offline'|translate}}
             </label>
-            <label class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'ON_SITE'}" *ngIf="event.activePaymentMethods['ON_SITE']">
+            <label class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'ON_SITE'}" *ngIf="reservationInfo.activePaymentMethods['ON_SITE']">
               <input type="radio" formControlName="selectedPaymentMethod" [value]="'ON_SITE'"><fa-icon [icon]="['fas', 'money-bill']"  size="sm"></fa-icon> {{'reservation-page.on-site'|translate}}
             </label>
           </div>
@@ -86,18 +86,18 @@
           </h4>
       </div>
 
-      <div *ngIf="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod]" >
+      <div *ngIf="reservationInfo.activePaymentMethods[overviewForm.value.selectedPaymentMethod]" >
           <app-offline-payment-proxy
             [proxy]="overviewForm.value.paymentMethod"
             [method]="overviewForm.value.selectedPaymentMethod"
-            [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"
+            [parameters]="reservationInfo.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"
             [overviewForm]="overviewForm"
             (paymentProvider)="registerCurrentPaymentProvider($event)">
           </app-offline-payment-proxy>
           <app-onsite-payment-proxy
             [proxy]="overviewForm.value.paymentMethod"
             [method]="overviewForm.value.selectedPaymentMethod"
-            [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"
+            [parameters]="reservationInfo.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"
             [overviewForm]="overviewForm"
             (paymentProvider)="registerCurrentPaymentProvider($event)">
           </app-onsite-payment-proxy>
@@ -106,7 +106,7 @@
             [reservation]="reservationInfo"
             [proxy]="overviewForm.value.paymentMethod"
             [method]="overviewForm.value.selectedPaymentMethod"
-            [parameters]="event.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"
+            [parameters]="reservationInfo.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"
             (paymentProvider)="registerCurrentPaymentProvider($event)">
           </app-stripe-payment-proxy>
           <app-paypal-payment-proxy

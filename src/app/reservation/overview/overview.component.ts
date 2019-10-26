@@ -56,8 +56,6 @@ export class OverviewComponent implements OnInit {
       this.eventService.getEvent(this.eventShortName).subscribe(ev => {
         this.event = ev;
 
-        this.activePaymentMethods = this.event.activePaymentMethods;
-
         this.i18nService.setPageTitle('reservation-page.header.title', ev.displayName);
 
         this.loadReservation(ev);
@@ -72,12 +70,13 @@ export class OverviewComponent implements OnInit {
     this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(resInfo => {
       this.reservationInfo = resInfo;
 
+      this.activePaymentMethods = this.reservationInfo.activePaymentMethods;
       let paymentProxy: PaymentProxy = null;
       let selectedPaymentMethod: PaymentMethod = null;
 
       if (!resInfo.orderSummary.free && this.paymentMethodsCount() === 1) {
         selectedPaymentMethod = this.getSinglePaymentMethod();
-        paymentProxy = ev.activePaymentMethods[selectedPaymentMethod].paymentProxy;
+        paymentProxy = this.reservationInfo[selectedPaymentMethod].paymentProxy;
       }
 
       if (resInfo.orderSummary.free) {
@@ -91,12 +90,12 @@ export class OverviewComponent implements OnInit {
         selectedPaymentMethod = this.getPaymentMethodMatchingProxy(paymentProxy);
 
         // we override and keep only the one selected
-        const paymentProxyAndParam = this.event.activePaymentMethods[selectedPaymentMethod];
+        const paymentProxyAndParam = this.reservationInfo.activePaymentMethods[selectedPaymentMethod];
         this.activePaymentMethods = {};
         this.activePaymentMethods[selectedPaymentMethod] = paymentProxyAndParam;
         //
       } else {
-        this.activePaymentMethods = this.event.activePaymentMethods;
+        this.activePaymentMethods = this.reservationInfo.activePaymentMethods;
       }
       //
 
@@ -111,7 +110,7 @@ export class OverviewComponent implements OnInit {
 
       // we synchronize the selectedPaymentMethod with the corresponding paymentMethod (which is a payment proxy)
       this.overviewForm.get('selectedPaymentMethod').valueChanges.subscribe(v => {
-        this.overviewForm.get('paymentMethod').setValue(ev.activePaymentMethods[v as PaymentMethod].paymentProxy);
+        this.overviewForm.get('paymentMethod').setValue(this.reservationInfo.activePaymentMethods[v as PaymentMethod].paymentProxy);
       });
     });
   }
