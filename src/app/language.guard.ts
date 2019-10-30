@@ -49,7 +49,7 @@ export class LanguageGuard implements CanActivate {
       lang = persisted;
     } else if (availableLanguages.indexOf(this.translate.getBrowserLang()) >= 0) {
       lang = this.translate.getBrowserLang();
-    } else if (availableLanguages.indexOf('en') >= 0) { 
+    } else if (availableLanguages.indexOf('en') >= 0) {
       // use english as a default choice if available in case of mismatching browser lang
       lang = 'en';
     } else {
