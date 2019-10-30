@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-end" *ngIf="filteredLanguages && filteredLanguages.length > 1">
+<div class="d-flex justify-content-end" *ngIf="filteredLanguages && filteredLanguages.length > 0">
   <div class="text-right" ngbDropdown>
       <button class="btn btn-link text-muted" id="languageDropdown" ngbDropdownToggle><fa-icon [icon]="['fas', 'globe']" ></fa-icon> {{currentLanguage}}</button>
       <div ngbDropdownMenu aria-labelledby="languageDropdown">
