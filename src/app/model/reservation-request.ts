@@ -1,3 +1,5 @@
+import { AdditionalService } from './additional-service';
+
 export class ReservationRequest {
     promoCode: string;
     reservation: TicketReservation[];
@@ -11,4 +13,7 @@ export class TicketReservation {
 }
 
 export class SelectedAdditionalService {
+    additionalServiceId: number;
+    amount: number;
+    quantity: number;
 }

@@ -144,7 +144,11 @@ export class EventDisplayComponent implements OnInit {
   }
 
   submitForm(eventShortName: string, reservation: ReservationRequest) {
-    this.reservationService.reserveTickets(eventShortName, reservation, this.translate.currentLang).subscribe(res => {
+    const request = reservation;
+    if (reservation.additionalService != null && reservation.additionalService.length > 0) {
+      request.additionalService = reservation.additionalService.filter(as => (as.amount != null && as.amount > 0) || (as.quantity != null && as.quantity > 0));
+    }
+    this.reservationService.reserveTickets(eventShortName, request, this.translate.currentLang).subscribe(res => {
       if (res.success) {
         this.router.navigate(['event', eventShortName, 'reservation', res.value, 'book']);
       }
