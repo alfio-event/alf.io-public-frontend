@@ -76,7 +76,7 @@ export class OverviewComponent implements OnInit {
 
       if (!resInfo.orderSummary.free && this.paymentMethodsCount() === 1) {
         selectedPaymentMethod = this.getSinglePaymentMethod();
-        paymentProxy = this.reservationInfo[selectedPaymentMethod].paymentProxy;
+        paymentProxy = this.reservationInfo.activePaymentMethods[selectedPaymentMethod].paymentProxy;
       }
 
       if (resInfo.orderSummary.free) {
