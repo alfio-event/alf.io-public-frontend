@@ -30,7 +30,7 @@ export class EventListComponent implements OnInit {
     public ngOnInit(): void {
       zip(this.eventService.getEvents(), this.info.getInfo()).subscribe(([res, info]) => {
         if (res.length === 1) {
-          this.router.navigate(['/event', res[0].shortName]);
+          this.router.navigate(['/event', res[0].shortName], {replaceUrl: true});
         } else {
           const chunkSize = 2;
           // thanks to https://gist.github.com/webinista/11240585#gistcomment-2363393
