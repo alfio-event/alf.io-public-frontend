@@ -89,6 +89,9 @@
     <!-- end waiting list -->
 
     <form [formGroup]="reservationForm" (submit)="submitForm(event.shortName, reservationForm.value)" *ngIf="ticketCategories">
+      <div class="alert alert-warning text-center" role="alert" *ngIf="ticketCategories.length == 0">
+        <h3 translate="show-event.sold-out.header"></h3>
+      </div>
       <div *ngFor="let category of ticketCategories;let counter = index" formArrayName="reservation">
         <app-item-card [currentLang]="translate.currentLang" [item]="category" [formGroupName]="''+counter" [parentFormGroup]="reservationFormItem(reservationForm, counter)" [additionalClass]="category.accessRestricted ? 'ticket-category-restricted border-warning shadow-sm ': ''">
           <span class="item-title">
