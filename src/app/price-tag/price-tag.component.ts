@@ -16,6 +16,8 @@ export class PriceTagComponent implements OnInit {
   showTaxDetails: boolean;
   @Input()
   displayTextInline: boolean;
+  @Input()
+  showDiscount: boolean;
 
   displayCurrencySymbol: boolean;
   currencyDescriptor: CurrencyDescriptor;
@@ -26,7 +28,7 @@ export class PriceTagComponent implements OnInit {
   }
 
   get displayDiscountedPrice(): boolean {
-    return this.discountedPrice != null && this.discountedPrice !== this.formattedPrice;
+    return this.showDiscount && this.discountedPrice != null && this.discountedPrice !== this.formattedPrice;
   }
 
   removeRedundantPrecision(input: string): string {

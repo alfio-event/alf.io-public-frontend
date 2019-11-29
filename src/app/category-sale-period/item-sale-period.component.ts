@@ -1,6 +1,6 @@
-import {Component, Input} from "@angular/core";
-import {TicketCategory} from "../model/ticket-category";
-import {AdditionalService} from "../model/additional-service";
+import {Component, Input} from '@angular/core';
+import {TicketCategory} from '../model/ticket-category';
+import {AdditionalService} from '../model/additional-service';
 
 @Component({
   selector: 'app-item-sale-period',

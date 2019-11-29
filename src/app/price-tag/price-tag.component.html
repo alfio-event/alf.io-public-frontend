@@ -1,8 +1,8 @@
-<div class="d-inline-flex flex-column">
+<div class="d-inline-flex flex-md-column">
     <div class="text-align-right">
         <span *ngIf="currencyDescriptor" [ngClass]="{'mr-2': !displayTextInline && displayCurrencySymbol, 'mr-1': !displayTextInline && !displayCurrencySymbol}">{{currencyDescriptor.symbol}}</span><ng-container *ngIf="displayTextInline">{{' '}}</ng-container>
         <span *ngIf="displayDiscountedPrice" class="text-align-right"><del>{{formattedPrice}}</del>{{' '}}<mark>{{discountedPrice}}</mark></span>
         <span *ngIf="!displayDiscountedPrice" class="text-align-right">{{formattedPrice}}</span>
     </div>
-    <small *ngIf="showTaxDetails" class="text-align-right text-muted"><i>{{(event.vatIncluded ? 'show-event.incVat' : 'show-event.excVat') | translate:{'0': removeRedundantPrecision(event.vat), '1': ('common.vat' | translate)} }}</i></small>
+    <small *ngIf="showTaxDetails" class="text-align-right text-muted align-self-end ml-2 ml-md-0"><i>{{(event.vatIncluded ? 'show-event.incVat' : 'show-event.excVat') | translate:{'0': removeRedundantPrecision(event.vat), '1': ('common.vat' | translate)} }}</i></small>
   </div>

@@ -95,13 +95,12 @@
       <div *ngFor="let category of ticketCategories;let counter = index" formArrayName="reservation">
         <app-item-card [currentLang]="translate.currentLang" [item]="category" [formGroupName]="''+counter" [parentFormGroup]="reservationFormItem(reservationForm, counter)" [additionalClass]="category.accessRestricted ? 'ticket-category-restricted border-warning shadow-sm ': ''">
           <span class="item-title">
-            {{category.name}} <span class="d-none d-md-inline badge badge-warning ml-2" *ngIf="ticketsLeftCountVisibleForCategory(category)">{{"show-event.tickets.left" | translate: {'0': category.availableTickets} }}</span>
+            {{category.name}} <span class="d-inline badge badge-warning ml-2" *ngIf="ticketsLeftCountVisibleForCategory(category)">{{"show-event.tickets.left" | translate: {'0': category.availableTickets} }}</span>
           </span>
           <div class="item-price">
             <span *ngIf="category.free" translate="common.free"></span>
             <span *ngIf="!category.free">
-              <ng-container *ngIf="category.hasDiscount"><app-price-tag [event]="event" [formattedPrice]="category.formattedFinalPrice" [showTaxDetails]="true" [discountedPrice]="category.formattedDiscountedPrice"></app-price-tag></ng-container>
-              <ng-container *ngIf="!category.hasDiscount"><app-price-tag [event]="event" [formattedPrice]="category.formattedFinalPrice" [showTaxDetails]="true"></app-price-tag></ng-container>
+              <app-price-tag [event]="event" [formattedPrice]="category.formattedFinalPrice" [showTaxDetails]="true" [discountedPrice]="category.formattedDiscountedPrice" [showDiscount]="category.hasDiscount"></app-price-tag>
             </span>
           </div>
           <div class="item-qty-selector">
@@ -112,6 +111,12 @@
           </div>
           <div class="item-qty-selector-mobile">
               <app-ticket-quantity-selector [parentGroup]="reservationFormItem(reservationForm, counter)" [category]="category" [quantityRange]="ticketCategoryAmount[category.id]"></app-ticket-quantity-selector>
+          </div>
+          <div class="item-price-mobile">
+            <span *ngIf="category.free" class="h6" translate="common.free"></span>
+            <span *ngIf="!category.free">
+              <app-price-tag [event]="event" class="h6" [formattedPrice]="category.formattedFinalPrice" [showTaxDetails]="true" [discountedPrice]="category.formattedDiscountedPrice" [showDiscount]="category.hasDiscount"></app-price-tag>
+            </span>
           </div>
         </app-item-card>
       </div>
