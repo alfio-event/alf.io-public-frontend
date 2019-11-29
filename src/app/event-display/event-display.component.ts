@@ -26,6 +26,7 @@ export class EventDisplayComponent implements OnInit {
 
   event: Event;
   ticketCategories: TicketCategory[];
+  expiredCategories: TicketCategory[];
   //
   supplementCategories: AdditionalService[];
   donationCategories: AdditionalService[];
@@ -54,6 +55,7 @@ export class EventDisplayComponent implements OnInit {
   promoCodeElement: ElementRef<HTMLInputElement>;
   @ViewChild('tickets', { static: false })
   tickets: ElementRef<HTMLDivElement>;
+  expiredCategoriesExpanded = false;
 
   // https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
 
@@ -106,6 +108,7 @@ export class EventDisplayComponent implements OnInit {
 
   private applyItemsByCat(itemsByCat: ItemsByCategory) {
     this.ticketCategories = itemsByCat.ticketCategories;
+    this.expiredCategories = itemsByCat.expiredCategories || [];
 
     this.ticketCategoryAmount = {};
     this.ticketCategories.forEach(tc => {

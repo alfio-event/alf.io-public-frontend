@@ -4,6 +4,7 @@ import { AdditionalService } from './additional-service';
 export class ItemsByCategory {
 
     ticketCategories: TicketCategory[];
+    expiredCategories: TicketCategory[];
     additionalServices: AdditionalService[];
 
     waitingList: boolean;

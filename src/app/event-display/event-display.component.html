@@ -116,6 +116,28 @@
         </app-item-card>
       </div>
 
+      <div class="mt-4 text-muted" *ngIf="expiredCategories.length > 0">
+        <div class="text-center">
+          <button type="button" (click)="expiredCategoriesExpanded = !expiredCategoriesExpanded" class="btn btn-link"><fa-icon [icon]="expiredCategoriesExpanded ? ['fas', 'angle-up'] : ['fas', 'angle-down']"></fa-icon>&nbsp;{{ 'show-event.expired-categories' | translate }}</button>
+        </div>
+        <ul class="list-group list-group-flush text-muted mt-2" *ngIf="expiredCategoriesExpanded">
+          <li *ngFor="let category of expiredCategories;" class="list-group-item">
+            <div class="d-flex flex-grow-1 justify-content-between">
+              <div>
+                <h6 class="pr-1">
+                    {{category.name}}
+                </h6>
+              </div>
+              <div>
+                <h6>{{'show-event.sales-ended'|translate: {'0': category.formattedExpiration[translate.currentLang]} }}</h6>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+
+
       <div *ngIf="supplementCategories && supplementCategories.length > 0" class="mt-5">
         <h2 translate="show-event.additional-services"></h2>
         <app-additional-service *ngFor="let supplement of supplementCategories" [form]="reservationForm" [additionalService]="supplement" [event]="event"></app-additional-service>
