@@ -53,6 +53,7 @@ import {AdditionalServiceQuantitySelectorComponent} from './additional-service-q
 import { ReservationExpiredComponent } from './reservation/expired-notification/reservation-expired.component';
 import { ReleaseTicketComponent } from './reservation/release-ticket/release-ticket.component';
 import { CancelReservationComponent } from './reservation/cancel-reservation/cancel-reservation.component';
+import { EventFooterLinksComponent } from './event-footer-links/event-footer-links.component';
 
 
 
@@ -98,7 +99,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AdditionalServiceQuantitySelectorComponent,
     ReservationExpiredComponent,
     ReleaseTicketComponent,
-    CancelReservationComponent
+    CancelReservationComponent,
+    EventFooterLinksComponent
   ],
   imports: [
     BrowserModule,
