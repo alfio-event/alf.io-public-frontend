@@ -29,6 +29,7 @@
           <ng-content select=".item-qty-selector-mobile"></ng-content>
       </div>
     </div>
+    <hr class="d-md-none" *ngIf="item.description[currentLang] && item.description[currentLang].length > 0" />
     <div class="card-text pt-2">
       <div class="markdown-content mt-2" [innerHTML]="item.description[currentLang]"></div>
     </div>

@@ -1,6 +1,6 @@
-import {Component, Input} from "@angular/core";
-import {TicketCategory} from "../model/ticket-category";
-import {FormGroup} from "@angular/forms";
+import {Component, Input} from '@angular/core';
+import {TicketCategory} from '../model/ticket-category';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-ticket-quantity-selector',
