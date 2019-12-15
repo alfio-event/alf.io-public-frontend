@@ -21,7 +21,7 @@ export class NotFoundComponent implements OnInit {
     private i18nService: I18nService) { }
 
   ngOnInit() {
-    this.route.parent.params.subscribe(params => {
+    this.route.params.subscribe(params => {
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
       this.eventUrl = this.serializer.serialize(this.router.createUrlTree(['event', this.eventShortName]));

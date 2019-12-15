@@ -59,7 +59,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
     private modalService: NgbModal) { }
 
   public ngOnInit(): void {
-    this.route.parent.params.subscribe(params => {
+    this.route.params.subscribe(params => {
 
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
@@ -124,7 +124,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    zip(this.route.parent.queryParams, this.doScroll.asObservable())
+    zip(this.route.queryParams, this.doScroll.asObservable())
       .subscribe(results => {
         const requestInvoice: boolean = !!results[0].requestInvoice;
         if (requestInvoice && results[1]) {

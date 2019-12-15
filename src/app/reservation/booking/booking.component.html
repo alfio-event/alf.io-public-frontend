@@ -1,3 +1,5 @@
+<app-reservation>
+
 <div *ngIf="reservationInfo && event">
 
   <app-stepper [currentStep]="2" [free]="reservationInfo.orderSummary.free"></app-stepper>
@@ -103,3 +105,5 @@
     </div>
   </form>
 </div>
+
+</app-reservation>

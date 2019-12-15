@@ -1,3 +1,5 @@
+<app-reservation>
+
 <div *ngIf="reservationInfo && event">
 
   <app-stepper [currentStep]="3" [free]="reservationInfo.orderSummary.free" [inProgress]="true"></app-stepper>
@@ -12,3 +14,5 @@
     <h4><fa-icon [icon]="['fas', 'cog']" [spin]="true"></fa-icon>{{' '}}<span translate="reservation.payment-in-progress"></span></h4>
   </div>
 </div>
+
+</app-reservation>

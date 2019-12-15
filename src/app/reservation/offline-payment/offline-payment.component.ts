@@ -33,7 +33,7 @@ export class OfflinePaymentComponent implements OnInit {
 
   public ngOnInit(): void {
 
-    this.route.parent.params.subscribe(params => {
+    this.route.params.subscribe(params => {
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
       zip(

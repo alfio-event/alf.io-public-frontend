@@ -1,3 +1,5 @@
+<app-reservation>
+
 <div class="wMarginBottom wMarginTop center-block" *ngIf="event && reservationInfo">
 
   <div class="alert alert-warning wMarginTop wMarginBottom">
@@ -33,3 +35,5 @@
   </div>
   <div class="text-center wMarginTop30px">{{'reservation-page-complete.order-information' | translate: {'0': reservationId, '1': reservationInfo.firstName + ' ' + reservationInfo.lastName} }}</div>
 </div>
+
+</app-reservation>
