@@ -48,7 +48,7 @@ export class OverviewComponent implements OnInit {
     private modalService: NgbModal) { }
 
   ngOnInit() {
-    this.route.parent.params.subscribe(params => {
+    this.route.params.subscribe(params => {
 
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
