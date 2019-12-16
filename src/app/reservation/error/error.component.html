@@ -1,0 +1,5 @@
+<app-reservation>
+    <h4 class="mt-5 text-center" translate="reservation-page-error-status.title"></h4>
+    <p class="mt-5 text-center" *ngIf="event" [innerHTML]="'reservation-page-error-status.contact-text' | translate: {'0': event.organizationEmail, '1': reservationId, '2': event.organizationEmail}"></p>
+    <p class="mt-5 text-center">{{'reservation-page-error-status.your-reservation-identifier' | translate: {'0': reservationId} }}</p>
+</app-reservation>

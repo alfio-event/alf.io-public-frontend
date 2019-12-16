@@ -54,6 +54,7 @@ import { ReservationExpiredComponent } from './reservation/expired-notification/
 import { ReleaseTicketComponent } from './reservation/release-ticket/release-ticket.component';
 import { CancelReservationComponent } from './reservation/cancel-reservation/cancel-reservation.component';
 import { EventFooterLinksComponent } from './event-footer-links/event-footer-links.component';
+import { ErrorComponent } from './reservation/error/error.component';
 
 
 
@@ -100,7 +101,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReservationExpiredComponent,
     ReleaseTicketComponent,
     CancelReservationComponent,
-    EventFooterLinksComponent
+    EventFooterLinksComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,

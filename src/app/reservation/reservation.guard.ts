@@ -10,6 +10,7 @@ import { BookingComponent } from './booking/booking.component';
 import { OfflinePaymentComponent } from './offline-payment/offline-payment.component';
 import { ProcessingPaymentComponent } from './processing-payment/processing-payment.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ErrorComponent } from './error/error.component';
 
 @Injectable({
     providedIn: 'root'
@@ -48,6 +49,8 @@ function getRouteFromComponent(component: any, eventShortName: string, reservati
         return ['event', eventShortName, 'reservation', reservationId, 'processing-payment'];
     } else if (component === NotFoundComponent) {
         return ['event', eventShortName, 'reservation', reservationId, 'not-found'];
+    } else if (component === ErrorComponent) {
+        return ['event', eventShortName, 'reservation', reservationId, 'error'];
     }
 }
 
@@ -58,8 +61,8 @@ function getCorrespondingController(status: ReservationStatus, validatedBookingI
         case 'OFFLINE_PAYMENT': return OfflinePaymentComponent;
         case 'EXTERNAL_PROCESSING_PAYMENT':
         case 'WAITING_EXTERNAL_CONFIRMATION': return ProcessingPaymentComponent;
-        case 'NOT_FOUND': return NotFoundComponent;
         case 'IN_PAYMENT':
-        case 'STUCK': break;
+        case 'STUCK': return ErrorComponent;
+        default: return NotFoundComponent;
     }
 }
