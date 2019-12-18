@@ -14,18 +14,6 @@
         <ng-content select=".item-qty-selector"></ng-content>
       </div>
     </div>
-    <!-- mobile layout -->
-    <!--<div class="d-md-none">
-      <app-item-sale-period [item]="item" [currentLang]="currentLang"></app-item-sale-period>
-      <div class="d-flex justify-content-between">
-        <ng-content select=".item-price-mobile"></ng-content>
-        <ng-content select=".badge-sale-period"></ng-content>
-      </div>
-      <div class="mt-3">
-          <ng-content select=".item-qty-selector-mobile"></ng-content>
-      </div>
-    </div>
-  -->
     <hr class="d-md-none" *ngIf="item.description[currentLang] && item.description[currentLang].length > 0" />
     <div class="card-text pt-2">
       <div class="markdown-content mt-2" [innerHTML]="item.description[currentLang]"></div>
