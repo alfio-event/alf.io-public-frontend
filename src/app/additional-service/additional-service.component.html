@@ -10,7 +10,7 @@
     <div class="item-qty-selector">
       <app-additional-service-quantity-selector [parentGroup]="additionalServiceFormGroup" [event]="event" [additionalService]="additionalService" [validSelectionValues]="validSelectionValues"></app-additional-service-quantity-selector>
     </div>
-    <div class="item-qty-selector-mobile">
+    <!--<div class="item-qty-selector-mobile">
       <app-additional-service-quantity-selector [parentGroup]="additionalServiceFormGroup" [event]="event" [additionalService]="additionalService" [validSelectionValues]="validSelectionValues"></app-additional-service-quantity-selector>
     </div>
     <div class="item-price-mobile">
@@ -18,6 +18,6 @@
       <span *ngIf="!additionalService.free && additionalService.fixPrice" class="h6">
         <app-price-tag [event]="event" [formattedPrice]="additionalService.formattedFinalPrice" [discountedPrice]="additionalService.formattedDiscountedPrice" [showTaxDetails]="additionalService.vatApplies"></app-price-tag>
       </span>
-    </div>
+    </div>-->
   </app-item-card>
 </div>

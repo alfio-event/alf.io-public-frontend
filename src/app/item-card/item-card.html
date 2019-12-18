@@ -6,20 +6,20 @@
           <h4 class="card-title pr-1">
             <ng-content select=".item-title"></ng-content>
           </h4>
-          <div class="d-none d-md-block">
+          <div>
             <app-item-sale-period [item]="item" [currentLang]="currentLang"></app-item-sale-period>
           </div>
         </div>
-        <div class="d-none d-md-block">
+        <div>
           <ng-content select=".item-price"></ng-content>
         </div>
       </div>
-      <div class="d-none d-md-block qty-container">
+      <div class="qty-container">
         <ng-content select=".item-qty-selector"></ng-content>
       </div>
     </div>
     <!-- mobile layout -->
-    <div class="d-md-none">
+    <!--<div class="d-md-none">
       <app-item-sale-period [item]="item" [currentLang]="currentLang"></app-item-sale-period>
       <div class="d-flex justify-content-between">
         <ng-content select=".item-price-mobile"></ng-content>
@@ -29,6 +29,7 @@
           <ng-content select=".item-qty-selector-mobile"></ng-content>
       </div>
     </div>
+  -->
     <hr class="d-md-none" *ngIf="item.description[currentLang] && item.description[currentLang].length > 0" />
     <div class="card-text pt-2">
       <div class="markdown-content mt-2" [innerHTML]="item.description[currentLang]"></div>
