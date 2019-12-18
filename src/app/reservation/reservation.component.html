@@ -1,5 +1,5 @@
 <div *ngIf="event" class="add-margin-bottom">
-    <app-event-header [event]="event"></app-event-header>
+    <header><app-event-header [event]="event"></app-event-header></header>
     <hr>
-    <ng-content></ng-content>
+    <main><ng-content></ng-content></main>
 </div>
