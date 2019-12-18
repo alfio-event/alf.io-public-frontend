@@ -169,7 +169,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
           this.router.navigate(['event', this.eventShortName], {replaceUrl: true});
         });
       }
-    });
+    }, () => {});
   }
 
   handleExpired(expired: boolean) {
