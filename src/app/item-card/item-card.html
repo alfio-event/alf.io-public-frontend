@@ -1,20 +1,16 @@
 <div class="card mt-4" [formGroup]="parentFormGroup" [ngClass]="additionalClass">
   <div class="card-body">
-    <div class="d-flex w-100 justify-content-md-between">
-      <div class="d-flex flex-grow-1 justify-content-md-between pr-md-5">
-        <div>
-          <h4 class="card-title pr-1">
-            <ng-content select=".item-title"></ng-content>
-          </h4>
-          <div>
-            <app-item-sale-period [item]="item" [currentLang]="currentLang"></app-item-sale-period>
-          </div>
-        </div>
-        <div>
-          <ng-content select=".item-price"></ng-content>
-        </div>
+    <div class="item-content-except-desc">
+      <h4 class="card-title pr-1">
+        <ng-content select=".item-title"></ng-content>
+      </h4>
+      <div class="card-sale-period">
+        <app-item-sale-period [item]="item" [currentLang]="currentLang"></app-item-sale-period>
       </div>
-      <div class="qty-container">
+      <div class="card-item-price">
+        <ng-content select=".item-price"></ng-content>
+      </div>
+      <div class="card-qty-container">
         <ng-content select=".item-qty-selector"></ng-content>
       </div>
     </div>
