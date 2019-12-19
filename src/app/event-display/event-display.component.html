@@ -107,18 +107,6 @@
           <div class="item-qty-selector">
               <app-ticket-quantity-selector [parentGroup]="reservationFormItem(reservationForm, counter)" [category]="category" [quantityRange]="ticketCategoryAmount[category.id]"></app-ticket-quantity-selector>
           </div>
-          <div class="badge-sale-period">
-            <span class="badge badge-warning" *ngIf="ticketsLeftCountVisibleForCategory(category)">{{"show-event.tickets.left" | translate: {'0': category.availableTickets} }}</span>
-          </div>
-          <div class="item-qty-selector-mobile">
-              <app-ticket-quantity-selector [parentGroup]="reservationFormItem(reservationForm, counter)" [category]="category" [quantityRange]="ticketCategoryAmount[category.id]"></app-ticket-quantity-selector>
-          </div>
-          <div class="item-price-mobile">
-            <span *ngIf="category.free" class="h6" translate="common.free"></span>
-            <span *ngIf="!category.free">
-              <app-price-tag [event]="event" class="h6" [formattedPrice]="category.formattedFinalPrice" [showTaxDetails]="true" [discountedPrice]="category.formattedDiscountedPrice" [showDiscount]="category.hasDiscount"></app-price-tag>
-            </span>
-          </div>
         </app-item-card>
       </div>
 

@@ -1,32 +1,17 @@
 <div class="card mt-4" [formGroup]="parentFormGroup" [ngClass]="additionalClass">
   <div class="card-body">
-    <div class="d-flex w-100 justify-content-md-between">
-      <div class="d-flex flex-grow-1 justify-content-md-between pr-md-5">
-        <div>
-          <h4 class="card-title pr-1">
-            <ng-content select=".item-title"></ng-content>
-          </h4>
-          <div class="d-none d-md-block">
-            <app-item-sale-period [item]="item" [currentLang]="currentLang"></app-item-sale-period>
-          </div>
-        </div>
-        <div class="d-none d-md-block">
-          <ng-content select=".item-price"></ng-content>
-        </div>
+    <div class="item-content-except-desc">
+      <h4 class="card-title pr-1">
+        <ng-content select=".item-title"></ng-content>
+      </h4>
+      <div class="card-sale-period">
+        <app-item-sale-period [item]="item" [currentLang]="currentLang"></app-item-sale-period>
       </div>
-      <div class="d-none d-md-block qty-container">
+      <div class="card-item-price">
+        <ng-content select=".item-price"></ng-content>
+      </div>
+      <div class="card-qty-container">
         <ng-content select=".item-qty-selector"></ng-content>
-      </div>
-    </div>
-    <!-- mobile layout -->
-    <div class="d-md-none">
-      <app-item-sale-period [item]="item" [currentLang]="currentLang"></app-item-sale-period>
-      <div class="d-flex justify-content-between">
-        <ng-content select=".item-price-mobile"></ng-content>
-        <ng-content select=".badge-sale-period"></ng-content>
-      </div>
-      <div class="mt-3">
-          <ng-content select=".item-qty-selector-mobile"></ng-content>
       </div>
     </div>
     <hr class="d-md-none" *ngIf="item.description[currentLang] && item.description[currentLang].length > 0" />

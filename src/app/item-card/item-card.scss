@@ -2,6 +2,44 @@
 @import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/variables";
 
-.qty-container {
-  @include make-col(2);
+
+.item-content-except-desc {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@include media-breakpoint-up(md) {
+  
+  /* deskop here */
+  .card-title {
+    order: 0;
+    flex-grow: 1;
+  }
+  
+  .card-sale-period {
+    order: 3;
+    flex-basis: 100%;
+  }
+  
+  .card-item-price {
+    order: 1;
+    padding-right: 3rem!important;
+  }
+  
+  .card-qty-container {
+    order: 2;
+    @include make-col(2);
+  } 
+}
+
+@include media-breakpoint-down(sm) {
+
+  /* mobile here */
+  .item-content-except-desc {
+    flex-direction: column;
+  }
+
+  .card-qty-container {
+    margin-top: 1rem;
+  }
 }
