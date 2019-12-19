@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Event } from '../model/event';
 import { TranslateService } from '@ngx-translate/core';
 import { DateValidity } from '../model/date-validity';
-import { EventService, shouldDisplayTimeZoneInfo } from '../shared/event.service';
+import { shouldDisplayTimeZoneInfo } from '../shared/event.service';
 
 @Component({
   selector: 'app-event-summary',

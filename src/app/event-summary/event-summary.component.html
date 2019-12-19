@@ -16,11 +16,11 @@
           <div *ngIf="!dateValidityProvider.sameDay">
             <div class="row">
               <div class="col-2"><strong translate="event-days.from"></strong></div>
-              <div class="col-10">{{localizedStartDateForMultiDay}}</div>
+              <div class="col-10">{{localizedStartDateForMultiDay}} <span class="text-muted" *ngIf="displayTimeZoneInfo">&nbsp; ({{dateValidityProvider.timeZone}})</span></div>
             </div>
             <div class="row">
               <div class="col-2"><strong translate="event-days.to"></strong></div>
-              <div class="col-10">{{localizedEndDateForMultiDay}}</div>
+              <div class="col-10">{{localizedEndDateForMultiDay}} <span class="text-muted" *ngIf="displayTimeZoneInfo">&nbsp; ({{dateValidityProvider.timeZone}})</span></div>
             </div>
           </div>
         </dd>

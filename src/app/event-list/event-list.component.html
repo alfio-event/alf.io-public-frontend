@@ -10,7 +10,7 @@
       </div>
       <div class="card-body">
         <h2 class="card-title">{{event.displayName}}</h2>
-        <p class="card-text"><fa-icon [icon]="['far', 'calendar-alt']" class="text-muted"></fa-icon>&nbsp;{{event.formattedBeginDate[translate.currentLang]}}</p>
+        <p class="card-text"><fa-icon [icon]="['far', 'calendar-alt']" class="text-muted"></fa-icon>&nbsp;{{event.formattedBeginDate[translate.currentLang]}} <span class="text-muted" *ngIf="displayTimeZoneInfo(event)">&nbsp; ({{event.timeZone}})</span></p>
         <p class="card-text text-muted mt-1">{{event.location}}</p>
       </div>
       <div class="card-footer border-top-0 bg-white">
