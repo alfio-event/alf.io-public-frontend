@@ -31,6 +31,10 @@ export class PriceTagComponent implements OnInit {
     return this.showDiscount && this.discountedPrice != null && this.discountedPrice !== this.formattedPrice;
   }
 
+  get showTaxes(): boolean {
+    return this.showTaxDetails && (Number(this.event.vat) || 0) > 0.0;
+  }
+
   removeRedundantPrecision(input: string): string {
     let substringEnd = input.lastIndexOf('.');
     if (substringEnd > -1) {
