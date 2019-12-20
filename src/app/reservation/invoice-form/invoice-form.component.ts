@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Event } from 'src/app/model/event';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nService } from 'src/app/shared/i18n.service';
@@ -22,6 +22,8 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
 
   countries: LocalizedCountry[];
 
+  taxIdIsRequired = true;
+
   constructor(private translate: TranslateService, private i18nService: I18nService) { }
 
   ngOnInit(): void {
@@ -34,6 +36,9 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
 
     this.form.get('italyEInvoicingReferenceType').valueChanges.subscribe(change => {
       this.updateItalyEInvoicingFields();
+    });
+    this.form.get('skipVatNr').valueChanges.subscribe(change => {
+      this.taxIdIsRequired = !change;
     });
   }
 

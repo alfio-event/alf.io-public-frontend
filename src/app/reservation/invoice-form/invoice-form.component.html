@@ -89,16 +89,16 @@
   </div>
 
   <div class="row" *ngIf="invoiceBusiness">
-    <div [ngClass]="{'col-md-12': !vatNumberStrictlyRequired, 'col-md-6': vatNumberStrictlyRequired}">
+    <div [ngClass]="{'col-md-12': vatNumberStrictlyRequired, 'col-md-6': !vatNumberStrictlyRequired}">
         <div class="form-group">
-            <label for="vatNr">{{'invoice.vat' |translate: {'0': ('common.vat' | translate)} }}</label>
+            <label for="vatNr">{{'invoice.vat' |translate: {'0': ('common.vat' | translate)} }}<span *ngIf="taxIdIsRequired"> *</span></label>
             <div class="input-group">
                 <div class="input-group-prepend" *ngIf="form.value.vatCountryCode"><span class="input-group-text">{{form.value.vatCountryCode}}</span></div>
                 <input id="vatNr" type="text" formControlName="vatNr" class="form-control" appInvalidFeedback>
             </div>
         </div>
     </div>
-    <div class="col-md-6" *ngIf="vatNumberStrictlyRequired">
+    <div class="col-md-6" *ngIf="!vatNumberStrictlyRequired">
         <div class="custom-control custom-checkbox checkbox-in-form-group">
             <input class="custom-control-input" type="checkbox" formControlName="skipVatNr" [value]="true" id="skip-vat-nr" appInvalidFeedback>
             <label class="custom-control-label" for="skip-vat-nr">{{' '}}{{'reservation-page.skipVatNr' | translate: {'0': ('common.vat' | translate)} }}</label>
