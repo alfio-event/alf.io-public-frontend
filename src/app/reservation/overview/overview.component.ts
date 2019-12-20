@@ -258,7 +258,9 @@ export class OverviewComponent implements OnInit {
   }
 
   get hasTaxId(): boolean {
-    return this.reservationInfo.invoiceRequested && this.reservationInfo.billingDetails.taxId != null;
+    return this.reservationInfo.invoiceRequested
+      && !this.reservationInfo.skipVatNr
+      && this.reservationInfo.billingDetails.taxId != null;
   }
 
   get italyEInvoicingReference(): string {
