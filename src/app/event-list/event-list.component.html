@@ -6,7 +6,7 @@
   <div class="card-deck" *ngFor="let chunk of events">
     <div class="card card-light event-card mb-3" *ngFor="let event of chunk">
       <div class="card-header bg-white event-header">
-        <img [src]="'/file/'+event.fileBlobId" class="mx-auto d-block">
+        <img [src]="'/file/'+event.fileBlobId" class="mx-auto img-responsive">
       </div>
       <div class="card-body">
         <h2 class="card-title">{{event.displayName}}</h2>
