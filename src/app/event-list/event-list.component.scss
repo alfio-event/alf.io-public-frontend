@@ -3,6 +3,9 @@
     overflow: hidden;
     background-position: top center;
     background-repeat: no-repeat;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .event-header > img {
