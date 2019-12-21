@@ -51,4 +51,10 @@ export class EventListComponent implements OnInit {
       return shouldDisplayTimeZoneInfo(event);
     }
 
+    imageUrl(event: BasicEventInfo): {[klass: string]: any} {
+      return {
+        'background-image': 'url(\'/file/' + event.fileBlobId + '\')'
+      };
+    }
+
 }
