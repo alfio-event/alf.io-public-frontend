@@ -71,7 +71,7 @@ export class SummaryRow {
 }
 
 export type ReservationStatus = 'PENDING' | 'IN_PAYMENT' | 'EXTERNAL_PROCESSING_PAYMENT' |
-                                'WAITING_EXTERNAL_CONFIRMATION' | 'OFFLINE_PAYMENT' |
+                                'WAITING_EXTERNAL_CONFIRMATION' | 'OFFLINE_PAYMENT' | 'DEFERRED_OFFLINE_PAYMENT' |
                                 'COMPLETE' | 'STUCK' | 'CANCELLED' | 'CREDIT_NOTE_ISSUED' | 'NOT_FOUND';
 
 export type ItalianEInvoicingReferenceType = 'ADDRESSEE_CODE' | 'PEC' | 'NONE';

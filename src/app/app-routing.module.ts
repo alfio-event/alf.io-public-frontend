@@ -13,6 +13,7 @@ import { LanguageGuard } from './language.guard';
 import { NotFoundComponent } from './reservation/not-found/not-found.component';
 import { EventGuard } from './event.guard';
 import { ErrorComponent } from './reservation/error/error.component';
+import { DeferredOfflinePaymentComponent } from './reservation/deferred-offline-payment/deferred-offline-payment.component';
 
 const reservationsGuard = [EventGuard, LanguageGuard, ReservationGuard];
 
@@ -24,6 +25,7 @@ const routes: Routes = [
     { path: 'overview', component: OverviewComponent, canActivate: reservationsGuard },
     { path: 'waitingPayment', redirectTo: 'waiting-payment'},
     { path: 'waiting-payment', component: OfflinePaymentComponent, canActivate: reservationsGuard },
+    { path: 'deferred-payment', component: DeferredOfflinePaymentComponent, canActivate: reservationsGuard },
     { path: 'processing-payment', component: ProcessingPaymentComponent, canActivate: reservationsGuard },
     { path: 'success', component: SuccessComponent, canActivate: reservationsGuard },
     { path: 'not-found', component: NotFoundComponent, canActivate: reservationsGuard },

@@ -11,6 +11,7 @@ import { OfflinePaymentComponent } from './offline-payment/offline-payment.compo
 import { ProcessingPaymentComponent } from './processing-payment/processing-payment.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ErrorComponent } from './error/error.component';
+import { DeferredOfflinePaymentComponent } from './deferred-offline-payment/deferred-offline-payment.component';
 
 @Injectable({
     providedIn: 'root'
@@ -45,6 +46,8 @@ function getRouteFromComponent(component: any, eventShortName: string, reservati
         return ['event', eventShortName, 'reservation', reservationId, 'success'];
     } else if (component === OfflinePaymentComponent) {
         return ['event', eventShortName, 'reservation', reservationId, 'waiting-payment'];
+    } else if (component === DeferredOfflinePaymentComponent) {
+        return ['event', eventShortName, 'reservation', reservationId, 'deferred-payment'];
     } else if (component === ProcessingPaymentComponent) {
         return ['event', eventShortName, 'reservation', reservationId, 'processing-payment'];
     } else if (component === NotFoundComponent) {
@@ -59,6 +62,7 @@ function getCorrespondingController(status: ReservationStatus, validatedBookingI
         case 'PENDING': return validatedBookingInformations ? OverviewComponent : BookingComponent;
         case 'COMPLETE': return SuccessComponent;
         case 'OFFLINE_PAYMENT': return OfflinePaymentComponent;
+        case 'DEFERRED_OFFLINE_PAYMENT': return DeferredOfflinePaymentComponent;
         case 'EXTERNAL_PROCESSING_PAYMENT':
         case 'WAITING_EXTERNAL_CONFIRMATION': return ProcessingPaymentComponent;
         case 'IN_PAYMENT':

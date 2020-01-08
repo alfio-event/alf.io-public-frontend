@@ -55,6 +55,7 @@ import { ReleaseTicketComponent } from './reservation/release-ticket/release-tic
 import { CancelReservationComponent } from './reservation/cancel-reservation/cancel-reservation.component';
 import { EventFooterLinksComponent } from './event-footer-links/event-footer-links.component';
 import { ErrorComponent } from './reservation/error/error.component';
+import { DeferredOfflinePaymentComponent } from './reservation/deferred-offline-payment/deferred-offline-payment.component';
 
 
 
@@ -102,7 +103,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReleaseTicketComponent,
     CancelReservationComponent,
     EventFooterLinksComponent,
-    ErrorComponent
+    ErrorComponent,
+    DeferredOfflinePaymentComponent
   ],
   imports: [
     BrowserModule,

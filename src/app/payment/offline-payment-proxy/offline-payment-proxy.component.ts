@@ -39,4 +39,8 @@ export class OfflinePaymentProxyComponent implements OnChanges {
   handleRecaptchaResponse(recaptchaValue: string) {
     this.overviewForm.get('captcha').setValue(recaptchaValue);
   }
+
+  public get deferred(): boolean {
+    return this.parameters['deferred'];
+  }
 }
