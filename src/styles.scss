@@ -8,16 +8,21 @@ $font-family-sans-serif: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "
 
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
+.application-container {
+    background-color: white;
+}
 
 @include media-breakpoint-up(md) {
     body {
         background-color: #E5E5E5;
     }
+    .application-container {
+        margin-top: $border-radius;
+        margin-bottom: $border-radius;
+        border-radius: $border-radius;
+    }
 }
 
-.application-container {
-    background-color: white;
-}
 
 .block-button {
     width: 100%;
