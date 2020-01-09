@@ -286,6 +286,13 @@ export class OverviewComponent implements OnInit {
     }
     return itEInvoicing.fiscalCode;
   }
+
+  get paymentMethodDeferred(): boolean {
+    if (this.reservationInfo.tokenAcquired) {
+      return false;
+    }
+    return this.selectedPaymentProvider != null && this.selectedPaymentProvider.paymentMethodDeferred;
+  }
 }
 
 function onUnLoadListener(e: BeforeUnloadEvent) {

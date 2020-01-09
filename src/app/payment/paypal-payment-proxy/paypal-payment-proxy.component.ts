@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 import { PaymentMethod, PaymentProxy } from 'src/app/model/event';
 import { PaymentProvider, SimplePaymentProvider } from '../payment-provider';
 import { ReservationInfo } from 'src/app/model/reservation-info';
+import { PayPalPaymentProvider } from './paypal-payment-provider';
 
 @Component({
   selector: 'app-paypal-payment-proxy',
@@ -25,7 +26,7 @@ export class PaypalPaymentProxyComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.matchProxyAndMethod && changes.method) {
-      this.paymentProvider.emit(new SimplePaymentProvider());
+      this.paymentProvider.emit(new PayPalPaymentProvider());
     }
   }
 

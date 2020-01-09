@@ -20,6 +20,10 @@ export class StripeCheckoutPaymentProvider implements PaymentProvider {
         private event: Event) {
     }
 
+    get paymentMethodDeferred(): boolean {
+        return false;
+    }
+
     pay(): Observable<PaymentResult> {
         const obs = new Observable<PaymentResult>(subscriber => {
             this.loadScript(subscriber);
@@ -83,6 +87,10 @@ export class StripePaymentV3 implements PaymentProvider {
         private stripeHandler: any,
         private card: any
     ) {
+    }
+
+    get paymentMethodDeferred(): boolean {
+        return false;
     }
 
     pay(): Observable<PaymentResult> {

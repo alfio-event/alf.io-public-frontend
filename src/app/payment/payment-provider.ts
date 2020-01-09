@@ -1,6 +1,7 @@
 import { Observable, of } from 'rxjs';
 
 export interface PaymentProvider {
+    readonly paymentMethodDeferred: boolean;
     pay(): Observable<PaymentResult>;
 }
 
@@ -12,5 +13,9 @@ export class SimplePaymentProvider implements PaymentProvider {
 
     pay(): Observable<PaymentResult> {
         return of(new PaymentResult(true, null));
+    }
+
+    get paymentMethodDeferred(): boolean {
+        return true;
     }
 }
