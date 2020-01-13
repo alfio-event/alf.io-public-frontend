@@ -56,6 +56,7 @@ import { CancelReservationComponent } from './reservation/cancel-reservation/can
 import { EventFooterLinksComponent } from './event-footer-links/event-footer-links.component';
 import { ErrorComponent } from './reservation/error/error.component';
 import { DeferredOfflinePaymentComponent } from './reservation/deferred-offline-payment/deferred-offline-payment.component';
+import { MolliePaymentProxyComponent } from './payment/mollie-payment-proxy/mollie-payment-proxy.component';
 
 
 
@@ -104,7 +105,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     CancelReservationComponent,
     EventFooterLinksComponent,
     ErrorComponent,
-    DeferredOfflinePaymentComponent
+    DeferredOfflinePaymentComponent,
+    MolliePaymentProxyComponent
   ],
   imports: [
     BrowserModule,
