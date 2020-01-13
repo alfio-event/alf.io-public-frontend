@@ -10,8 +10,6 @@ import { I18nService } from 'src/app/shared/i18n.service';
 import { AnalyticsService } from 'src/app/shared/analytics.service';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { FormGroup } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ReleaseTicketComponent } from '../release-ticket/release-ticket.component';
 
 @Component({
   selector: 'app-success',
@@ -42,7 +40,6 @@ export class SuccessComponent implements OnInit {
     private ticketService: TicketService,
     private i18nService: I18nService,
     private analytics: AnalyticsService,
-    private modalService: NgbModal,
     private router: Router) { }
 
   public ngOnInit(): void {
@@ -108,18 +105,17 @@ export class SuccessComponent implements OnInit {
   }
 
   releaseTicket(ticket: Ticket) {
-    this.modalService.open(ReleaseTicketComponent, {centered: true}).result.then(res => {
-      if (res === 'yes') {
-        const singleTicket = this.reservationInfo.ticketsByCategory.map((c) => c.tickets.length).reduce((c1, c2) => c1 + c2) === 1;
-        this.ticketService.releaseTicket(this.event.shortName, ticket.uuid).subscribe(() => {
-          if (singleTicket) {
-            this.router.navigate(['event', this.event.shortName]);
-          } else {
-            this.loadReservation();
+    this.ticketService.openReleaseTicket(ticket, this.event.shortName)
+      .subscribe(released => {
+        if (released) {
+            const singleTicket = this.reservationInfo.ticketsByCategory.map((c) => c.tickets.length).reduce((c1, c2) => c1 + c2) === 1;
+            if (singleTicket) {
+              this.router.navigate(['event', this.event.shortName], {replaceUrl: true});
+            } else {
+              this.loadReservation();
+            }
           }
         });
-      }
-    });
   }
 
   get ticketFormVisible(): boolean {

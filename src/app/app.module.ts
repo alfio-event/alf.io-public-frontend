@@ -27,6 +27,7 @@ import { EventHeaderComponent } from './event-header/event-header.component';
 import { StepperComponent } from './stepper/stepper.component';
 import { AdditionalFieldComponent } from './additional-field/additional-field.component';
 import { ViewTicketComponent } from './view-ticket/view-ticket.component';
+import { UpdateTicketComponent } from './update-ticket/update-ticket.component';
 import { EventSummaryComponent } from './event-summary/event-summary.component';
 import { TicketFormComponent } from './reservation/ticket-form/ticket-form.component';
 import { LanguageSelectorComponent } from './language-selector/language-selector.component';
@@ -77,6 +78,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     StepperComponent,
     AdditionalFieldComponent,
     ViewTicketComponent,
+    UpdateTicketComponent,
     EventSummaryComponent,
     TicketFormComponent,
     LanguageSelectorComponent,
