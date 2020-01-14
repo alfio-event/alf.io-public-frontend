@@ -71,3 +71,16 @@ function isDifferentTimeZone(serverTs: number, serverOffset: number): boolean {
   const clientOffset = new Date(serverTs).getTimezoneOffset() * 60;
   return (clientOffset + serverOffset) !== 0;
 }
+
+/**
+ * This is a polyfill for Node.remove(), which is not supported in IE
+ * @param node the Node to remove
+ * @returns true if the Node has been removed, false otherwise
+ */
+export function removeDOMNode(node: Node): boolean {
+  if (node != null && node.parentNode != null) {
+    node.parentNode.removeChild(node);
+    return true;
+  }
+  return false;
+}

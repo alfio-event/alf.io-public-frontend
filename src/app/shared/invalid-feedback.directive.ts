@@ -3,6 +3,7 @@ import { FormGroup, AbstractControl, FormControlName, ValidationErrors } from '@
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ErrorDescriptor } from '../model/validated-response';
+import { removeDOMNode } from './event.service';
 
 @Directive({
   selector: '[appInvalidFeedback]'
@@ -93,7 +94,7 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
     } else {
       this.element.nativeElement.classList.remove('is-invalid');
       if (isInvalidFeedbackContainer(errorContainerElement)) {
-        errorContainerElement.remove();
+        removeDOMNode(errorContainerElement);
       }
     }
   }

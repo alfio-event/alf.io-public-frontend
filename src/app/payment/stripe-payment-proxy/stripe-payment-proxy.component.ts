@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PaymentProvider } from '../payment-provider';
 import { ReservationService } from 'src/app/shared/reservation.service';
 import { StripeCheckoutPaymentProvider, STRIPE_CHECKOUT_ID_SCRIPT, StripePaymentV3 } from './stripe-payment-providers';
+import { removeDOMNode } from 'src/app/shared/event.service';
 
 // global variable defined by stripe when the scripts are loaded
 declare const Stripe: any;
@@ -63,13 +64,11 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
 
   private unloadAll(): void {
     const checkoutScript = document.getElementById(STRIPE_CHECKOUT_ID_SCRIPT);
-    if (checkoutScript) {
-      checkoutScript.remove();
+    if (checkoutScript && removeDOMNode(checkoutScript)) {
       delete window['StripeCheckout']; // TODO: check
     }
     const stripeV3Script = document.getElementById(STRIPE_V3_ID_SCRIPT);
-    if (stripeV3Script) {
-      stripeV3Script.remove();
+    if (stripeV3Script && removeDOMNode(stripeV3Script)) {
       delete window['Stripe']; // TODO: check
     }
   }
