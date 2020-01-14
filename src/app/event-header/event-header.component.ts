@@ -12,7 +12,7 @@ export class EventHeaderComponent implements OnInit, OnDestroy {
   @Input()
   event: Event;
 
-  schemaElem: HTMLScriptElement
+  schemaElem: HTMLScriptElement;
 
   constructor(private i18nService: I18nService) {
   }
@@ -47,7 +47,7 @@ export class EventHeaderComponent implements OnInit, OnDestroy {
 
     this.schemaElem = document.createElement('script');
     this.schemaElem.text = JSON.stringify(jsonSchema);
-    this.schemaElem.type = 'application/ld+json'
+    this.schemaElem.type = 'application/ld+json';
     document.head.appendChild(this.schemaElem);
   }
 
