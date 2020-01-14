@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Event } from '../model/event';
 import { I18nService } from '../shared/i18n.service';
+import { removeDOMNode } from '../shared/event.service';
 
 @Component({
   selector: 'app-event-header',
@@ -12,7 +13,7 @@ export class EventHeaderComponent implements OnInit, OnDestroy {
   @Input()
   event: Event;
 
-  schemaElem: HTMLScriptElement
+  schemaElem: HTMLScriptElement;
 
   constructor(private i18nService: I18nService) {
   }
@@ -26,32 +27,32 @@ export class EventHeaderComponent implements OnInit, OnDestroy {
     const descriptionHolder = document.createElement('div');
     descriptionHolder.innerHTML = this.event.description[this.i18nService.getCurrentLang()];
 
-    let jsonSchema = {
-      "@context": "https://schema.org",
-      "@type": "Event",
-      "name" : this.event.displayName,
-      "startDate": start.toISOString(),
-      "endDate": end.toISOString(),
-      "description": descriptionHolder.innerText.trim(),
-      "location": {
-        "@type": "Place",
-        "address": this.event.location
+    const jsonSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Event',
+      'name' : this.event.displayName,
+      'startDate': start.toISOString(),
+      'endDate': end.toISOString(),
+      'description': descriptionHolder.innerText.trim(),
+      'location': {
+        '@type': 'Place',
+        'address': this.event.location
       },
-      "organizer": {
-        "@type": "Organization",
-        "name": this.event.organizationName,
-        "email": this.event.organizationEmail
+      'organizer': {
+        '@type': 'Organization',
+        'name': this.event.organizationName,
+        'email': this.event.organizationEmail
       },
-      "image": '/file/'+this.event.fileBlobId
+      'image': '/file/' + this.event.fileBlobId
     };
 
     this.schemaElem = document.createElement('script');
     this.schemaElem.text = JSON.stringify(jsonSchema);
-    this.schemaElem.type = 'application/ld+json'
+    this.schemaElem.type = 'application/ld+json';
     document.head.appendChild(this.schemaElem);
   }
 
   ngOnDestroy() {
-    this.schemaElem.remove();
+    removeDOMNode(this.schemaElem);
   }
 }

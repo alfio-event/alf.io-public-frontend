@@ -14,6 +14,7 @@ import { NotFoundComponent } from './reservation/not-found/not-found.component';
 import { EventGuard } from './event.guard';
 import { ErrorComponent } from './reservation/error/error.component';
 import { DeferredOfflinePaymentComponent } from './reservation/deferred-offline-payment/deferred-offline-payment.component';
+import { UpdateTicketComponent } from './update-ticket/update-ticket.component';
 
 const reservationsGuard = [EventGuard, LanguageGuard, ReservationGuard];
 
@@ -31,7 +32,10 @@ const routes: Routes = [
     { path: 'not-found', component: NotFoundComponent, canActivate: reservationsGuard },
     { path: 'error', component: ErrorComponent, canActivate: reservationsGuard }
   ]},
-  { path: 'event/:eventShortName/ticket/:ticketId/view', component: ViewTicketComponent, canActivate: [EventGuard, LanguageGuard] }
+  { path: 'event/:eventShortName/ticket/:ticketId', children: [
+    { path: 'view', component: ViewTicketComponent, canActivate: [EventGuard, LanguageGuard] },
+    { path: 'update', component: UpdateTicketComponent, canActivate: [EventGuard, LanguageGuard] }
+  ]}
 ];
 
 @NgModule({
