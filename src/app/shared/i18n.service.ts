@@ -6,7 +6,7 @@ import { LocalizedCountry } from '../model/localized-country';
 import { Title } from '@angular/platform-browser';
 import { TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { Router, NavigationStart } from '@angular/router';
-import { map, mergeMap, shareReplay, catchError } from 'rxjs/operators';
+import { map, mergeMap, shareReplay, catchError, share } from 'rxjs/operators';
 import { EventService } from './event.service';
 
 @Injectable({
@@ -94,7 +94,11 @@ export class CustomLoader implements TranslateLoader {
 
   getTranslation(lang: string): Observable<any> {
     if (!translationCache[lang]) {
-      translationCache[lang] = this.http.get(`/api/v2/public/i18n/bundle/${lang}`).pipe(shareReplay(1));
+      if (lang === 'en' && document.getElementById('bundle_en')) {
+        translationCache[lang] = of(JSON.parse(document.getElementById('bundle_en').textContent)).pipe(shareReplay(1));
+      } else {
+        translationCache[lang] = this.http.get(`/api/v2/public/i18n/bundle/${lang}`).pipe(shareReplay(1));
+      }
     }
     return translationCache[lang];
   }
