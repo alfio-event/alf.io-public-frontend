@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { BasicEventInfo } from '../model/basic-event-info';
 import { Event } from '../model/event';
 import { ItemsByCategory } from '../model/items-by-category';
@@ -26,7 +26,12 @@ export class EventService {
   getEvent(eventShortName: string): Observable<Event> {
     // caching as explained with https://blog.angularindepth.com/fastest-way-to-cache-for-lazy-developers-angular-with-rxjs-444a198ed6a6
     if (!this.eventCache[eventShortName]) {
-      this.eventCache[eventShortName] = this.http.get<Event>(`/api/v2/public/event/${eventShortName}`).pipe(shareReplay(1));
+      const preloadEvent = document.getElementById('preload-event');
+      if (preloadEvent && preloadEvent.getAttribute('data-param') === eventShortName) {
+        this.eventCache[eventShortName] = of(JSON.parse(preloadEvent.textContent)).pipe(shareReplay(1));
+      } else {
+        this.eventCache[eventShortName] = this.http.get<Event>(`/api/v2/public/event/${eventShortName}`).pipe(shareReplay(1));
+      }
       setTimeout(() => {
         delete this.eventCache[eventShortName];
       }, 60000 * 20); // clean up cache after 20 minutes

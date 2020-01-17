@@ -15,8 +15,9 @@ export class InfoService {
 
   getInfo(): Observable<Info> {
     if (!this.infoCache) {
-      if (document.getElementById('info')) {
-        this.infoCache = of(JSON.parse(document.getElementById('info').textContent)).pipe(shareReplay(1));
+      const preloadInfo = document.getElementById('preload-info');
+      if (preloadInfo) {
+        this.infoCache = of(JSON.parse(preloadInfo.textContent)).pipe(shareReplay(1));
       } else {
         this.infoCache = this.http.get<Info>('/api/v2/info').pipe(shareReplay(1));
       }

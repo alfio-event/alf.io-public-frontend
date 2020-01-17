@@ -94,8 +94,9 @@ export class CustomLoader implements TranslateLoader {
 
   getTranslation(lang: string): Observable<any> {
     if (!translationCache[lang]) {
-      if (lang === 'en' && document.getElementById('bundle_en')) {
-        translationCache[lang] = of(JSON.parse(document.getElementById('bundle_en').textContent)).pipe(shareReplay(1));
+      const preloadBundle = document.getElementById('preload-bundle')
+      if (preloadBundle && preloadBundle.getAttribute('data-param') === lang) {
+        translationCache[lang] = of(JSON.parse(preloadBundle.textContent)).pipe(shareReplay(1));
       } else {
         translationCache[lang] = this.http.get(`/api/v2/public/i18n/bundle/${lang}`).pipe(shareReplay(1));
       }
