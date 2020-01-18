@@ -55,10 +55,17 @@
     </div>
 
     <div *ngIf="!reservationInfo.orderSummary.free">
-      <div class="page-header wMarginTop"><h2 translate="reservation-page.payment"></h2></div>
+
+      <app-payment-method-selector [activePaymentMethods]="activePaymentMethods" 
+          [event]="event" 
+          [reservationInfo]="reservationInfo" 
+          [overviewForm]="overviewForm"></app-payment-method-selector>
+
+
+      <!-- <div class="page-header wMarginTop"><h2 translate="reservation-page.payment"></h2></div>
 
       <div *ngIf="paymentMethodsCount() > 1">
-          <div class="btn-group btn-group-toggle payment-method-selector wMarginBottom">
+          <div class="btn-group btn-group-toggle payment-method-selector mb-2">
             <label class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'CREDIT_CARD'}" *ngIf="reservationInfo.activePaymentMethods['CREDIT_CARD']">
               <input type="radio" formControlName="selectedPaymentMethod" [value]="'CREDIT_CARD'"><fa-icon [icon]="['fas', 'credit-card']"></fa-icon> {{'reservation-page.credit-card'|translate}}
             </label>
@@ -72,7 +79,22 @@
               <input type="radio" formControlName="selectedPaymentMethod" [value]="'ON_SITE'"><fa-icon [icon]="['fas', 'money-bill']"  size="sm"></fa-icon> {{'reservation-page.on-site'|translate}}
             </label>
             <label class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'IDEAL'}" *ngIf="reservationInfo.activePaymentMethods['IDEAL']">
-              <input type="radio" formControlName="selectedPaymentMethod" [value]="'IDEAL'"><fa-icon [icon]="['fas', 'money-bill']"  size="sm"></fa-icon> {{'reservation-page.mollie'|translate}}
+              <input type="radio" formControlName="selectedPaymentMethod" [value]="'IDEAL'"><fa-icon [icon]="['fab', 'ideal']"  size="sm"></fa-icon> {{'reservation-page.payment-method.ideal'|translate}}
+            </label>
+            <label class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'APPLE_PAY'}" *ngIf="reservationInfo.activePaymentMethods['APPLE_PAY']">
+              <input type="radio" formControlName="selectedPaymentMethod" [value]="'APPLE_PAY'"><fa-icon [icon]="['fab', 'apple-pay']"  size="sm"></fa-icon> {{'reservation-page.payment-method.apple-pay'|translate}}
+            </label>
+            <label class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'BANCONTACT'}" *ngIf="reservationInfo.activePaymentMethods['BANCONTACT']">
+              <input type="radio" formControlName="selectedPaymentMethod" [value]="'BANCONTACT'"><fa-icon [icon]="['fas', 'exchange-alt']"  size="sm"></fa-icon> {{'reservation-page.payment-method.bancontact'|translate}}
+            </label>
+            <label class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'ING_HOME_PAY'}" *ngIf="reservationInfo.activePaymentMethods['ING_HOME_PAY']">
+              <input type="radio" formControlName="selectedPaymentMethod" [value]="'ING_HOME_PAY'"><fa-icon [icon]="['fas', 'exchange-alt']"  size="sm"></fa-icon> {{'reservation-page.payment-method.ing-home-pay'|translate}}
+            </label>
+            <label class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'BELFIUS'}" *ngIf="reservationInfo.activePaymentMethods['BELFIUS']">
+              <input type="radio" formControlName="selectedPaymentMethod" [value]="'BELFIUS'"><fa-icon [icon]="['fas', 'exchange-alt']"  size="sm"></fa-icon> {{'reservation-page.payment-method.belfius'|translate}}
+            </label>
+            <label class="btn btn-outline-dark" [ngClass]="{'active': overviewForm.value.selectedPaymentMethod === 'PRZELEWY_24'}" *ngIf="reservationInfo.activePaymentMethods['PRZELEWY_24']">
+              <input type="radio" formControlName="selectedPaymentMethod" [value]="'PRZELEWY_24'"><fa-icon [icon]="['fas', 'exchange-alt']"  size="sm"></fa-icon> {{'reservation-page.payment-method.przelewy-24'|translate}}
             </label>
           </div>
       </div>
@@ -90,22 +112,40 @@
             <span *ngSwitchCase="'ON_SITE'">
                 <fa-icon [icon]="['fas', 'money-bill']"></fa-icon> {{'reservation-page.on-site'|translate}}
             </span>
+            <span *ngSwitchCase="'ON_SITE'">
+              <fa-icon [icon]="['fas', 'money-bill']"></fa-icon> {{'reservation-page.on-site'|translate}}
+            </span>
             <span *ngSwitchCase="'IDEAL'">
-              <fa-icon [icon]="['fas', 'money-bill']"></fa-icon> {{'reservation-page.mollie'|translate}}
+              <fa-icon [icon]="['fab', 'ideal']"></fa-icon> {{'reservation-page.payment-method.ideal'|translate}}
+            </span>
+            <span *ngSwitchCase="'APPLE_PAY'">
+              <fa-icon [icon]="['fab', 'apple-pay']"></fa-icon> {{'reservation-page.payment-method.apple-pay'|translate}}
+            </span>
+            <span *ngSwitchCase="'BANCONTACT'">
+              <fa-icon [icon]="['fas', 'exchange-alt']"></fa-icon> {{'reservation-page.payment-method.bancontact'|translate}}
+            </span>
+            <span *ngSwitchCase="'ING_HOME_PAY'">
+              <fa-icon [icon]="['fas', 'exchange-alt']"></fa-icon> {{'reservation-page.payment-method.ing-home-pay'|translate}}
+            </span>
+            <span *ngSwitchCase="'BELFIUS'">
+              <fa-icon [icon]="['fas', 'exchange-alt']"></fa-icon> {{'reservation-page.payment-method.belfius'|translate}}
+            </span>
+            <span *ngSwitchCase="'PRZELEWY_24'">
+              <fa-icon [icon]="['fas', 'exchange-alt']"></fa-icon> {{'reservation-page.payment-method.przelewy-24'|translate}}
             </span>
           </h4>
       </div>
 
       <div *ngIf="reservationInfo.activePaymentMethods[overviewForm.value.selectedPaymentMethod]" >
           <app-offline-payment-proxy
-            [proxy]="overviewForm.value.paymentMethod"
+            [proxy]="overviewForm.value.paymentProxy"
             [method]="overviewForm.value.selectedPaymentMethod"
             [parameters]="reservationInfo.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"
             [overviewForm]="overviewForm"
             (paymentProvider)="registerCurrentPaymentProvider($event)">
           </app-offline-payment-proxy>
           <app-onsite-payment-proxy
-            [proxy]="overviewForm.value.paymentMethod"
+            [proxy]="overviewForm.value.paymentProxy"
             [method]="overviewForm.value.selectedPaymentMethod"
             [parameters]="reservationInfo.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"
             [overviewForm]="overviewForm"
@@ -114,23 +154,23 @@
           <app-stripe-payment-proxy
             [event]="event"
             [reservation]="reservationInfo"
-            [proxy]="overviewForm.value.paymentMethod"
+            [proxy]="overviewForm.value.paymentProxy"
             [method]="overviewForm.value.selectedPaymentMethod"
             [parameters]="reservationInfo.activePaymentMethods[overviewForm.value.selectedPaymentMethod].parameters"
             (paymentProvider)="registerCurrentPaymentProvider($event)">
           </app-stripe-payment-proxy>
           <app-paypal-payment-proxy
-            [proxy]="overviewForm.value.paymentMethod"
+            [proxy]="overviewForm.value.paymentProxy"
             [method]="overviewForm.value.selectedPaymentMethod"
             [reservation]="reservationInfo"
             (paymentProvider)="registerCurrentPaymentProvider($event)">
           </app-paypal-payment-proxy>
           <app-mollie-payment-proxy
-            [proxy]="overviewForm.value.paymentMethod"
+            [proxy]="overviewForm.value.paymentProxy"
             [method]="overviewForm.value.selectedPaymentMethod"
             (paymentProvider)="registerCurrentPaymentProvider($event)">
           </app-mollie-payment-proxy>
-      </div>
+      </div> -->
     </div>
 
     <div *ngIf="reservationInfo.orderSummary.free && event.captchaConfiguration.captchaForOfflinePaymentAndFree" class="wMarginTop wMarginBottom">

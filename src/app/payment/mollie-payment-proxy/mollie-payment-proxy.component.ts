@@ -25,6 +25,8 @@ export class MolliePaymentProxyComponent implements OnChanges {
   @Output()
   paymentProvider: EventEmitter<PaymentProvider> = new EventEmitter<PaymentProvider>();
 
+  private compatibleMethods: PaymentMethod[] = ['CREDIT_CARD', 'IDEAL', 'APPLE_PAY', 'BANCONTACT', 'BELFIUS', 'ING_HOME_PAY', 'PRZELEWY_24'];
+
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -34,7 +36,7 @@ export class MolliePaymentProxyComponent implements OnChanges {
   }
 
   public get matchProxyAndMethod(): boolean {
-    return (this.method === 'CREDIT_CARD' || this.method === 'IDEAL') && this.proxy === 'MOLLIE';
+    return (this.compatibleMethods.includes(this.method)) && this.proxy === 'MOLLIE';
   }
 
 }
