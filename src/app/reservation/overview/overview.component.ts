@@ -107,12 +107,6 @@ export class OverviewComponent implements OnInit {
         gatewayToken: null,
         captcha: null
       });
-
-      // we synchronize the selectedPaymentMethod with the corresponding paymentMethod (which is a payment proxy)
-      this.overviewForm.get('selectedPaymentMethod').valueChanges.subscribe(v => {
-        const selectedMethod = this.reservationInfo.activePaymentMethods[v as PaymentMethod];
-        this.overviewForm.get('paymentProxy').setValue(selectedMethod.paymentProxy);
-      });
     });
   }
 
