@@ -17,6 +17,7 @@
         </div>
     </div>
     <div class="col-12" [class.col-md-7]="verticalLayout">
+        <div *ngIf="!selectedPaymentMethod" class="text-muted text-center" [ngClass]="{'h-100 d-flex flex-md-column justify-content-center': verticalLayout }" translate="reservation-page.payment.select-method"></div>
         <div *ngIf="selectedPaymentMethod" [ngClass]="{'h-100 d-flex flex-md-column justify-content-center': verticalLayout }">
             <app-offline-payment-proxy
                 [proxy]="selectedPaymentProxy"
