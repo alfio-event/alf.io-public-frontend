@@ -11,7 +11,7 @@
     
         <div class="text-center text-muted mt-5">{{'reservation-page-complete.order-information' | translate: {'0': reservationId, '1': reservationInfo.firstName + ' ' + reservationInfo.lastName} }}</div>
         <hr>
-        <div class="row d-flex justify-content-between wMarginTop mobile-add-margin-bottom mt-4">
+        <div class="row d-flex justify-content-between mt-2 mobile-add-margin-bottom mt-4">
             <div class="col-md-5 col-12 order-md-1" *ngIf="event.invoicingConfiguration.userCanDownloadReceiptOrInvoice && reservationInfo.invoiceNumber !== null">
                 <a [href]="'/api/v2/public/event/' + event.shortName + '/reservation/' + reservationInfo.id + '/invoice'" class="btn btn-success block-button" target="_blank" translate="reservation-page-complete.download-your-invoice"></a>
             </div>

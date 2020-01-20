@@ -1,7 +1,7 @@
-<div class="page-header wMarginTop"><h2 translate="reservation-page.payment"></h2></div>
+<div class="page-header mt-2"><h2 translate="reservation-page.payment"></h2></div>
 
-<div *ngIf="activePaymentsCount > 1" class="row">
-    <div class="col-12" [class.col-md-5]="verticalLayout" [formGroup]="overviewForm">
+<div class="row" [formGroup]="overviewForm">
+    <div class="col-12" [class.col-md-5]="verticalLayout" *ngIf="activePaymentsCount > 1">
         <div *ngIf="verticalLayout" class="mb-md-4">
             <div *ngFor="let method of sortedAvailablePaymentMethods" class="custom-control custom-radio pt-3 pb-3" 
                 [ngClass]="{ 'font-weight-bold border-top border-bottom': selectedPaymentMethod == method, 'text-muted border-right-md': selectedPaymentMethod != null && selectedPaymentMethod != method }">
@@ -9,15 +9,25 @@
                 <label class="custom-control-label w-100 h-100" [attr.for]="method"><fa-icon [icon]="getPaymentMethodDetails(method).icon" class="ml-2 mr-3"></fa-icon> {{ getPaymentMethodDetails(method).labelKey | translate }}</label>
             </div>
         </div>
-        <div class="btn-group btn-group-toggle payment-method-selector mb-2 w-100" *ngIf="!verticalLayout">
-            <label class="btn btn-outline-dark" *ngFor="let method of sortedAvailablePaymentMethods" [class.active]="selectedPaymentMethod == method">
-                <input type="radio" formControlName="selectedPaymentMethod" [value]="method">
-                <fa-icon [icon]="getPaymentMethodDetails(method).icon"></fa-icon> {{ getPaymentMethodDetails(method).labelKey | translate }}
-            </label>
+        <div class="form-row align-items-center mb-3" *ngIf="!verticalLayout">
+            <div class="col-12 col-md-auto mb-2 mb-md-0 mr-0 mr-md-3" *ngFor="let method of sortedAvailablePaymentMethods" [class.active]="selectedPaymentMethod == method">
+                <div class="custom-control custom-radio mr-sm-2">
+                    <input class="custom-control-input" [attr.id]="method" type="radio" [value]="method" formControlName="selectedPaymentMethod">
+                    <label class="custom-control-label w-100 h-100" [attr.for]="method" [ngClass]="{ 'font-weight-bold': selectedPaymentMethod == method, 'text-muted': selectedPaymentMethod != null && selectedPaymentMethod != method }">
+                        <fa-icon [icon]="getPaymentMethodDetails(method).icon" class="ml-2 mr-3"></fa-icon> {{ getPaymentMethodDetails(method).labelKey | translate }}
+                    </label>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col-12" [class.col-md-7]="verticalLayout">
-        <div *ngIf="!selectedPaymentMethod" class="text-muted text-center" [ngClass]="{'h-100 d-flex flex-md-column justify-content-center': verticalLayout }" translate="reservation-page.payment.select-method"></div>
+    <div class="col-12" *ngIf="activePaymentsCount == 1">
+        <h4 class="mt-2">
+            <fa-icon [icon]="getPaymentMethodDetails(selectedPaymentMethod).icon" class="ml-2 mr-3"></fa-icon> {{ getPaymentMethodDetails(selectedPaymentMethod).labelKey | translate }}
+        </h4>
+    </div>
+
+    <div class="col-12" [class.col-md-7]="verticalLayout" [class.mb-5]="!verticalLayout">
+        <div *ngIf="!selectedPaymentMethod" class="text-muted" [ngClass]="{'h-100 text-center d-flex flex-md-column justify-content-center': verticalLayout }" translate="reservation-page.payment.select-method"></div>
         <div *ngIf="selectedPaymentMethod" [ngClass]="{'h-100 d-flex flex-md-column justify-content-center': verticalLayout }">
             <app-offline-payment-proxy
                 [proxy]="selectedPaymentProxy"
@@ -56,7 +66,3 @@
         
     </div>
 </div>
-
-<div *ngIf="activePaymentsCount == 1"></div>
-
-
