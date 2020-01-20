@@ -93,18 +93,6 @@ export const paymentMethodDetails: {[key in PaymentMethod]: PaymentMethodDetails
         labelKey: 'reservation-page.payment-method.ideal',
         icon: ['fab', 'ideal']
     },
-    'BANK_TRANSFER': {
-        labelKey: 'reservation-page.offline',
-        icon: ['fas', 'exchange-alt']
-    },
-    'ON_SITE': {
-        labelKey: 'reservation-page.on-site',
-        icon: ['fas', 'money-bill']
-    },
-    'APPLE_PAY': {
-        labelKey: 'reservation-page.payment-method.apple-pay',
-        icon: ['fab', 'apple-pay']
-    },
     'BANCONTACT': {
         labelKey: 'reservation-page.payment-method.bancontact',
         icon: ['fas', 'exchange-alt']
@@ -120,6 +108,18 @@ export const paymentMethodDetails: {[key in PaymentMethod]: PaymentMethodDetails
     'PRZELEWY_24': {
         labelKey: 'reservation-page.payment-method.przelewy-24',
         icon: ['fas', 'exchange-alt']
+    },
+    'BANK_TRANSFER': {
+        labelKey: 'reservation-page.offline',
+        icon: ['fas', 'exchange-alt']
+    },
+    'ON_SITE': {
+        labelKey: 'reservation-page.on-site',
+        icon: ['fas', 'money-bill']
+    },
+    'APPLE_PAY': {
+        labelKey: 'reservation-page.payment-method.apple-pay',
+        icon: ['fab', 'apple-pay']
     },
     'NONE': {
         labelKey: null,

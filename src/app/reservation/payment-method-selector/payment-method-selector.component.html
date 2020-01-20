@@ -3,16 +3,16 @@
 <div *ngIf="activePaymentsCount > 1" class="row">
     <div class="col-12" [class.col-md-5]="verticalLayout" [formGroup]="overviewForm">
         <div *ngIf="verticalLayout" class="mb-md-4">
-            <div *ngFor="let method of activePaymentMethods | keyvalue" class="custom-control custom-radio pt-3 pb-3" 
-                [ngClass]="{ 'font-weight-bold border-top border-bottom': selectedPaymentMethod == method.key, 'text-muted border-right-md': selectedPaymentMethod != null && selectedPaymentMethod != method.key }">
-                <input class="custom-control-input" [attr.id]="method.key" type="radio" [value]="method.key" formControlName="selectedPaymentMethod">
-                <label class="custom-control-label w-100 h-100" [attr.for]="method.key"><fa-icon [icon]="getPaymentMethodDetails(method.key).icon" class="ml-2 mr-3"></fa-icon> {{ getPaymentMethodDetails(method.key).labelKey | translate }}</label>
+            <div *ngFor="let method of sortedAvailablePaymentMethods" class="custom-control custom-radio pt-3 pb-3" 
+                [ngClass]="{ 'font-weight-bold border-top border-bottom': selectedPaymentMethod == method, 'text-muted border-right-md': selectedPaymentMethod != null && selectedPaymentMethod != method }">
+                <input class="custom-control-input" [attr.id]="method" type="radio" [value]="method" formControlName="selectedPaymentMethod">
+                <label class="custom-control-label w-100 h-100" [attr.for]="method"><fa-icon [icon]="getPaymentMethodDetails(method).icon" class="ml-2 mr-3"></fa-icon> {{ getPaymentMethodDetails(method).labelKey | translate }}</label>
             </div>
         </div>
         <div class="btn-group btn-group-toggle payment-method-selector mb-2 w-100" *ngIf="!verticalLayout">
-            <label class="btn btn-outline-dark" *ngFor="let method of activePaymentMethods | keyvalue" [class.active]="selectedPaymentMethod == method.key">
-                <input type="radio" formControlName="selectedPaymentMethod" [value]="method.key">
-                <fa-icon [icon]="getPaymentMethodDetails(method.key).icon"></fa-icon> {{ getPaymentMethodDetails(method.key).labelKey | translate }}
+            <label class="btn btn-outline-dark" *ngFor="let method of sortedAvailablePaymentMethods" [class.active]="selectedPaymentMethod == method">
+                <input type="radio" formControlName="selectedPaymentMethod" [value]="method">
+                <fa-icon [icon]="getPaymentMethodDetails(method).icon"></fa-icon> {{ getPaymentMethodDetails(method).labelKey | translate }}
             </label>
         </div>
     </div>

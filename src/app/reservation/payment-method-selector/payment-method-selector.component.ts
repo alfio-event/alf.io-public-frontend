@@ -33,6 +33,13 @@ export class PaymentMethodSelectorComponent implements OnInit {
         return this.reservationInfo.activePaymentMethods;
     }
 
+    get sortedAvailablePaymentMethods(): PaymentMethod[] {
+        const activeKeys = Object.keys(this.activePaymentMethods);
+        return Object.keys(paymentMethodDetails)
+            .filter(pd => activeKeys.includes(pd))
+            .map(pd => pd as PaymentMethod);
+    }
+
     get activePaymentsCount(): number {
         return Object.keys(this.activePaymentMethods).length;
     }
