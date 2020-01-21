@@ -73,8 +73,59 @@ export class PaymentProxyWithParameters {
     parameters: {[key: string]: any};
 }
 
-export type PaymentMethod = 'CREDIT_CARD' | 'PAYPAL' | 'IDEAL' | 'BANK_TRANSFER' | 'ON_SITE' | 'NONE';
-export type PaymentProxy = 'STRIPE' | 'ON_SITE' | 'OFFLINE' | 'PAYPAL';
+export type PaymentMethod = 'CREDIT_CARD' | 'PAYPAL' | 'IDEAL' | 'BANK_TRANSFER' | 'ON_SITE' | 'APPLE_PAY' | 'BANCONTACT' | 'ING_HOME_PAY' | 'BELFIUS' | 'PRZELEWY_24' | 'NONE';
+export type PaymentProxy = 'STRIPE' | 'ON_SITE' | 'OFFLINE' | 'PAYPAL' | 'MOLLIE';
+export interface PaymentMethodDetails {
+    labelKey: string;
+    icon: string[];
+}
+
+export const paymentMethodDetails: {[key in PaymentMethod]: PaymentMethodDetails} = {
+    'CREDIT_CARD': {
+        labelKey: 'reservation-page.credit-card',
+        icon: ['fas', 'credit-card']
+    },
+    'PAYPAL': {
+        labelKey: 'reservation-page.paypal',
+        icon: ['fab', 'paypal']
+    },
+    'IDEAL': {
+        labelKey: 'reservation-page.payment-method.ideal',
+        icon: ['fab', 'ideal']
+    },
+    'BANCONTACT': {
+        labelKey: 'reservation-page.payment-method.bancontact',
+        icon: ['fas', 'exchange-alt']
+    },
+    'ING_HOME_PAY': {
+        labelKey: 'reservation-page.payment-method.ing-home-pay',
+        icon: ['fas', 'exchange-alt']
+    },
+    'BELFIUS': {
+        labelKey: 'reservation-page.payment-method.belfius',
+        icon: ['fas', 'exchange-alt']
+    },
+    'PRZELEWY_24': {
+        labelKey: 'reservation-page.payment-method.przelewy-24',
+        icon: ['fas', 'exchange-alt']
+    },
+    'BANK_TRANSFER': {
+        labelKey: 'reservation-page.offline',
+        icon: ['fas', 'exchange-alt']
+    },
+    'ON_SITE': {
+        labelKey: 'reservation-page.on-site',
+        icon: ['fas', 'money-bill']
+    },
+    'APPLE_PAY': {
+        labelKey: 'reservation-page.payment-method.apple-pay',
+        icon: ['fab', 'apple-pay']
+    },
+    'NONE': {
+        labelKey: null,
+        icon: ['fas', 'exchange-alt']
+    }
+};
 
 export class CaptchaConfiguration {
     captchaForTicketSelection: boolean;

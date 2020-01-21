@@ -1,17 +1,6 @@
 @import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
-.payment-method-selector {
-    width: 100%;
-}
-
-.payment-method-selector > label {
-    flex-basis: 100%;
-    padding:0;
-    padding-top:6px;
-    padding-bottom:6px;
-    font-size: 95%;
-}
 
 /* source: https://stackoverflow.com/a/24349758 */
 

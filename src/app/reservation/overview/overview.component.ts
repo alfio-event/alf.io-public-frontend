@@ -71,12 +71,12 @@ export class OverviewComponent implements OnInit {
       this.reservationInfo = resInfo;
 
       this.activePaymentMethods = this.reservationInfo.activePaymentMethods;
-      let paymentProxy: PaymentProxy = null;
+      let currentPaymentProxy: PaymentProxy = null;
       let selectedPaymentMethod: PaymentMethod = null;
 
       if (!resInfo.orderSummary.free && this.paymentMethodsCount() === 1) {
         selectedPaymentMethod = this.getSinglePaymentMethod();
-        paymentProxy = this.reservationInfo.activePaymentMethods[selectedPaymentMethod].paymentProxy;
+        currentPaymentProxy = this.reservationInfo.activePaymentMethods[selectedPaymentMethod].paymentProxy;
       }
 
       if (resInfo.orderSummary.free) {
@@ -86,8 +86,8 @@ export class OverviewComponent implements OnInit {
 
       //
       if (this.reservationInfo.tokenAcquired) {
-        paymentProxy = this.reservationInfo.paymentProxy;
-        selectedPaymentMethod = this.getPaymentMethodMatchingProxy(paymentProxy);
+        currentPaymentProxy = this.reservationInfo.paymentProxy;
+        selectedPaymentMethod = this.getPaymentMethodMatchingProxy(currentPaymentProxy);
 
         // we override and keep only the one selected
         const paymentProxyAndParam = this.reservationInfo.activePaymentMethods[selectedPaymentMethod];
@@ -102,15 +102,10 @@ export class OverviewComponent implements OnInit {
       this.overviewForm = this.formBuilder.group({
         termAndConditionsAccepted: null,
         privacyPolicyAccepted: null,
-        selectedPaymentMethod: selectedPaymentMethod, // <- note: not used by the backend
-        paymentMethod: paymentProxy, // <- name mismatch for legacy reasons
+        selectedPaymentMethod: selectedPaymentMethod,
+        paymentProxy: currentPaymentProxy,
         gatewayToken: null,
         captcha: null
-      });
-
-      // we synchronize the selectedPaymentMethod with the corresponding paymentMethod (which is a payment proxy)
-      this.overviewForm.get('selectedPaymentMethod').valueChanges.subscribe(v => {
-        this.overviewForm.get('paymentMethod').setValue(this.reservationInfo.activePaymentMethods[v as PaymentMethod].paymentProxy);
       });
     });
   }

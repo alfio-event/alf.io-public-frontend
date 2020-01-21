@@ -12,9 +12,11 @@ import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome
 import {
   faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill, faDownload, faSearchPlus,
   faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice, faGlobe,
-  faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
-import { faCalendarAlt, faCalendarPlus, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake, faBuilding } from '@fortawesome/free-regular-svg-icons';
-import { faPaypal, faStripe } from '@fortawesome/free-brands-svg-icons';
+  faAngleDown, faAngleUp, faCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCalendarAlt, faCalendarPlus, faCompass, faClock, faEnvelope,
+  faEdit, faClone, faHandshake, faBuilding, faCheckCircle } from '@fortawesome/free-regular-svg-icons';
+import { faPaypal, faStripe, faApplePay, faIdeal } from '@fortawesome/free-brands-svg-icons';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { NgbTooltipModule, NgbModalModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -57,6 +59,8 @@ import { CancelReservationComponent } from './reservation/cancel-reservation/can
 import { EventFooterLinksComponent } from './event-footer-links/event-footer-links.component';
 import { ErrorComponent } from './reservation/error/error.component';
 import { DeferredOfflinePaymentComponent } from './reservation/deferred-offline-payment/deferred-offline-payment.component';
+import { MolliePaymentProxyComponent } from './payment/mollie-payment-proxy/mollie-payment-proxy.component';
+import { PaymentMethodSelectorComponent } from './reservation/payment-method-selector/payment-method-selector.component';
 
 
 
@@ -106,7 +110,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     CancelReservationComponent,
     EventFooterLinksComponent,
     ErrorComponent,
-    DeferredOfflinePaymentComponent
+    DeferredOfflinePaymentComponent,
+    MolliePaymentProxyComponent,
+    PaymentMethodSelectorComponent
   ],
   imports: [
     BrowserModule,
@@ -139,8 +145,8 @@ export class AppModule {
   constructor(library: FaIconLibrary) {
     library.addIcons(faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill,
       faDownload, faSearchPlus, faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice, faGlobe,
-      faAngleDown, faAngleUp);
+      faAngleDown, faAngleUp, faCircle, faCheckCircle);
     library.addIcons(faCalendarAlt, faCalendarPlus, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake, faBuilding);
-    library.addIcons(faPaypal, faStripe);
+    library.addIcons(faPaypal, faStripe, faIdeal, faApplePay);
   }
 }

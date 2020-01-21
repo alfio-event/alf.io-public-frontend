@@ -60,7 +60,7 @@
                 <option *ngFor="let l of event.contentLanguages" [value]="l.locale">{{l.displayLanguage}}</option>
               </select>
           </div>
-          <div class="custom-control custom-checkbox wMarginTop wMarginBottom" *ngIf="event.privacyPolicyUrl">
+          <div class="custom-control custom-checkbox mt-2 wMarginBottom" *ngIf="event.privacyPolicyUrl">
               <input class="custom-control-input" id="privacyPolicyAccepted" type="checkbox" required name="privacyPolicyAccepted" formControlName="privacyPolicyAccepted" value="true" appInvalidFeedback [invalidFeedbackInLabel]="true">
               <label class="custom-control-label" for="privacyPolicyAccepted">
                 {{'reservation-page.privacy.prefix'|translate}}{{' '}}<a [href]="event.privacyPolicyUrl" target="_blank" translate="reservation-page.privacy.link.text"></a>{{'reservation-page.privacy.suffix'|translate}}
