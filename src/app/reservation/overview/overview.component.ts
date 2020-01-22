@@ -184,7 +184,13 @@ export class OverviewComponent implements OnInit {
       } else {
         console.log('paymentResult is not success (may be cancelled)');
         this.unregisterHook();
-        this.submitting = false;
+        if (paymentResult != null && paymentResult.reservationChanged) {
+          console.log('reservation status is changed. Trying to reload it...');
+          // reload reservation, try to go to /success
+          this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
+        } else {
+          this.submitting = false;
+        }
       }
     }, (err) => {
       this.submitting = false;

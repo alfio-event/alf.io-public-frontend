@@ -1,6 +1,6 @@
 export class ReservationPaymentResult {
     success: boolean;
-    failed: boolean;
+    failure: boolean;
     redirect: boolean;
     redirectUrl: string;
     gatewayIdOrNull: string;
