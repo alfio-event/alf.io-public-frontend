@@ -98,6 +98,12 @@ export class StripePaymentV3 implements PaymentProvider {
         const obs = new Observable<PaymentResult>(subscriber => {
 
             this.reservationService.initPayment(this.event.shortName, this.reservation.id).subscribe(res => {
+
+                if (res.reservationStatusChanged || res.clientSecret == null) {
+                    subscriber.next(new PaymentResult(false, null, null, res.reservationStatusChanged));
+                    return;
+                }
+
                 const clientSecret = res.clientSecret;
                 let billingAddress = null;
                 if (this.reservation.billingDetails.addressLine1 != null) {
@@ -118,26 +124,28 @@ export class StripePaymentV3 implements PaymentProvider {
                 };
 
                 this.stripeHandler.handleCardPayment(clientSecret, this.card, paymentData).then(cardPaymentResult => {
-                    if (cardPaymentResult.error) {
-                        this.reservationService.resetPaymentStatus(this.event.shortName, this.reservation.id)
-                            .subscribe(() => subscriber.error(new PaymentResult(false, null, cardPaymentResult.error.message)));
-                    } else {
-                        let handleCheck;
-                        const checkIfPaid = () => {
-                            this.reservationService.getPaymentStatus(this.event.shortName, this.reservation.id).subscribe(status => {
-                                if (status.success) {
-                                    clearInterval(handleCheck);
-                                    subscriber.next(new PaymentResult(true, status.gatewayIdOrNull));
-                                }
-                                if (status.failed) {
-                                    this.reservationService.resetPaymentStatus(this.event.shortName, this.reservation.id)
-                                        .subscribe(() => subscriber.next(new PaymentResult(false, null)));
-                                }
-                            });
-                        };
-                        handleCheck = setInterval(checkIfPaid, 1000);
-                    }
+                    let handleCheck: number;
+                    const checkIfPaid = () => {
+                        console.log('checking reservation status...');
+                        this.reservationService.getPaymentStatus(this.event.shortName, this.reservation.id).subscribe(status => {
+                            if (cardPaymentResult.error || status.success) {
+                                window.clearInterval(handleCheck);
+                            }
+                            if (status.success) {
+                                subscriber.next(new PaymentResult(true, status.gatewayIdOrNull));
+                            } else if (cardPaymentResult.error) {
+                                subscriber.error(new PaymentResult(false, null, cardPaymentResult.error.message));
+                            } else if (status.failure) {
+                                subscriber.error(new PaymentResult(false, null));
+                            }
+                        }, err => console.log('got error while calling getStatus(). Retrying in 1s', err));
+                    };
+                    handleCheck = window.setInterval(checkIfPaid, 1000);
+                }, err => {
+                    subscriber.error(err);
                 });
+            }, err => {
+                subscriber.error(err);
             });
         });
         return obs;
