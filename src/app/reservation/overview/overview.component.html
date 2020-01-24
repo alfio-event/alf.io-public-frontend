@@ -65,13 +65,13 @@
     <div class="custom-control custom-checkbox" *ngIf="event.privacyPolicyUrl">
         <input class="custom-control-input" id="privacyPolicyAccepted" formControlName="privacyPolicyAccepted" type="checkbox">{{' '}} <!-- ugly, see  https://github.com/angular/angular/issues/21049 -->
         <label for="privacyPolicyAccepted" class="custom-control-label">
-          <span translate="reservation-page.privacy.prefix"></span>{{' '}}<a [attr.href]="event.privacyPolicyUrl" target="_blank" translate="reservation-page.privacy.link.text"></a><span translate="reservation-page.privacy.suffix"></span>
+          <span translate="reservation-page.privacy.prefix"></span>{{' '}}<a [attr.href]="event.privacyPolicyUrl" target="_blank" translate="reservation-page.privacy.link.text"></a>{{' '}}<span translate="reservation-page.privacy.suffix"></span>
         </label>
     </div>
     <div class="custom-control custom-checkbox">
         <input class="custom-control-input" id="termsAndConditionsAccepted" formControlName="termAndConditionsAccepted" type="checkbox">
         <label class="custom-control-label" for="termsAndConditionsAccepted">
-          {{' '}}<span translate="reservation-page.tc.prefix"></span>{{' '}}<a [attr.href]="event.termsAndConditionsUrl" target="_blank" translate="reservation-page.tc.link.text"></a><span translate="reservation-page.tc.suffix"></span>
+          {{' '}}<span translate="reservation-page.tc.prefix"></span>{{' '}}<a [attr.href]="event.termsAndConditionsUrl" target="_blank" translate="reservation-page.tc.link.text"></a>{{' '}}<span translate="reservation-page.tc.suffix"></span>
         </label>
     </div>
 
