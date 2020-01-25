@@ -19,11 +19,6 @@ export class LanguageGuard implements CanActivate {
     const langQueryParam = next.queryParams['lang'];
     const persisted = this.i18nService.getPersistedLanguage();
 
-    // set before calling, to avoid any strange flashes
-    if (persisted && this.translate.currentLang !== persisted) {
-      this.translate.use(persisted);
-    }
-
     const eventShortName = next.params['eventShortName'];
     const req = eventShortName ? this.getForEvent(eventShortName) : this.getForApp();
 
