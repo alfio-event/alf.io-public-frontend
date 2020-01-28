@@ -3,9 +3,9 @@
 
   <div>
     <dl class="row">
-        <dt class="col-1 text-muted"><fa-icon [icon]="['far', 'building']"></fa-icon></dt>
+        <dt class="col-1 text-muted"><fa-icon [icon]="['far', 'building']" a11yRole="presentation"></fa-icon></dt>
         <dd class="col-11">{{'show-event.by'|translate}} <strong><a [href]="'mailto:'+ event.organizationEmail">{{event.organizationName}}</a></strong></dd>
-        <dt class="col-1 text-muted"><fa-icon [icon]="['far', 'calendar-alt']"></fa-icon></dt>
+        <dt class="col-1 text-muted"><fa-icon [icon]="['far', 'calendar-alt']" [title]="'ticket.date-time' | translate"></fa-icon></dt>
         <dd class="col-11">
           <!-- same day-->
           <span *ngIf="dateValidityProvider.sameDay">
@@ -24,14 +24,14 @@
             </div>
           </div>
         </dd>
-        <dt class="col-1 text-muted"><fa-icon [icon]="['far', 'calendar-plus']"></fa-icon></dt>
+        <dt class="col-1 text-muted"><fa-icon [icon]="['far', 'calendar-plus']" a11yRole="presentation"></fa-icon></dt>
         <dd class="col-11">
           {{'show-event.add-to-calendar' | translate}} &nbsp;
           <a target="_blank" href="/api/v2/public/event/{{event.shortName}}/calendar/{{translate.currentLang}}?type=google">Google</a>
           &nbsp;&ndash;&nbsp;
           <a target="_blank" href="/api/v2/public/event/{{event.shortName}}/calendar/{{translate.currentLang}}">iCalendar</a>
         </dd>
-        <dt class="col-1 text-muted"><fa-icon [icon]="['far', 'compass']"></fa-icon></dt>
+        <dt class="col-1 text-muted"><fa-icon [icon]="['far', 'compass']" [title]="'ticket.location' | translate"></fa-icon></dt>
         <dd class="col-11">{{event.location}}</dd>
         
     </dl>

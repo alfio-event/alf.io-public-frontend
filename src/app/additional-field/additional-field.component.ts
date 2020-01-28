@@ -81,7 +81,11 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
   }
 
   selectedCheckBox(index: number, value: string, checked: boolean) {
-    let fa = this.form.get(this.field.name) as FormArray;
+    const fa = this.form.get(this.field.name) as FormArray;
     fa.controls[index].setValue(checked ? value : null, {emitEvent: false, emitViewToModelChange: false});
+  }
+
+  get labelId(): string {
+    return this.ticketUUID + '-' + this.field.name.replace(/[^a-zA-Z0-9]/g, '+') + '-label';
   }
 }

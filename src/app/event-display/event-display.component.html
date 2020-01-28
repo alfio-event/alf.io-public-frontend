@@ -112,18 +112,18 @@
 
       <div class="mt-4 text-muted" *ngIf="expiredCategories.length > 0">
         <div class="text-center">
-          <button type="button" (click)="expiredCategoriesExpanded = !expiredCategoriesExpanded" class="btn btn-link"><fa-icon [icon]="expiredCategoriesExpanded ? ['fas', 'angle-up'] : ['fas', 'angle-down']"></fa-icon>&nbsp;{{ 'show-event.expired-categories' | translate }}</button>
+          <button type="button" (click)="expiredCategoriesExpanded = !expiredCategoriesExpanded" class="btn btn-link"><fa-icon [icon]="expiredCategoriesExpanded ? ['fas', 'angle-up'] : ['fas', 'angle-down']" a11yRole="presentation"></fa-icon>&nbsp;{{ 'show-event.expired-categories' | translate }}</button>
         </div>
         <ul class="list-group list-group-flush text-muted mt-2" *ngIf="expiredCategoriesExpanded">
           <li *ngFor="let category of expiredCategories;" class="list-group-item">
             <div class="d-flex flex-grow-1 justify-content-between">
               <div>
-                <h6 class="pr-1">
+                <div class="h6 pr-1">
                     {{category.name}}
-                </h6>
+                </div>
               </div>
               <div>
-                <h6>{{'show-event.sales-ended'|translate: {'0': category.formattedExpiration[translate.currentLang]} }}</h6>
+                <div class="h6">{{'show-event.sales-ended'|translate: {'0': category.formattedExpiration[translate.currentLang]} }}</div>
               </div>
             </div>
           </li>
