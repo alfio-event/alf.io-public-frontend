@@ -1,7 +1,7 @@
-import {Component, Input} from "@angular/core";
-import {AdditionalService} from "../model/additional-service";
-import {Event} from "../model/event";
-import {FormGroup} from "@angular/forms";
+import {Component, Input} from '@angular/core';
+import {AdditionalService} from '../model/additional-service';
+import {Event} from '../model/event';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-additional-service-quantity-selector',
