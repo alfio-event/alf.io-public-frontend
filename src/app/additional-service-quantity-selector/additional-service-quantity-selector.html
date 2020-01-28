@@ -1,14 +1,17 @@
 <div [formGroup]="parentGroup">
+  <label class="sr-only" [for]="'additional-'+additionalService.id+'-qty'" translate="show-event.category.quantity"></label>
   <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'MANDATORY_ONE_FOR_TICKET'" translate="show-event.mandatoryOneForTicket"></div>
-  <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'OPTIONAL_UNLIMITED_AMOUNT'"><input type="number" min="0" step="1" class="form-control" placeholder="0" autocomplete="off" formControlName="quantity"></div>
+  <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'OPTIONAL_UNLIMITED_AMOUNT'">
+    <input type="number" min="0" step="1" class="form-control" placeholder="0" autocomplete="off" formControlName="quantity" [id]="'additional-'+additionalService.id+'-qty'">
+  </div>
   <div *ngIf="additionalService.fixPrice && [null, 'OPTIONAL_MAX_AMOUNT_PER_RESERVATION', 'OPTIONAL_MAX_AMOUNT_PER_TICKET'].indexOf(additionalService.supplementPolicy) >= 0 ">
-    <select class="custom-select text-align-center" placeholder="0" autocomplete="off" formControlName="quantity">
+    <select class="custom-select text-align-center" placeholder="0" autocomplete="off" formControlName="quantity" [id]="'additional-'+additionalService.id+'-qty'">
       <option *ngFor="let amount of validSelectionValues" [value]="amount">{{amount}}</option>
     </select>
   </div>
   <div *ngIf="!additionalService.fixPrice">
     <div class="input-group mb-3">
-      <input type="number" min="0" step="any" class="form-control" value="0" formControlName="amount">
+      <input type="number" min="0" step="any" class="form-control" value="0" formControlName="amount" [id]="'additional-'+additionalService.id+'-qty'">
       <div class="input-group-append">
         <span class="input-group-text append-currency">{{event.currency}}</span>
       </div>
