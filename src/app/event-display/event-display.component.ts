@@ -157,7 +157,16 @@ export class EventDisplayComponent implements OnInit {
       }
     }, (err) => {
       this.globalErrors = handleServerSideValidationError(err, this.reservationForm);
+      this.scrollToTickets();
     });
+  }
+
+  private scrollToTickets(): void {
+    setTimeout(() => {
+      if (this.tickets != null && this.tickets.nativeElement != null) {
+        this.tickets.nativeElement.scrollIntoView(true);
+      }
+    }, 10);
   }
 
   submitWaitingListRequest(eventShortName: string, waitingListSubscriptionRequest: WaitingListSubscriptionRequest) {
@@ -243,7 +252,7 @@ export class EventDisplayComponent implements OnInit {
       this.applyItemsByCat(itemsByCat);
       this.eventCode = eventCode;
       if (eventCode != null) {
-        setTimeout(() => this.tickets.nativeElement.scrollIntoView(true), 10);
+        this.scrollToTickets();
       }
     });
   }
