@@ -6,16 +6,16 @@
   <div class="card-deck" *ngFor="let chunk of events">
     <div class="card card-light event-card mb-3" *ngFor="let event of chunk">
       <div class="card-header bg-white event-header">
-        <img [src]="'/file/'+event.fileBlobId" class="mx-auto img-responsive">
+        <img [src]="'/file/'+event.fileBlobId" class="mx-auto img-responsive" alt="" aria-hidden="true" role="presentation">
       </div>
       <div class="card-body">
         <h2 class="card-title">{{event.displayName}}</h2>
-        <p class="card-text"><fa-icon [icon]="['far', 'calendar-alt']" class="text-muted"></fa-icon>&nbsp;{{event.formattedBeginDate[translate.currentLang]}} <span class="text-muted" *ngIf="displayTimeZoneInfo(event)">&nbsp; ({{event.timeZone}})</span></p>
+        <p class="card-text"><fa-icon [icon]="['far', 'calendar-alt']" class="text-muted" [title]="'ticket.date-time' | translate"></fa-icon>&nbsp;{{event.formattedBeginDate[translate.currentLang]}} <span class="text-muted" *ngIf="displayTimeZoneInfo(event)">&nbsp; ({{event.timeZone}})</span></p>
         <p class="card-text text-muted mt-1">{{event.location}}</p>
       </div>
       <div class="card-footer border-top-0 bg-white">
         <div class="d-flex justify-content-end">
-          <a [routerLink]="['event', event.shortName]" class="btn btn-success stretched-link" translate="event-list.link"></a>
+          <a [routerLink]="['event', event.shortName]" class="btn btn-success stretched-link">{{'event-list.link' | translate}}<span class="sr-only"> {{event.displayName}}</span></a>
         </div>
       </div>
     </div>

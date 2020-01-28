@@ -1,6 +1,6 @@
 <div [formGroup]="form">
   <div class="form-group" [formArrayName]="field.name">
-    <label [attr.for]="ticketUUID + '-' + field.name">{{labelValue + (field.required ? ' *' : '')}}</label>
+    <label [attr.for]="ticketUUID + '-' + field.name" [id]="labelId">{{labelValue + (field.required ? ' *' : '')}}</label>
     <ng-container [ngSwitch]="field.type" *ngIf="editAllowed">
       <input *ngSwitchCase="'input:text'" [attr.id]="ticketUUID + '-' + field.name" type="text" [attr.placeholder]="placeholder" class="form-control" formControlName="0" appInvalidFeedback>
       <input *ngSwitchCase="'input:tel'" [attr.id]="ticketUUID + '-' + field.name" type="tel" [attr.placeholder]="placeholder" class="form-control" formControlName="0" appInvalidFeedback>
@@ -15,13 +15,13 @@
       </select>
       <div *ngSwitchCase="'checkbox'" [attr.id]="ticketUUID + '-' + field.name" appInvalidFeedback [invalidFeedbackFieldName]="field.name" [invalidFeedbackForm]="form">
         <div *ngFor="let c of field.restrictedValues; let i = index" class="custom-control custom-checkbox">
-          <input class="custom-control-input" [attr.id]="ticketUUID + '-' + field.name + '-' + i" type="checkbox" [formControlName]="i" (ngModelChange)="selectedCheckBox(i, c, $event)">{{' '}}
+          <input class="custom-control-input" [attr.id]="ticketUUID + '-' + field.name + '-' + i" type="checkbox" [formControlName]="i" (ngModelChange)="selectedCheckBox(i, c, $event)" role="group" [attr.aria-labelledby]="labelId">{{' '}}
           <label class="custom-control-label" [attr.for]="ticketUUID + '-' + field.name + '-' + i">{{getRestrictedValueLabel(c)}}</label>
         </div>
       </div>
       <div *ngSwitchCase="'radio'" [attr.id]="ticketUUID + '-' + field.name" appInvalidFeedback [invalidFeedbackFieldName]="field.name+'.0'" [invalidFeedbackForm]="form">
         <div *ngFor="let c of field.restrictedValues; let i = index" class="custom-control custom-radio">
-          <input class="custom-control-input" [attr.id]="ticketUUID + '-' + field.name + '-' + i" type="radio" [value]="c" formControlName="0">
+          <input class="custom-control-input" [attr.id]="ticketUUID + '-' + field.name + '-' + i" type="radio" [value]="c" formControlName="0" role="radiogroup" [attr.aria-labelledby]="labelId">
           <label class="custom-control-label" [attr.for]="ticketUUID + '-' + field.name + '-' + i">{{getRestrictedValueLabel(c)}}</label>
         </div>
       </div>

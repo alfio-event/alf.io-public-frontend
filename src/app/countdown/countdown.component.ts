@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import countdown from 'countdown';
+import * as countdown from 'countdown';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -69,7 +69,8 @@ export class CountdownComponent implements OnInit, OnDestroy {
         clearInterval(this.timerId);
         this.expired.emit(true);
       }
-    }, countdown.MONTHS | countdown.WEEKS | countdown.DAYS | countdown.HOURS | countdown.MINUTES | countdown.SECONDS);
+    // tslint:disable-next-line: no-bitwise
+    }, countdown.MONTHS | countdown.WEEKS | countdown.DAYS | countdown.HOURS | countdown.MINUTES | countdown.SECONDS) as number;
   }
 
 }
