@@ -23,7 +23,7 @@
 
       <div class="col-12 col-md-4 invoice-details" *ngIf="!reservationInfo.orderSummary.free && event.invoicingConfiguration.invoiceAllowed">
         <div class="d-flex flex-column justify-content-center h-100">
-          <h5 class="d-none d-md-block" translate="reservation-page.invoice-details"></h5>
+          <div class="h5 d-none d-md-block" translate="reservation-page.invoice-details"></div>
           <div class="page-header d-block d-md-none"><h2 translate="reservation-page.invoice-details"></h2></div>
           <div class="row">
             <div class="col-12" *ngIf="reservationInfo.invoiceRequested">
@@ -42,7 +42,7 @@
               <div class="h-100 d-flex flex-column justify-content-center"><span translate="reservation-page.no-invoice-requested"></span></div>
             </div>
             <div class="col-5 col-md-12 mt-md-3">
-              <button type="button" class="btn btn-secondary" (click)="back(true)"><fa-icon [icon]="['far', 'edit']"></fa-icon>{{' '}}{{(reservationInfo.invoiceRequested ? 'common.edit' : 'reservation-page.request-invoice') | translate}}</button>
+              <button type="button" class="btn btn-secondary" (click)="back(true)"><fa-icon [icon]="['far', 'edit']" a11yRole="presentation"></fa-icon>{{' '}}{{(reservationInfo.invoiceRequested ? 'common.edit' : 'reservation-page.request-invoice') | translate}}</button>
             </div>
           </div>
         </div>
@@ -63,14 +63,14 @@
     </div>
 
     <div class="custom-control custom-checkbox" *ngIf="event.privacyPolicyUrl">
-        <input class="custom-control-input" id="privacyPolicyAccepted" formControlName="privacyPolicyAccepted" type="checkbox">{{' '}} <!-- ugly, see  https://github.com/angular/angular/issues/21049 -->
-        <label for="privacyPolicyAccepted" class="custom-control-label">
+        <input class="custom-control-input" id="privacyPolicyAccepted" formControlName="privacyPolicyAccepted" type="checkbox" role="group" aria-labelledby="privacy-policy-label">{{' '}} <!-- ugly, see  https://github.com/angular/angular/issues/21049 -->
+        <label for="privacyPolicyAccepted" class="custom-control-label" id="privacy-policy-label">
           <span translate="reservation-page.privacy.prefix"></span>{{' '}}<a [attr.href]="event.privacyPolicyUrl" target="_blank" translate="reservation-page.privacy.link.text"></a>{{' '}}<span translate="reservation-page.privacy.suffix"></span>
         </label>
     </div>
     <div class="custom-control custom-checkbox">
-        <input class="custom-control-input" id="termsAndConditionsAccepted" formControlName="termAndConditionsAccepted" type="checkbox">
-        <label class="custom-control-label" for="termsAndConditionsAccepted">
+        <input class="custom-control-input" id="termsAndConditionsAccepted" formControlName="termAndConditionsAccepted" type="checkbox" role="group" aria-labelledby="terms-conditions-label">
+        <label class="custom-control-label" for="termsAndConditionsAccepted" id="terms-conditions-label">
           {{' '}}<span translate="reservation-page.tc.prefix"></span>{{' '}}<a [attr.href]="event.termsAndConditionsUrl" target="_blank" translate="reservation-page.tc.link.text"></a>{{' '}}<span translate="reservation-page.tc.suffix"></span>
         </label>
     </div>
