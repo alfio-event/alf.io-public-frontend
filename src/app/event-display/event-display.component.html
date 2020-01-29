@@ -145,7 +145,7 @@
       <div class="alert alert-light mt-4" *ngIf="eventCode">
         <div class="d-flex justify-content-between">
           <div class="h-100">
-            <h5 class="alert-heading"><fa-icon [icon]="event.promotionsConfiguration.usePartnerCode ? ['far', 'handshake'] : ['fas', 'gift']"></fa-icon>{{' '}}{{'show-event.promo-code-applied' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate} }} {{eventCode.code}}</h5>
+            <h5 class="alert-heading"><fa-icon [icon]="event.promotionsConfiguration.usePartnerCode ? ['far', 'handshake'] : ['fas', 'gift']" a11yRole="presentation"></fa-icon>{{' '}}{{'show-event.promo-code-applied' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate} }} {{eventCode.code}}</h5>
             <p *ngIf="eventCode.type === 'DISCOUNT'">
               <span *ngIf="eventCode.discountType === 'FIXED_AMOUNT'">
                 {{'show-event.promo-code-fixed-amount-discount'|translate: {'0': eventCode.discountAmount + ' ' + event.currency} }}
@@ -165,7 +165,7 @@
       <div *ngIf="event.promotionsConfiguration.hasAccessPromotions" [ngClass]="{'alert alert-info': displayPromoCodeForm}" class="mt-4">
         <div class="d-flex justify-content-center justify-content-md-end" *ngIf="!displayPromoCodeForm && eventCode == null">
           <button type="button" class="btn btn-link" (click)="togglePromoCodeVisible()">
-            <fa-icon [icon]="event.promotionsConfiguration.usePartnerCode ? ['far', 'handshake'] : ['fas', 'gift']"></fa-icon>{{' '}}
+            <fa-icon [icon]="event.promotionsConfiguration.usePartnerCode ? ['far', 'handshake'] : ['fas', 'gift']" a11yRole="presentation"></fa-icon>{{' '}}
             <span>{{'show-event.promo-code'|translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate } }}</span>
           </button>
         </div>
