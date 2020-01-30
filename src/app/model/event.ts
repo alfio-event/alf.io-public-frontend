@@ -73,7 +73,8 @@ export class PaymentProxyWithParameters {
     parameters: {[key: string]: any};
 }
 
-export type PaymentMethod = 'CREDIT_CARD' | 'PAYPAL' | 'IDEAL' | 'BANK_TRANSFER' | 'ON_SITE' | 'APPLE_PAY' | 'BANCONTACT' | 'ING_HOME_PAY' | 'BELFIUS' | 'PRZELEWY_24' | 'NONE';
+export type PaymentMethod = 'CREDIT_CARD' | 'PAYPAL' | 'IDEAL' | 'BANK_TRANSFER' | 'ON_SITE'
+                            | 'APPLE_PAY' | 'BANCONTACT' | 'ING_HOME_PAY' | 'BELFIUS' | 'PRZELEWY_24' | 'KBC' | 'NONE';
 export type PaymentProxy = 'STRIPE' | 'ON_SITE' | 'OFFLINE' | 'PAYPAL' | 'MOLLIE';
 export interface PaymentMethodDetails {
     labelKey: string;
@@ -120,6 +121,10 @@ export const paymentMethodDetails: {[key in PaymentMethod]: PaymentMethodDetails
     'APPLE_PAY': {
         labelKey: 'reservation-page.payment-method.apple-pay',
         icon: ['fab', 'apple-pay']
+    },
+    'KBC': {
+        labelKey: 'reservation-page.payment-method.kbc',
+        icon: ['fas', 'money-check-alt']
     },
     'NONE': {
         labelKey: null,

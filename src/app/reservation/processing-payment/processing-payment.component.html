@@ -12,6 +12,7 @@
 
   <div class="alert alert-info text-center">
     <h4><fa-icon [icon]="['fas', 'cog']" [spin]="true" a11yRole="presentation"></fa-icon>{{' '}}<span translate="reservation.payment-in-progress"></span></h4>
+    <button class="btn btn-default" translate="reservation.payment-processing.force-check" (click)="forceCheck()" *ngIf="forceCheckVisible"></button>
   </div>
 </div>
 

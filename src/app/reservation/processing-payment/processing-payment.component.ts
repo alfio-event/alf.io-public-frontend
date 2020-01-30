@@ -19,6 +19,7 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
 
   eventShortName: string;
   reservationId: string;
+  forceCheckVisible: boolean;
 
   private intervalId: any;
 
@@ -46,19 +47,43 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
         this.analytics.pageView(ev.analyticsConfiguration);
       });
 
+      let checkCount = 0;
       this.intervalId = setInterval(() => {
+        const currentStatus = this.reservationInfo.status;
         this.reservationService.getReservationStatusInfo(this.eventShortName, this.reservationId).subscribe(res => {
-          if (res.status === 'COMPLETE') {
+          checkCount++;
+          if (res.status !== currentStatus) {
             clearInterval(this.intervalId);
-            this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
+            this.reservationStateChanged();
+          }
+          if (!this.forceCheckVisible && checkCount % 5 === 0) {
+            this.forceCheckVisible = true;
           }
         });
       }, 2000);
     });
   }
+  private reservationStateChanged() {
+    // try to navigate to /success. If the reservation is in a different status, the user will be
+    // redirected accordingly.
+    this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
+  }
 
   public ngOnDestroy() {
     clearInterval(this.intervalId);
+  }
+
+  forceCheck(): void {
+    this.reservationService.forcePaymentStatusCheck(this.eventShortName, this.reservationId).subscribe(status => {
+      if (status.redirect) {
+        window.location.href = status.redirectUrl;
+      } else if (status.success || status.failure) {
+        this.reservationStateChanged();
+      }
+    }, err => {
+      console.log('got error', err);
+      this.forceCheckVisible = false;
+    });
   }
 
 

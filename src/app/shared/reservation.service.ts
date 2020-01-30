@@ -57,6 +57,10 @@ export class ReservationService {
         return this.http.get<ReservationPaymentResult>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment/CREDIT_CARD/status`);
     }
 
+    forcePaymentStatusCheck(eventShortName: string, reservationId: string): Observable<ReservationPaymentResult> {
+        return this.http.get<ReservationPaymentResult>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/transaction/force-check`);
+    }
+
     removePaymentToken(eventShortName: string, reservationId: string): Observable<boolean> {
         return this.http.delete<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment/token`);
     }

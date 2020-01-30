@@ -25,7 +25,7 @@ export class MolliePaymentProxyComponent implements OnChanges {
   @Output()
   paymentProvider: EventEmitter<PaymentProvider> = new EventEmitter<PaymentProvider>();
 
-  private compatibleMethods: PaymentMethod[] = ['CREDIT_CARD', 'IDEAL', 'APPLE_PAY', 'BANCONTACT', 'BELFIUS', 'ING_HOME_PAY', 'PRZELEWY_24'];
+  private compatibleMethods: PaymentMethod[] = ['CREDIT_CARD', 'IDEAL', 'APPLE_PAY', 'BANCONTACT', 'BELFIUS', 'ING_HOME_PAY', 'KBC', 'PRZELEWY_24'];
 
   constructor() { }
 
