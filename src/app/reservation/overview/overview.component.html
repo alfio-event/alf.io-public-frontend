@@ -127,7 +127,7 @@
     </div>
 
     <div class="custom-control custom-checkbox" *ngIf="event.privacyPolicyUrl">
-        <input class="custom-control-input" role="group" aria-labelledby="privacy-policy-label" privacyPolicyAccepted" formControlName="privacyPolicyAccepted" type="checkbox">{{' '}} <!-- ugly, see  https://github.com/angular/angular/issues/21049 -->
+        <input class="custom-control-input" role="group" aria-labelledby="privacy-policy-label" id="privacyPolicyAccepted" formControlName="privacyPolicyAccepted" type="checkbox">{{' '}} <!-- ugly, see  https://github.com/angular/angular/issues/21049 -->
         <label for="privacyPolicyAccepted" class="custom-control-label" aria-required="true" id="privacy-policy-label">
           <span translate="reservation-page.privacy.prefix"></span>{{' '}}<a [attr.href]="event.privacyPolicyUrl" target="_blank" translate="reservation-page.privacy.link.text"></a>{{' '}}<span translate="reservation-page.privacy.suffix"></span>
         </label>
