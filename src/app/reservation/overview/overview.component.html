@@ -50,33 +50,40 @@
     </div>
 
 
+    <div *ngIf="!reservationInfo.orderSummary.free" class="page-header mt-2"><h2 translate="reservation-page.payment"></h2></div>
+
     <div class="alert alert-danger mt-3 mb-3" role="alert" *ngIf="globalErrors && globalErrors.length > 0">
       <div *ngFor="let err of globalErrors"><strong>{{err.code | translate: err.arguments}}</strong></div>
     </div>
 
-    <div *ngIf="!reservationInfo.orderSummary.free">
+    <div class="alert mt-3 mb-3 text-center" role="alert" *ngIf="submitting" [class.alert-warning]="paymentStatusNotification && paymentStatusNotification.indeterminate">
+      <strong *ngIf="!paymentStatusNotification"><span translate="reservation.payment-in-progress"></span><app-animated-dots></app-animated-dots></strong>
+      <strong *ngIf="paymentStatusNotification"><span>{{ (paymentStatusNotification.indeterminate ? 'reservation.payment-processing.warning.message' : 'reservation.payment-processing.delay.message') | translate }}</span><app-animated-dots></app-animated-dots></strong>
+      <div class="text-center mt-2" *ngIf="paymentStatusNotification && !paymentStatusNotification.indeterminate">
+        <button class="btn btn-default" translate="reservation.payment-processing.force-check" (click)="forceCheck()"></button>
+      </div>
+    </div>
+
+    <div *ngIf="!reservationInfo.orderSummary.free" [class.invisible]="submitting">
       <app-payment-method-selector [event]="event" [reservationInfo]="reservationInfo" [overviewForm]="overviewForm" (selectedPaymentProvider)="registerCurrentPaymentProvider($event)"></app-payment-method-selector>
     </div>
+
 
     <div *ngIf="reservationInfo.orderSummary.free && event.captchaConfiguration.captchaForOfflinePaymentAndFree" class="mt-2 wMarginBottom">
       <app-recaptcha [apiKey]="event.captchaConfiguration.recaptchaApiKey" (recaptchaResponse)="handleRecaptchaResponse($event)"></app-recaptcha>
     </div>
 
-    <div class="custom-control custom-checkbox" *ngIf="event.privacyPolicyUrl">
+    <div class="custom-control custom-checkbox" *ngIf="event.privacyPolicyUrl" [class.invisible]="submitting">
         <input class="custom-control-input" id="privacyPolicyAccepted" formControlName="privacyPolicyAccepted" type="checkbox" role="group" aria-labelledby="privacy-policy-label">{{' '}} <!-- ugly, see  https://github.com/angular/angular/issues/21049 -->
         <label for="privacyPolicyAccepted" class="custom-control-label" id="privacy-policy-label">
           <span translate="reservation-page.privacy.prefix"></span>{{' '}}<a [attr.href]="event.privacyPolicyUrl" target="_blank" translate="reservation-page.privacy.link.text"></a>{{' '}}<span translate="reservation-page.privacy.suffix"></span>
         </label>
     </div>
-    <div class="custom-control custom-checkbox">
+    <div class="custom-control custom-checkbox" [class.invisible]="submitting">
         <input class="custom-control-input" id="termsAndConditionsAccepted" formControlName="termAndConditionsAccepted" type="checkbox" role="group" aria-labelledby="terms-conditions-label">
         <label class="custom-control-label" for="termsAndConditionsAccepted" id="terms-conditions-label">
           {{' '}}<span translate="reservation-page.tc.prefix"></span>{{' '}}<a [attr.href]="event.termsAndConditionsUrl" target="_blank" translate="reservation-page.tc.link.text"></a>{{' '}}<span translate="reservation-page.tc.suffix"></span>
         </label>
-    </div>
-
-    <div class="alert alert-info mt-3 mb-3 text-center" *ngIf="submitting">
-      <strong ><span translate="reservation.payment-in-progress"></span><span class="dots"><span>.</span><span>.</span><span>.</span></span></strong>
     </div>
 
     <div class="row d-flex justify-content-between mobile-add-margin-bottom mt-4" *ngIf="!submitting">

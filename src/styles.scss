@@ -240,3 +240,19 @@ h4 .badge {
 div.is-invalid ~ div.invalid-feedback {
     display: block;
 }
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.btn-default:hover {
+    color: #212529;
+    background-color: #e2e6ea;
+    border-color: #ccc;
+}
+
+.btn-default:focus, .btn-default.focus {
+    box-shadow: 0 0 0 0.2rem rgba(216, 217, 219, 0.5);
+}

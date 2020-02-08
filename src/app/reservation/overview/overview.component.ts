@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Event, PaymentMethod, PaymentProxy, PaymentProxyWithParameters } from 'src/app/model/event';
 import { EventService } from 'src/app/shared/event.service';
 import { ReservationInfo } from 'src/app/model/reservation-info';
-import { PaymentProvider, SimplePaymentProvider, PaymentResult } from 'src/app/payment/payment-provider';
+import { PaymentProvider, SimplePaymentProvider, PaymentResult, PaymentStatusNotification } from 'src/app/payment/payment-provider';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -31,6 +31,8 @@ export class OverviewComponent implements OnInit {
   expired: boolean;
 
   submitting: boolean;
+  paymentStatusNotification: PaymentStatusNotification;
+  private forceCheckInProgress = false;
 
   selectedPaymentProvider: PaymentProvider;
 
@@ -154,6 +156,11 @@ export class OverviewComponent implements OnInit {
 
     this.submitting = true;
     this.registerUnloadHook();
+    this.selectedPaymentProvider.statusNotifications().subscribe(notification => {
+      if (!this.forceCheckInProgress) {
+        this.paymentStatusNotification = notification;
+      }
+    });
     this.selectedPaymentProvider.pay().subscribe(paymentResult => {
       if (paymentResult.success) {
         this.overviewForm.get('gatewayToken').setValue(paymentResult.gatewayToken);
@@ -192,6 +199,16 @@ export class OverviewComponent implements OnInit {
       this.unregisterHook();
       this.notifyPaymentError(err);
     });
+  }
+
+  forceCheck(): void {
+    this.paymentStatusNotification = null;
+    this.forceCheckInProgress = true;
+    this.reservationService.forcePaymentStatusCheck(this.eventShortName, this.reservationId).subscribe(res => {
+      if (res.success) {
+        console.log('reservation has been confirmed. Waiting for the PaymentProvider to aknowledge it...');
+      }
+    }, err => console.log('error while force-checking', err));
   }
 
   private registerUnloadHook(): void {

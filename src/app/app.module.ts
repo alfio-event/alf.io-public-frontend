@@ -61,6 +61,7 @@ import { ErrorComponent } from './reservation/error/error.component';
 import { DeferredOfflinePaymentComponent } from './reservation/deferred-offline-payment/deferred-offline-payment.component';
 import { MolliePaymentProxyComponent } from './payment/mollie-payment-proxy/mollie-payment-proxy.component';
 import { PaymentMethodSelectorComponent } from './reservation/payment-method-selector/payment-method-selector.component';
+import { AnimatedDotsComponent } from './reservation/animated-dots/animated-dots.component';
 
 
 
@@ -112,7 +113,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ErrorComponent,
     DeferredOfflinePaymentComponent,
     MolliePaymentProxyComponent,
-    PaymentMethodSelectorComponent
+    PaymentMethodSelectorComponent,
+    AnimatedDotsComponent
   ],
   imports: [
     BrowserModule,

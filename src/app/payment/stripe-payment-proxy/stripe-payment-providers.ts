@@ -1,6 +1,6 @@
 import { Event } from 'src/app/model/event';
-import { Observable, Subscriber } from 'rxjs';
-import { PaymentProvider, PaymentResult } from '../payment-provider';
+import { Observable, Subscriber, Subject, EMPTY } from 'rxjs';
+import { PaymentProvider, PaymentResult, PaymentStatusNotification } from '../payment-provider';
 import { TranslateService } from '@ngx-translate/core';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { ReservationService } from 'src/app/shared/reservation.service';
@@ -76,9 +76,15 @@ export class StripeCheckoutPaymentProvider implements PaymentProvider {
             email: this.reservation.email
         });
     }
+
+    statusNotifications(): Observable<PaymentStatusNotification> {
+        return EMPTY;
+    }
 }
 
 export class StripePaymentV3 implements PaymentProvider {
+
+    private notificationSubject = new Subject<PaymentStatusNotification>();
 
     constructor(
         private reservationService: ReservationService,
@@ -124,9 +130,14 @@ export class StripePaymentV3 implements PaymentProvider {
                 };
 
                 this.stripeHandler.handleCardPayment(clientSecret, this.card, paymentData).then(cardPaymentResult => {
+                    let retryCount = 0;
                     let handleCheck: number;
                     const checkIfPaid = () => {
                         console.log('checking reservation status...');
+                        retryCount++;
+                        if (retryCount % 10 === 0) {
+                            this.notificationSubject.next(new PaymentStatusNotification(true, retryCount > 120));
+                        }
                         this.reservationService.getPaymentStatus(this.event.shortName, this.reservation.id).subscribe(status => {
                             if (cardPaymentResult.error || status.success) {
                                 window.clearInterval(handleCheck);
@@ -149,5 +160,9 @@ export class StripePaymentV3 implements PaymentProvider {
             });
         });
         return obs;
+    }
+
+    statusNotifications(): Observable<PaymentStatusNotification> {
+        return this.notificationSubject.asObservable();
     }
 }

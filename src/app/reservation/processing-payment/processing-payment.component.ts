@@ -19,7 +19,9 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
 
   eventShortName: string;
   reservationId: string;
-  forceCheckVisible: boolean;
+  forceCheckVisible = false;
+  providerWarningVisible = false;
+  private forceCheckInProgress = false;
 
   private intervalId: any;
 
@@ -56,8 +58,9 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
             clearInterval(this.intervalId);
             this.reservationStateChanged();
           }
-          if (!this.forceCheckVisible && checkCount % 5 === 0) {
-            this.forceCheckVisible = true;
+          if ((!this.forceCheckVisible || checkCount > 120) && !this.forceCheckInProgress && checkCount % 10 === 0) {
+            this.providerWarningVisible = checkCount > 120;
+            this.forceCheckVisible = !this.providerWarningVisible;
           }
         });
       }, 2000);
@@ -74,15 +77,17 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
   }
 
   forceCheck(): void {
+    this.forceCheckVisible = false;
+    this.forceCheckInProgress = true;
     this.reservationService.forcePaymentStatusCheck(this.eventShortName, this.reservationId).subscribe(status => {
       if (status.redirect) {
         window.location.href = status.redirectUrl;
       } else if (status.success || status.failure) {
         this.reservationStateChanged();
       }
+      this.forceCheckInProgress = false;
     }, err => {
       console.log('got error', err);
-      this.forceCheckVisible = false;
     });
   }
 
