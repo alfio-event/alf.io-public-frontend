@@ -7,3 +7,9 @@ export class EventCode {
 
 export type EventCodeType = 'SPECIAL_PRICE' | 'DISCOUNT' | 'ACCESS';
 export type DiscountType = 'FIXED_AMOUNT' | 'PERCENTAGE' | 'NONE';
+
+export interface DynamicDiscount {
+    discount: string;
+    discountType: DiscountType;
+    formattedMessage: {[key: string]: string};
+}

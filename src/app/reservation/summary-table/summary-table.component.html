@@ -9,7 +9,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let summaryRow of reservationInfo.orderSummary.summary">
-      <td>{{summaryRow.name}}</td>
+      <td><span *ngIf="summaryRow.type === 'DYNAMIC_DISCOUNT'" translate="reservation.dynamic.discount.description"></span><span *ngIf="summaryRow.type !== 'DYNAMIC_DISCOUNT'">{{summaryRow.name}}</span></td>
       <td class="text-center">{{summaryRow.amount}}</td>
       <td class="text-right">{{summaryRow.price}}</td>
       <td class="text-right"><app-price-tag [event]="event" [formattedPrice]="summaryRow.subTotal"></app-price-tag></td>

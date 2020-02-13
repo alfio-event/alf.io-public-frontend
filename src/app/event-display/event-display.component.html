@@ -22,6 +22,10 @@
       <div *ngFor="let err of globalErrors"><strong>{{err.code | translate: err.arguments}}</strong></div>
     </div>
 
+    <div class="alert alert-success" role="alert" *ngIf="dynamicDiscountMessage">
+        <span [innerHTML]="dynamicDiscountMessage"></span>
+    </div>
+
     <!-- begin waiting list -->
     <div *ngIf="waitingList && !waitingListRequestSubmitted" class="alert alert-warning" role="alert">
       <ng-container *ngIf="preSales">
@@ -105,7 +109,10 @@
             </span>
           </div>
           <div class="item-qty-selector">
-              <app-ticket-quantity-selector [parentGroup]="reservationFormItem(reservationForm, counter)" [category]="category" [quantityRange]="ticketCategoryAmount[category.id]"></app-ticket-quantity-selector>
+              <app-ticket-quantity-selector [parentGroup]="reservationFormItem(reservationForm, counter)"
+                [category]="category"
+                [quantityRange]="ticketCategoryAmount[category.id]"
+                (valueChange)="selectionChange()"></app-ticket-quantity-selector>
           </div>
         </app-item-card>
       </div>

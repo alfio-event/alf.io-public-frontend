@@ -13,7 +13,7 @@ import {AdditionalService} from '../model/additional-service';
 import {I18nService} from '../shared/i18n.service';
 import {WaitingListSubscriptionRequest} from '../model/waiting-list-subscription-request';
 import {ItemsByCategory, TicketCategoryForWaitingList} from '../model/items-by-category';
-import {EventCode} from '../model/event-code';
+import {EventCode, DynamicDiscount} from '../model/event-code';
 import {AnalyticsService} from '../shared/analytics.service';
 import {ErrorDescriptor} from '../model/validated-response';
 
@@ -56,6 +56,8 @@ export class EventDisplayComponent implements OnInit {
   @ViewChild('tickets', { static: false })
   tickets: ElementRef<HTMLDivElement>;
   expiredCategoriesExpanded = false;
+
+  private dynamicDiscount: DynamicDiscount;
 
   // https://alligator.io/angular/reactive-forms-formarray-dynamic-fields/
 
@@ -264,4 +266,19 @@ export class EventDisplayComponent implements OnInit {
     }
     this.applyPromoCode();
   }
+
+  selectionChange(): void {
+    this.reservationService.checkDynamicDiscountAvailability(this.event.shortName, this.reservationForm.value)
+      .subscribe(d => {
+        this.dynamicDiscount = d;
+      });
+  }
+
+  get dynamicDiscountMessage(): string {
+    if (this.dynamicDiscount != null) {
+      return this.dynamicDiscount.formattedMessage[this.translate.currentLang];
+    }
+    return null;
+  }
+
 }

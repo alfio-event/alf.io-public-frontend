@@ -7,6 +7,7 @@ import { OverviewConfirmation } from '../model/overview-confirmation';
 import { ReservationInfo, ReservationStatusInfo } from '../model/reservation-info';
 import { ReservationPaymentResult } from '../model/reservation-payment-result';
 import { TransactionInitializationToken } from '../model/payment';
+import { DynamicDiscount } from '../model/event-code';
 
 @Injectable({
     providedIn: 'root'
@@ -71,5 +72,9 @@ export class ReservationService {
 
     registerPaymentAttempt(eventShortName: string, reservationId: string): Observable<boolean> {
         return this.http.put<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment`, {});
+    }
+
+    checkDynamicDiscountAvailability(eventShortName: string, reservation: ReservationRequest): Observable<DynamicDiscount> {
+        return this.http.post<DynamicDiscount>(`/api/v2/public/event/${eventShortName}/check-discount`, reservation);
     }
 }
