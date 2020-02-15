@@ -157,6 +157,9 @@
               <span *ngIf="eventCode.discountType === 'FIXED_AMOUNT'">
                 {{'show-event.promo-code-fixed-amount-discount'|translate: {'0': eventCode.discountAmount + ' ' + event.currency} }}
               </span>
+              <span *ngIf="eventCode.discountType === 'FIXED_AMOUNT_RESERVATION'">
+                {{'show-event.promo-code-percentage-discount'|translate: {'0': eventCode.discountAmount + ' ' + event.currency} }}
+              </span>
               <span *ngIf="eventCode.discountType === 'PERCENTAGE'">
                   {{'show-event.promo-code-percentage-discount'|translate: {'0': eventCode.discountAmount + '%'} }}
               </span>

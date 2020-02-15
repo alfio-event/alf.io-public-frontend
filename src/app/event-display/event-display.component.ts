@@ -268,10 +268,12 @@ export class EventDisplayComponent implements OnInit {
   }
 
   selectionChange(): void {
-    this.reservationService.checkDynamicDiscountAvailability(this.event.shortName, this.reservationForm.value)
-      .subscribe(d => {
-        this.dynamicDiscount = d;
-      });
+    if (this.eventCode == null) {
+      this.reservationService.checkDynamicDiscountAvailability(this.event.shortName, this.reservationForm.value)
+        .subscribe(d => {
+          this.dynamicDiscount = d;
+        });
+    }
   }
 
   get dynamicDiscountMessage(): string {
