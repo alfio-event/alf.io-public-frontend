@@ -13,7 +13,7 @@
   /* deskop here */
   .card-title {
     order: 0;
-    flex-grow: 1;
+    max-width: 65%;
   }
   
   .card-sale-period {
@@ -24,6 +24,7 @@
   .card-item-price {
     order: 1;
     padding-right: 3rem!important;
+    margin-left: auto;
   }
   
   .card-qty-container {
