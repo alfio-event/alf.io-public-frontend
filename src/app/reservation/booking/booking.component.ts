@@ -30,7 +30,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
   reservationId: string;
   expired: boolean;
   globalErrors: ErrorDescriptor[];
-  @ViewChild('invoiceAnchor', {static: false})
+  @ViewChild('invoiceAnchor')
   private invoiceElement: ElementRef<HTMLAnchorElement>;
   private doScroll = new Subject<boolean>();
 

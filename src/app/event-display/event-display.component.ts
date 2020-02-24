@@ -51,9 +51,9 @@ export class EventDisplayComponent implements OnInit {
 
   displayPromoCodeForm: boolean;
   promoCodeForm: FormGroup;
-  @ViewChild('promoCode', {static: false})
+  @ViewChild('promoCode')
   promoCodeElement: ElementRef<HTMLInputElement>;
-  @ViewChild('tickets', { static: false })
+  @ViewChild('tickets')
   tickets: ElementRef<HTMLDivElement>;
   expiredCategoriesExpanded = false;
 
