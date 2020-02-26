@@ -268,7 +268,7 @@ export class EventDisplayComponent implements OnInit {
   }
 
   selectionChange(): void {
-    if (this.eventCode == null) {
+    if (this.eventCode == null || this.eventCode.type == 'ACCESS') {
       this.reservationService.checkDynamicDiscountAvailability(this.event.shortName, this.reservationForm.value)
         .subscribe(d => {
           this.dynamicDiscount = d;
