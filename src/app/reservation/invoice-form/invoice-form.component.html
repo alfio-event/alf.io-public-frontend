@@ -70,7 +70,7 @@
           <div class="form-group">
               <label for="vatCountry" id="vatCountryLabel" class="control-label">{{'reservation-page-complete.country' | translate}}{{' *'}}</label>
               <ng-select aria-required="true" placeholder="{{'reservation-page.country.select'|translate}}" 
-                        [items]="countries" bindLabel="name" bindValue="isoCode" selectOnTab="true"
+                        [items]="countries" bindLabel="name" bindValue="isoCode" [selectOnTab]="true"
                         formControlName="vatCountryCode" class="form-control field-required" 
                         [searchFn]="searchCountry" required appInvalidFeedback
                         labelForId="vatCountry" aria-labelledby="vatCountryLabel">

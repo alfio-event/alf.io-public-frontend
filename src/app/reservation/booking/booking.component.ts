@@ -199,6 +199,10 @@ export class BookingComponent implements OnInit, AfterViewInit {
     }
   }
 
+  getTicketForm(ticket: Ticket): FormGroup {
+    return this.contactAndTicketsForm.get('tickets.'+ticket.uuid) as FormGroup;
+  }
+
   copyContactInfoTo(ticket: Ticket) {
     ['firstName', 'lastName', 'email'].forEach(field => {
       const val = this.contactAndTicketsForm.get(field).value;

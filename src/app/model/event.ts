@@ -1,5 +1,6 @@
 import { DateValidity, EventDatesWithOffset } from './date-validity';
 import { AnalyticsConfiguration } from './analytics-configuration';
+import { IconPrefix, IconName } from '@fortawesome/fontawesome-svg-core';
 
 export class Event implements DateValidity {
     shortName: string;
@@ -78,7 +79,7 @@ export type PaymentMethod = 'CREDIT_CARD' | 'PAYPAL' | 'IDEAL' | 'BANK_TRANSFER'
 export type PaymentProxy = 'STRIPE' | 'ON_SITE' | 'OFFLINE' | 'PAYPAL' | 'MOLLIE';
 export interface PaymentMethodDetails {
     labelKey: string;
-    icon: string[];
+    icon: [IconPrefix, IconName];
 }
 
 export const paymentMethodDetails: {[key in PaymentMethod]: PaymentMethodDetails} = {
