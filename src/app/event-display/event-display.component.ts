@@ -3,7 +3,7 @@ import {EventService} from '../shared/event.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {ReservationService} from '../shared/reservation.service';
-import {Event} from '../model/event';
+import {Event as AlfioEvent} from '../model/event';
 import {TranslateService} from '@ngx-translate/core';
 import {TicketCategory} from '../model/ticket-category';
 import {ReservationRequest} from '../model/reservation-request';
@@ -24,7 +24,7 @@ import {ErrorDescriptor} from '../model/validated-response';
 })
 export class EventDisplayComponent implements OnInit {
 
-  event: Event;
+  event: AlfioEvent;
   ticketCategories: TicketCategory[];
   expiredCategories: TicketCategory[];
   //
@@ -259,7 +259,7 @@ export class EventDisplayComponent implements OnInit {
     });
   }
 
-  promoCodeOnEnter(ev: KeyboardEvent) {
+  promoCodeOnEnter(ev: Event) {
     ev.preventDefault();
     if (this.promoCodeForm.invalid) {
       return;

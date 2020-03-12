@@ -5,9 +5,8 @@
     "types": []
   },
   "angularCompilerOptions": {
-    "enableIvy": false,
+    "strictTemplates": true,
     "strictMetadataEmit": true,
-    "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
   },
   "files": [

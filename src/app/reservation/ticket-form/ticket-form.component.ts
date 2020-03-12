@@ -25,4 +25,8 @@ export class TicketFormComponent implements OnInit {
       this.form.get('userLanguage').setValue(this.event.contentLanguages[0].locale);
     }
   }
+
+  getAdditional(form: FormGroup) {
+    return form.get('additional') as FormGroup;
+  }
 }
