@@ -283,4 +283,12 @@ export class EventDisplayComponent implements OnInit {
     return null;
   }
 
+  get isEventOnline(): boolean {
+    return this.event.format == 'ONLINE';
+  }
+
+  get displayMap(): boolean {
+    return !this.isEventOnline;
+  }
+
 }

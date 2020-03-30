@@ -4,6 +4,7 @@ import { AnalyticsConfiguration } from './analytics-configuration';
 export class Event implements DateValidity {
     shortName: string;
     displayName: string;
+    format: EventFormat;
     fileBlobId: string;
     contentLanguages: Language[];
     websiteUrl: string;
@@ -72,6 +73,8 @@ export class PaymentProxyWithParameters {
     paymentProxy: PaymentProxy;
     parameters: {[key: string]: any};
 }
+
+export type EventFormat = 'IN_PERSON' | 'ONLINE';
 
 export type PaymentMethod = 'CREDIT_CARD' | 'PAYPAL' | 'IDEAL' | 'BANK_TRANSFER' | 'ON_SITE'
                             | 'APPLE_PAY' | 'BANCONTACT' | 'ING_HOME_PAY' | 'BELFIUS' | 'PRZELEWY_24' | 'KBC' | 'NONE';
