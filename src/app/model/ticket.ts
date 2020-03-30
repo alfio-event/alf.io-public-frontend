@@ -11,6 +11,8 @@ export class Ticket {
     cancellationEnabled: boolean;
     ticketFieldConfigurationBeforeStandard: AdditionalField[];
     ticketFieldConfigurationAfterStandard: AdditionalField[];
+    formattedOnlineCheckInDate: {[key: string]: string};
+    onlineEventStarted: boolean;
 }
 
 export class AdditionalField {

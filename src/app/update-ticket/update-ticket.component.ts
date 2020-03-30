@@ -11,6 +11,7 @@ import { FormGroup } from '@angular/forms';
 import { Ticket } from '../model/ticket';
 import { handleServerSideValidationError } from '../shared/validation-helper';
 import { TicketsByTicketCategory } from '../model/reservation-info';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-update-ticket',
@@ -33,7 +34,8 @@ export class UpdateTicketComponent implements OnInit {
     private router: Router,
     private eventService: EventService,
     private i18nService: I18nService,
-    private analytics: AnalyticsService) { }
+    private analytics: AnalyticsService,
+    private translate: TranslateService) { }
 
   public ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -88,5 +90,19 @@ export class UpdateTicketComponent implements OnInit {
           this.router.navigate(['event', this.event.shortName], {replaceUrl: true});
         }
       });
+  }
+
+  get isEventOnline(): boolean {
+    return this.event.format === 'ONLINE';
+  }
+
+  get ticketOnlineCheckInDate(): string {
+    return this.ticket.formattedOnlineCheckInDate[this.translate.currentLang];
+  }
+
+  get canUpdateTicket(): boolean {
+    return !this.ticket.locked
+      || this.ticket.ticketFieldConfigurationAfterStandard.length > 0
+      || this.ticket.ticketFieldConfigurationBeforeStandard.length > 0;
   }
 }
