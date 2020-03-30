@@ -36,4 +36,8 @@ export class EventSummaryComponent {
     });
   }
 
+  get isEventOnline(): boolean {
+    return this.event.format == 'ONLINE';
+  }
+
 }

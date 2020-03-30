@@ -132,4 +132,8 @@ export class SuccessComponent implements OnInit {
         && this.reservationInfo.invoiceOrReceiptDocumentPresent;
   }
 
+  get isEventOnline(): boolean {
+    return this.event.format == 'ONLINE';
+  }
+
 }
