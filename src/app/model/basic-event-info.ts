@@ -1,8 +1,10 @@
 import { DateValidity, EventDatesWithOffset } from './date-validity';
+import { EventFormat } from './event';
 
 export class BasicEventInfo implements DateValidity {
     shortName: string;
     fileBlobId: string;
+    format: EventFormat;
     displayName: string;
     location: string;
 

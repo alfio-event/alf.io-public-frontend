@@ -32,7 +32,8 @@
           <a target="_blank" href="/api/v2/public/event/{{event.shortName}}/calendar/{{translate.currentLang}}">iCalendar</a>
         </dd>
         <dt class="col-1 text-muted"><fa-icon [icon]="['far', 'compass']" [title]="(isEventOnline ? 'event.location.online' : 'ticket.location') | translate"></fa-icon></dt>
-        <dd class="col-11">{{(isEventOnline ? 'event.location.online' : 'ticket.location') | translate}}</dd>
+        <dd class="col-11" *ngIf="!isEventOnline">{{ event.location }}</dd>
+        <dd class="col-11" *ngIf="isEventOnline"><div class="h6" *ngIf="isEventOnline"><span class="badge badge-secondary">{{'event.online.badge' | translate}}</span></div></dd>
 
     </dl>
   </div>
