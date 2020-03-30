@@ -51,4 +51,8 @@ export class EventListComponent implements OnInit {
       return shouldDisplayTimeZoneInfo(event);
     }
 
+    public isEventOnline(event: BasicEventInfo): boolean {
+      return event.format === 'ONLINE';
+    }
+
 }
