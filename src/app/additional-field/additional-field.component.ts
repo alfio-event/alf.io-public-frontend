@@ -88,4 +88,8 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
   get labelId(): string {
     return this.ticketUUID + '-' + this.field.name.replace(/[^a-zA-Z0-9]/g, '+') + '-label';
   }
+
+  get hideLabelForAssistiveTechnologies(): boolean {
+    return this.field.type === 'checkbox' || this.field.type === 'radio';
+  }
 }
