@@ -11,7 +11,13 @@
       </div>
       <div class="card-body">
         <h2 class="card-title">{{event.displayName}}</h2>
-        <p class="card-text"><fa-icon [icon]="['far', 'calendar-alt']" class="text-muted" [title]="'ticket.date-time' | translate"></fa-icon>&nbsp;{{event.formattedBeginDate[translate.currentLang]}} <span class="text-muted" *ngIf="displayTimeZoneInfo(event)">&nbsp; ({{event.timeZone}})</span></p>
+        <p class="card-text" *ngIf="event.formattedBeginDate[translate.currentLang] == event.formattedEndDate[translate.currentLang]"><fa-icon [icon]="['far', 'calendar-alt']" class="text-muted" [title]="'ticket.date-time' | translate"></fa-icon>&nbsp;{{event.formattedBeginDate[translate.currentLang]}} 
+          <span *ngIf="isEventOnline(event)"> ({{event.formattedBeginTime[translate.currentLang]}}-{{event.formattedEndTime[translate.currentLang]}})</span>
+          <span class="text-muted" *ngIf="displayTimeZoneInfo(event)">&nbsp; ({{event.timeZone}})</span></p>
+        <p class="card-text text-muted mt-1" *ngIf="!isEventOnline(event)">{{event.location}}</p>
+        <p class="card-text" *ngIf="event.formattedBeginDate[translate.currentLang] != event.formattedEndDate[translate.currentLang]"><fa-icon [icon]="['far', 'calendar-alt']" class="text-muted" [title]="'ticket.date-time' | translate"></fa-icon>&nbsp;{{event.formattedBeginDate[translate.currentLang]}} 
+          <span *ngIf="isEventOnline(event)"> {{event.formattedBeginTime[translate.currentLang]}}&nbsp;-&gt;&nbsp;{{event.formattedEndDate[translate.currentLang]}}&nbsp;{{event.formattedEndTime[translate.currentLang]}}</span>
+          <span class="text-muted" *ngIf="displayTimeZoneInfo(event)">&nbsp; ({{event.timeZone}})</span></p>
         <p class="card-text text-muted mt-1" *ngIf="!isEventOnline(event)">{{event.location}}</p>
       </div>
       <div class="card-footer border-top-0 bg-white">
