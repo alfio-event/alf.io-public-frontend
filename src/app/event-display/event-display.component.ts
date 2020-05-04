@@ -288,7 +288,7 @@ export class EventDisplayComponent implements OnInit {
   }
 
   get displayMap(): boolean {
-    return !this.isEventOnline;
+    return (this.event.mapUrl && this.event.mapUrl.length > 0) && !this.isEventOnline;
   }
 
 }
