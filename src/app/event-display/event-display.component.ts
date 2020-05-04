@@ -227,7 +227,7 @@ export class EventDisplayComponent implements OnInit {
   togglePromoCodeVisible(): void {
     this.displayPromoCodeForm = !this.displayPromoCodeForm;
     if (this.displayPromoCodeForm) {
-      setTimeout(() => this.promoCodeElement.nativeElement.focus());
+      setTimeout(() => this.promoCodeElement.nativeElement.focus(), 200);
     } else {
       this.promoCodeForm.get('promoCode').setValue(null);
     }
