@@ -7,22 +7,7 @@
         <dd class="col-11">{{'show-event.by'|translate}} <strong><a [href]="'mailto:'+ event.organizationEmail">{{event.organizationName}}</a></strong></dd>
         <dt class="col-1 text-muted"><fa-icon [icon]="['far', 'calendar-alt']" [title]="'ticket.date-time' | translate"></fa-icon></dt>
         <dd class="col-11">
-          <!-- same day-->
-          <span *ngIf="dateValidityProvider.sameDay">
-            {{' ' + dateValidityProvider.formattedBeginDate[translate.currentLang]}}&nbsp;{{'event-days.single-day.hours'|translate: {'0': dateValidityProvider.formattedBeginTime[translate.currentLang], '1': dateValidityProvider.formattedEndTime[translate.currentLang]} }}
-            <span class="text-muted" *ngIf="displayTimeZoneInfo">&nbsp; ({{dateValidityProvider.timeZone}})</span>
-          </span>
-          <!-- more than one day-->
-          <div *ngIf="!dateValidityProvider.sameDay">
-            <div class="row">
-              <div class="col-2"><strong translate="event-days.from"></strong></div>
-              <div class="col-10">{{localizedStartDateForMultiDay}} <span class="text-muted" *ngIf="displayTimeZoneInfo">&nbsp; ({{dateValidityProvider.timeZone}})</span></div>
-            </div>
-            <div class="row">
-              <div class="col-2"><strong translate="event-days.to"></strong></div>
-              <div class="col-10">{{localizedEndDateForMultiDay}} <span class="text-muted" *ngIf="displayTimeZoneInfo">&nbsp; ({{dateValidityProvider.timeZone}})</span></div>
-            </div>
-          </div>
+          <app-event-dates [dateValidityProvider]="dateValidityProvider"></app-event-dates>
         </dd>
         <dt class="col-1 text-muted"><fa-icon [icon]="['far', 'calendar-plus']" a11yRole="presentation"></fa-icon></dt>
         <dd class="col-11">

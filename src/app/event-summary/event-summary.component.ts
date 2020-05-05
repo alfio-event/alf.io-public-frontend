@@ -18,24 +18,6 @@ export class EventSummaryComponent {
 
   constructor(public translate: TranslateService) { }
 
-  get displayTimeZoneInfo(): boolean {
-    return shouldDisplayTimeZoneInfo(this.event);
-  }
-
-  get localizedStartDateForMultiDay(): string {
-    return this.translate.instant('event-days.not-same-day', {
-      '0': this.dateValidityProvider.formattedBeginDate[this.translate.currentLang],
-      '1': this.dateValidityProvider.formattedBeginTime[this.translate.currentLang]
-    });
-  }
-
-  get localizedEndDateForMultiDay(): string {
-    return this.translate.instant('event-days.not-same-day', {
-      '0': this.dateValidityProvider.formattedEndDate[this.translate.currentLang],
-      '1': this.dateValidityProvider.formattedEndTime[this.translate.currentLang]
-    });
-  }
-
   get isEventOnline(): boolean {
     return this.event.format == 'ONLINE';
   }

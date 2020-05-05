@@ -62,6 +62,7 @@ import { DeferredOfflinePaymentComponent } from './reservation/deferred-offline-
 import { MolliePaymentProxyComponent } from './payment/mollie-payment-proxy/mollie-payment-proxy.component';
 import { PaymentMethodSelectorComponent } from './reservation/payment-method-selector/payment-method-selector.component';
 import { AnimatedDotsComponent } from './reservation/animated-dots/animated-dots.component';
+import { EventDatesComponent } from './event-dates/event-dates.component';
 
 
 
@@ -114,7 +115,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DeferredOfflinePaymentComponent,
     MolliePaymentProxyComponent,
     PaymentMethodSelectorComponent,
-    AnimatedDotsComponent
+    AnimatedDotsComponent,
+    EventDatesComponent
   ],
   imports: [
     BrowserModule,
