@@ -1,5 +1,5 @@
 <div class="mb-5 d-md-flex text-center text-md-left justify-content-md-center">
-    <div><a [href]="event.termsAndConditionsUrl" target="_blank">{{'reservation-page.tc.link.text'|translate}}</a></div>
+    <div><a [href]="event.termsAndConditionsUrl" target="_blank" rel="noopener">{{'reservation-page.tc.link.text'|translate}}</a></div>
     <div class="ml-3 mr-3 d-none d-md-block" *ngIf="event.privacyPolicyUrl">&ndash;</div>
-    <div *ngIf="event.privacyPolicyUrl"><a [href]="event.privacyPolicyUrl" target="_blank">{{'reservation-page.privacy.link.text'|translate}}</a></div>
+    <div *ngIf="event.privacyPolicyUrl"><a [href]="event.privacyPolicyUrl" target="_blank" rel="noopener">{{'reservation-page.privacy.link.text'|translate}}</a></div>
 </div>
