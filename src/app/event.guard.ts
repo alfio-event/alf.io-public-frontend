@@ -29,10 +29,10 @@ export class EventGuard implements CanActivate {
       const a = document.getElementById('event-custom-css-' + event.organizationName + '-' + event.shortName);
       const found = document.head.querySelectorAll('style[data-event-custom-css]');
 
-      //remove all custom event styles already present, as we don't have the one for this event
-      if (a === null && found.length > 0) {
-        found.forEach(e => e.remove());
-      }
+      //remove all custom event styles already present that don't have the expected id
+      found.forEach(e => {
+        if (e.id !== id) {e.remove()}
+      });
 
       //create custom css
       if (a === null) {
