@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AnalyticsService } from '../shared/analytics.service';
 import { InfoService } from '../shared/info.service';
 import { zip } from 'rxjs';
+import { removeAllCustomEventCss } from '../shared/custom-css-helper'
 
 @Component({
   selector: 'app-event-list',
@@ -28,6 +29,9 @@ export class EventListComponent implements OnInit {
     private analytics: AnalyticsService) { }
 
     public ngOnInit(): void {
+
+      removeAllCustomEventCss();
+
       zip(this.eventService.getEvents(), this.info.getInfo()).subscribe(([res, info]) => {
         if (res.length === 1) {
           this.router.navigate(['/event', res[0].shortName], {replaceUrl: true});
