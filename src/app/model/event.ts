@@ -53,6 +53,8 @@ export class Event implements DateValidity {
     i18nOverride: {[lang: string]: {[key: string]: string}};
 
     availableTicketsCount: number | null;
+    
+    customCss: string | null;
 }
 
 export class InvoicingConfiguration {
