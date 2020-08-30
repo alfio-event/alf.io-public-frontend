@@ -1,7 +1,7 @@
 <div class="row" [formGroup]="overviewForm">
     <div class="col-12" [class.col-md-5]="verticalLayout" *ngIf="activePaymentsCount > 1">
         <div *ngIf="verticalLayout" class="mb-md-4">
-            <div *ngFor="let method of sortedAvailablePaymentMethods" class="custom-control custom-radio pt-3 pb-3" 
+            <div *ngFor="let method of sortedAvailablePaymentMethods" class="custom-control custom-radio pt-3 pb-3"
                 [ngClass]="{ 'font-weight-bold border-top border-bottom': selectedPaymentMethod == method, 'text-muted border-right-md': selectedPaymentMethod != null && selectedPaymentMethod != method }">
                 <input class="custom-control-input" [attr.id]="method" type="radio" [value]="method" formControlName="selectedPaymentMethod" role="radiogroup" [attr.aria-labelledby]="method + '-label'">
                 <label class="custom-control-label w-100 h-100" [attr.for]="method" [id]="method + '-label'"><fa-icon [icon]="getPaymentMethodDetails(method).icon" a11yRole="presentation" class="ml-2 mr-3"></fa-icon> {{ getPaymentMethodDetails(method).labelKey | translate }}</label>
@@ -60,7 +60,12 @@
                 [method]="selectedPaymentMethod"
                 (paymentProvider)="registerCurrentPaymentProvider($event)">
             </app-mollie-payment-proxy>
+            <app-saferpay-payment-proxy
+              [proxy]="selectedPaymentProxy"
+              [method]="selectedPaymentMethod"
+              (paymentProvider)="registerCurrentPaymentProvider($event)">
+            </app-saferpay-payment-proxy>
         </div>
-        
+
     </div>
 </div>
