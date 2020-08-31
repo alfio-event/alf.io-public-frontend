@@ -40,6 +40,7 @@ import { OfflinePaymentProxyComponent } from './payment/offline-payment-proxy/of
 import { OnsitePaymentProxyComponent } from './payment/onsite-payment-proxy/onsite-payment-proxy.component';
 import { PaypalPaymentProxyComponent } from './payment/paypal-payment-proxy/paypal-payment-proxy.component';
 import { StripePaymentProxyComponent } from './payment/stripe-payment-proxy/stripe-payment-proxy.component';
+import { SaferpayPaymentProxyComponent } from './payment/saferpay-payment-proxy/saferpay-payment-proxy.component';
 import { ProcessingPaymentComponent } from './reservation/processing-payment/processing-payment.component';
 import { SummaryTableComponent } from './reservation/summary-table/summary-table.component';
 import { InvoiceFormComponent } from './reservation/invoice-form/invoice-form.component';
@@ -48,11 +49,11 @@ import { AdditionalServiceComponent } from './additional-service/additional-serv
 import { RecaptchaComponent } from './recaptcha/recaptcha.component';
 import { CustomLoader } from './shared/i18n.service';
 import { NotFoundComponent } from './reservation/not-found/not-found.component';
-import {PriceTagComponent} from './price-tag/price-tag.component';
-import {TicketQuantitySelectorComponent} from './ticket-quantity-selector/ticket-quantity-selector.component';
-import {ItemSalePeriodComponent} from './category-sale-period/item-sale-period.component';
-import {ItemCardComponent} from './item-card/item-card.component';
-import {AdditionalServiceQuantitySelectorComponent} from './additional-service-quantity-selector/additional-service-quantity-selector.component';
+import { PriceTagComponent } from './price-tag/price-tag.component';
+import { TicketQuantitySelectorComponent } from './ticket-quantity-selector/ticket-quantity-selector.component';
+import { ItemSalePeriodComponent } from './category-sale-period/item-sale-period.component';
+import { ItemCardComponent } from './item-card/item-card.component';
+import { AdditionalServiceQuantitySelectorComponent } from './additional-service-quantity-selector/additional-service-quantity-selector.component';
 import { ReservationExpiredComponent } from './reservation/expired-notification/reservation-expired.component';
 import { ReleaseTicketComponent } from './reservation/release-ticket/release-ticket.component';
 import { CancelReservationComponent } from './reservation/cancel-reservation/cancel-reservation.component';
@@ -95,6 +96,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     OnsitePaymentProxyComponent,
     PaypalPaymentProxyComponent,
     StripePaymentProxyComponent,
+    SaferpayPaymentProxyComponent,
     ProcessingPaymentComponent,
     SummaryTableComponent,
     InvoiceFormComponent,

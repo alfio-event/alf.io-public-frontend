@@ -53,7 +53,7 @@ export class Event implements DateValidity {
     i18nOverride: {[lang: string]: {[key: string]: string}};
 
     availableTicketsCount: number | null;
-    
+
     customCss: string | null;
 }
 
@@ -81,7 +81,7 @@ export type EventFormat = 'IN_PERSON' | 'ONLINE';
 
 export type PaymentMethod = 'CREDIT_CARD' | 'PAYPAL' | 'IDEAL' | 'BANK_TRANSFER' | 'ON_SITE'
                             | 'APPLE_PAY' | 'BANCONTACT' | 'ING_HOME_PAY' | 'BELFIUS' | 'PRZELEWY_24' | 'KBC' | 'NONE';
-export type PaymentProxy = 'STRIPE' | 'ON_SITE' | 'OFFLINE' | 'PAYPAL' | 'MOLLIE';
+export type PaymentProxy = 'STRIPE' | 'ON_SITE' | 'OFFLINE' | 'PAYPAL' | 'MOLLIE' | 'SAFERPAY';
 export interface PaymentMethodDetails {
     labelKey: string;
     icon: [IconPrefix, IconName];
