@@ -27,6 +27,7 @@ export class UpdateTicketComponent implements OnInit {
   categoryName: string;
   emailSent: boolean;
   ticketFormVisible: boolean;
+  eventExpired: boolean;
 
   constructor(
     private ticketService: TicketService,
@@ -49,6 +50,7 @@ export class UpdateTicketComponent implements OnInit {
         this.i18nService.setPageTitle('show-ticket.header.title', event.displayName);
         this.handleTicketResponse(ticketsByCategory);
         this.analytics.pageView(event.analyticsConfiguration);
+        this.eventExpired = this.event.datesWithOffset.endDateTime <= Date.now();
       }, e => {
         if (e instanceof HttpErrorResponse && e.status === 404) {
           this.router.navigate(['']);
