@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.config.json",
+    "startProd": "ng serve --proxy-config proxy.config.json --aot=true --prod=true",
     "build": "ng build --aot=true --buildOptimizer=true --prod=true",
     "test": "ng test",
     "lint": "ng lint",
@@ -31,7 +32,8 @@
     "@ngx-translate/http-loader": "^4.0.0",
     "@types/countdown": "0.0.7",
     "bootstrap": "^4.4.0",
-    "core-js": "^2.6.9",
+    "classlist.js": "^1.1.20150312",
+    "core-js": "^2.6.11",
     "countdown": "^2.6.0",
     "rxjs": "^6.6.2",
     "tslib": "^2.0.0",
