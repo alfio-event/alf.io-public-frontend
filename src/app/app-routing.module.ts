@@ -21,6 +21,7 @@ const reservationsGuard = [EventGuard, LanguageGuard, ReservationGuard];
 const routes: Routes = [
   { path: '', component: EventListComponent, canActivate: [LanguageGuard] },
   { path: 'event/:eventShortName', component: EventDisplayComponent, canActivate: [EventGuard, LanguageGuard] },
+  { path: 'event/:eventShortName/live-poll', loadChildren: () => import('./live-poll/live-poll.module').then(m => m.LivePollModule), canActivate: [EventGuard, LanguageGuard] },
   { path: 'event/:eventShortName/reservation/:reservationId', children: [
     { path: 'book', component: BookingComponent, canActivate: reservationsGuard },
     { path: 'overview', component: OverviewComponent, canActivate: reservationsGuard },
@@ -30,12 +31,12 @@ const routes: Routes = [
     { path: 'processing-payment', component: ProcessingPaymentComponent, canActivate: reservationsGuard },
     { path: 'success', component: SuccessComponent, canActivate: reservationsGuard },
     { path: 'not-found', component: NotFoundComponent, canActivate: reservationsGuard },
-    { path: 'error', component: ErrorComponent, canActivate: reservationsGuard }
+    { path: 'error', component: ErrorComponent, canActivate: reservationsGuard },
   ]},
   { path: 'event/:eventShortName/ticket/:ticketId', children: [
     { path: 'view', component: ViewTicketComponent, canActivate: [EventGuard, LanguageGuard] },
     { path: 'update', component: UpdateTicketComponent, canActivate: [EventGuard, LanguageGuard] }
-  ]}
+  ]},
 ];
 
 @NgModule({
