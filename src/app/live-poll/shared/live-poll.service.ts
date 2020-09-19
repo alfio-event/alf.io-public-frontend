@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { LivePollModule } from '../live-poll.module';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: LivePollModule
 })
 export class LivePollService {
 
