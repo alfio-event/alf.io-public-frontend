@@ -7,7 +7,7 @@ import { ValidatedResponse } from '../../model/validated-response';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
-export class LivePollService {
+export class PollService {
 
   constructor(private http: HttpClient) { }
 

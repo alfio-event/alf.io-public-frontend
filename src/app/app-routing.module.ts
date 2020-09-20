@@ -21,7 +21,7 @@ const reservationsGuard = [EventGuard, LanguageGuard, ReservationGuard];
 const routes: Routes = [
   { path: '', component: EventListComponent, canActivate: [LanguageGuard] },
   { path: 'event/:eventShortName', component: EventDisplayComponent, canActivate: [EventGuard, LanguageGuard] },
-  { path: 'event/:eventShortName/live-poll', loadChildren: () => import('./live-poll/live-poll.module').then(m => m.LivePollModule), canActivate: [EventGuard, LanguageGuard] },
+  { path: 'event/:eventShortName/poll', loadChildren: () => import('./poll/poll.module').then(m => m.PollModule), canActivate: [EventGuard, LanguageGuard] },
   { path: 'event/:eventShortName/reservation/:reservationId', children: [
     { path: 'book', component: BookingComponent, canActivate: reservationsGuard },
     { path: 'overview', component: OverviewComponent, canActivate: reservationsGuard },

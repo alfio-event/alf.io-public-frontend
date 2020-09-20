@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { LivePollRoutingModule } from './live-poll-routing.module';
-import { LivePollComponent } from './live-poll.component';
+import { PollRoutingModule } from './poll-routing.module';
+import { PollComponent } from './poll.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [LivePollComponent],
+  declarations: [PollComponent],
   imports: [
     CommonModule,
-    LivePollRoutingModule,
+    PollRoutingModule,
     FormsModule,
     ReactiveFormsModule,
   ]
 })
-export class LivePollModule { }
+export class PollModule { }
