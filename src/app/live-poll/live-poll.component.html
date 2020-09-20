@@ -1,1 +1,7 @@
 <p>live-poll works!</p>
+
+
+<form [formGroup]="pinForm" (submit)="confirmPin()">
+    <input formControlName="pin">
+    <button class="btn btn-primary" type="submit">Confirm</button>
+</form>

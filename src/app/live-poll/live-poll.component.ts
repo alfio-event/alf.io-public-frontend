@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { EventService } from '../shared/event.service';
 import { LivePollService } from './shared/live-poll.service';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-live-poll',
@@ -10,9 +12,12 @@ import { LivePollService } from './shared/live-poll.service';
 })
 export class LivePollComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private eventService: EventService, private livePollService: LivePollService) { }
+  pinForm: FormGroup;
+
+  constructor(private route: ActivatedRoute, private eventService: EventService, private livePollService: LivePollService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.pinForm = this.fb.group({pin: null});
     this.route.params.subscribe(params => {
       let eventShortName = params['eventShortName'];
       this.eventService.getEvent(eventShortName).subscribe(ev => {
@@ -20,6 +25,10 @@ export class LivePollComponent implements OnInit {
         console.log(ev);
       });
     });
+  }
+
+  confirmPin() {
+    console.log('confirm pin');
   }
 
 }
