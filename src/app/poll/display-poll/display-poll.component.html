@@ -1,1 +1,11 @@
-<p>display-poll works!</p>
+<div *ngIf="poll">
+    <h2>{{poll.poll.title[translate.currentLang]}}</h2>
+    <p>{{poll.poll.description[translate.currentLang]}}</p>
+    <form>
+        <ol>
+            <li *ngFor="let option of poll.options">
+                {{option|json}}
+            </li>
+        </ol>
+    </form>
+</div>

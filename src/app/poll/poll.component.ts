@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { EventService } from '../shared/event.service';
 import { PollService } from './shared/poll.service';
 import { Poll } from './model/poll';
+import { combineLatest } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { Event } from '../model/event';
 
 @Component({
   selector: 'app-live-poll',
@@ -14,32 +17,35 @@ export class PollComponent implements OnInit {
 
   pinForm: FormGroup;
   polls: Poll[];
+  eventShortName: string;
+  event: Event
 
   constructor(
     private route: ActivatedRoute, 
     private router: Router,
-    private eventService: EventService, 
+    private eventService: EventService,
     private pollService: PollService, 
+    public translate: TranslateService,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.pinForm = this.fb.group({pin: null});
-    this.route.params.subscribe(params => {
-      let eventShortName = params['eventShortName'];
-
-      if (this.route.snapshot.queryParams['pin']) {
-        this.loadPolls(this.route.snapshot.queryParams['pin']);
+    combineLatest([this.route.params, this.route.queryParams]).subscribe(([params, query]) => {
+      this.eventShortName = params['eventShortName'];
+      console.log(query);
+      if (query['pin']) {
+        this.loadPolls(this.eventShortName, query['pin']);
       }
 
-      this.eventService.getEvent(eventShortName).subscribe(ev => {
+      this.eventService.getEvent(this.eventShortName).subscribe(ev => {
         //this.i18nService.setPageTitle('reservation-page-not-found.header.title', ev.displayName);
-        console.log(ev);
+        this.event = ev;
       });
     });
   }
 
-  private loadPolls(pin: string) {
-    this.pollService.getAllPolls(this.route.snapshot.params['eventShortName'], pin).subscribe(res => {
+  private loadPolls(eventShortName: string, pin: string) {
+    this.pollService.getAllPolls(eventShortName, pin).subscribe(res => {
       if (res.success) {
         this.router.navigate([], {queryParamsHandling: 'merge', queryParams: {pin: pin}});
         this.polls = res.value;
@@ -52,7 +58,7 @@ export class PollComponent implements OnInit {
 
   confirmPin() {
     const pin = this.pinForm.value.pin;
-    this.loadPolls(pin)
+    this.loadPolls(this.eventShortName, pin);
   }
 
 }
