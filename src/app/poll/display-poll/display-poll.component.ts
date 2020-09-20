@@ -4,6 +4,7 @@ import { PollService } from '../shared/poll.service';
 import { combineLatest } from 'rxjs';
 import { PollWithOptions } from '../model/poll-with-options';
 import { TranslateService } from '@ngx-translate/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-display-poll',
@@ -18,12 +19,18 @@ export class DisplayPollComponent implements OnInit {
   pin: string;
   poll: PollWithOptions;
 
+  pollForm: FormGroup;
+
   constructor(
     private route: ActivatedRoute,
     public translate: TranslateService,
-    private pollService: PollService) { }
+    private pollService: PollService,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
+
+    this.pollForm = this.fb.group({optionId: null});
+
     combineLatest([this.route.params, this.route.queryParams]).subscribe(([params, query]) => {
       this.eventShortName = params['eventShortName'];
       this.pollId = parseInt(params['pollId']);
@@ -38,6 +45,12 @@ export class DisplayPollComponent implements OnInit {
       if (res.success) {
         this.poll = res.value;
       }
+    })
+  }
+
+  submitChoice() {
+    this.pollService.registerAnswer(this.eventShortName, this.pollId, {pin: this.pin, optionId: this.pollForm.value.optionId}).subscribe(res => {
+      console.log(res);
     })
   }
 }

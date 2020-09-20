@@ -1,4 +1,4 @@
 export class PollVoteForm {
-    pint: string;
+    pin: string;
     optionId: number;
 }

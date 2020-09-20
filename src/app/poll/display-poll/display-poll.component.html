@@ -1,11 +1,19 @@
 <div *ngIf="poll">
     <h2>{{poll.poll.title[translate.currentLang]}}</h2>
     <p>{{poll.poll.description[translate.currentLang]}}</p>
-    <form>
+    <form [formGroup]="pollForm" (submit)="submitChoice()">
         <ol>
             <li *ngFor="let option of poll.options">
-                {{option|json}}
+                <label>
+                    <input type="radio" formControlName="optionId" [value]="option.id"> 
+                    <span class="poll-text">
+                        <span class="poll-title">{{option.title[translate.currentLang]}}</span>
+                        <span class="poll-description" *ngIf="option.description[translate.currentLang]">{{option.description[translate.currentLang]}}</span>
+                    </span>
+                </label>
             </li>
         </ol>
+
+        <p><button type="submit" class="btn btn-primary">Submit</button></p>
     </form>
 </div>

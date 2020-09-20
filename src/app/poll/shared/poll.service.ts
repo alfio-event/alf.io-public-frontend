@@ -21,6 +21,6 @@ export class PollService {
   }
 
   registerAnswer(eventName: string, pollId: number, pollForm: PollVoteForm): Observable<ValidatedResponse<boolean>> {
-    return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventName}/poll/${pollId}`, pollForm);
+    return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventName}/poll/${pollId}/answer`, pollForm);
   }
 }
