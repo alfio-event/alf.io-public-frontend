@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { EventService } from '../shared/event.service';
 import { PollService } from './shared/poll.service';
@@ -15,12 +15,22 @@ export class PollComponent implements OnInit {
   pinForm: FormGroup;
   polls: Poll[];
 
-  constructor(private route: ActivatedRoute, private eventService: EventService, private pollService: PollService, private fb: FormBuilder) { }
+  constructor(
+    private route: ActivatedRoute, 
+    private router: Router,
+    private eventService: EventService, 
+    private pollService: PollService, 
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.pinForm = this.fb.group({pin: null});
     this.route.params.subscribe(params => {
       let eventShortName = params['eventShortName'];
+
+      if (this.route.snapshot.queryParams['pin']) {
+        this.loadPolls(this.route.snapshot.queryParams['pin']);
+      }
+
       this.eventService.getEvent(eventShortName).subscribe(ev => {
         //this.i18nService.setPageTitle('reservation-page-not-found.header.title', ev.displayName);
         console.log(ev);
@@ -28,12 +38,21 @@ export class PollComponent implements OnInit {
     });
   }
 
-  confirmPin() {
-    this.pollService.getAllPolls(this.route.snapshot.params['eventShortName'], this.pinForm.value.pin).subscribe(res => {
+  private loadPolls(pin: string) {
+    this.pollService.getAllPolls(this.route.snapshot.params['eventShortName'], pin).subscribe(res => {
       if (res.success) {
+        this.router.navigate([], {queryParamsHandling: "merge", queryParams: {pin: pin}});
         this.polls = res.value;
+        if (this.polls.length === 1) {
+          //TODO: auto navigate to current open poll
+        }
       }
     });
+  }
+
+  confirmPin() {
+    const pin = this.pinForm.value.pin;
+    this.loadPolls(pin)
   }
 
 }

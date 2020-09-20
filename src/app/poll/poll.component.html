@@ -1,9 +1,14 @@
 <p>live-poll works!</p>
 
 
-<form [formGroup]="pinForm" (submit)="confirmPin()">
+<form [formGroup]="pinForm" (submit)="confirmPin()" *ngIf="!polls">
     <input formControlName="pin">
     <button class="btn btn-primary" type="submit">Confirm</button>
 </form>
-
-<pre>{{polls|json}}</pre>
+<div *ngIf="polls && polls.length > 0">
+    <ul>
+        <li *ngFor="let poll of polls">
+            <a [routerLink]="[poll.id]" queryParamsHandling="merge">{{poll|json}}</a>
+        </li>
+    </ul>
+</div>
