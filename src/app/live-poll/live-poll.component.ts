@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import { EventService } from '../shared/event.service';
+import { LivePollService } from './shared/live-poll.service';
 
 @Component({
   selector: 'app-live-poll',
@@ -9,7 +10,7 @@ import { EventService } from '../shared/event.service';
 })
 export class LivePollComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private eventService: EventService) { }
+  constructor(private route: ActivatedRoute, private eventService: EventService, private livePollService: LivePollService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {

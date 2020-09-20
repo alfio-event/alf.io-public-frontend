@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { LivePollModule } from '../live-poll.module';
 import { Observable } from 'rxjs';
 import { Poll } from '../model/poll';
 import { PollWithOptions } from '../model/poll-with-options'
@@ -7,9 +6,7 @@ import { PollVoteForm } from '../model/poll-vote-form'
 import { ValidatedResponse } from '../../model/validated-response';
 import { HttpClient } from '@angular/common/http';
 
-@Injectable({
-  providedIn: LivePollModule
-})
+@Injectable()
 export class LivePollService {
 
   constructor(private http: HttpClient) { }
