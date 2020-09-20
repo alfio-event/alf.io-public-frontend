@@ -1,6 +1,6 @@
 <form [formGroup]="pinForm" (submit)="confirmPin()" *ngIf="!polls">
     <input formControlName="pin">
-    <button class="btn btn-primary" type="submit">Confirm</button>
+    <button class="btn btn-primary" type="submit">{{'show-event.continue'|translate}}</button>
 </form>
 <div *ngIf="polls && polls.length > 0">
     <ul>
