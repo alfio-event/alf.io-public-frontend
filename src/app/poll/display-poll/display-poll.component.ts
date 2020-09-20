@@ -20,6 +20,7 @@ export class DisplayPollComponent implements OnInit {
   poll: PollWithOptions;
 
   pollForm: FormGroup;
+  pollSubmittedWithSuccess: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -50,7 +51,7 @@ export class DisplayPollComponent implements OnInit {
 
   submitChoice() {
     this.pollService.registerAnswer(this.eventShortName, this.pollId, {pin: this.pin, optionId: this.pollForm.value.optionId}).subscribe(res => {
-      console.log(res);
+      this.pollSubmittedWithSuccess = res.success && res.value;
     })
   }
 }
