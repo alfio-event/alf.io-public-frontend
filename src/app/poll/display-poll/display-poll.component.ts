@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { PollService } from '../shared/poll.service';
 
 @Component({
   selector: 'app-display-poll',
@@ -7,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DisplayPollComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private pollService: PollService) { }
 
   ngOnInit(): void {
   }
