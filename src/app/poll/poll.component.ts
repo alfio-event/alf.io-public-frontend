@@ -41,10 +41,10 @@ export class PollComponent implements OnInit {
   private loadPolls(pin: string) {
     this.pollService.getAllPolls(this.route.snapshot.params['eventShortName'], pin).subscribe(res => {
       if (res.success) {
-        this.router.navigate([], {queryParamsHandling: "merge", queryParams: {pin: pin}});
+        this.router.navigate([], {queryParamsHandling: 'merge', queryParams: {pin: pin}});
         this.polls = res.value;
         if (this.polls.length === 1) {
-          //TODO: auto navigate to current open poll
+          this.router.navigate([this.polls[0].id], {relativeTo: this.route, queryParamsHandling: 'merge'});
         }
       }
     });
