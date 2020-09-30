@@ -4,10 +4,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { PollComponent } from './poll.component';
 import { PollService } from './shared/poll.service';
 import { DisplayPollComponent } from './display-poll/display-poll.component';
+import { PollSelectionComponent } from './poll-selection/poll-selection.component'
 
 const routes: Routes = [
-  { path: '', component: PollComponent },
-  { path: ':pollId', component: DisplayPollComponent }
+  { path: '', component: PollComponent, children: [
+    {path: '', component: PollSelectionComponent },
+    {path: ':pollId', component: DisplayPollComponent }
+  ]}
 ];
 
 @NgModule({

@@ -7,10 +7,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DisplayPollComponent } from './display-poll/display-poll.component';
 import { TranslateModule } from '@ngx-translate/core'
 import { SharedModule } from '../shared/shared.module';
+import { PollSelectionComponent } from './poll-selection/poll-selection.component';
 
 
 @NgModule({
-  declarations: [PollComponent, DisplayPollComponent],
+  declarations: [PollComponent, DisplayPollComponent, PollSelectionComponent],
   imports: [
     TranslateModule.forChild(),
     CommonModule,

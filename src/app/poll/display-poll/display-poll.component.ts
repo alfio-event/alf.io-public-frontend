@@ -32,8 +32,8 @@ export class DisplayPollComponent implements OnInit {
 
     this.pollForm = this.fb.group({optionId: null});
 
-    combineLatest([this.route.params, this.route.queryParams]).subscribe(([params, query]) => {
-      this.eventShortName = params['eventShortName'];
+    combineLatest([this.route.parent.params, this.route.params, this.route.queryParams]).subscribe(([parentParams, params, query]) => {
+      this.eventShortName = parentParams['eventShortName'];
       this.pollId = parseInt(params['pollId']);
       this.pin = query['pin'];
       this.loadPoll()
