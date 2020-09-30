@@ -42,7 +42,6 @@ import { SaferpayPaymentProxyComponent } from './payment/saferpay-payment-proxy/
 import { ProcessingPaymentComponent } from './reservation/processing-payment/processing-payment.component';
 import { SummaryTableComponent } from './reservation/summary-table/summary-table.component';
 import { InvoiceFormComponent } from './reservation/invoice-form/invoice-form.component';
-import { InvalidFeedbackDirective } from './shared/invalid-feedback.directive';
 import { AdditionalServiceComponent } from './additional-service/additional-service.component';
 import { RecaptchaComponent } from './recaptcha/recaptcha.component';
 import { CustomLoader } from './shared/i18n.service';
@@ -98,7 +97,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProcessingPaymentComponent,
     SummaryTableComponent,
     InvoiceFormComponent,
-    InvalidFeedbackDirective,
     AdditionalServiceComponent,
     RecaptchaComponent,
     PriceTagComponent,

@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PollService } from '../shared/poll.service';
 import { TranslateService } from '@ngx-translate/core';
 import { combineLatest } from 'rxjs';
+import { handleServerSideValidationError } from '../../shared/validation-helper';
+import { ErrorDescriptor } from '../../model/validated-response';
 
 @Component({
   selector: 'app-poll-selection',
@@ -16,6 +18,7 @@ export class PollSelectionComponent implements OnInit {
   pinForm: FormGroup;
   polls: Poll[];
   eventShortName: string;
+  globalErrors: ErrorDescriptor[];
 
   constructor(
     private route: ActivatedRoute, 
@@ -43,6 +46,8 @@ export class PollSelectionComponent implements OnInit {
           this.router.navigate([this.polls[0].id], {relativeTo: this.route, queryParamsHandling: 'merge', queryParams: {pin: pin}});
         }
       }
+    }, (err) => {
+      this.globalErrors = handleServerSideValidationError(err, this.pinForm);
     });
   }
 
