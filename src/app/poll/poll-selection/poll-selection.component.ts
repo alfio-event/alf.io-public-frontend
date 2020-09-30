@@ -28,7 +28,6 @@ export class PollSelectionComponent implements OnInit {
     this.pinForm = this.fb.group({pin: null});
     combineLatest([this.route.params, this.route.queryParams]).subscribe(([params, query]) => {
       this.eventShortName = params['eventShortName'];
-      console.log(query);
       if (query['pin']) {
         this.loadPolls(this.eventShortName, query['pin']);
       }
