@@ -1,11 +1,17 @@
-<form [formGroup]="pinForm" (submit)="confirmPin()" *ngIf="!polls">
-    <input formControlName="pin">
-    <button class="btn btn-primary" type="submit">{{'show-event.continue'|translate}}</button>
-</form>
-<div *ngIf="polls && polls.length > 0">
-    <ul>
-        <li *ngFor="let poll of polls">
-            <a [routerLink]="[poll.id]" queryParamsHandling="merge">{{poll.title[translate.currentLang]}}</a>
-        </li>
-    </ul>
+<div *ngIf="event" class="add-margin-bottom">
+    <header><app-event-header [event]="event"></app-event-header></header>
+
+
+    <form [formGroup]="pinForm" (submit)="confirmPin()" *ngIf="!polls">
+        <input formControlName="pin">
+        <button class="btn btn-primary" type="submit">{{'show-event.continue'|translate}}</button>
+    </form>
+    <div *ngIf="polls && polls.length > 0">
+        <ul>
+            <li *ngFor="let poll of polls">
+                <a [routerLink]="[poll.id]" queryParamsHandling="merge">{{poll.title[translate.currentLang]}}</a>
+            </li>
+        </ul>
+    </div>
+
 </div>

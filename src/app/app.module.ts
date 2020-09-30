@@ -25,14 +25,12 @@ import { BookingComponent } from './reservation/booking/booking.component';
 import { OverviewComponent } from './reservation/overview/overview.component';
 import { SuccessComponent } from './reservation/success/success.component';
 import { ReservationComponent } from './reservation/reservation.component';
-import { EventHeaderComponent } from './event-header/event-header.component';
 import { StepperComponent } from './stepper/stepper.component';
 import { AdditionalFieldComponent } from './additional-field/additional-field.component';
 import { ViewTicketComponent } from './view-ticket/view-ticket.component';
 import { UpdateTicketComponent } from './update-ticket/update-ticket.component';
 import { EventSummaryComponent } from './event-summary/event-summary.component';
 import { TicketFormComponent } from './reservation/ticket-form/ticket-form.component';
-import { LanguageSelectorComponent } from './language-selector/language-selector.component';
 import { CountdownComponent } from './countdown/countdown.component';
 import { BannerCheckComponent } from './banner-check/banner-check.component';
 import { OfflinePaymentComponent } from './reservation/offline-payment/offline-payment.component';
@@ -64,6 +62,7 @@ import { MolliePaymentProxyComponent } from './payment/mollie-payment-proxy/moll
 import { PaymentMethodSelectorComponent } from './reservation/payment-method-selector/payment-method-selector.component';
 import { AnimatedDotsComponent } from './reservation/animated-dots/animated-dots.component';
 import { EventDatesComponent } from './event-dates/event-dates.component';
+import { SharedModule } from './shared/shared.module';
 
 
 
@@ -81,14 +80,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     OverviewComponent,
     SuccessComponent,
     ReservationComponent,
-    EventHeaderComponent,
+
     StepperComponent,
     AdditionalFieldComponent,
     ViewTicketComponent,
     UpdateTicketComponent,
     EventSummaryComponent,
     TicketFormComponent,
-    LanguageSelectorComponent,
     CountdownComponent,
     BannerCheckComponent,
     OfflinePaymentComponent,
@@ -141,7 +139,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgbTooltipModule,
     NgSelectModule,
     NgbModalModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent],

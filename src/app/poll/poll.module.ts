@@ -6,6 +6,7 @@ import { PollComponent } from './poll.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DisplayPollComponent } from './display-poll/display-poll.component';
 import { TranslateModule } from '@ngx-translate/core'
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { TranslateModule } from '@ngx-translate/core'
     PollRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class PollModule { }
