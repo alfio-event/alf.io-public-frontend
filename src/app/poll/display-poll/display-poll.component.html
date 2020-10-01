@@ -1,7 +1,7 @@
 <div *ngIf="poll">
     <h2 class="text-center">{{poll.poll.title[translate.currentLang]}}</h2>
     <p class="text-center">{{poll.poll.description[translate.currentLang]}}</p>
-    <div class="text-center" *ngIf="pollSubmittedWithSuccess" class="alert alert-success">Thank you for the vote!</div>
+    <div class="text-center" *ngIf="pollSubmittedWithSuccess" class="alert alert-success" translate="poll.thank-you-for-the-vote"></div>
     
     <form [formGroup]="pollForm" (submit)="submitChoice()" *ngIf="!pollSubmittedWithSuccess">
         <div class="row" *ngFor="let option of poll.options; first as isFirst;last as isLast;">
@@ -19,7 +19,7 @@
         </div>
         <div class="row">
             <div class="col-md-6 offset-md-3 col-12 mt-4">
-                <button class="btn btn-success btn-block" type="submit">Vote</button>
+                <button class="btn btn-success btn-block" type="submit" translate="poll.vote-button"></button>
             </div>
         </div>
     </form>
