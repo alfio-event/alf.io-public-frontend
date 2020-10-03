@@ -1,5 +1,5 @@
 <div *ngIf="!polls">
-    <h2>Poll</h2>
+    <h2 translate="poll.title"></h2>
     <form [formGroup]="pinForm" (submit)="confirmPin()" *ngIf="!polls">
         <div class="row">
             <div class="col-12">
