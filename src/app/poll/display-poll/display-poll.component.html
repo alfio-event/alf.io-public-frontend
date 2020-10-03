@@ -5,9 +5,9 @@
     
     <form [formGroup]="pollForm" (submit)="submitChoice()" *ngIf="!pollSubmittedWithSuccess">
         <div class="row" *ngFor="let option of poll.options; first as isFirst;last as isLast;">
-            <div class="col-md-6 offset-md-3 pt-3 pb-3 poll-question" [ngClass]="{'last': isLast, 'selected': pollForm.value.optionId === option.id}" (click)="inputElem.click()">
+            <div class="col-md-6 offset-md-3 pt-3 pb-3 poll-question" [ngClass]="{'last': isLast, 'selected': pollForm.value.optionId === option.id}" (click)="pollForm.setValue({optionId: option.id})">
                 <div class="form-check">
-                    <input type="radio" #inputElem formControlName="optionId" [value]="option.id" class="form-check-input" id="option-{{option.id}}">
+                    <input type="radio" formControlName="optionId" [value]="option.id" class="form-check-input" id="option-{{option.id}}">
                     <label class="form-check-label" for="option-{{option.id}}">
                         <span class="poll-text">
                             <span class="poll-title">{{option.title[translate.currentLang]}}</span>
