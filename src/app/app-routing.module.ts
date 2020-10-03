@@ -18,24 +18,10 @@ import { UpdateTicketComponent } from './update-ticket/update-ticket.component';
 
 const reservationsGuard = [EventGuard, LanguageGuard, ReservationGuard];
 
-function pollModule(): Promise<any> {
-
-  // s = "webjars/alfio-public-frontend/cbc7ff6aca/alfio-public-frontend/runtime-es2015.a6edc528ae9f87c845f6.js"
-  let s = document.querySelector('script[type=module]').getAttribute('src')
-  // module path = "webjars/alfio-public-frontend/cbc7ff6aca/alfio-public-frontend"
-  let modulePath = s.substring(0, s.lastIndexOf('/'))
-
-  if (modulePath == '') {
-    return import('./poll/poll.module');
-  } else {
-    return import ('./'+modulePath+'/poll/poll.module');
-  }
-}
-
 const routes: Routes = [
   { path: '', component: EventListComponent, canActivate: [LanguageGuard] },
   { path: 'event/:eventShortName', component: EventDisplayComponent, canActivate: [EventGuard, LanguageGuard] },
-  { path: 'event/:eventShortName/poll', loadChildren: () => pollModule().then(m => m.PollModule), canActivate: [EventGuard, LanguageGuard] },
+  { path: 'event/:eventShortName/poll', loadChildren: () => import('./poll/poll.module').then(m => m.PollModule), canActivate: [EventGuard, LanguageGuard] },
   { path: 'event/:eventShortName/reservation/:reservationId', children: [
     { path: 'book', component: BookingComponent, canActivate: reservationsGuard },
     { path: 'overview', component: OverviewComponent, canActivate: reservationsGuard },
