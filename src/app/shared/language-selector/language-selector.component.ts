@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Language } from '../model/event';
+import { Language } from '../../model/event';
 import { Router } from '@angular/router';
-import { I18nService } from '../shared/i18n.service';
+import { I18nService } from '../../shared/i18n.service';
 
 @Component({
   selector: 'app-language-selector',

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { Event } from '../model/event';
-import { I18nService } from '../shared/i18n.service';
-import { removeDOMNode } from '../shared/event.service';
+import { Event } from '../../model/event';
+import { I18nService } from '../../shared/i18n.service';
+import { removeDOMNode } from '../../shared/event.service';
 
 @Component({
   selector: 'app-event-header',
