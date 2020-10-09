@@ -10,7 +10,7 @@
         <ng-template ng-notfound-tmp let-searchTerm="searchTerm"></ng-template>
       </ng-select>
       <select *ngSwitchCase="'select'" [attr.id]="ticketUUID + '-' + field.name" class="custom-select" formControlName="0" appInvalidFeedback>
-          <option value="" *ngIf="!field.required"></option>
+          <option value=""></option>
           <option *ngFor="let c of field.restrictedValues" [ngValue]="c">{{getRestrictedValueLabel(c)}}</option>
       </select>
       <div *ngSwitchCase="'checkbox'" [attr.id]="ticketUUID + '-' + field.name" appInvalidFeedback [invalidFeedbackFieldName]="field.name" [invalidFeedbackForm]="form">
