@@ -287,6 +287,10 @@ export class EventDisplayComponent implements OnInit {
     return this.event.format == 'ONLINE';
   }
 
+  public displayOnlineTicketTag(category: TicketCategory): boolean {
+    return this.event.format === 'HYBRID' && category.ticketAccessType === 'ONLINE';
+  }
+
   get displayMap(): boolean {
     return (this.event.mapUrl && this.event.mapUrl.length > 0) && !this.isEventOnline;
   }

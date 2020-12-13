@@ -3,7 +3,7 @@
         <app-event-header [event]="event"></app-event-header>
     </header>
     <main class="mt-5">
-        <div class="alert mb-5" [ngClass]="{'alert-info': !ticket.onlineEventStarted, 'alert-success': ticket.onlineEventStarted}" *ngIf="isEventOnline && !ticketFormVisible">
+        <div class="alert mb-5" [ngClass]="{'alert-info': !ticket.onlineEventStarted, 'alert-success': ticket.onlineEventStarted}" *ngIf="isOnlineTicket && !ticketFormVisible">
           <div class="font-weight-bold text-center">
             <span *ngIf="!ticket.onlineEventStarted">{{'event.online.not-started' | translate:{ '0' : ticketOnlineCheckInDate } }}</span>
             <span *ngIf="ticket.onlineEventStarted">{{'event.online.started' | translate }}</span>
@@ -21,10 +21,10 @@
               <hr *ngIf="!ticketFormVisible">
 
               <div class="row justify-content-end" *ngIf="!ticketFormVisible">
-                <div class="col-lg-3 col-sm-6 col-12 mb-2" *ngIf="!isEventOnline && ticket.assigned && !ticket.cancellationEnabled" >
+                <div class="col-lg-3 col-sm-6 col-12 mb-2" *ngIf="!isOnlineTicket && ticket.assigned && !ticket.cancellationEnabled" >
                   <a [routerLink]="['/event', event.shortName, 'ticket', ticket.uuid, 'view']" target="_blank" class="btn btn-default btn-block"><fa-icon [icon]="['fas', 'search-plus']" a11yRole="presentation"></fa-icon> {{'reservation-page-complete.show-ticket'|translate}}</a>
                 </div>
-                <div class="col-lg-3 col-sm-6 col-12 mt-2 mt-md-0 mb-2" *ngIf="!isEventOnline && ticket.assigned">
+                <div class="col-lg-3 col-sm-6 col-12 mt-2 mt-md-0 mb-2" *ngIf="!isOnlineTicket && ticket.assigned">
                   <a [attr.href]="'/api/v2/public/event/' + event.shortName + '/ticket/' + ticket.uuid + '/download-ticket'" class="btn btn-default btn-block"><fa-icon [icon]="['fas', 'download']" a11yRole="presentation"></fa-icon> {{'reservation-page-complete.download-ticket'|translate}}</a>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-12 mt-2 mt-md-0 mb-2" *ngIf="ticket.assigned">

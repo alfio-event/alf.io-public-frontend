@@ -1,6 +1,9 @@
+export type TicketAccessType = 'INHERIT' | 'IN_PERSON' | 'ONLINE';
+
 export class TicketCategory {
     id: number;
     name: string;
+    ticketAccessType: TicketAccessType;
     bounded: boolean;
     maximumSaleableTickets: number;
     description: {[key: string]: string};
@@ -23,3 +26,4 @@ export class TicketCategory {
 
     availableTickets: number | null;
 }
+

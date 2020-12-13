@@ -5,6 +5,7 @@
         <ng-content select=".item-title"></ng-content>
       </h3>
       <div class="card-sale-period">
+        <ng-content select=".item-badges"></ng-content>
         <app-item-sale-period [item]="item" [currentLang]="currentLang"></app-item-sale-period>
       </div>
       <div class="card-item-price">

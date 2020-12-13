@@ -100,8 +100,12 @@
       <div *ngFor="let category of ticketCategories;let counter = index" formArrayName="reservation">
         <app-item-card [currentLang]="translate.currentLang" [item]="category" [formGroupName]="''+counter" [parentFormGroup]="reservationFormItem(reservationForm, counter)" [additionalClass]="category.accessRestricted ? 'ticket-category-restricted border-warning shadow-sm ': ''">
           <span class="item-title">
-            {{category.name}} <span class="d-inline badge badge-warning ml-2" *ngIf="ticketsLeftCountVisibleForCategory(category)">{{"show-event.tickets.left" | translate: {'0': category.availableTickets} }}</span>
+            {{category.name}}
           </span>
+          <div class="item-badges mb-2">
+            <span *ngIf="displayOnlineTicketTag(category)" class="badge badge-success">{{'event.online.badge' | translate}}</span>
+            <span class="badge badge-warning" [class.ml-2]="displayOnlineTicketTag(category)" *ngIf="ticketsLeftCountVisibleForCategory(category)">{{"show-event.tickets.left" | translate: {'0': category.availableTickets} }}</span>
+          </div>
           <div class="item-price">
             <span *ngIf="category.free" translate="common.free"></span>
             <span *ngIf="!category.free">
