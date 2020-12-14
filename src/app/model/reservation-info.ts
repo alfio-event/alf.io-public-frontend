@@ -1,5 +1,6 @@
 import { Ticket } from './ticket';
 import { PaymentProxy, PaymentMethod, PaymentProxyWithParameters } from './event';
+import { TicketAccessType } from './ticket-category';
 
 export class ReservationInfo {
     id: string;
@@ -49,6 +50,7 @@ export class ReservationStatusInfo {
 
 export class TicketsByTicketCategory {
     name: string;
+    ticketAccessType: TicketAccessType;
     tickets: Ticket[];
 }
 

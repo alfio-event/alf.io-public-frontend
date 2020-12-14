@@ -5,11 +5,13 @@ import { Event } from 'src/app/model/event';
 import { EventService } from 'src/app/shared/event.service';
 import { TicketService } from 'src/app/shared/ticket.service';
 import { Ticket } from 'src/app/model/ticket';
-import { ReservationInfo } from 'src/app/model/reservation-info';
+import { ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { AnalyticsService } from 'src/app/shared/analytics.service';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { FormGroup } from '@angular/forms';
+import { TicketCategory } from 'src/app/model/ticket-category';
+import { TryCatchStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-success',
@@ -132,8 +134,9 @@ export class SuccessComponent implements OnInit {
         && this.reservationInfo.invoiceOrReceiptDocumentPresent;
   }
 
-  get isEventOnline(): boolean {
-    return this.event.format == 'ONLINE';
+  public isOnlineTicket(category: TicketsByTicketCategory): boolean {
+    return this.event.format == 'ONLINE'
+      || (this.event.format == 'HYBRID' && category.ticketAccessType == 'ONLINE');
   }
 
 }

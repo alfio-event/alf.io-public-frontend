@@ -53,10 +53,10 @@
         <hr *ngIf="!ticketFormVisible">
 
         <div class="row justify-content-end" *ngIf="!ticketFormVisible">
-          <div class="col-lg-3 col-sm-6 col-12 mb-2" *ngIf="!isEventOnline && ticket.assigned && !ticket.cancellationEnabled" >
+          <div class="col-lg-3 col-sm-6 col-12 mb-2" *ngIf="!isOnlineTicket(tc) && ticket.assigned && !ticket.cancellationEnabled" >
             <a [routerLink]="['/event', event.shortName, 'ticket', ticket.uuid, 'view']" target="_blank" class="btn btn-default btn-block"><fa-icon [icon]="['fas', 'search-plus']" a11yRole="presentation"></fa-icon> {{'reservation-page-complete.show-ticket'|translate}}</a>
           </div>
-          <div class="col-lg-3 col-sm-6 col-12 mt-2 mt-md-0 mb-2" *ngIf="!isEventOnline && ticket.assigned">
+          <div class="col-lg-3 col-sm-6 col-12 mt-2 mt-md-0 mb-2" *ngIf="!isOnlineTicket(tc) && ticket.assigned">
             <a [attr.href]="'/api/v2/public/event/' + event.shortName + '/ticket/' + ticket.uuid + '/download-ticket'" class="btn btn-default btn-block"><fa-icon [icon]="['fas', 'download']" a11yRole="presentation"></fa-icon> {{'reservation-page-complete.download-ticket'|translate}}</a>
           </div>
           <div class="col-lg-3 col-sm-6 col-12 mt-2 mt-md-0 mb-2" *ngIf="ticket.assigned">

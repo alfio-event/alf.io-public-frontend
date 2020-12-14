@@ -77,7 +77,7 @@ export class PaymentProxyWithParameters {
     parameters: {[key: string]: any};
 }
 
-export type EventFormat = 'IN_PERSON' | 'ONLINE';
+export type EventFormat = 'IN_PERSON' | 'ONLINE' | 'HYBRID';
 
 export type PaymentMethod = 'CREDIT_CARD' | 'PAYPAL' | 'IDEAL' | 'BANK_TRANSFER' | 'ON_SITE'
                             | 'APPLE_PAY' | 'BANCONTACT' | 'ING_HOME_PAY' | 'BELFIUS' | 'PRZELEWY_24' | 'KBC' | 'NONE';

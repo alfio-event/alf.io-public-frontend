@@ -12,6 +12,7 @@ import { Ticket } from '../model/ticket';
 import { handleServerSideValidationError } from '../shared/validation-helper';
 import { TicketsByTicketCategory } from '../model/reservation-info';
 import { TranslateService } from '@ngx-translate/core';
+import { TicketAccessType, TicketCategory } from '../model/ticket-category';
 
 @Component({
   selector: 'app-update-ticket',
@@ -27,6 +28,7 @@ export class UpdateTicketComponent implements OnInit {
   categoryName: string;
   emailSent: boolean;
   ticketFormVisible: boolean;
+  ticketAccessType: TicketAccessType;
 
   constructor(
     private ticketService: TicketService,
@@ -58,6 +60,7 @@ export class UpdateTicketComponent implements OnInit {
   }
 
   private handleTicketResponse(ticketsByCategory: TicketsByTicketCategory): void {
+    this.ticketAccessType = ticketsByCategory.ticketAccessType;
     this.ticket = ticketsByCategory.tickets[0];
     this.formGroup = this.ticketService.buildFormGroupForTicket(this.ticket);
     this.categoryName = ticketsByCategory.name;
@@ -92,8 +95,9 @@ export class UpdateTicketComponent implements OnInit {
       });
   }
 
-  get isEventOnline(): boolean {
-    return this.event.format === 'ONLINE';
+  get isOnlineTicket(): boolean {
+    return this.event.format == 'ONLINE'
+      || (this.event.format == 'HYBRID' && this.ticketAccessType == 'ONLINE');
   }
 
   get ticketOnlineCheckInDate(): string {
