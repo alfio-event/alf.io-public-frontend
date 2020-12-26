@@ -11,11 +11,11 @@ import { zip } from 'rxjs';
 import { removeAllCustomEventCss } from '../shared/custom-css-helper'
 
 @Component({
-  selector: 'app-event-list',
-  templateUrl: './event-list.component.html',
-  styleUrls: ['./event-list.component.scss']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
-export class EventListComponent implements OnInit {
+export class HomeComponent implements OnInit {
 
   events: BasicEventInfo[];
   allEvents: BasicEventInfo[];

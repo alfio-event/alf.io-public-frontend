@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EventListComponent } from './event-list/event-list.component';
+import { HomeComponent } from './home/home.component';
 import { EventDisplayComponent } from './event-display/event-display.component';
 import { BookingComponent } from './reservation/booking/booking.component';
 import { OverviewComponent } from './reservation/overview/overview.component';
@@ -20,7 +20,7 @@ import { EventListAllComponent } from './event-list-all/event-list-all.component
 const reservationsGuard = [EventGuard, LanguageGuard, ReservationGuard];
 
 const routes: Routes = [
-  { path: '', component: EventListComponent, canActivate: [LanguageGuard] },
+  { path: '', component: HomeComponent, canActivate: [LanguageGuard] },
   { path: 'events-all', component: EventListAllComponent, canActivate: [LanguageGuard] },
   { path: 'event/:eventShortName', component: EventDisplayComponent, canActivate: [EventGuard, LanguageGuard] },
   { path: 'event/:eventShortName/poll', loadChildren: () => import('./poll/poll.module').then(m => m.PollModule), canActivate: [EventGuard, LanguageGuard] },

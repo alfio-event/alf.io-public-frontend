@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EventListComponent } from './event-list/event-list.component';
+import { HomeComponent } from './home/home.component';
 import { EventDisplayComponent } from './event-display/event-display.component';
 import { HttpClientModule, HttpClientXsrfModule, HttpClient } from '@angular/common/http';
 
@@ -75,7 +75,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
-    EventListComponent,
+    HomeComponent,
     EventDisplayComponent,
     BookingComponent,
     OverviewComponent,
