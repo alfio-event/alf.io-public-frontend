@@ -9,6 +9,7 @@ import { AnalyticsService } from '../shared/analytics.service';
 import { InfoService } from '../shared/info.service';
 import { zip } from 'rxjs';
 import { removeAllCustomEventCss } from '../shared/custom-css-helper'
+import { SubscriptionService } from '../shared/subscription.service';
 
 @Component({
   selector: 'app-home',
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private eventService: EventService,
+    private subscriptionService: SubscriptionService,
     private i18nService: I18nService,
     private router: Router,
     public translate: TranslateService,
