@@ -10,6 +10,7 @@ import { InfoService } from '../shared/info.service';
 import { zip } from 'rxjs';
 import { removeAllCustomEventCss } from '../shared/custom-css-helper'
 import { SubscriptionService } from '../shared/subscription.service';
+import { BasicSubscriptionInfo } from '../model/subscription';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +21,8 @@ export class HomeComponent implements OnInit {
 
   events: BasicEventInfo[];
   allEvents: BasicEventInfo[];
+  subscriptions: BasicSubscriptionInfo[];
+  allSubscriptions: BasicSubscriptionInfo[];
   languages: Language[];
 
   constructor(
@@ -35,12 +38,14 @@ export class HomeComponent implements OnInit {
 
       removeAllCustomEventCss();
 
-      zip(this.eventService.getEvents(), this.info.getInfo()).subscribe(([res, info]) => {
-        if (res.length === 1) {
+      zip(this.eventService.getEvents(), this.subscriptionService.getSubscriptions(), this.info.getInfo()).subscribe(([res, subscriptions, info]) => {
+        if (res.length === 1 && subscriptions.length === 0) {
           this.router.navigate(['/event', res[0].shortName], {replaceUrl: true});
         } else {
           this.allEvents = res;
-          this.events = this.allEvents.slice(0, 4);
+          this.events = res.slice(0, 4);
+          this.allSubscriptions = subscriptions;
+          this.subscriptions = subscriptions.slice(0, 4);
           this.analytics.pageView(info.analyticsConfiguration);
         }
       });
