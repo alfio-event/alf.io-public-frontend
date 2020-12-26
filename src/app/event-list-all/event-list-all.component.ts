@@ -1,24 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from '../shared/event.service';
-import { Router } from '@angular/router';
 import { BasicEventInfo } from '../model/basic-event-info';
-import { I18nService } from '../shared/i18n.service';
 import { Language } from '../model/event';
-import { TranslateService } from '@ngx-translate/core';
-import { AnalyticsService } from '../shared/analytics.service';
+import { EventService } from '../shared/event.service';
+import { I18nService } from '../shared/i18n.service';
+import { Router } from '@angular/router';
 import { InfoService } from '../shared/info.service';
-import { zip } from 'rxjs';
+import { AnalyticsService } from '../shared/analytics.service';
+import { TranslateService } from '@ngx-translate/core';
 import { removeAllCustomEventCss } from '../shared/custom-css-helper'
+import { zip } from 'rxjs';
 
 @Component({
-  selector: 'app-event-list',
-  templateUrl: './event-list.component.html',
-  styleUrls: ['./event-list.component.scss']
+  selector: 'app-event-list-all',
+  templateUrl: './event-list-all.component.html',
+  styleUrls: ['./event-list-all.component.scss']
 })
-export class EventListComponent implements OnInit {
+export class EventListAllComponent implements OnInit {
 
   events: BasicEventInfo[];
-  allEvents: BasicEventInfo[];
   languages: Language[];
 
   constructor(
@@ -37,8 +36,7 @@ export class EventListComponent implements OnInit {
         if (res.length === 1) {
           this.router.navigate(['/event', res[0].shortName], {replaceUrl: true});
         } else {
-          this.allEvents = res;
-          this.events = this.allEvents.slice(0, 4);
+          this.events = res;
           this.analytics.pageView(info.analyticsConfiguration);
         }
       });
@@ -49,5 +47,4 @@ export class EventListComponent implements OnInit {
 
       this.i18nService.setPageTitle('event-list.header.title', '');
     }
-
 }

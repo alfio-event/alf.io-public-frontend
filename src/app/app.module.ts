@@ -62,6 +62,8 @@ import { PaymentMethodSelectorComponent } from './reservation/payment-method-sel
 import { AnimatedDotsComponent } from './reservation/animated-dots/animated-dots.component';
 import { EventDatesComponent } from './event-dates/event-dates.component';
 import { SharedModule } from './shared/shared.module';
+import { EventListAllComponent } from './event-list-all/event-list-all.component';
+import { BasicEventInfoComponent } from './basic-event-info/basic-event-info.component';
 
 
 
@@ -114,7 +116,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     MolliePaymentProxyComponent,
     PaymentMethodSelectorComponent,
     AnimatedDotsComponent,
-    EventDatesComponent
+    EventDatesComponent,
+    EventListAllComponent,
+    BasicEventInfoComponent
   ],
   imports: [
     BrowserModule,

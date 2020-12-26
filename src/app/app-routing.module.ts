@@ -15,11 +15,13 @@ import { EventGuard } from './event.guard';
 import { ErrorComponent } from './reservation/error/error.component';
 import { DeferredOfflinePaymentComponent } from './reservation/deferred-offline-payment/deferred-offline-payment.component';
 import { UpdateTicketComponent } from './update-ticket/update-ticket.component';
+import { EventListAllComponent } from './event-list-all/event-list-all.component';
 
 const reservationsGuard = [EventGuard, LanguageGuard, ReservationGuard];
 
 const routes: Routes = [
   { path: '', component: EventListComponent, canActivate: [LanguageGuard] },
+  { path: 'events-all', component: EventListAllComponent, canActivate: [LanguageGuard] },
   { path: 'event/:eventShortName', component: EventDisplayComponent, canActivate: [EventGuard, LanguageGuard] },
   { path: 'event/:eventShortName/poll', loadChildren: () => import('./poll/poll.module').then(m => m.PollModule), canActivate: [EventGuard, LanguageGuard] },
   { path: 'event/:eventShortName/reservation/:reservationId', children: [
