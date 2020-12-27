@@ -4,7 +4,7 @@
   <h1 translate="event-list.title"></h1>
 
   
-  <div class="event-list-card mb-3" *ngFor="let event of events">
+  <div class="mb-3" *ngFor="let event of events">
     <app-basic-event-info [event]="event"></app-basic-event-info>
   </div>
   <div *ngIf="allEvents.length > 4" class="text-center">
@@ -14,6 +14,14 @@
 
   <div class="alert text-center" *ngIf="events.length == 0">
     <h3 translate="event-list.no-events"></h3>
+  </div>
+
+  <div *ngIf="subscriptions && subscriptions.length > 0">
+    <h1>Subscriptions</h1>
+
+    <div class="mb-3" *ngFor="let subscription of subscriptions">
+      {{subscription|json}}
+    </div>
   </div>
 
 </ng-container>
