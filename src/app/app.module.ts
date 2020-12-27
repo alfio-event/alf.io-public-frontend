@@ -64,6 +64,7 @@ import { EventDatesComponent } from './event-dates/event-dates.component';
 import { SharedModule } from './shared/shared.module';
 import { EventListAllComponent } from './event-list-all/event-list-all.component';
 import { BasicEventInfoComponent } from './basic-event-info/basic-event-info.component';
+import { SubscriptionListAllComponent } from './subscription-list-all/subscription-list-all.component';
 
 
 
@@ -118,7 +119,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AnimatedDotsComponent,
     EventDatesComponent,
     EventListAllComponent,
-    BasicEventInfoComponent
+    BasicEventInfoComponent,
+    SubscriptionListAllComponent
   ],
   imports: [
     BrowserModule,

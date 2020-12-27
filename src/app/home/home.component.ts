@@ -8,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { AnalyticsService } from '../shared/analytics.service';
 import { InfoService } from '../shared/info.service';
 import { zip } from 'rxjs';
-import { removeAllCustomEventCss } from '../shared/custom-css-helper'
 import { SubscriptionService } from '../shared/subscription.service';
 import { BasicSubscriptionInfo } from '../model/subscription';
 
@@ -35,8 +34,6 @@ export class HomeComponent implements OnInit {
     private analytics: AnalyticsService) { }
 
     public ngOnInit(): void {
-
-      removeAllCustomEventCss();
 
       zip(this.eventService.getEvents(), this.subscriptionService.getSubscriptions(), this.info.getInfo()).subscribe(([res, subscriptions, info]) => {
         if (res.length === 1 && subscriptions.length === 0) {

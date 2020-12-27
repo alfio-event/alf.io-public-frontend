@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { InfoService } from '../shared/info.service';
 import { AnalyticsService } from '../shared/analytics.service';
 import { TranslateService } from '@ngx-translate/core';
-import { removeAllCustomEventCss } from '../shared/custom-css-helper'
 import { zip } from 'rxjs';
 
 @Component({
@@ -29,8 +28,6 @@ export class EventListAllComponent implements OnInit {
     private analytics: AnalyticsService) { }
 
     public ngOnInit(): void {
-
-      removeAllCustomEventCss();
 
       zip(this.eventService.getEvents(), this.info.getInfo()).subscribe(([res, info]) => {
         if (res.length === 1) {
