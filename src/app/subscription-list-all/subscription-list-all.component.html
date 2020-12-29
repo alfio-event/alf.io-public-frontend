@@ -1,1 +1,16 @@
-<p>subscription-list-all works!</p>
+<ng-container *ngIf="subscriptions">
+    <app-language-selector [contentLanguages]="languages"></app-language-selector>
+  
+    <h1 translate="subscription.title"></h1>
+  
+    
+    <div class="event-list-card mb-3" *ngFor="let subscription of subscriptions">
+        {{subscription|json}}
+    </div>
+  
+    <div class="alert text-center" *ngIf="subscriptions.length == 0">
+      <h3 translate="subscription.no-subscriptions"></h3>
+    </div>
+  
+  </ng-container>
+  
