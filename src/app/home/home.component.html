@@ -20,7 +20,7 @@
     <h1 translate="subscription.title"></h1>
 
     <div class="mb-3" *ngFor="let subscription of subscriptions">
-      {{subscription|json}}
+      <a [routerLink]="['/subscription', subscription.id]">{{subscription|json}}</a>
     </div>
 
     <div *ngIf="allSubscriptions.length > 4" class="text-center">

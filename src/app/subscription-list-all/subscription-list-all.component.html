@@ -5,7 +5,7 @@
   
     
     <div class="event-list-card mb-3" *ngFor="let subscription of subscriptions">
-        {{subscription|json}}
+        <a [routerLink]="['/subscription', subscription.id]">{{subscription|json}}</a>
     </div>
   
     <div class="alert text-center" *ngIf="subscriptions.length == 0">

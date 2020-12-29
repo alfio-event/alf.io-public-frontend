@@ -65,6 +65,7 @@ import { SharedModule } from './shared/shared.module';
 import { EventListAllComponent } from './event-list-all/event-list-all.component';
 import { BasicEventInfoComponent } from './basic-event-info/basic-event-info.component';
 import { SubscriptionListAllComponent } from './subscription-list-all/subscription-list-all.component';
+import { SubscriptionDisplayComponent } from './subscription-display/subscription-display.component';
 
 
 
@@ -120,7 +121,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     EventDatesComponent,
     EventListAllComponent,
     BasicEventInfoComponent,
-    SubscriptionListAllComponent
+    SubscriptionListAllComponent,
+    SubscriptionDisplayComponent
   ],
   imports: [
     BrowserModule,

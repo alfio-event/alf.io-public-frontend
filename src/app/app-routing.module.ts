@@ -18,6 +18,7 @@ import { UpdateTicketComponent } from './update-ticket/update-ticket.component';
 import { EventListAllComponent } from './event-list-all/event-list-all.component';
 import { SubscriptionListAllComponent } from './subscription-list-all/subscription-list-all.component';
 import { RemoveEventCssGuard } from './remove-event-css.guard';
+import { SubscriptionDisplayComponent } from './subscription-display/subscription-display.component';
 
 const reservationsGuard = [EventGuard, LanguageGuard, ReservationGuard];
 
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [RemoveEventCssGuard, LanguageGuard] },
   { path: 'events-all', component: EventListAllComponent, canActivate: [RemoveEventCssGuard, LanguageGuard] },
   { path: 'subscriptions-all', component: SubscriptionListAllComponent, canActivate: [RemoveEventCssGuard, LanguageGuard]},
+  { path: 'subscription/:id', component: SubscriptionDisplayComponent, canActivate: [RemoveEventCssGuard, LanguageGuard]},
   { path: 'event/:eventShortName', component: EventDisplayComponent, canActivate: [EventGuard, LanguageGuard] },
   { path: 'event/:eventShortName/poll', loadChildren: () => import('./poll/poll.module').then(m => m.PollModule), canActivate: [EventGuard, LanguageGuard] },
   { path: 'event/:eventShortName/reservation/:reservationId', children: [
