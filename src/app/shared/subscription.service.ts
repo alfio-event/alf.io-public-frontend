@@ -13,4 +13,8 @@ export class SubscriptionService {
   getSubscriptions(): Observable<BasicSubscriptionInfo[]> {
     return this.http.get<BasicSubscriptionInfo[]>('/api/v2/public/subscriptions');
   }
+
+  getSubscriptionById(id: string): Observable<BasicSubscriptionInfo> {
+    return this.http.get<BasicSubscriptionInfo>(`/api/v2/public/subscription/${id}`);
+  }
 }

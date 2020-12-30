@@ -1,1 +1,5 @@
-<p>subscription-display works!</p>
+<ng-container *ngIf="subscription">
+    <app-language-selector [contentLanguages]="languages"></app-language-selector>
+
+    {{subscription|json}}
+</ng-container>
