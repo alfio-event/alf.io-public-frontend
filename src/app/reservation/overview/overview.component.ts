@@ -138,11 +138,11 @@ export class OverviewComponent implements OnInit {
       };
     }
     if (this.expired) {
-      this.reservationService.cancelPendingReservation(this.eventShortName, this.reservationId).subscribe(res => {
+      this.reservationService.cancelPendingReservation(this.reservationId).subscribe(res => {
         this.router.navigate(['event', this.eventShortName]);
       });
     } else {
-      this.reservationService.backToBooking(this.eventShortName, this.reservationId).subscribe(res => {
+      this.reservationService.backToBooking(this.reservationId).subscribe(res => {
         this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'book'], extras);
       });
     }

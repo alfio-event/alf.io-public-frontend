@@ -52,7 +52,7 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
       let checkCount = 0;
       this.intervalId = setInterval(() => {
         const currentStatus = this.reservationInfo.status;
-        this.reservationService.getReservationStatusInfo(this.eventShortName, this.reservationId).subscribe(res => {
+        this.reservationService.getReservationStatusInfo(this.reservationId).subscribe(res => {
           checkCount++;
           if (res.status !== currentStatus) {
             clearInterval(this.intervalId);

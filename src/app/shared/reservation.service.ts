@@ -24,12 +24,12 @@ export class ReservationService {
         return this.http.get<ReservationInfo>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`);
     }
 
-    getReservationStatusInfo(eventShortName: string, reservationId: string): Observable<ReservationStatusInfo> {
-        return this.http.get<ReservationStatusInfo>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/status`);
+    getReservationStatusInfo(reservationId: string): Observable<ReservationStatusInfo> {
+        return this.http.get<ReservationStatusInfo>(`/api/v2/public/reservation/${reservationId}/status`);
     }
 
-    cancelPendingReservation(eventShortName: string, reservationId: string): Observable<boolean> {
-        return this.http.delete<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`);
+    cancelPendingReservation(reservationId: string): Observable<boolean> {
+        return this.http.delete<boolean>(`/api/v2/public/reservation/${reservationId}`);
     }
 
     validateToOverview(eventShortName: string, reservationId: string, contactsAndTicket: any, lang: string): Observable<ValidatedResponse<boolean>> {
@@ -42,8 +42,8 @@ export class ReservationService {
         return this.http.post<ValidatedResponse<ReservationPaymentResult>>(url, overviewForm, {params: {lang: lang}});
     }
 
-    backToBooking(eventShortName: string, reservationId: string): Observable<boolean> {
-        return this.http.post<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/back-to-booking`, {});
+    backToBooking(reservationId: string): Observable<boolean> {
+        return this.http.post<boolean>(`/api/v2/public/reservation/${reservationId}/back-to-booking`, {});
     }
 
     reSendReservationEmail(eventShortName: string, reservationId: string, lang: string): Observable<boolean> {

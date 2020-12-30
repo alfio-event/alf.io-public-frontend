@@ -165,7 +165,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
   cancelPendingReservation() {
     this.modalService.open(CancelReservationComponent, {centered: true}).result.then(res => {
       if (res === 'yes') {
-        this.reservationService.cancelPendingReservation(this.eventShortName, this.reservationId).subscribe(() => {
+        this.reservationService.cancelPendingReservation(this.reservationId).subscribe(() => {
           this.router.navigate(['event', this.eventShortName], {replaceUrl: true});
         });
       }
