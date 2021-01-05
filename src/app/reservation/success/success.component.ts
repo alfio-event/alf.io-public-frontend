@@ -58,7 +58,7 @@ export class SuccessComponent implements OnInit {
   }
 
   private loadReservation(): void {
-    this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(res => {
+    this.reservationService.getReservationInfo(this.reservationId).subscribe(res => {
       this.reservationInfo = res;
       //
       this.ticketsAllAssigned = true;

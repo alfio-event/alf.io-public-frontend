@@ -66,7 +66,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
       zip(
         this.eventService.getEvent(this.eventShortName),
-        this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)
+        this.reservationService.getReservationInfo(this.reservationId)
       ).subscribe(([ev, reservationInfo]) => {
         this.event = ev;
         this.reservationInfo = reservationInfo;
@@ -153,7 +153,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
   submitForm(): void {
     this.removeUnnecessaryFields();
-    this.reservationService.validateToOverview(this.eventShortName, this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang).subscribe(res => {
+    this.reservationService.validateToOverview(this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang).subscribe(res => {
       if (res.success) {
         this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview']);
       }

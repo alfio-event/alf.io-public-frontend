@@ -41,7 +41,7 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
 
       zip(
         this.eventService.getEvent(this.eventShortName),
-        this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)
+        this.reservationService.getReservationInfo(this.reservationId)
       ).subscribe(([ev, reservationInfo]) => {
         this.event = ev;
         this.reservationInfo = reservationInfo;
@@ -79,7 +79,7 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
   forceCheck(): void {
     this.forceCheckVisible = false;
     this.forceCheckInProgress = true;
-    this.reservationService.forcePaymentStatusCheck(this.eventShortName, this.reservationId).subscribe(status => {
+    this.reservationService.forcePaymentStatusCheck(this.reservationId).subscribe(status => {
       if (status.redirect) {
         window.location.href = status.redirectUrl;
       } else if (status.success || status.failure) {

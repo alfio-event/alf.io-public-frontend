@@ -69,7 +69,7 @@ export class OverviewComponent implements OnInit {
 
 
   loadReservation(ev: Event) {
-    this.reservationService.getReservationInfo(this.eventShortName, this.reservationId).subscribe(resInfo => {
+    this.reservationService.getReservationInfo(this.reservationId).subscribe(resInfo => {
       this.reservationInfo = resInfo;
 
       this.activePaymentMethods = this.reservationInfo.activePaymentMethods;
@@ -165,7 +165,7 @@ export class OverviewComponent implements OnInit {
       if (paymentResult.success) {
         this.overviewForm.get('gatewayToken').setValue(paymentResult.gatewayToken);
         const overviewFormValue = this.overviewForm.value;
-        this.reservationService.confirmOverview(this.eventShortName, this.reservationId, overviewFormValue, this.translate.currentLang).subscribe(res => {
+        this.reservationService.confirmOverview(this.reservationId, overviewFormValue, this.translate.currentLang).subscribe(res => {
           if (res.success) {
             this.unregisterHook();
             if (res.value.redirect) { // handle the case of redirects (e.g. paypal, stripe)
@@ -204,7 +204,7 @@ export class OverviewComponent implements OnInit {
   forceCheck(): void {
     this.paymentStatusNotification = null;
     this.forceCheckInProgress = true;
-    this.reservationService.forcePaymentStatusCheck(this.eventShortName, this.reservationId).subscribe(res => {
+    this.reservationService.forcePaymentStatusCheck(this.reservationId).subscribe(res => {
       if (res.success) {
         console.log('reservation has been confirmed. Waiting for the PaymentProvider to aknowledge it...');
       }
@@ -261,7 +261,7 @@ export class OverviewComponent implements OnInit {
   }
 
   clearToken(): void {
-    this.reservationService.removePaymentToken(this.eventShortName, this.reservationId).subscribe(r => {
+    this.reservationService.removePaymentToken(this.reservationId).subscribe(r => {
       this.loadReservation(this.event);
     });
   }

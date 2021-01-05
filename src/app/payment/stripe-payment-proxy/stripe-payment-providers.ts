@@ -103,7 +103,7 @@ export class StripePaymentV3 implements PaymentProvider {
 
         const obs = new Observable<PaymentResult>(subscriber => {
 
-            this.reservationService.initPayment(this.event.shortName, this.reservation.id).subscribe(res => {
+            this.reservationService.initPayment(this.reservation.id).subscribe(res => {
 
                 if (res.reservationStatusChanged || res.clientSecret == null) {
                     subscriber.next(new PaymentResult(false, null, null, res.reservationStatusChanged));
@@ -138,7 +138,7 @@ export class StripePaymentV3 implements PaymentProvider {
                         if (retryCount % 10 === 0) {
                             this.notificationSubject.next(new PaymentStatusNotification(true, retryCount > 120));
                         }
-                        this.reservationService.getPaymentStatus(this.event.shortName, this.reservation.id).subscribe(status => {
+                        this.reservationService.getPaymentStatus(this.reservation.id).subscribe(status => {
                             if (cardPaymentResult.error || status.success) {
                                 window.clearInterval(handleCheck);
                             }

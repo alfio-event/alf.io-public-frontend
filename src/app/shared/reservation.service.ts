@@ -20,8 +20,8 @@ export class ReservationService {
         return this.http.post<ValidatedResponse<string>>(`/api/v2/public/event/${eventShortName}/reserve-tickets`, reservation, {params: {lang: lang}});
     }
 
-    getReservationInfo(eventShortName: string, reservationId: string): Observable<ReservationInfo> {
-        return this.http.get<ReservationInfo>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`);
+    getReservationInfo(reservationId: string): Observable<ReservationInfo> {
+        return this.http.get<ReservationInfo>(`/api/v2/public/reservation/${reservationId}`);
     }
 
     getReservationStatusInfo(reservationId: string): Observable<ReservationStatusInfo> {
@@ -32,13 +32,13 @@ export class ReservationService {
         return this.http.delete<boolean>(`/api/v2/public/reservation/${reservationId}`);
     }
 
-    validateToOverview(eventShortName: string, reservationId: string, contactsAndTicket: any, lang: string): Observable<ValidatedResponse<boolean>> {
-        const url = `/api/v2/public/event/${eventShortName}/reservation/${reservationId}/validate-to-overview`;
+    validateToOverview(reservationId: string, contactsAndTicket: any, lang: string): Observable<ValidatedResponse<boolean>> {
+        const url = `/api/v2/public/reservation/${reservationId}/validate-to-overview`;
         return this.http.post<ValidatedResponse<boolean>>(url, contactsAndTicket, {params: {lang: lang}});
     }
 
-    confirmOverview(eventShortName: string, reservationId: string, overviewForm: OverviewConfirmation, lang: string): Observable<ValidatedResponse<ReservationPaymentResult>> {
-        const url = `/api/v2/public/event/${eventShortName}/reservation/${reservationId}`;
+    confirmOverview(reservationId: string, overviewForm: OverviewConfirmation, lang: string): Observable<ValidatedResponse<ReservationPaymentResult>> {
+        const url = `/api/v2/public/reservation/${reservationId}`;
         return this.http.post<ValidatedResponse<ReservationPaymentResult>>(url, overviewForm, {params: {lang: lang}});
     }
 
@@ -50,28 +50,28 @@ export class ReservationService {
         return this.http.post<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/re-send-email`, {}, {params: {lang: lang}});
     }
 
-    initPayment(eventShortName: string, reservationId: string): Observable<TransactionInitializationToken> {
-        return this.http.post<TransactionInitializationToken>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment/CREDIT_CARD/init`, {});
+    initPayment(reservationId: string): Observable<TransactionInitializationToken> {
+        return this.http.post<TransactionInitializationToken>(`/api/v2/public/reservation/${reservationId}/payment/CREDIT_CARD/init`, {});
     }
 
-    getPaymentStatus(eventShortName: string, reservationId: string): Observable<ReservationPaymentResult> {
-        return this.http.get<ReservationPaymentResult>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment/CREDIT_CARD/status`);
+    getPaymentStatus(reservationId: string): Observable<ReservationPaymentResult> {
+        return this.http.get<ReservationPaymentResult>(`/api/v2/public/reservation/${reservationId}/payment/CREDIT_CARD/status`);
     }
 
-    forcePaymentStatusCheck(eventShortName: string, reservationId: string): Observable<ReservationPaymentResult> {
-        return this.http.get<ReservationPaymentResult>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/transaction/force-check`);
+    forcePaymentStatusCheck(reservationId: string): Observable<ReservationPaymentResult> {
+        return this.http.get<ReservationPaymentResult>(`/api/v2/public/reservation/${reservationId}/transaction/force-check`);
     }
 
-    removePaymentToken(eventShortName: string, reservationId: string): Observable<boolean> {
-        return this.http.delete<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment/token`);
+    removePaymentToken(reservationId: string): Observable<boolean> {
+        return this.http.delete<boolean>(`/api/v2/public/reservation/${reservationId}/payment/token`);
     }
 
-    resetPaymentStatus(eventShortName: string, reservationId: string): Observable<boolean> {
-        return this.http.delete<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment`);
+    resetPaymentStatus(reservationId: string): Observable<boolean> {
+        return this.http.delete<boolean>(`/api/v2/public/reservation/${reservationId}/payment`);
     }
 
-    registerPaymentAttempt(eventShortName: string, reservationId: string): Observable<boolean> {
-        return this.http.put<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/payment`, {});
+    registerPaymentAttempt(reservationId: string): Observable<boolean> {
+        return this.http.put<boolean>(`/api/v2/public/reservation/${reservationId}/payment`, {});
     }
 
     checkDynamicDiscountAvailability(eventShortName: string, reservation: ReservationRequest): Observable<DynamicDiscount> {

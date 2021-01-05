@@ -38,7 +38,7 @@ export class OfflinePaymentComponent implements OnInit {
       this.reservationId = params['reservationId'];
       zip(
         this.eventService.getEvent(this.eventShortName),
-        this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)
+        this.reservationService.getReservationInfo(this.reservationId)
       ).subscribe(([ev, reservationInfo]) => {
         this.event = ev;
         this.reservationInfo = reservationInfo;
