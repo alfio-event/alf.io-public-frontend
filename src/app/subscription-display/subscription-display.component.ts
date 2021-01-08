@@ -40,4 +40,11 @@ export class SubscriptionDisplayComponent implements OnInit {
     });
   }
 
+
+  submitForm() {
+    this.subscriptionService.reserve(this.subscription.id).subscribe(res => {
+      
+    });
+  }
+
 }

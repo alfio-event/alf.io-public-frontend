@@ -1,5 +1,12 @@
 <ng-container *ngIf="subscription">
     <app-language-selector [contentLanguages]="languages"></app-language-selector>
 
-    {{subscription|json}}
+
+    <form (submit)="submitForm()">
+        {{subscription|json}}
+
+        <div class="row d-flex justify-content-between mobile-add-margin-bottom">
+            <div class="col-md-5 order-md-1 col-12"><button type="submit" class="block-button btn btn-success" translate="show-event.continue"></button></div>
+        </div>
+    </form>
 </ng-container>
