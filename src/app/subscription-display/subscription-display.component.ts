@@ -17,6 +17,7 @@ export class SubscriptionDisplayComponent implements OnInit {
 
 
   subscription: SubscriptionInfo;
+  subscriptionId: string;
   languages: Language[];
 
   constructor(private route: ActivatedRoute,
@@ -28,8 +29,8 @@ export class SubscriptionDisplayComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const subscriptionId = params['id'];
-      zip(this.subscriptionService.getSubscriptionById(subscriptionId), this.info.getInfo()).subscribe(([subscription, info]) => {
+      this.subscriptionId = params['id'];
+      zip(this.subscriptionService.getSubscriptionById(this.subscriptionId), this.info.getInfo()).subscribe(([subscription, info]) => {
         this.subscription = subscription;
         this.analytics.pageView(info.analyticsConfiguration);
       });
@@ -42,8 +43,8 @@ export class SubscriptionDisplayComponent implements OnInit {
 
 
   submitForm() {
-    this.subscriptionService.reserve(this.subscription.id).subscribe(res => {
-      this.router.navigate(['subscription', this.subscription.id, 'reservation', res.value, 'book']);
+    this.subscriptionService.reserve(this.subscriptionId).subscribe(res => {
+      this.router.navigate(['subscription', this.subscriptionId, 'reservation', res.value, 'book']);
     });
   }
 
