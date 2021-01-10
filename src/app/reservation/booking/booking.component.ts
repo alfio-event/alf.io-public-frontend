@@ -14,7 +14,7 @@ import { ErrorDescriptor } from 'src/app/model/validated-response';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReservationExpiredComponent } from '../expired-notification/reservation-expired.component';
 import { CancelReservationComponent } from '../cancel-reservation/cancel-reservation.component';
-import { PurchaseContextService } from 'src/app/shared/purchase-context.service';
+import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
 import { PurchaseContext } from 'src/app/model/purchase-context';
 
 @Component({
@@ -33,6 +33,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
   @ViewChild('invoiceAnchor')
   private invoiceElement: ElementRef<HTMLAnchorElement>;
   private doScroll = new Subject<boolean>();
+  private purchaseContextType: PurchaseContextType;
 
   ticketCounts: number;
 
@@ -63,9 +64,10 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
       this.publicIdentifier = params[data.publicIdentifierParameter];
       this.reservationId = params['reservationId'];
+      this.purchaseContextType = data.type;
 
       zip(
-        this.purchaseContextService.getContext(data.type, this.publicIdentifier),
+        this.purchaseContextService.getContext(this.purchaseContextType, this.publicIdentifier),
         this.reservationService.getReservationInfo(this.reservationId)
       ).subscribe(([purchaseContext, reservationInfo]) => {
         this.purchaseContext = purchaseContext;
@@ -155,7 +157,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
     this.removeUnnecessaryFields();
     this.reservationService.validateToOverview(this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang).subscribe(res => {
       if (res.success) {
-        this.router.navigate(['event', this.publicIdentifier, 'reservation', this.reservationId, 'overview']);
+        this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'overview']);
       }
     }, (err) => {
       this.globalErrors = handleServerSideValidationError(err, this.contactAndTicketsForm);
@@ -166,7 +168,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
     this.modalService.open(CancelReservationComponent, {centered: true}).result.then(res => {
       if (res === 'yes') {
         this.reservationService.cancelPendingReservation(this.reservationId).subscribe(() => {
-          this.router.navigate(['event', this.publicIdentifier], {replaceUrl: true});
+          this.router.navigate([this.purchaseContextType, this.publicIdentifier], {replaceUrl: true});
         });
       }
     }, () => {});
@@ -177,7 +179,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
       if (!this.expired) {
         this.expired = expired;
         this.modalService.open(ReservationExpiredComponent, {centered: true, backdrop: 'static'})
-            .result.then(() => this.router.navigate(['event', this.publicIdentifier], {replaceUrl: true}));
+            .result.then(() => this.router.navigate([this.purchaseContextType, this.publicIdentifier], {replaceUrl: true}));
       }
     });
   }
