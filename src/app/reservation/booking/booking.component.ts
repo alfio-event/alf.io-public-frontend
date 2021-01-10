@@ -4,8 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TicketService } from 'src/app/shared/ticket.service';
 import { BillingDetails, ItalianEInvoicing, ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
-import { EventService } from 'src/app/shared/event.service';
-import { Event } from 'src/app/model/event';
 import { Subject, zip } from 'rxjs';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
@@ -16,6 +14,8 @@ import { ErrorDescriptor } from 'src/app/model/validated-response';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReservationExpiredComponent } from '../expired-notification/reservation-expired.component';
 import { CancelReservationComponent } from '../cancel-reservation/cancel-reservation.component';
+import { PurchaseContextService } from 'src/app/shared/purchase-context.service';
+import { PurchaseContext } from 'src/app/model/purchase-context';
 
 @Component({
   selector: 'app-booking',
@@ -24,9 +24,9 @@ import { CancelReservationComponent } from '../cancel-reservation/cancel-reserva
 export class BookingComponent implements OnInit, AfterViewInit {
 
   reservationInfo: ReservationInfo;
-  event: Event;
+  purchaseContext: PurchaseContext;
   contactAndTicketsForm: FormGroup;
-  eventShortName: string;
+  private publicIdentifier: string;
   reservationId: string;
   expired: boolean;
   globalErrors: ErrorDescriptor[];
@@ -51,7 +51,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
     private router: Router,
     private reservationService: ReservationService,
     private ticketService: TicketService,
-    private eventService: EventService,
+    private purchaseContextService: PurchaseContextService,
     private formBuilder: FormBuilder,
     private i18nService: I18nService,
     private translate: TranslateService,
@@ -59,21 +59,21 @@ export class BookingComponent implements OnInit, AfterViewInit {
     private modalService: NgbModal) { }
 
   public ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    zip(this.route.data, this.route.params).subscribe(([data, params]) => {
 
-      this.eventShortName = params['eventShortName'];
+      this.publicIdentifier = params[data.publicIdentifierParameter];
       this.reservationId = params['reservationId'];
 
       zip(
-        this.eventService.getEvent(this.eventShortName),
+        this.purchaseContextService.getContext(data.type, this.publicIdentifier),
         this.reservationService.getReservationInfo(this.reservationId)
-      ).subscribe(([ev, reservationInfo]) => {
-        this.event = ev;
+      ).subscribe(([purchaseContext, reservationInfo]) => {
+        this.purchaseContext = purchaseContext;
         this.reservationInfo = reservationInfo;
 
-        this.i18nService.setPageTitle('reservation-page.header.title', ev.displayName);
+        this.i18nService.setPageTitle('reservation-page.header.title', purchaseContext.displayName);
 
-        const invoiceRequested = ev.invoicingConfiguration.onlyInvoice ? true : reservationInfo.invoiceRequested;
+        const invoiceRequested = purchaseContext.invoicingConfiguration.onlyInvoice ? true : reservationInfo.invoiceRequested;
 
         //
         this.ticketCounts = 0;
@@ -84,7 +84,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
         // auto complete (copy by default first/lastname + email to ticket) is enabled only if we have only
         // one ticket
-        if (this.ticketCounts === 1 && this.event.assignmentConfiguration.enableAttendeeAutocomplete) {
+        if (this.ticketCounts === 1 && this.purchaseContext.assignmentConfiguration.enableAttendeeAutocomplete) {
           this.enableAttendeeAutocomplete = true;
         }
         //
@@ -118,7 +118,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
         setTimeout(() => this.doScroll.next(this.invoiceElement != null));
 
-        this.analytics.pageView(ev.analyticsConfiguration);
+        this.analytics.pageView(purchaseContext.analyticsConfiguration);
       });
     });
   }
@@ -155,7 +155,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
     this.removeUnnecessaryFields();
     this.reservationService.validateToOverview(this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang).subscribe(res => {
       if (res.success) {
-        this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview']);
+        this.router.navigate(['event', this.publicIdentifier, 'reservation', this.reservationId, 'overview']);
       }
     }, (err) => {
       this.globalErrors = handleServerSideValidationError(err, this.contactAndTicketsForm);
@@ -166,7 +166,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
     this.modalService.open(CancelReservationComponent, {centered: true}).result.then(res => {
       if (res === 'yes') {
         this.reservationService.cancelPendingReservation(this.reservationId).subscribe(() => {
-          this.router.navigate(['event', this.eventShortName], {replaceUrl: true});
+          this.router.navigate(['event', this.publicIdentifier], {replaceUrl: true});
         });
       }
     }, () => {});
@@ -177,7 +177,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
       if (!this.expired) {
         this.expired = expired;
         this.modalService.open(ReservationExpiredComponent, {centered: true, backdrop: 'static'})
-            .result.then(() => this.router.navigate(['event', this.eventShortName], {replaceUrl: true}));
+            .result.then(() => this.router.navigate(['event', this.publicIdentifier], {replaceUrl: true}));
       }
     });
   }

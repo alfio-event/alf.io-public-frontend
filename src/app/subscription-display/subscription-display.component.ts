@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Language } from '../model/event';
-import { BasicSubscriptionInfo } from '../model/subscription';
+import { SubscriptionInfo } from '../model/subscription';
 import { AnalyticsService } from '../shared/analytics.service';
 import { I18nService } from '../shared/i18n.service';
 import { InfoService } from '../shared/info.service';
@@ -16,7 +16,7 @@ import { zip } from 'rxjs';
 export class SubscriptionDisplayComponent implements OnInit {
 
 
-  subscription: BasicSubscriptionInfo;
+  subscription: SubscriptionInfo;
   languages: Language[];
 
   constructor(private route: ActivatedRoute,
@@ -43,7 +43,7 @@ export class SubscriptionDisplayComponent implements OnInit {
 
   submitForm() {
     this.subscriptionService.reserve(this.subscription.id).subscribe(res => {
-      
+      this.router.navigate(['subscription', this.subscription.id, 'reservation', res.value, 'book']);
     });
   }
 

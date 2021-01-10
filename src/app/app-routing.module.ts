@@ -20,25 +20,36 @@ import { SubscriptionListAllComponent } from './subscription-list-all/subscripti
 import { RemoveEventCssGuard } from './remove-event-css.guard';
 import { SubscriptionDisplayComponent } from './subscription-display/subscription-display.component';
 
-const reservationsGuard = [EventGuard, LanguageGuard, ReservationGuard];
+const eventReservationsGuard = [EventGuard, LanguageGuard, ReservationGuard];
+const subscriptionReservationsGuard = [LanguageGuard, ReservationGuard];
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [RemoveEventCssGuard, LanguageGuard] },
   { path: 'events-all', component: EventListAllComponent, canActivate: [RemoveEventCssGuard, LanguageGuard] },
   { path: 'subscriptions-all', component: SubscriptionListAllComponent, canActivate: [RemoveEventCssGuard, LanguageGuard]},
   { path: 'subscription/:id', component: SubscriptionDisplayComponent, canActivate: [RemoveEventCssGuard, LanguageGuard]},
+  { path: 'subscription/:id/reservation/:reservationId', data: {type: 'subscription', publicIdentifierParameter: 'id'}, children: [
+    { path: 'book', component: BookingComponent, canActivate: subscriptionReservationsGuard },
+    { path: 'overview', component: OverviewComponent, canActivate: subscriptionReservationsGuard },
+    { path: 'waiting-payment', component: OfflinePaymentComponent, canActivate: subscriptionReservationsGuard },
+    { path: 'deferred-payment', component: DeferredOfflinePaymentComponent, canActivate: subscriptionReservationsGuard },
+    { path: 'processing-payment', component: ProcessingPaymentComponent, canActivate: subscriptionReservationsGuard },
+    { path: 'success', component: SuccessComponent, canActivate: subscriptionReservationsGuard },
+    { path: 'not-found', component: NotFoundComponent, canActivate: subscriptionReservationsGuard },
+    { path: 'error', component: ErrorComponent, canActivate: subscriptionReservationsGuard },
+  ]},
   { path: 'event/:eventShortName', component: EventDisplayComponent, canActivate: [EventGuard, LanguageGuard] },
   { path: 'event/:eventShortName/poll', loadChildren: () => import('./poll/poll.module').then(m => m.PollModule), canActivate: [EventGuard, LanguageGuard] },
-  { path: 'event/:eventShortName/reservation/:reservationId', children: [
-    { path: 'book', component: BookingComponent, canActivate: reservationsGuard },
-    { path: 'overview', component: OverviewComponent, canActivate: reservationsGuard },
+  { path: 'event/:eventShortName/reservation/:reservationId', data: {type: 'event', publicIdentifierParameter: 'eventShortName'}, children: [
+    { path: 'book', component: BookingComponent, canActivate: eventReservationsGuard },
+    { path: 'overview', component: OverviewComponent, canActivate: eventReservationsGuard },
     { path: 'waitingPayment', redirectTo: 'waiting-payment'},
-    { path: 'waiting-payment', component: OfflinePaymentComponent, canActivate: reservationsGuard },
-    { path: 'deferred-payment', component: DeferredOfflinePaymentComponent, canActivate: reservationsGuard },
-    { path: 'processing-payment', component: ProcessingPaymentComponent, canActivate: reservationsGuard },
-    { path: 'success', component: SuccessComponent, canActivate: reservationsGuard },
-    { path: 'not-found', component: NotFoundComponent, canActivate: reservationsGuard },
-    { path: 'error', component: ErrorComponent, canActivate: reservationsGuard },
+    { path: 'waiting-payment', component: OfflinePaymentComponent, canActivate: eventReservationsGuard },
+    { path: 'deferred-payment', component: DeferredOfflinePaymentComponent, canActivate: eventReservationsGuard },
+    { path: 'processing-payment', component: ProcessingPaymentComponent, canActivate: eventReservationsGuard },
+    { path: 'success', component: SuccessComponent, canActivate: eventReservationsGuard },
+    { path: 'not-found', component: NotFoundComponent, canActivate: eventReservationsGuard },
+    { path: 'error', component: ErrorComponent, canActivate: eventReservationsGuard },
   ]},
   { path: 'event/:eventShortName/ticket/:ticketId', children: [
     { path: 'view', component: ViewTicketComponent, canActivate: [EventGuard, LanguageGuard] },

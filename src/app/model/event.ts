@@ -1,8 +1,9 @@
 import { DateValidity, EventDatesWithOffset } from './date-validity';
 import { AnalyticsConfiguration } from './analytics-configuration';
 import { IconPrefix, IconName } from '@fortawesome/fontawesome-svg-core';
+import { PurchaseContext } from './purchase-context';
 
-export class Event implements DateValidity {
+export class Event implements DateValidity, PurchaseContext {
     shortName: string;
     displayName: string;
     format: EventFormat;
