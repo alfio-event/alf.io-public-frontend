@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Ticket } from 'src/app/model/ticket';
-import { Event } from 'src/app/model/event';
+import { PurchaseContext } from 'src/app/model/purchase-context';
 
 @Component({
   selector: 'app-ticket-form',
@@ -16,7 +16,7 @@ export class TicketFormComponent implements OnInit {
   ticket: Ticket;
 
   @Input()
-  event: Event;
+  event: PurchaseContext;
 
   constructor() { }
 

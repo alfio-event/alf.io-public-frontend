@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { Event } from 'src/app/model/event';
+import { FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { Subscription } from 'rxjs';
 import { LocalizedCountry } from 'src/app/model/localized-country';
+import { PurchaseContext } from 'src/app/model/purchase-context';
 
 @Component({
   selector: 'app-invoice-form',
@@ -16,7 +16,7 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
   @Input()
-  event: Event;
+  event: PurchaseContext;
 
   private langChangeSub: Subscription;
 
