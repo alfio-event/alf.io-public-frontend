@@ -22,38 +22,38 @@ export class ReservationGuard implements CanActivate {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | boolean {
-        return this.checkAndRedirect(route.params['eventShortName'], route.params['reservationId'], route.component);
+        return this.checkAndRedirect(route.data['type'], route.params[route.data['publicIdentifierParameter']], route.params['reservationId'], route.component);
     }
 
-    private checkAndRedirect(eventShortName: string, reservationId: string, component: any): Observable<boolean | UrlTree> {
+    private checkAndRedirect(type: string, publicIdentifier: string, reservationId: string, component: any): Observable<boolean | UrlTree> {
         return this.reservationService.getReservationStatusInfo(reservationId)
             .pipe(catchError(err => of({ status: <ReservationStatus>'NOT_FOUND', validatedBookingInformation: false })), map(reservation => {
                 const selectedComponent = getCorrespondingController(reservation.status, reservation.validatedBookingInformation);
                 if (component === selectedComponent) {
                     return true;
                 }
-                return this.router.createUrlTree(getRouteFromComponent(selectedComponent, eventShortName, reservationId), {replaceUrl: true});
+                return this.router.createUrlTree(getRouteFromComponent(selectedComponent, type, publicIdentifier, reservationId), {replaceUrl: true});
             }));
     }
 }
 
-function getRouteFromComponent(component: any, eventShortName: string, reservationId: string): string[] {
+function getRouteFromComponent(component: any, type: string, publicIdentifier: string, reservationId: string): string[] {
     if (component === OverviewComponent) {
-        return ['event', eventShortName, 'reservation', reservationId, 'overview'];
+        return [type, publicIdentifier, 'reservation', reservationId, 'overview'];
     } else if (component === BookingComponent) {
-        return ['event', eventShortName, 'reservation', reservationId, 'book'];
+        return [type, publicIdentifier, 'reservation', reservationId, 'book'];
     } else if (component === SuccessComponent) {
-        return ['event', eventShortName, 'reservation', reservationId, 'success'];
+        return [type, publicIdentifier, 'reservation', reservationId, 'success'];
     } else if (component === OfflinePaymentComponent) {
-        return ['event', eventShortName, 'reservation', reservationId, 'waiting-payment'];
+        return [type, publicIdentifier, 'reservation', reservationId, 'waiting-payment'];
     } else if (component === DeferredOfflinePaymentComponent) {
-        return ['event', eventShortName, 'reservation', reservationId, 'deferred-payment'];
+        return [type, publicIdentifier, 'reservation', reservationId, 'deferred-payment'];
     } else if (component === ProcessingPaymentComponent) {
-        return ['event', eventShortName, 'reservation', reservationId, 'processing-payment'];
+        return [type, publicIdentifier, 'reservation', reservationId, 'processing-payment'];
     } else if (component === NotFoundComponent) {
-        return ['event', eventShortName, 'reservation', reservationId, 'not-found'];
+        return [type, publicIdentifier, 'reservation', reservationId, 'not-found'];
     } else if (component === ErrorComponent) {
-        return ['event', eventShortName, 'reservation', reservationId, 'error'];
+        return [type, publicIdentifier, 'reservation', reservationId, 'error'];
     }
 }
 
