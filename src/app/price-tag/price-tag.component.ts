@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CurrencyDescriptor, Event } from '../model/event';
+import { CurrencyDescriptor } from '../model/event';
+import { PurchaseContext } from '../model/purchase-context';
 
 @Component({
   selector: 'app-price-tag',
@@ -7,7 +8,7 @@ import { CurrencyDescriptor, Event } from '../model/event';
 })
 export class PriceTagComponent implements OnInit {
   @Input()
-  event: Event;
+  event: PurchaseContext;
   @Input()
   formattedPrice: string;
   @Input()

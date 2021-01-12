@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { ReservationService } from '../../shared/reservation.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Event, PaymentMethod, PaymentProxy, PaymentProxyWithParameters } from 'src/app/model/event';
-import { EventService } from 'src/app/shared/event.service';
+import { PaymentMethod, PaymentProxy, PaymentProxyWithParameters } from 'src/app/model/event';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { PaymentProvider, SimplePaymentProvider, PaymentResult, PaymentStatusNotification } from 'src/app/payment/payment-provider';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
@@ -13,6 +12,9 @@ import { AnalyticsService } from 'src/app/shared/analytics.service';
 import { ErrorDescriptor, ValidatedResponse } from 'src/app/model/validated-response';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReservationExpiredComponent } from '../expired-notification/reservation-expired.component';
+import { zip } from 'rxjs';
+import { PurchaseContext } from 'src/app/model/purchase-context';
+import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
 
 @Component({
   selector: 'app-overview',
@@ -25,9 +27,10 @@ export class OverviewComponent implements OnInit {
   overviewForm: FormGroup;
   globalErrors: ErrorDescriptor[];
 
-  eventShortName: string;
-  reservationId: string;
-  event: Event;
+  private publicIdentifier: string;
+  private reservationId: string;
+  purchaseContext: PurchaseContext;
+  private purchaseContextType: PurchaseContextType;
   expired: boolean;
 
   submitting: boolean;
@@ -42,25 +45,26 @@ export class OverviewComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private reservationService: ReservationService,
-    private eventService: EventService,
     private formBuilder: FormBuilder,
     private i18nService: I18nService,
     private translate: TranslateService,
     private analytics: AnalyticsService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private purchaseContextService: PurchaseContextService) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    zip(this.route.data, this.route.params).subscribe(([data, params]) => {
 
-      this.eventShortName = params['eventShortName'];
+      this.publicIdentifier = params[data.publicIdentifierParameter];
       this.reservationId = params['reservationId'];
+      this.purchaseContextType = data.type;
 
-      this.eventService.getEvent(this.eventShortName).subscribe(ev => {
-        this.event = ev;
+      this.purchaseContextService.getContext(this.purchaseContextType, this.publicIdentifier).subscribe(ev => {
+        this.purchaseContext = ev;
 
         this.i18nService.setPageTitle('reservation-page.header.title', ev.displayName);
 
-        this.loadReservation(ev);
+        this.loadReservation();
 
         this.analytics.pageView(ev.analyticsConfiguration);
       });
@@ -68,7 +72,7 @@ export class OverviewComponent implements OnInit {
   }
 
 
-  loadReservation(ev: Event) {
+  loadReservation() {
     this.reservationService.getReservationInfo(this.reservationId).subscribe(resInfo => {
       this.reservationInfo = resInfo;
 
@@ -139,11 +143,11 @@ export class OverviewComponent implements OnInit {
     }
     if (this.expired) {
       this.reservationService.cancelPendingReservation(this.reservationId).subscribe(res => {
-        this.router.navigate(['event', this.eventShortName]);
+        this.router.navigate([this.purchaseContextType, this.publicIdentifier]);
       });
     } else {
       this.reservationService.backToBooking(this.reservationId).subscribe(res => {
-        this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'book'], extras);
+        this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'book'], extras);
       });
     }
   }
@@ -165,13 +169,13 @@ export class OverviewComponent implements OnInit {
       if (paymentResult.success) {
         this.overviewForm.get('gatewayToken').setValue(paymentResult.gatewayToken);
         const overviewFormValue = this.overviewForm.value;
-        this.reservationService.confirmOverview(this.reservationId, overviewFormValue, this.translate.currentLang).subscribe(res => {
+        this.reservationService.confirmOverview(this.publicIdentifier, overviewFormValue, this.translate.currentLang).subscribe(res => {
           if (res.success) {
             this.unregisterHook();
             if (res.value.redirect) { // handle the case of redirects (e.g. paypal, stripe)
               window.location.href = res.value.redirectUrl;
             } else {
-              this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
+              this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'success']);
             }
           } else {
             this.submitting = false;
@@ -189,7 +193,7 @@ export class OverviewComponent implements OnInit {
         if (paymentResult != null && paymentResult.reservationChanged) {
           console.log('reservation status is changed. Trying to reload it...');
           // reload reservation, try to go to /success
-          this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
+          this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'success']);
         } else {
           this.submitting = false;
         }
@@ -239,7 +243,7 @@ export class OverviewComponent implements OnInit {
   }
 
   get acceptedPrivacyAndTermAndConditions(): boolean {
-    if (this.event.privacyPolicyUrl) {
+    if (this.purchaseContext.privacyPolicyUrl) {
       return this.overviewForm.value.privacyPolicyAccepted && this.overviewForm.value.termAndConditionsAccepted;
     } else {
       return this.overviewForm.value.termAndConditionsAccepted;
@@ -251,7 +255,7 @@ export class OverviewComponent implements OnInit {
       if (!this.expired) {
         this.expired = expired;
         this.modalService.open(ReservationExpiredComponent, {centered: true, backdrop: 'static'})
-            .result.then(() => this.router.navigate(['event', this.eventShortName], {replaceUrl: true}));
+            .result.then(() => this.router.navigate([this.purchaseContextType, this.publicIdentifier], {replaceUrl: true}));
       }
     });
   }
@@ -262,7 +266,7 @@ export class OverviewComponent implements OnInit {
 
   clearToken(): void {
     this.reservationService.removePaymentToken(this.reservationId).subscribe(r => {
-      this.loadReservation(this.event);
+      this.loadReservation();
     });
   }
 
@@ -271,7 +275,7 @@ export class OverviewComponent implements OnInit {
   }
 
   get enabledItalyEInvoicing(): boolean {
-    return this.event.invoicingConfiguration.enabledItalyEInvoicing &&
+    return this.purchaseContext.invoicingConfiguration.enabledItalyEInvoicing &&
       this.reservationInfo.billingDetails.invoicingAdditionalInfo.italianEInvoicing != null;
   }
 

@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { PaymentMethod, PaymentProxyWithParameters, PaymentMethodDetails, paymentMethodDetails, Event, PaymentProxy } from 'src/app/model/event';
+import { PaymentMethod, PaymentProxyWithParameters, PaymentMethodDetails, paymentMethodDetails, PaymentProxy } from 'src/app/model/event';
 import { PaymentProvider } from 'src/app/payment/payment-provider';
 import { FormGroup } from '@angular/forms';
 import { ReservationInfo } from 'src/app/model/reservation-info';
+import { PurchaseContext } from 'src/app/model/purchase-context';
 
 @Component({
     selector: 'app-payment-method-selector',
@@ -12,7 +13,7 @@ import { ReservationInfo } from 'src/app/model/reservation-info';
 export class PaymentMethodSelectorComponent implements OnInit {
 
     @Input()
-    event: Event;
+    event: PurchaseContext;
     @Input()
     reservationInfo: ReservationInfo;
     @Input()

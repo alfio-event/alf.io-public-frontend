@@ -6,6 +6,7 @@ import { PaymentProvider } from '../payment-provider';
 import { ReservationService } from 'src/app/shared/reservation.service';
 import { StripeCheckoutPaymentProvider, STRIPE_CHECKOUT_ID_SCRIPT, StripePaymentV3 } from './stripe-payment-providers';
 import { removeDOMNode } from 'src/app/shared/event.service';
+import { PurchaseContext } from 'src/app/model/purchase-context';
 
 // global variable defined by stripe when the scripts are loaded
 declare const Stripe: any;
@@ -21,7 +22,7 @@ const STRIPE_V3_ID_SCRIPT = 'stripe-payment-v3-script';
 export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
 
   @Input()
-  event: Event;
+  event: PurchaseContext;
 
   @Input()
   reservation: ReservationInfo;
@@ -135,7 +136,7 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
     card.addEventListener('change', (ev) => {
       // TODO: show errors & co
       if (ev.complete) {
-        this.paymentProvider.emit(new StripePaymentV3(this.reservationService, this.event, this.reservation, stripeHandler, card)); // enable payment
+        this.paymentProvider.emit(new StripePaymentV3(this.reservationService, this.reservation, stripeHandler, card)); // enable payment
       } else {
         this.paymentProvider.emit(null); // -> disable submit buttons by providing an empty payment provider
       }

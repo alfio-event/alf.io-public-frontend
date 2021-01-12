@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ReservationInfo } from 'src/app/model/reservation-info';
-import { Event } from 'src/app/model/event';
+import { PurchaseContext } from 'src/app/model/purchase-context';
 
 @Component({
   selector: 'app-summary-table',
@@ -12,7 +12,7 @@ export class SummaryTableComponent {
   reservationInfo: ReservationInfo;
 
   @Input()
-  event: Event;
+  event: PurchaseContext;
 
   constructor() { }
 

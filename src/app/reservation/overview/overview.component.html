@@ -1,6 +1,6 @@
 <app-reservation>
 
-<div *ngIf="reservationInfo && event">
+<div *ngIf="reservationInfo && purchaseContext">
 
   <app-stepper [currentStep]="3" [free]="reservationInfo.orderSummary.free"></app-stepper>
 
@@ -14,14 +14,14 @@
     </div>
 
     <div class="row">
-      <div class="col-12" [ngClass]="{'col-md-7': !reservationInfo.orderSummary.free && event.invoicingConfiguration.invoiceAllowed}">
-        <app-summary-table [event]="event" [reservationInfo]="reservationInfo"></app-summary-table>
+      <div class="col-12" [ngClass]="{'col-md-7': !reservationInfo.orderSummary.free && purchaseContext.invoicingConfiguration.invoiceAllowed}">
+        <app-summary-table [event]="purchaseContext" [reservationInfo]="reservationInfo"></app-summary-table>
       </div>
-      <div class="d-none d-md-flex col-md-1 justify-content-md-center" *ngIf="event.invoicingConfiguration.invoiceAllowed">
+      <div class="d-none d-md-flex col-md-1 justify-content-md-center" *ngIf="purchaseContext.invoicingConfiguration.invoiceAllowed">
         <div class="border-left separator"></div>
       </div>
 
-      <div class="col-12 col-md-4 invoice-details" *ngIf="!reservationInfo.orderSummary.free && event.invoicingConfiguration.invoiceAllowed">
+      <div class="col-12 col-md-4 invoice-details" *ngIf="!reservationInfo.orderSummary.free && purchaseContext.invoicingConfiguration.invoiceAllowed">
         <div class="d-flex flex-column justify-content-center h-100">
           <div class="h5 d-none d-md-block" translate="reservation-page.invoice-details"></div>
           <div class="page-header d-block d-md-none"><h2 translate="reservation-page.invoice-details"></h2></div>
@@ -68,24 +68,24 @@
     </div>
 
     <div *ngIf="!reservationInfo.orderSummary.free" [class.invisible]="submitting">
-      <app-payment-method-selector [event]="event" [reservationInfo]="reservationInfo" [overviewForm]="overviewForm" (selectedPaymentProvider)="registerCurrentPaymentProvider($event)"></app-payment-method-selector>
+      <app-payment-method-selector [event]="purchaseContext" [reservationInfo]="reservationInfo" [overviewForm]="overviewForm" (selectedPaymentProvider)="registerCurrentPaymentProvider($event)"></app-payment-method-selector>
     </div>
 
 
-    <div *ngIf="reservationInfo.orderSummary.free && event.captchaConfiguration.captchaForOfflinePaymentAndFree" class="mt-2 wMarginBottom">
-      <app-recaptcha [apiKey]="event.captchaConfiguration.recaptchaApiKey" (recaptchaResponse)="handleRecaptchaResponse($event)"></app-recaptcha>
+    <div *ngIf="reservationInfo.orderSummary.free && purchaseContext.captchaConfiguration.captchaForOfflinePaymentAndFree" class="mt-2 wMarginBottom">
+      <app-recaptcha [apiKey]="purchaseContext.captchaConfiguration.recaptchaApiKey" (recaptchaResponse)="handleRecaptchaResponse($event)"></app-recaptcha>
     </div>
 
-    <div class="custom-control custom-checkbox" *ngIf="event.privacyPolicyUrl" [class.invisible]="submitting">
+    <div class="custom-control custom-checkbox" *ngIf="purchaseContext.privacyPolicyUrl" [class.invisible]="submitting">
         <input class="custom-control-input" id="privacyPolicyAccepted" formControlName="privacyPolicyAccepted" type="checkbox" aria-labelledby="privacy-policy-label">{{' '}} <!-- ugly, see  https://github.com/angular/angular/issues/21049 -->
         <label for="privacyPolicyAccepted" class="custom-control-label" id="privacy-policy-label">
-          <span translate="reservation-page.privacy.prefix"></span>{{' '}}<a [attr.href]="event.privacyPolicyUrl" target="_blank" rel="noopener" translate="reservation-page.privacy.link.text"></a>{{' '}}<span translate="reservation-page.privacy.suffix"></span>
+          <span translate="reservation-page.privacy.prefix"></span>{{' '}}<a [attr.href]="purchaseContext.privacyPolicyUrl" target="_blank" rel="noopener" translate="reservation-page.privacy.link.text"></a>{{' '}}<span translate="reservation-page.privacy.suffix"></span>
         </label>
     </div>
     <div class="custom-control custom-checkbox" [class.invisible]="submitting">
         <input class="custom-control-input" id="termsAndConditionsAccepted" formControlName="termAndConditionsAccepted" type="checkbox" aria-labelledby="terms-conditions-label">
         <label class="custom-control-label" for="termsAndConditionsAccepted" id="terms-conditions-label">
-          {{' '}}<span translate="reservation-page.tc.prefix"></span>{{' '}}<a [attr.href]="event.termsAndConditionsUrl" target="_blank" rel="noopener" translate="reservation-page.tc.link.text"></a>{{' '}}<span translate="reservation-page.tc.suffix"></span>
+          {{' '}}<span translate="reservation-page.tc.prefix"></span>{{' '}}<a [attr.href]="purchaseContext.termsAndConditionsUrl" target="_blank" rel="noopener" translate="reservation-page.tc.link.text"></a>{{' '}}<span translate="reservation-page.tc.suffix"></span>
         </label>
     </div>
 
@@ -94,7 +94,7 @@
         <button *ngIf="reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" translate="reservation-page.continue" [disabled]="expired"></button>
         <button *ngIf="!reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" [disabled]="expired || !selectedPaymentProvider || !acceptedPrivacyAndTermAndConditions">
           <ng-container *ngIf="!reservationInfo.tokenAcquired">
-            {{ (paymentMethodDeferred ? 'common.confirm' : 'reservation-page.pay')| translate}} <app-price-tag *ngIf="!paymentMethodDeferred" [event]="event" [formattedPrice]="reservationInfo.orderSummary.totalPrice" [displayTextInline]="true"></app-price-tag>
+            {{ (paymentMethodDeferred ? 'common.confirm' : 'reservation-page.pay')| translate}} <app-price-tag *ngIf="!paymentMethodDeferred" [event]="purchaseContext" [formattedPrice]="reservationInfo.orderSummary.totalPrice" [displayTextInline]="true"></app-price-tag>
           </ng-container>
           <ng-container *ngIf="reservationInfo.tokenAcquired">
             {{'reservation-page.confirm-button' | translate}}

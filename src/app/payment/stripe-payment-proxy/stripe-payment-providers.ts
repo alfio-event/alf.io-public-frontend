@@ -4,6 +4,7 @@ import { PaymentProvider, PaymentResult, PaymentStatusNotification } from '../pa
 import { TranslateService } from '@ngx-translate/core';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { ReservationService } from 'src/app/shared/reservation.service';
+import { PurchaseContext } from 'src/app/model/purchase-context';
 
 // global variable defined by stripe when the scripts are loaded
 declare const StripeCheckout: any;
@@ -17,7 +18,7 @@ export class StripeCheckoutPaymentProvider implements PaymentProvider {
         private translate: TranslateService,
         private parameters: { [key: string]: any },
         private reservation: ReservationInfo,
-        private event: Event) {
+        private event: PurchaseContext) {
     }
 
     get paymentMethodDeferred(): boolean {
@@ -88,7 +89,6 @@ export class StripePaymentV3 implements PaymentProvider {
 
     constructor(
         private reservationService: ReservationService,
-        private event: Event,
         private reservation: ReservationInfo,
         private stripeHandler: any,
         private card: any

@@ -1,6 +1,6 @@
 import { PurchaseContextService } from "../shared/purchase-context.service";
 import { AnalyticsConfiguration } from "./analytics-configuration";
-import { AssignmentConfiguration, InvoicingConfiguration, Language } from "./event";
+import { AssignmentConfiguration, CaptchaConfiguration, CurrencyDescriptor, InvoicingConfiguration, Language } from "./event";
 import { PurchaseContext } from "./purchase-context";
 
 export class BasicSubscriptionInfo {
@@ -12,11 +12,16 @@ export class SubscriptionInfo implements PurchaseContext {
 
     //FIXME
     displayName: string;
-    invoicingConfiguration: InvoicingConfiguration = new InvoicingConfiguration()
-    assignmentConfiguration: AssignmentConfiguration = new AssignmentConfiguration();
-    analyticsConfiguration: AnalyticsConfiguration = new AnalyticsConfiguration();
+    invoicingConfiguration: InvoicingConfiguration;
+    assignmentConfiguration: AssignmentConfiguration;
+    analyticsConfiguration: AnalyticsConfiguration;
+    captchaConfiguration: CaptchaConfiguration;
     contentLanguages: Language[] = [];
     termsAndConditionsUrl: string;
     privacyPolicyUrl: string;
     fileBlobId: string;
+    vat: string;
+    currencyDescriptor: CurrencyDescriptor;
+    currency: string;
+    vatIncluded: boolean;
 }
