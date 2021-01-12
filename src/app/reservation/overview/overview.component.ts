@@ -169,7 +169,7 @@ export class OverviewComponent implements OnInit {
       if (paymentResult.success) {
         this.overviewForm.get('gatewayToken').setValue(paymentResult.gatewayToken);
         const overviewFormValue = this.overviewForm.value;
-        this.reservationService.confirmOverview(this.publicIdentifier, overviewFormValue, this.translate.currentLang).subscribe(res => {
+        this.reservationService.confirmOverview(this.reservationId, overviewFormValue, this.translate.currentLang).subscribe(res => {
           if (res.success) {
             this.unregisterHook();
             if (res.value.redirect) { // handle the case of redirects (e.g. paypal, stripe)
