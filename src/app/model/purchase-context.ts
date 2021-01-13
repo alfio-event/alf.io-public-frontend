@@ -18,4 +18,13 @@ export interface PurchaseContext {
     vat: string;
     currency: string;
     vatIncluded: boolean;
+
+    bankAccount: string;
+    bankAccountOwner: string[];
+
+    organizationEmail: string;
+
+    //
+    websiteUrl: string;
+    shortName: string;
 }

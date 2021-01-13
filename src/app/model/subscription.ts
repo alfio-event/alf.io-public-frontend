@@ -24,4 +24,17 @@ export class SubscriptionInfo implements PurchaseContext {
     currencyDescriptor: CurrencyDescriptor;
     currency: string;
     vatIncluded: boolean;
+
+    //
+    bankAccount: string;
+    bankAccountOwner: string[];
+    //
+    organizationEmail: string;
+
+
+
+
+    // FIXME / CHECK:
+    websiteUrl: string;
+    shortName: string;
 }
