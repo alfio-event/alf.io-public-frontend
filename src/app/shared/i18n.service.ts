@@ -8,6 +8,7 @@ import { TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { Router, NavigationStart } from '@angular/router';
 import { map, mergeMap, shareReplay, catchError, share } from 'rxjs/operators';
 import { EventService } from './event.service';
+import { PurchaseContextType } from './purchase-context.service';
 
 @Injectable({
   providedIn: 'root'
@@ -73,8 +74,8 @@ export class I18nService {
     return this.translateService.currentLang;
   }
 
-  useTranslation(eventShortName: string, lang: string): Observable<boolean> {
-    const overrideBundle = eventShortName ? this.eventService.getEvent(eventShortName).pipe(catchError(e => of({i18nOverride: {}})), map(e => e.i18nOverride[lang] || {})) : of({});
+  useTranslation(type: PurchaseContextType, publicIdentifier: string, lang: string): Observable<boolean> {
+    const overrideBundle = type === 'event' && publicIdentifier ? this.eventService.getEvent(publicIdentifier).pipe(catchError(e => of({i18nOverride: {}})), map(e => e.i18nOverride[lang] || {})) : of({});
     return zip(this.customLoader.getTranslation(lang), overrideBundle).pipe(mergeMap(([root, override]) => {
       this.translateService.setTranslation(lang, root, false);
       this.translateService.setTranslation(lang, override, true);

@@ -31,7 +31,7 @@ export class LanguageSelectorComponent implements OnInit {
 
   public changeLanguage(lang: string): void {
     const eventShortName = this.router.routerState.snapshot.root.firstChild ? this.router.routerState.snapshot.root.firstChild.params['eventShortName'] : null;
-    this.i18nService.useTranslation(eventShortName, lang).subscribe(() => {
+    this.i18nService.useTranslation('event', eventShortName, lang).subscribe(() => {
       this.selectedLanguage = this.i18nService.getCurrentLang();
       this.buildValues();
     });

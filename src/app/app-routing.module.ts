@@ -21,14 +21,16 @@ import { RemoveEventCssGuard } from './remove-event-css.guard';
 import { SubscriptionDisplayComponent } from './subscription-display/subscription-display.component';
 
 const eventReservationsGuard = [EventGuard, LanguageGuard, ReservationGuard];
+const eventData = {type: 'event', publicIdentifierParameter: 'eventShortName'};
 const subscriptionReservationsGuard = [LanguageGuard, ReservationGuard];
+const subscriptionData = {type: 'subscription', publicIdentifierParameter: 'id'};
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [RemoveEventCssGuard, LanguageGuard] },
   { path: 'events-all', component: EventListAllComponent, canActivate: [RemoveEventCssGuard, LanguageGuard] },
   { path: 'subscriptions-all', component: SubscriptionListAllComponent, canActivate: [RemoveEventCssGuard, LanguageGuard]},
-  { path: 'subscription/:id', component: SubscriptionDisplayComponent, canActivate: [RemoveEventCssGuard, LanguageGuard]},
-  { path: 'subscription/:id/reservation/:reservationId', data: {type: 'subscription', publicIdentifierParameter: 'id'}, children: [
+  { path: 'subscription/:id', component: SubscriptionDisplayComponent, canActivate: [RemoveEventCssGuard, LanguageGuard], data: subscriptionData},
+  { path: 'subscription/:id/reservation/:reservationId', data: subscriptionData, children: [
     { path: 'book', component: BookingComponent, canActivate: subscriptionReservationsGuard },
     { path: 'overview', component: OverviewComponent, canActivate: subscriptionReservationsGuard },
     { path: 'waiting-payment', component: OfflinePaymentComponent, canActivate: subscriptionReservationsGuard },
@@ -38,9 +40,9 @@ const routes: Routes = [
     { path: 'not-found', component: NotFoundComponent, canActivate: subscriptionReservationsGuard },
     { path: 'error', component: ErrorComponent, canActivate: subscriptionReservationsGuard },
   ]},
-  { path: 'event/:eventShortName', component: EventDisplayComponent, canActivate: [EventGuard, LanguageGuard] },
-  { path: 'event/:eventShortName/poll', loadChildren: () => import('./poll/poll.module').then(m => m.PollModule), canActivate: [EventGuard, LanguageGuard] },
-  { path: 'event/:eventShortName/reservation/:reservationId', data: {type: 'event', publicIdentifierParameter: 'eventShortName'}, children: [
+  { path: 'event/:eventShortName', component: EventDisplayComponent, canActivate: [EventGuard, LanguageGuard], data: eventData},
+  { path: 'event/:eventShortName/poll', loadChildren: () => import('./poll/poll.module').then(m => m.PollModule), canActivate: [EventGuard, LanguageGuard], data: eventData},
+  { path: 'event/:eventShortName/reservation/:reservationId', data: eventData, children: [
     { path: 'book', component: BookingComponent, canActivate: eventReservationsGuard },
     { path: 'overview', component: OverviewComponent, canActivate: eventReservationsGuard },
     { path: 'waitingPayment', redirectTo: 'waiting-payment'},
@@ -51,7 +53,7 @@ const routes: Routes = [
     { path: 'not-found', component: NotFoundComponent, canActivate: eventReservationsGuard },
     { path: 'error', component: ErrorComponent, canActivate: eventReservationsGuard },
   ]},
-  { path: 'event/:eventShortName/ticket/:ticketId', children: [
+  { path: 'event/:eventShortName/ticket/:ticketId', data: eventData, children: [
     { path: 'view', component: ViewTicketComponent, canActivate: [EventGuard, LanguageGuard] },
     { path: 'update', component: UpdateTicketComponent, canActivate: [EventGuard, LanguageGuard] }
   ]},

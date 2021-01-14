@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { I18nService } from './shared/i18n.service';
-import { EventService } from './shared/event.service';
 import { TranslateService } from '@ngx-translate/core';
 import { map, switchMap, catchError } from 'rxjs/operators';
+import { PurchaseContextService, PurchaseContextType } from './shared/purchase-context.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LanguageGuard implements CanActivate {
 
-  constructor(private i18nService: I18nService, private eventService: EventService, private translate: TranslateService) {
+  constructor(private i18nService: I18nService, private purchaseContextService: PurchaseContextService, private translate: TranslateService) {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
@@ -19,17 +19,18 @@ export class LanguageGuard implements CanActivate {
     const langQueryParam = next.queryParams['lang'];
     const persisted = this.i18nService.getPersistedLanguage();
 
-    const eventShortName = next.params['eventShortName'];
-    const req = eventShortName ? this.getForEvent(eventShortName) : this.getForApp();
+    const type: PurchaseContextType = next.data.type;
+    const publicIdentifier = next.params[next.data.publicIdentifierParameter];
+    const req = type && publicIdentifier ? this.getForContext(type, publicIdentifier) : this.getForApp();
 
     return req.pipe(switchMap(availableLanguages => {
       const lang = this.extractLang(availableLanguages, persisted, langQueryParam);
-      return this.i18nService.useTranslation(eventShortName, lang);
+      return this.i18nService.useTranslation(type, publicIdentifier, lang);
     }));
   }
 
-  private getForEvent(eventShortName: string): Observable<string[]> {
-    return this.eventService.getAvailableLanguageForEvent(eventShortName).pipe(catchError(val => this.getForApp()));
+  private getForContext(type: PurchaseContextType, publicIdentifier: string): Observable<string[]> {
+    return this.purchaseContextService.getContext(type, publicIdentifier).pipe(map(p => p.contentLanguages.map(v => v.locale))).pipe(catchError(val => this.getForApp()));
   }
 
   private getForApp(): Observable<string[]> {

@@ -45,10 +45,6 @@ export class EventService {
     return this.http.get<ItemsByCategory>(`/api/v2/public/event/${eventShortName}/ticket-categories`, params);
   }
 
-  getAvailableLanguageForEvent(eventShortName: string): Observable<string[]> {
-    return this.getEvent(eventShortName).pipe(map(event => event.contentLanguages.map(v => v.locale)));
-  }
-
   submitWaitingListSubscriptionRequest(eventShortName: string, waitingListSubscriptionRequest: WaitingListSubscriptionRequest): Observable<ValidatedResponse<boolean>> {
     return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventShortName}/waiting-list/subscribe`, waitingListSubscriptionRequest);
   }
