@@ -8,7 +8,7 @@
     <h2 translate="reservation-page.title"></h2>
   </div>
 
-  <app-summary-table [event]="event" [reservationInfo]="reservationInfo"></app-summary-table>
+  <app-summary-table [purchaseContext]="event" [reservationInfo]="reservationInfo"></app-summary-table>
 
   <div class="alert text-center" [ngClass]="{'alert-info': !providerWarningVisible, 'alert-warning': providerWarningVisible}">
     <div class="h5" *ngIf="!forceCheckVisible && !providerWarningVisible"><span translate="reservation.payment-in-progress"></span><app-animated-dots></app-animated-dots></div>

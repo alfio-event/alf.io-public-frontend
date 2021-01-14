@@ -12,7 +12,7 @@ export class SummaryTableComponent {
   reservationInfo: ReservationInfo;
 
   @Input()
-  event: PurchaseContext;
+  purchaseContext: PurchaseContext;
 
   constructor() { }
 
