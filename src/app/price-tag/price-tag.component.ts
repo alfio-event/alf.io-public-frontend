@@ -8,7 +8,7 @@ import { PurchaseContext } from '../model/purchase-context';
 })
 export class PriceTagComponent implements OnInit {
   @Input()
-  event: PurchaseContext;
+  purchaseContext: PurchaseContext;
   @Input()
   formattedPrice: string;
   @Input()
@@ -24,7 +24,7 @@ export class PriceTagComponent implements OnInit {
   currencyDescriptor: CurrencyDescriptor;
 
   ngOnInit(): void {
-    this.currencyDescriptor = this.event.currencyDescriptor;
+    this.currencyDescriptor = this.purchaseContext.currencyDescriptor;
     this.displayCurrencySymbol = this.currencyDescriptor && this.currencyDescriptor.symbol !== this.currencyDescriptor.code;
   }
 
@@ -33,7 +33,7 @@ export class PriceTagComponent implements OnInit {
   }
 
   get showTaxes(): boolean {
-    return this.showTaxDetails && (Number(this.event.vat) || 0) > 0.0;
+    return this.showTaxDetails && (Number(this.purchaseContext.vat) || 0) > 0.0;
   }
 
   removeRedundantPrecision(input: string): string {

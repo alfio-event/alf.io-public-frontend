@@ -4,5 +4,5 @@
         <span *ngIf="displayDiscountedPrice" class="text-align-right"><del>{{formattedPrice}}</del>{{' '}}<mark>{{discountedPrice}}</mark></span>
         <span *ngIf="!displayDiscountedPrice" class="text-align-right">{{formattedPrice}}</span>
     </div>
-    <small *ngIf="showTaxes" class="text-align-right text-muted align-self-end ml-2 ml-md-0"><i>{{(event.vatIncluded ? 'show-event.incVat' : 'show-event.excVat') | translate:{'0': removeRedundantPrecision(event.vat), '1': ('common.vat' | translate)} }}</i></small>
+    <small *ngIf="showTaxes" class="text-align-right text-muted align-self-end ml-2 ml-md-0"><i>{{(purchaseContext.vatIncluded ? 'show-event.incVat' : 'show-event.excVat') | translate:{'0': removeRedundantPrecision(purchaseContext.vat), '1': ('common.vat' | translate)} }}</i></small>
   </div>

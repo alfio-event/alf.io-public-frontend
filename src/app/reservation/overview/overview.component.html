@@ -94,7 +94,7 @@
         <button *ngIf="reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" translate="reservation-page.continue" [disabled]="expired"></button>
         <button *ngIf="!reservationInfo.orderSummary.free" type="submit" class="block-button btn btn-success" [disabled]="expired || !selectedPaymentProvider || !acceptedPrivacyAndTermAndConditions">
           <ng-container *ngIf="!reservationInfo.tokenAcquired">
-            {{ (paymentMethodDeferred ? 'common.confirm' : 'reservation-page.pay')| translate}} <app-price-tag *ngIf="!paymentMethodDeferred" [event]="purchaseContext" [formattedPrice]="reservationInfo.orderSummary.totalPrice" [displayTextInline]="true"></app-price-tag>
+            {{ (paymentMethodDeferred ? 'common.confirm' : 'reservation-page.pay')| translate}} <app-price-tag *ngIf="!paymentMethodDeferred" [purchaseContext]="purchaseContext" [formattedPrice]="reservationInfo.orderSummary.totalPrice" [displayTextInline]="true"></app-price-tag>
           </ng-container>
           <ng-container *ngIf="reservationInfo.tokenAcquired">
             {{'reservation-page.confirm-button' | translate}}
