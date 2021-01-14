@@ -68,7 +68,7 @@
     </div>
 
     <div *ngIf="!reservationInfo.orderSummary.free" [class.invisible]="submitting">
-      <app-payment-method-selector [event]="purchaseContext" [reservationInfo]="reservationInfo" [overviewForm]="overviewForm" (selectedPaymentProvider)="registerCurrentPaymentProvider($event)"></app-payment-method-selector>
+      <app-payment-method-selector [purchaseContext]="purchaseContext" [reservationInfo]="reservationInfo" [overviewForm]="overviewForm" (selectedPaymentProvider)="registerCurrentPaymentProvider($event)"></app-payment-method-selector>
     </div>
 
 

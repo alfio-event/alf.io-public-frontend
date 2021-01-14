@@ -22,7 +22,7 @@ const STRIPE_V3_ID_SCRIPT = 'stripe-payment-v3-script';
 export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
 
   @Input()
-  event: PurchaseContext;
+  purchaseContext: PurchaseContext;
 
   @Input()
   reservation: ReservationInfo;
@@ -75,7 +75,7 @@ export class StripePaymentProxyComponent implements OnChanges, OnDestroy {
   }
 
   private loadNonSCA(): void {
-    this.paymentProvider.emit(new StripeCheckoutPaymentProvider(this.translate, this.parameters, this.reservation, this.event));
+    this.paymentProvider.emit(new StripeCheckoutPaymentProvider(this.translate, this.parameters, this.reservation, this.purchaseContext));
   }
 
   public get matchProxyAndMethod(): boolean {

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from 'src/app/shared/event.service';
 import { ReservationService } from 'src/app/shared/reservation.service';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { ActivatedRoute } from '@angular/router';
@@ -23,7 +22,7 @@ export class OfflinePaymentComponent implements OnInit {
   reservationId: string;
   paymentReason: string;
 
-  event: PurchaseContext;
+  purchaseContext: PurchaseContext;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,10 +42,10 @@ export class OfflinePaymentComponent implements OnInit {
         this.purchaseContextService.getContext(this.purchaseContextType, this.publicIdentifier),
         this.reservationService.getReservationInfo(this.reservationId)
       ).subscribe(([ev, reservationInfo]) => {
-        this.event = ev;
+        this.purchaseContext = ev;
         this.reservationInfo = reservationInfo;
 
-        this.paymentReason = `<mark>${this.event.shortName} ${this.reservationInfo.shortId}</mark>`;
+        this.paymentReason = `<mark>${this.purchaseContext.shortName} ${this.reservationInfo.shortId}</mark>`;
 
         this.i18nService.setPageTitle('reservation-page-waiting.header.title', ev.displayName);
         this.analytics.pageView(ev.analyticsConfiguration);

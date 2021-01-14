@@ -42,7 +42,7 @@
                 (paymentProvider)="registerCurrentPaymentProvider($event)">
             </app-onsite-payment-proxy>
             <app-stripe-payment-proxy
-                [event]="event"
+                [purchaseContext]="purchaseContext"
                 [reservation]="reservationInfo"
                 [proxy]="selectedPaymentProxy"
                 [method]="selectedPaymentMethod"

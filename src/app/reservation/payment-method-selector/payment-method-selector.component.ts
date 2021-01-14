@@ -13,7 +13,7 @@ import { PurchaseContext } from 'src/app/model/purchase-context';
 export class PaymentMethodSelectorComponent implements OnInit {
 
     @Input()
-    event: PurchaseContext;
+    purchaseContext: PurchaseContext;
     @Input()
     reservationInfo: ReservationInfo;
     @Input()

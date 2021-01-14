@@ -18,7 +18,7 @@ export class StripeCheckoutPaymentProvider implements PaymentProvider {
         private translate: TranslateService,
         private parameters: { [key: string]: any },
         private reservation: ReservationInfo,
-        private event: PurchaseContext) {
+        private purchaseContext: PurchaseContext) {
     }
 
     get paymentMethodDeferred(): boolean {
@@ -73,7 +73,7 @@ export class StripeCheckoutPaymentProvider implements PaymentProvider {
             zipCode: false,
             allowRememberMe: false,
             amount: this.reservation.orderSummary.priceInCents,
-            currency: this.event.currency,
+            currency: this.purchaseContext.currency,
             email: this.reservation.email
         });
     }
