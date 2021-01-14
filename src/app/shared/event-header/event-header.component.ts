@@ -13,7 +13,7 @@ import { PurchaseContextType } from '../purchase-context.service';
 export class EventHeaderComponent implements OnInit, OnDestroy {
 
   @Input()
-  event: PurchaseContext;
+  purchaseContext: PurchaseContext;
 
   @Input()
   type: PurchaseContextType;
@@ -29,7 +29,7 @@ export class EventHeaderComponent implements OnInit, OnDestroy {
 
     if (this.type === 'event') {
 
-      let ev = this.event as Event;
+      let ev = this.purchaseContext as Event;
       const start = new Date(ev.datesWithOffset.startDateTime);
       const end = new Date(ev.datesWithOffset.endDateTime);
       const descriptionHolder = document.createElement('div');

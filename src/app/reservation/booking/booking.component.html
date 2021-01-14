@@ -42,7 +42,7 @@
     <!-- invoicing section -->
     <a id="invoiceSection" #invoiceAnchor></a>
     <div *ngIf="!reservationInfo.orderSummary.free && purchaseContext.invoicingConfiguration.onlyInvoice" class="mb-4 mt-4">
-      <app-invoice-form [form]="contactAndTicketsForm" [event]="purchaseContext"></app-invoice-form>
+      <app-invoice-form [form]="contactAndTicketsForm" [purchaseContext]="purchaseContext"></app-invoice-form>
     </div>
     <div *ngIf="!reservationInfo.orderSummary.free && !purchaseContext.invoicingConfiguration.onlyInvoice && purchaseContext.invoicingConfiguration.invoiceAllowed" class="mb-4 mt-4">
       <div class="custom-control custom-checkbox">
@@ -52,7 +52,7 @@
         </label>
       </div>
 
-      <app-invoice-form *ngIf="contactAndTicketsForm.value.invoiceRequested" [form]="contactAndTicketsForm" [event]="purchaseContext"></app-invoice-form>
+      <app-invoice-form *ngIf="contactAndTicketsForm.value.invoiceRequested" [form]="contactAndTicketsForm" [purchaseContext]="purchaseContext"></app-invoice-form>
     </div>
     <!-- -->
 

@@ -1,9 +1,9 @@
-<app-language-selector [contentLanguages]="event.contentLanguages"></app-language-selector>
+<app-language-selector [contentLanguages]="purchaseContext.contentLanguages"></app-language-selector>
 <div class="row">
   <div class="col-12 col-sm-7 col-md-4">
-    <img class="img-responsive" alt="" aria-hidden="true" [src]="'/file/'+event.fileBlobId" role="presentation">
+    <img class="img-responsive" alt="" aria-hidden="true" [src]="'/file/'+purchaseContext.fileBlobId" role="presentation">
   </div>
   <div class="col-12 col-sm-5 col-md-8 text-center">
-    <h1>{{event.displayName}}</h1>
+    <h1>{{purchaseContext.displayName}}</h1>
   </div>
 </div>

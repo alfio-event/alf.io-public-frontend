@@ -16,7 +16,7 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
   @Input()
-  event: PurchaseContext;
+  purchaseContext: PurchaseContext;
 
   private langChangeSub: Subscription;
 
@@ -76,11 +76,11 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
   }
 
   get euVatCheckingEnabled(): boolean {
-    return this.event.invoicingConfiguration.euVatCheckingEnabled;
+    return this.purchaseContext.invoicingConfiguration.euVatCheckingEnabled;
   }
 
   get customerReferenceEnabled(): boolean {
-    return this.event.invoicingConfiguration.customerReferenceEnabled;
+    return this.purchaseContext.invoicingConfiguration.customerReferenceEnabled;
   }
 
   get invoiceBusiness(): boolean {
@@ -88,11 +88,11 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
   }
 
   get vatNumberStrictlyRequired(): boolean {
-    return this.event.invoicingConfiguration.vatNumberStrictlyRequired;
+    return this.purchaseContext.invoicingConfiguration.vatNumberStrictlyRequired;
   }
 
   get enabledItalyEInvoicing(): boolean {
-    return this.event.invoicingConfiguration.enabledItalyEInvoicing;
+    return this.purchaseContext.invoicingConfiguration.enabledItalyEInvoicing;
   }
 
   searchCountry(term: string, country: LocalizedCountry): boolean {
