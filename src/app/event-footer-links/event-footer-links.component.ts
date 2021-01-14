@@ -7,5 +7,5 @@ import { PurchaseContext } from '../model/purchase-context';
 })
 export class EventFooterLinksComponent {
     @Input()
-    event: PurchaseContext;
+    purchaseContext: PurchaseContext;
 }
