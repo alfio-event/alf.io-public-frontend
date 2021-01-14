@@ -16,13 +16,13 @@ export class TicketFormComponent implements OnInit {
   ticket: Ticket;
 
   @Input()
-  event: PurchaseContext;
+  purchaseContext: PurchaseContext;
 
   constructor() { }
 
   public ngOnInit(): void {
-    if (this.form && this.event && this.event.contentLanguages && this.event.contentLanguages.length === 1) {
-      this.form.get('userLanguage').setValue(this.event.contentLanguages[0].locale);
+    if (this.form && this.purchaseContext && this.purchaseContext.contentLanguages && this.purchaseContext.contentLanguages.length === 1) {
+      this.form.get('userLanguage').setValue(this.purchaseContext.contentLanguages[0].locale);
     }
   }
 
