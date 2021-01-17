@@ -66,6 +66,7 @@ import { EventListAllComponent } from './event-list-all/event-list-all.component
 import { BasicEventInfoComponent } from './basic-event-info/basic-event-info.component';
 import { SubscriptionListAllComponent } from './subscription-list-all/subscription-list-all.component';
 import { SubscriptionDisplayComponent } from './subscription-display/subscription-display.component';
+import { SuccessSubscriptionComponent } from './reservation/success-subscription/success-subscription.component';
 
 
 
@@ -122,7 +123,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     EventListAllComponent,
     BasicEventInfoComponent,
     SubscriptionListAllComponent,
-    SubscriptionDisplayComponent
+    SubscriptionDisplayComponent,
+    SuccessSubscriptionComponent
   ],
   imports: [
     BrowserModule,

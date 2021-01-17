@@ -19,6 +19,7 @@ import { EventListAllComponent } from './event-list-all/event-list-all.component
 import { SubscriptionListAllComponent } from './subscription-list-all/subscription-list-all.component';
 import { RemoveEventCssGuard } from './remove-event-css.guard';
 import { SubscriptionDisplayComponent } from './subscription-display/subscription-display.component';
+import { SuccessSubscriptionComponent } from './reservation/success-subscription/success-subscription.component';
 
 const eventReservationsGuard = [EventGuard, LanguageGuard, ReservationGuard];
 const eventData = {type: 'event', publicIdentifierParameter: 'eventShortName'};
@@ -36,7 +37,7 @@ const routes: Routes = [
     { path: 'waiting-payment', component: OfflinePaymentComponent, canActivate: subscriptionReservationsGuard },
     { path: 'deferred-payment', component: DeferredOfflinePaymentComponent, canActivate: subscriptionReservationsGuard },
     { path: 'processing-payment', component: ProcessingPaymentComponent, canActivate: subscriptionReservationsGuard },
-    { path: 'success', component: SuccessComponent, canActivate: subscriptionReservationsGuard },
+    { path: 'success', component: SuccessSubscriptionComponent, canActivate: subscriptionReservationsGuard },
     { path: 'not-found', component: NotFoundComponent, canActivate: subscriptionReservationsGuard },
     { path: 'error', component: ErrorComponent, canActivate: subscriptionReservationsGuard },
   ]},

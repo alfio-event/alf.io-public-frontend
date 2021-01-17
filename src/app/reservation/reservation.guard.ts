@@ -12,6 +12,8 @@ import { ProcessingPaymentComponent } from './processing-payment/processing-paym
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ErrorComponent } from './error/error.component';
 import { DeferredOfflinePaymentComponent } from './deferred-offline-payment/deferred-offline-payment.component';
+import { PurchaseContextType } from '../shared/purchase-context.service';
+import { SuccessSubscriptionComponent } from './success-subscription/success-subscription.component';
 
 @Injectable({
     providedIn: 'root'
@@ -25,10 +27,10 @@ export class ReservationGuard implements CanActivate {
         return this.checkAndRedirect(route.data['type'], route.params[route.data['publicIdentifierParameter']], route.params['reservationId'], route.component);
     }
 
-    private checkAndRedirect(type: string, publicIdentifier: string, reservationId: string, component: any): Observable<boolean | UrlTree> {
+    private checkAndRedirect(type: PurchaseContextType, publicIdentifier: string, reservationId: string, component: any): Observable<boolean | UrlTree> {
         return this.reservationService.getReservationStatusInfo(reservationId)
             .pipe(catchError(err => of({ status: <ReservationStatus>'NOT_FOUND', validatedBookingInformation: false })), map(reservation => {
-                const selectedComponent = getCorrespondingController(reservation.status, reservation.validatedBookingInformation);
+                const selectedComponent = getCorrespondingController(type, reservation.status, reservation.validatedBookingInformation);
                 if (component === selectedComponent) {
                     return true;
                 }
@@ -37,12 +39,12 @@ export class ReservationGuard implements CanActivate {
     }
 }
 
-function getRouteFromComponent(component: any, type: string, publicIdentifier: string, reservationId: string): string[] {
+function getRouteFromComponent(component: any, type: PurchaseContextType, publicIdentifier: string, reservationId: string): string[] {
     if (component === OverviewComponent) {
         return [type, publicIdentifier, 'reservation', reservationId, 'overview'];
     } else if (component === BookingComponent) {
         return [type, publicIdentifier, 'reservation', reservationId, 'book'];
-    } else if (component === SuccessComponent) {
+    } else if (component === SuccessComponent || component === SuccessSubscriptionComponent) {
         return [type, publicIdentifier, 'reservation', reservationId, 'success'];
     } else if (component === OfflinePaymentComponent) {
         return [type, publicIdentifier, 'reservation', reservationId, 'waiting-payment'];
@@ -57,10 +59,10 @@ function getRouteFromComponent(component: any, type: string, publicIdentifier: s
     }
 }
 
-function getCorrespondingController(status: ReservationStatus, validatedBookingInformations: boolean) {
+function getCorrespondingController(type: PurchaseContextType, status: ReservationStatus, validatedBookingInformations: boolean) {
     switch (status) {
         case 'PENDING': return validatedBookingInformations ? OverviewComponent : BookingComponent;
-        case 'COMPLETE': return SuccessComponent;
+        case 'COMPLETE': return type == 'subscription' ? SuccessSubscriptionComponent : SuccessComponent;
         case 'OFFLINE_PAYMENT': return OfflinePaymentComponent;
         case 'DEFERRED_OFFLINE_PAYMENT': return DeferredOfflinePaymentComponent;
         case 'EXTERNAL_PROCESSING_PAYMENT':
