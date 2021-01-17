@@ -8,7 +8,7 @@ import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscripti
 import { ValidatedResponse } from '../model/validated-response';
 import { map, shareReplay } from 'rxjs/operators';
 import { EventCode } from '../model/event-code';
-import { DateValidity } from '../model/date-validity';
+import {DatesWithOffset, DateValidity} from '../model/date-validity';
 
 @Injectable({
   providedIn: 'root'

@@ -1,4 +1,4 @@
-import { DateValidity, EventDatesWithOffset } from './date-validity';
+import { DateValidity, DatesWithOffset } from './date-validity';
 import { EventFormat } from './event';
 
 export class BasicEventInfo implements DateValidity {
@@ -11,7 +11,7 @@ export class BasicEventInfo implements DateValidity {
     // date related
     timeZone: string;
     sameDay: boolean;
-    datesWithOffset: EventDatesWithOffset;
+    datesWithOffset: DatesWithOffset;
     formattedBeginDate: {[key: string]: string}; // day, month, year
     formattedBeginTime: {[key: string]: string}; // the hour/minute component
     formattedEndDate: {[key: string]: string};

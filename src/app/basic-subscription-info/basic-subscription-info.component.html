@@ -1,0 +1,14 @@
+<div class="card card-light event-card">
+    <div class="card-header bg-white event-header">
+      <img [src]="'/file/'+subscription.fileBlobId" class="mx-auto img-responsive" alt="" aria-hidden="true" role="presentation">
+    </div>
+    <div class="card-body">
+      <h2 class="card-title">{{title}}</h2>
+      <p class="card-text text-muted mt-1">{{description}}</p>
+    </div>
+    <div class="card-footer border-top-0 bg-white">
+      <div class="d-flex justify-content-end">
+        <a [routerLink]="['/subscription', subscription.id]" class="btn btn-success stretched-link">{{'subscription-list.link' | translate}}<span class="sr-only"> {{title}}</span></a>
+      </div>
+    </div>
+</div>

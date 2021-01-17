@@ -3,24 +3,25 @@
 
   <h1 translate="event-list.title"></h1>
 
-  
+
   <div class="mb-3" *ngFor="let event of events">
     <app-basic-event-info [event]="event"></app-basic-event-info>
   </div>
   <div *ngIf="allEvents.length > 4" class="text-center">
     <a [routerLink]="['events-all']" class="btn btn-outline-primary" translate="home.view.all.events"></a>
   </div>
-  
+
 
   <div class="alert text-center" *ngIf="events.length == 0">
     <h3 translate="event-list.no-events"></h3>
   </div>
 
   <div *ngIf="subscriptions && subscriptions.length > 0">
+    <hr>
     <h1 translate="subscription.title"></h1>
 
     <div class="mb-3" *ngFor="let subscription of subscriptions">
-      <a [routerLink]="['/subscription', subscription.id]">{{subscription|json}}</a>
+      <app-basic-subscription-info [subscription]="subscription"></app-basic-subscription-info>
     </div>
 
     <div *ngIf="allSubscriptions.length > 4" class="text-center">

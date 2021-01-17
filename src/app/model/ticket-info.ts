@@ -1,4 +1,4 @@
-import { DateValidity, EventDatesWithOffset } from './date-validity';
+import { DateValidity, DatesWithOffset } from './date-validity';
 
 export class TicketInfo implements DateValidity {
     fullName: string;
@@ -14,7 +14,7 @@ export class TicketInfo implements DateValidity {
 
     timeZone: string;
     sameDay: boolean;
-    datesWithOffset: EventDatesWithOffset;
+    datesWithOffset: DatesWithOffset;
     formattedBeginDate: {[key: string]: string}; // day, month, year
     formattedBeginTime: {[key: string]: string}; // the hour/minute component
     formattedEndDate: {[key: string]: string};

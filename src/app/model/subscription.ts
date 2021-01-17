@@ -1,16 +1,26 @@
-import { PurchaseContextService } from "../shared/purchase-context.service";
-import { AnalyticsConfiguration } from "./analytics-configuration";
-import { AssignmentConfiguration, CaptchaConfiguration, CurrencyDescriptor, InvoicingConfiguration, Language } from "./event";
-import { PurchaseContext } from "./purchase-context";
+import { AnalyticsConfiguration } from './analytics-configuration';
+import { AssignmentConfiguration, CaptchaConfiguration, CurrencyDescriptor, InvoicingConfiguration, Language } from './event';
+import { PurchaseContext } from './purchase-context';
+import {DatesWithOffset} from './date-validity';
 
 export class BasicSubscriptionInfo {
     id: string;
+    fileBlobId: string;
+    title: {[lang: string]: string};
+    description: {[lang: string]: string};
+    price: number;
+    currency: string;
+    vat: number;
+    vatStatus: string;
+    datesWithOffset: DatesWithOffset;
+    formattedOnSaleFrom: {[key: string]: string};
+    formattedOnSaleTo: {[key: string]: string};
 }
 
 export class SubscriptionInfo implements PurchaseContext {
     id: string;
 
-    //FIXME
+    // FIXME
     displayName: string;
     invoicingConfiguration: InvoicingConfiguration;
     assignmentConfiguration: AssignmentConfiguration;

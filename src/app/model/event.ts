@@ -1,4 +1,4 @@
-import { DateValidity, EventDatesWithOffset } from './date-validity';
+import { DateValidity, DatesWithOffset } from './date-validity';
 import { AnalyticsConfiguration } from './analytics-configuration';
 import { IconPrefix, IconName } from '@fortawesome/fontawesome-svg-core';
 import { PurchaseContext } from './purchase-context';
@@ -32,7 +32,7 @@ export class Event implements DateValidity, PurchaseContext {
 
     // date related
     timeZone: string;
-    datesWithOffset: EventDatesWithOffset;
+    datesWithOffset: DatesWithOffset;
     sameDay: boolean;
     formattedBeginDate: {[key: string]: string}; // day, month, year
     formattedBeginTime: {[key: string]: string}; // the hour/minute component

@@ -67,6 +67,7 @@ import { BasicEventInfoComponent } from './basic-event-info/basic-event-info.com
 import { SubscriptionListAllComponent } from './subscription-list-all/subscription-list-all.component';
 import { SubscriptionDisplayComponent } from './subscription-display/subscription-display.component';
 import { SuccessSubscriptionComponent } from './reservation/success-subscription/success-subscription.component';
+import {BasicSubscriptionInfoComponent} from './basic-subscription-info/basic-subscription-info.component';
 
 
 
@@ -122,6 +123,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     EventDatesComponent,
     EventListAllComponent,
     BasicEventInfoComponent,
+    BasicSubscriptionInfoComponent,
     SubscriptionListAllComponent,
     SubscriptionDisplayComponent,
     SuccessSubscriptionComponent
