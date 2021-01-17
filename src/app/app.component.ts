@@ -9,7 +9,7 @@ import { I18nService } from './shared/i18n.service';
 })
 export class AppComponent implements OnDestroy {
 
-  private langChangeSub: Subscription;
+  private readonly langChangeSub: Subscription;
 
   constructor(translate: TranslateService, i18nService: I18nService) {
     translate.setDefaultLang('en');
