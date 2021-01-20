@@ -33,3 +33,11 @@ export class SubscriptionService {
     return this.http.post<ValidatedResponse<string>>(`/api/v2/public/subscription/${id}`, {});
   }
 }
+
+export function getLocalizedContent(container: {[k: string]: string}, currentLang: string) {
+  const localizedContent = container[currentLang];
+  if (localizedContent != null) {
+    return localizedContent;
+  }
+  return container[Object.keys(container)[0]];
+}

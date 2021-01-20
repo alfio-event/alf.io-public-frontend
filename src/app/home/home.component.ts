@@ -54,4 +54,20 @@ export class HomeComponent implements OnInit {
       this.i18nService.setPageTitle('event-list.header.title', '');
     }
 
+    get containsEvents(): boolean {
+      return this.events != null && this.events.length > 0;
+    }
+
+    get displayViewAllEventsButton() {
+      return this.allEvents.length > 4;
+    }
+
+    get containsSubscriptions(): boolean {
+      return this.subscriptions != null && this.subscriptions.length > 0;
+    }
+
+    get displayViewAllSubscriptionsButton() {
+      return this.allSubscriptions.length > 4;
+    }
+
 }

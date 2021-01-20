@@ -1,4 +1,5 @@
-<div *ngIf="event" class="add-margin-bottom">
+<app-purchase-context-container>
+  <div *ngIf="event" class="add-margin-bottom">
     <header><app-event-header [purchaseContext]="event"></app-event-header></header>
     <main>
 
@@ -203,7 +204,7 @@
       <app-recaptcha [apiKey]="event.captchaConfiguration.recaptchaApiKey" (recaptchaResponse)="handleRecaptchaResponse($event)" *ngIf="event.captchaConfiguration.captchaForTicketSelection && event.captchaConfiguration.recaptchaApiKey"></app-recaptcha>
 
       <hr class="mt-5">
-      <app-event-footer-links [purchaseContext]="event"></app-event-footer-links>
+      <app-footer-links [purchaseContext]="event"></app-footer-links>
 
       <div class="row d-flex justify-content-between mobile-add-margin-bottom">
         <div class="col-md-5 order-md-1 col-12"><button type="submit" class="block-button btn btn-success" translate="show-event.continue"></button></div>
@@ -212,4 +213,5 @@
     </form>
 
     </main>
-</div>
+  </div>
+</app-purchase-context-container>

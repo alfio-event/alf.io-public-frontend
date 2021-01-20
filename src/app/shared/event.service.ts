@@ -60,7 +60,7 @@ export function shouldDisplayTimeZoneInfo(provider: DateValidity): boolean {
       || isDifferentTimeZone(datesWithOffset.endDateTime, datesWithOffset.endTimeZoneOffset);
 }
 
-function isDifferentTimeZone(serverTs: number, serverOffset: number): boolean {
+export function isDifferentTimeZone(serverTs: number, serverOffset: number): boolean {
   // client:
   //    The time-zone offset is the difference, in minutes, from local time to UTC.
   //    Note that this means that the offset is positive if the local timezone is behind UTC and negative if it is ahead.

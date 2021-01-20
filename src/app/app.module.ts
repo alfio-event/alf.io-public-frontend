@@ -54,7 +54,7 @@ import { AdditionalServiceQuantitySelectorComponent } from './additional-service
 import { ReservationExpiredComponent } from './reservation/expired-notification/reservation-expired.component';
 import { ReleaseTicketComponent } from './reservation/release-ticket/release-ticket.component';
 import { CancelReservationComponent } from './reservation/cancel-reservation/cancel-reservation.component';
-import { EventFooterLinksComponent } from './event-footer-links/event-footer-links.component';
+import { FooterLinksComponent } from './event-footer-links/footer-links.component';
 import { ErrorComponent } from './reservation/error/error.component';
 import { DeferredOfflinePaymentComponent } from './reservation/deferred-offline-payment/deferred-offline-payment.component';
 import { MolliePaymentProxyComponent } from './payment/mollie-payment-proxy/mollie-payment-proxy.component';
@@ -68,6 +68,8 @@ import { SubscriptionListAllComponent } from './subscription-list-all/subscripti
 import { SubscriptionDisplayComponent } from './subscription-display/subscription-display.component';
 import { SuccessSubscriptionComponent } from './reservation/success-subscription/success-subscription.component';
 import {BasicSubscriptionInfoComponent} from './basic-subscription-info/basic-subscription-info.component';
+import {SubscriptionSummaryComponent} from './subscription-summary/subscription-summary.component';
+import {PurchaseContextContainerComponent} from './purchase-context-container/purchase-context-container.component';
 
 
 
@@ -114,7 +116,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReservationExpiredComponent,
     ReleaseTicketComponent,
     CancelReservationComponent,
-    EventFooterLinksComponent,
+    FooterLinksComponent,
     ErrorComponent,
     DeferredOfflinePaymentComponent,
     MolliePaymentProxyComponent,
@@ -126,7 +128,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     BasicSubscriptionInfoComponent,
     SubscriptionListAllComponent,
     SubscriptionDisplayComponent,
-    SuccessSubscriptionComponent
+    SuccessSubscriptionComponent,
+    SubscriptionSummaryComponent,
+    PurchaseContextContainerComponent
   ],
   imports: [
     BrowserModule,

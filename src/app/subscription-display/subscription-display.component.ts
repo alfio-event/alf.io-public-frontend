@@ -3,8 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SubscriptionInfo } from '../model/subscription';
 import { AnalyticsService } from '../shared/analytics.service';
 import { InfoService } from '../shared/info.service';
-import { SubscriptionService } from '../shared/subscription.service';
+import { getLocalizedContent, SubscriptionService } from '../shared/subscription.service';
 import { zip } from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
+import {isDifferentTimeZone} from '../shared/event.service';
 
 @Component({
   selector: 'app-subscription-display',
@@ -18,10 +20,11 @@ export class SubscriptionDisplayComponent implements OnInit {
   subscriptionId: string;
 
   constructor(private route: ActivatedRoute,
-    private router: Router,
-    private subscriptionService: SubscriptionService,
-    private info: InfoService,
-    private analytics: AnalyticsService) { }
+              private router: Router,
+              private subscriptionService: SubscriptionService,
+              private info: InfoService,
+              private analytics: AnalyticsService,
+              public translateService: TranslateService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {

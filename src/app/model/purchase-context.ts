@@ -1,7 +1,7 @@
-import { AnalyticsConfiguration } from "./analytics-configuration";
-import { AssignmentConfiguration, CaptchaConfiguration, CurrencyDescriptor, InvoicingConfiguration, Language } from "./event";
+import { AnalyticsConfiguration } from './analytics-configuration';
+import { AssignmentConfiguration, CaptchaConfiguration, CurrencyDescriptor, InvoicingConfiguration, Language } from './event';
 
-export interface PurchaseContext {
+export interface PurchaseContext extends PurchaseContextPriceDescriptor {
     displayName: string;
     invoicingConfiguration: InvoicingConfiguration;
     assignmentConfiguration: AssignmentConfiguration;
@@ -27,4 +27,11 @@ export interface PurchaseContext {
     //
     websiteUrl: string;
     shortName: string;
+}
+
+export interface PurchaseContextPriceDescriptor {
+  currencyDescriptor: CurrencyDescriptor;
+  vat: string;
+  currency: string;
+  vatIncluded: boolean;
 }
