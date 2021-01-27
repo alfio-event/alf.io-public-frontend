@@ -80,6 +80,8 @@ export class SubscriptionInfo implements PurchaseContext, SubscriptionSummaryDat
   organizationEmail: string;
   organizationName: string;
 
+  canApplySubscriptions: boolean;
+
   // FIXME / CHECK:
   websiteUrl: string;
   shortName: string;

@@ -274,6 +274,13 @@ export class OverviewComponent implements OnInit {
     this.overviewForm.get('captcha').setValue(recaptchaValue);
   }
 
+  applySubscription(subscriptionCode: string) {
+    this.reservationService.applySubscriptionCode(this.reservationId, subscriptionCode, this.reservationInfo.email).subscribe(res => {
+      console.log(res);
+      this.loadReservation()
+    });
+  }
+
   get enabledItalyEInvoicing(): boolean {
     return this.purchaseContext.invoicingConfiguration.enabledItalyEInvoicing &&
       this.reservationInfo.billingDetails.invoicingAdditionalInfo.italianEInvoicing != null;
@@ -315,6 +322,7 @@ export class OverviewComponent implements OnInit {
     }
     return this.selectedPaymentProvider != null && this.selectedPaymentProvider.paymentMethodDeferred;
   }
+  
 }
 
 function onUnLoadListener(e: BeforeUnloadEvent) {

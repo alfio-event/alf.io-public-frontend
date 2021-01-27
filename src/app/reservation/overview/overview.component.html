@@ -49,6 +49,15 @@
       </div>
     </div>
 
+    <div *ngIf="purchaseContext.canApplySubscriptions">
+      <h2 class="page-header mt-2" translate="reservation-page.subscription"></h2>
+      <p>
+        <span translate="reservation-page.overview.insert-subscription-code"></span>
+        <input type="text" #subscriptionInput>
+        <button type="button" class="btn btn-secondary" translate="reservation-page.overview.apply-subscription-code" (click)="applySubscription(subscriptionInput.value)"></button>
+      </p>
+    </div>
+
 
     <div *ngIf="!reservationInfo.orderSummary.free" class="page-header mt-2"><h2 translate="reservation-page.payment"></h2></div>
 

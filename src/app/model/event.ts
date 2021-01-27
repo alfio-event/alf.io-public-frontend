@@ -56,6 +56,8 @@ export class Event implements DateValidity, PurchaseContext {
     availableTicketsCount: number | null;
 
     customCss: string | null;
+
+    canApplySubscriptions: boolean;
 }
 
 export class InvoicingConfiguration {

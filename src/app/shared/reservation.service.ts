@@ -77,4 +77,8 @@ export class ReservationService {
     checkDynamicDiscountAvailability(eventShortName: string, reservation: ReservationRequest): Observable<DynamicDiscount> {
         return this.http.post<DynamicDiscount>(`/api/v2/public/event/${eventShortName}/check-discount`, reservation);
     }
+
+    applySubscriptionCode(reservationId: string, code: string, email: string) : Observable<ValidatedResponse<boolean>> {
+        return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/reservation/${reservationId}/apply-code/`, {code: code, email: email, amount: 1, type: 'SUBSCRIPTION'});
+    }
 }

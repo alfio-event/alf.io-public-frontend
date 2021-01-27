@@ -27,6 +27,8 @@ export interface PurchaseContext extends PurchaseContextPriceDescriptor {
     //
     websiteUrl: string;
     shortName: string;
+
+    canApplySubscriptions: boolean;
 }
 
 export interface PurchaseContextPriceDescriptor {
