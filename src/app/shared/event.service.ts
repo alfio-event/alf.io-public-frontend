@@ -6,9 +6,9 @@ import { Event } from '../model/event';
 import { ItemsByCategory } from '../model/items-by-category';
 import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscription-request';
 import { ValidatedResponse } from '../model/validated-response';
-import { map, shareReplay } from 'rxjs/operators';
+import { shareReplay } from 'rxjs/operators';
 import { EventCode } from '../model/event-code';
-import {DatesWithOffset, DateValidity} from '../model/date-validity';
+import { DateValidity } from '../model/date-validity';
 
 @Injectable({
   providedIn: 'root'

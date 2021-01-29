@@ -15,7 +15,7 @@
 
     <div class="row">
       <div class="col-12" [ngClass]="{'col-md-7': !reservationInfo.orderSummary.free && purchaseContext.invoicingConfiguration.invoiceAllowed}">
-        <app-summary-table [purchaseContext]="purchaseContext" [reservationInfo]="reservationInfo"></app-summary-table>
+        <app-summary-table [purchaseContext]="purchaseContext" [reservationInfo]="reservationInfo" [displayRemoveSubscription]="true" (removeSubscription)="removeSubscription($event)"></app-summary-table>
       </div>
       <div class="d-none d-md-flex col-md-1 justify-content-md-center" *ngIf="purchaseContext.invoicingConfiguration.invoiceAllowed">
         <div class="border-left separator"></div>
@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <div *ngIf="purchaseContext.canApplySubscriptions">
+    <div *ngIf="purchaseContext.canApplySubscriptions && !appliedSubscription">
       <h2 class="page-header mt-2" translate="reservation-page.subscription"></h2>
       <p>
         <span translate="reservation-page.overview.insert-subscription-code"></span>

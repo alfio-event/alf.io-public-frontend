@@ -9,7 +9,16 @@
   </thead>
   <tbody>
     <tr *ngFor="let summaryRow of reservationInfo.orderSummary.summary">
-      <td><span *ngIf="summaryRow.type === 'DYNAMIC_DISCOUNT'" translate="reservation.dynamic.discount.description"></span><span *ngIf="summaryRow.type !== 'DYNAMIC_DISCOUNT'">{{summaryRow.name}}</span></td>
+      <td>
+        <span *ngIf="summaryRow.type === 'DYNAMIC_DISCOUNT'" translate="reservation.dynamic.discount.description"></span>
+        <span *ngIf="summaryRow.type === 'SUBSCRIPTION'">
+          {{'summary.table.subscription'|translate: {'0': summaryRow.name} }}
+          <span *ngIf="displayRemoveSubscription">
+            <button type="button" class="btn btn-link" (click)="removeSubscription.emit(summaryRow);"><fa-icon [icon]="['fas', 'trash']" a11yRole="presentation"></fa-icon></button>
+          </span>
+        </span>
+        <span *ngIf="summaryRow.type !== 'DYNAMIC_DISCOUNT' && summaryRow.type !== 'SUBSCRIPTION'">{{summaryRow.name}}</span>
+      </td>
       <td class="text-center">{{summaryRow.amount}}</td>
       <td class="text-right">{{summaryRow.price}}</td>
       <td class="text-right"><app-price-tag [purchaseContext]="purchaseContext" [formattedPrice]="summaryRow.subTotal"></app-price-tag></td>

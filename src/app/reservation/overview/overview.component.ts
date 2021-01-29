@@ -3,7 +3,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { ReservationService } from '../../shared/reservation.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PaymentMethod, PaymentProxy, PaymentProxyWithParameters } from 'src/app/model/event';
-import { ReservationInfo } from 'src/app/model/reservation-info';
+import { ReservationInfo, SummaryRow } from 'src/app/model/reservation-info';
 import { PaymentProvider, SimplePaymentProvider, PaymentResult, PaymentStatusNotification } from 'src/app/payment/payment-provider';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
@@ -276,9 +276,15 @@ export class OverviewComponent implements OnInit {
 
   applySubscription(subscriptionCode: string) {
     this.reservationService.applySubscriptionCode(this.reservationId, subscriptionCode, this.reservationInfo.email).subscribe(res => {
-      console.log(res);
       this.loadReservation()
     });
+  }
+
+  removeSubscription(subscriptionRow: SummaryRow) {
+    //FIXME add a modal for confirmation
+    this.reservationService.removeSubscription(this.reservationId).subscribe(res => {
+      this.loadReservation();
+    })
   }
 
   get enabledItalyEInvoicing(): boolean {
@@ -321,6 +327,13 @@ export class OverviewComponent implements OnInit {
       return false;
     }
     return this.selectedPaymentProvider != null && this.selectedPaymentProvider.paymentMethodDeferred;
+  }
+
+  get appliedSubscription(): boolean {
+    if (this.reservationInfo && this.reservationInfo.orderSummary && this.reservationInfo.orderSummary.summary) {
+      return this.reservationInfo.orderSummary.summary.filter((s) => s.type === 'SUBSCRIPTION').length > 0;
+    }
+    return false;
   }
   
 }
