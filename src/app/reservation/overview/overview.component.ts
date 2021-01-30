@@ -15,6 +15,7 @@ import { ReservationExpiredComponent } from '../expired-notification/reservation
 import { zip } from 'rxjs';
 import { PurchaseContext } from 'src/app/model/purchase-context';
 import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
+import { ModalRemoveSubscriptionComponent } from '../modal-remove-subscription/modal-remove-subscription.component';
 
 @Component({
   selector: 'app-overview',
@@ -298,11 +299,15 @@ export class OverviewComponent implements OnInit {
   }
 
   removeSubscription(subscriptionRow: SummaryRow) {
-    //FIXME add a modal for confirmation
-    this.reservationService.removeSubscription(this.reservationId).subscribe(res => {
-      this.showAlertMessage('reservation-page.overview.removed-subscription', 'alert-info');
-      this.loadReservation();
-    })
+    this.modalService.open(ModalRemoveSubscriptionComponent, {centered: true, backdrop: 'static'})
+      .result.then((res) => {
+        if(res) {
+          this.reservationService.removeSubscription(this.reservationId).subscribe(res => {
+            this.showAlertMessage('reservation-page.overview.removed-subscription', 'alert-info');
+            this.loadReservation();
+          });
+        }
+      });
   }
 
   get enabledItalyEInvoicing(): boolean {

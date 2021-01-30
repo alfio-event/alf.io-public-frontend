@@ -70,6 +70,7 @@ import { SuccessSubscriptionComponent } from './reservation/success-subscription
 import {BasicSubscriptionInfoComponent} from './basic-subscription-info/basic-subscription-info.component';
 import {SubscriptionSummaryComponent} from './subscription-summary/subscription-summary.component';
 import {PurchaseContextContainerComponent} from './purchase-context-container/purchase-context-container.component';
+import { ModalRemoveSubscriptionComponent } from './reservation/modal-remove-subscription/modal-remove-subscription.component';
 
 
 
@@ -130,7 +131,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     SubscriptionDisplayComponent,
     SuccessSubscriptionComponent,
     SubscriptionSummaryComponent,
-    PurchaseContextContainerComponent
+    PurchaseContextContainerComponent,
+    ModalRemoveSubscriptionComponent
   ],
   imports: [
     BrowserModule,
@@ -158,7 +160,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [ReservationExpiredComponent, ReleaseTicketComponent, CancelReservationComponent]
+  entryComponents: [ReservationExpiredComponent, ReleaseTicketComponent, CancelReservationComponent, ModalRemoveSubscriptionComponent]
 })
 export class AppModule {
   constructor(library: FaIconLibrary) {
