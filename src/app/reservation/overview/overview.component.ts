@@ -41,6 +41,8 @@ export class OverviewComponent implements OnInit {
 
   activePaymentMethods: {[key in PaymentMethod]?: PaymentProxyWithParameters};
 
+  alertMessage : {visible: boolean, message: string, type: string, timeout: any} = {visible: false, message: null, type: null, timeout: null} ;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -50,7 +52,7 @@ export class OverviewComponent implements OnInit {
     private translate: TranslateService,
     private analytics: AnalyticsService,
     private modalService: NgbModal,
-    private purchaseContextService: PurchaseContextService) { }
+    private purchaseContextService: PurchaseContextService,) { }
 
   ngOnInit() {
     zip(this.route.data, this.route.params).subscribe(([data, params]) => {
@@ -274,8 +276,23 @@ export class OverviewComponent implements OnInit {
     this.overviewForm.get('captcha').setValue(recaptchaValue);
   }
 
+  private showAlertMessage(message: string, type: string) {
+    clearTimeout(this.alertMessage.timeout);
+    let timeout = setTimeout(() => {
+      this.alertMessage.visible = false;
+    }, 5000);
+    this.alertMessage = {visible:true, message, type, timeout};
+  }
+
+  closeAlertMessage() {
+    clearTimeout(this.alertMessage.timeout);
+    this.alertMessage.timeout = null;
+    this.alertMessage.visible = false
+  }
+
   applySubscription(subscriptionCode: string) {
     this.reservationService.applySubscriptionCode(this.reservationId, subscriptionCode, this.reservationInfo.email).subscribe(res => {
+      this.showAlertMessage('reservation-page.overview.applied-subscription-code', 'alert-success');
       this.loadReservation()
     });
   }
@@ -283,6 +300,7 @@ export class OverviewComponent implements OnInit {
   removeSubscription(subscriptionRow: SummaryRow) {
     //FIXME add a modal for confirmation
     this.reservationService.removeSubscription(this.reservationId).subscribe(res => {
+      this.showAlertMessage('reservation-page.overview.removed-subscription', 'alert-info');
       this.loadReservation();
     })
   }
