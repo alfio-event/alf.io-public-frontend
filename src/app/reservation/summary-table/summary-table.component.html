@@ -14,7 +14,10 @@
         <span *ngIf="summaryRow.type === 'SUBSCRIPTION'">
           {{'summary.table.subscription'|translate: {'0': summaryRow.name} }}
           <span *ngIf="displayRemoveSubscription">
-            <button type="button" class="btn btn-link" (click)="removeSubscription.emit(summaryRow);"><fa-icon [icon]="['fas', 'trash']" a11yRole="presentation"></fa-icon></button>
+            <button type="button" class="btn btn-link" (click)="removeSubscription.emit(summaryRow);" [ngbTooltip]="'summary.table.remove-applied-subscription-from-order'|translate">
+              <span class="sr-only" translate="summary.table.remove-applied-subscription-from-order"></span>
+              <fa-icon [icon]="['fas', 'trash']" a11yRole="presentation"></fa-icon>
+            </button>
           </span>
         </span>
         <span *ngIf="summaryRow.type !== 'DYNAMIC_DISCOUNT' && summaryRow.type !== 'SUBSCRIPTION'">{{summaryRow.name}}</span>
