@@ -293,8 +293,10 @@ export class OverviewComponent implements OnInit {
 
   applySubscription(subscriptionCode: string) {
     this.reservationService.applySubscriptionCode(this.reservationId, subscriptionCode, this.reservationInfo.email).subscribe(res => {
-      this.showAlertMessage('reservation-page.overview.applied-subscription-code', 'alert-success');
-      this.loadReservation()
+      if(res.success) {
+        this.showAlertMessage('reservation-page.overview.applied-subscription-code', 'alert-success');
+        this.loadReservation()
+      }
     });
   }
 
