@@ -95,6 +95,10 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
     return this.event.invoicingConfiguration.enabledItalyEInvoicing;
   }
 
+  get italyEInvoicingFormDisplayed(): boolean {
+    return this.enabledItalyEInvoicing && this.form.value.vatCountryCode === 'IT';
+  }
+
   searchCountry(term: string, country: LocalizedCountry): boolean {
     if (term) {
       term = term.toLowerCase();
