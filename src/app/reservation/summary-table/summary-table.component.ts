@@ -16,4 +16,9 @@ export class SummaryTableComponent {
 
   constructor() { }
 
+  get displaySplitPaymentNote(): boolean {
+    return !this.reservationInfo.orderSummary.free
+      && this.reservationInfo.billingDetails.invoicingAdditionalInfo?.italianEInvoicing?.splitPayment;
+  }
+
 }

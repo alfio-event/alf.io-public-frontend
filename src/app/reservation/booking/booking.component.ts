@@ -105,6 +105,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
           billingAddressLine2: billingDetails.addressLine2,
           billingAddressZip: billingDetails.zip,
           billingAddressCity: billingDetails.city,
+          billingAddressState: billingDetails.state,
           vatCountryCode: billingDetails.country,
           customerReference: this.reservationInfo.customerReference,
           vatNr: billingDetails.taxId,
@@ -113,6 +114,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
           italyEInvoicingReferenceType: BookingComponent.optionalGet(billingDetails, (i) => i.referenceType),
           italyEInvoicingReferenceAddresseeCode: BookingComponent.optionalGet(billingDetails, (i) => i.addresseeCode),
           italyEInvoicingReferencePEC: BookingComponent.optionalGet(billingDetails, (i) => i.pec),
+          italyEInvoicingSplitPayment: BookingComponent.optionalGet(billingDetails, (i) => i.splitPayment),
           postponeAssignment: false // <- TODO: check if we save it somewhere in the db...
         });
 
@@ -200,7 +202,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
   }
 
   getTicketForm(ticket: Ticket): FormGroup {
-    return this.contactAndTicketsForm.get('tickets.'+ticket.uuid) as FormGroup;
+    return this.contactAndTicketsForm.get('tickets.' + ticket.uuid) as FormGroup;
   }
 
   copyContactInfoTo(ticket: Ticket) {
