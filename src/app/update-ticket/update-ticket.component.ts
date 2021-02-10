@@ -48,7 +48,7 @@ export class UpdateTicketComponent implements OnInit {
       zip(this.eventService.getEvent(eventShortName), this.ticketService.getTicket(eventShortName, this.ticketIdentifier))
       .subscribe(([event, ticketsByCategory]) => {
         this.event = event;
-        this.i18nService.setPageTitle('show-ticket.header.title', event.displayName);
+        this.i18nService.setPageTitle('show-ticket.header.title', event);
         this.handleTicketResponse(ticketsByCategory);
         this.analytics.pageView(event.analyticsConfiguration);
       }, e => {
@@ -96,8 +96,8 @@ export class UpdateTicketComponent implements OnInit {
   }
 
   get isOnlineTicket(): boolean {
-    return this.event.format == 'ONLINE'
-      || (this.event.format == 'HYBRID' && this.ticketAccessType == 'ONLINE');
+    return this.event.format === 'ONLINE'
+      || (this.event.format === 'HYBRID' && this.ticketAccessType === 'ONLINE');
   }
 
   get ticketOnlineCheckInDate(): string {
@@ -108,5 +108,9 @@ export class UpdateTicketComponent implements OnInit {
     return !this.ticket.locked
       || this.ticket.ticketFieldConfigurationAfterStandard.length > 0
       || this.ticket.ticketFieldConfigurationBeforeStandard.length > 0;
+  }
+
+  get title(): string {
+    return this.event.title[this.translate.currentLang];
   }
 }

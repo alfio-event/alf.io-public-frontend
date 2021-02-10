@@ -11,7 +11,7 @@ import { PurchaseContextService } from 'src/app/shared/purchase-context.service'
 })
 export class ErrorComponent implements OnInit {
 
-  
+
   reservationId: string;
   purchaseContext: PurchaseContext;
 
@@ -27,7 +27,7 @@ export class ErrorComponent implements OnInit {
       const purchaseContextType = data.type;
       this.purchaseContextService.getContext(purchaseContextType, publicIdentifier).subscribe(ev => {
         this.purchaseContext = ev;
-        this.i18nService.setPageTitle('reservation-page-not-found.header.title', ev.displayName);
+        this.i18nService.setPageTitle('reservation-page-not-found.header.title', ev);
       });
     });
   }

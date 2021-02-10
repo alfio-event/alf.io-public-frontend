@@ -2,7 +2,7 @@ import { AnalyticsConfiguration } from './analytics-configuration';
 import { AssignmentConfiguration, CaptchaConfiguration, CurrencyDescriptor, InvoicingConfiguration, Language } from './event';
 
 export interface PurchaseContext extends PurchaseContextPriceDescriptor {
-    displayName: string;
+    title: { [lang: string]: string };
     invoicingConfiguration: InvoicingConfiguration;
     assignmentConfiguration: AssignmentConfiguration;
     analyticsConfiguration: AnalyticsConfiguration;

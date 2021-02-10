@@ -39,7 +39,7 @@ export class SuccessSubscriptionComponent implements OnInit {
       this.purchaseContextService.getContext(this.purchaseContextType, this.publicIdentifier).subscribe(ev => {
         this.purchaseContext = ev;
 
-        this.i18nService.setPageTitle('reservation-page.header.title', ev.displayName);
+        this.i18nService.setPageTitle('reservation-page.header.title', ev);
 
         this.loadReservation();
 

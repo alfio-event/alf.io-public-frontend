@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
         this.languages = res;
       });
 
-      this.i18nService.setPageTitle('event-list.header.title', '');
+      this.i18nService.setPageTitle('event-list.header.title', null);
     }
 
     get containsEvents(): boolean {

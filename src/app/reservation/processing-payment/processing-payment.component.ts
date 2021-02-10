@@ -47,7 +47,7 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
       ).subscribe(([ev, reservationInfo]) => {
         this.purchaseContext = ev;
         this.reservationInfo = reservationInfo;
-        this.i18nService.setPageTitle('show-ticket.header.title', ev.displayName);
+        this.i18nService.setPageTitle('show-ticket.header.title', ev);
         this.analytics.pageView(ev.analyticsConfiguration);
       });
 

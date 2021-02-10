@@ -9,7 +9,7 @@
             <span *ngIf="ticket.onlineEventStarted">{{'event.online.started' | translate }}</span>
           </div>
         </div>
-        <h2>{{'show-ticket.header.title' | translate:{ '0' : event.displayName } }}</h2>
+        <h2>{{'show-ticket.header.title' | translate:{ '0' : title } }}</h2>
         <div class="card mt-5" [ngClass]="{'border-left-warning': !ticket.assigned}">
             <div class="card-body">
               <div class="attendees-data d-md-flex w-100 justify-content-between">

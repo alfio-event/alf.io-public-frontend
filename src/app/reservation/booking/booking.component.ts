@@ -73,7 +73,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
         this.purchaseContext = purchaseContext;
         this.reservationInfo = reservationInfo;
 
-        this.i18nService.setPageTitle('reservation-page.header.title', purchaseContext.displayName);
+        this.i18nService.setPageTitle('reservation-page.header.title', purchaseContext);
 
         const invoiceRequested = purchaseContext.invoicingConfiguration.onlyInvoice ? true : reservationInfo.invoiceRequested;
 

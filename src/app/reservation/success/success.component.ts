@@ -12,6 +12,7 @@ import { handleServerSideValidationError } from 'src/app/shared/validation-helpe
 import { FormGroup } from '@angular/forms';
 import { TicketCategory } from 'src/app/model/ticket-category';
 import { TryCatchStmt } from '@angular/compiler';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-success',
@@ -42,7 +43,8 @@ export class SuccessComponent implements OnInit {
     private ticketService: TicketService,
     private i18nService: I18nService,
     private analytics: AnalyticsService,
-    private router: Router) { }
+    private router: Router,
+    private translateService: TranslateService) { }
 
   public ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -50,7 +52,7 @@ export class SuccessComponent implements OnInit {
       this.reservationId = params['reservationId'];
       this.eventService.getEvent(this.eventShortName).subscribe(ev => {
         this.event = ev;
-        this.i18nService.setPageTitle('reservation-page-complete.header.title', ev.displayName);
+        this.i18nService.setPageTitle('reservation-page-complete.header.title', ev);
         this.analytics.pageView(ev.analyticsConfiguration);
       });
       this.loadReservation();
@@ -135,8 +137,12 @@ export class SuccessComponent implements OnInit {
   }
 
   public isOnlineTicket(category: TicketsByTicketCategory): boolean {
-    return this.event.format == 'ONLINE'
-      || (this.event.format == 'HYBRID' && category.ticketAccessType == 'ONLINE');
+    return this.event.format === 'ONLINE'
+      || (this.event.format === 'HYBRID' && category.ticketAccessType === 'ONLINE');
+  }
+
+  get purchaseContextTitle(): string {
+    return this.event.title[this.translateService.currentLang];
   }
 
 }

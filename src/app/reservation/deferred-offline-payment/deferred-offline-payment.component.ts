@@ -40,7 +40,7 @@ export class DeferredOfflinePaymentComponent implements OnInit {
         ).subscribe(([ev, reservationInfo]) => {
           this.purchaseContext = ev;
           this.reservationInfo = reservationInfo;
-          this.i18nService.setPageTitle('reservation-page-waiting.header.title', ev.displayName);
+          this.i18nService.setPageTitle('reservation-page-waiting.header.title', ev);
           this.analytics.pageView(ev.analyticsConfiguration);
         });
       });

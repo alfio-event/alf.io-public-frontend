@@ -4,13 +4,14 @@ import { removeDOMNode } from '../../shared/event.service';
 import { PurchaseContext } from 'src/app/model/purchase-context';
 import { Event } from 'src/app/model/event';
 import { PurchaseContextType } from '../purchase-context.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-event-header',
-  templateUrl: './event-header.component.html',
-  styleUrls: ['./event-header.component.scss']
+  templateUrl: './purchase-context-header.component.html',
+  styleUrls: ['./purchase-context-header.component.scss']
 })
-export class EventHeaderComponent implements OnInit, OnDestroy {
+export class PurchaseContextHeaderComponent implements OnInit, OnDestroy {
 
   @Input()
   purchaseContext: PurchaseContext;
@@ -20,7 +21,7 @@ export class EventHeaderComponent implements OnInit, OnDestroy {
 
   schemaElem: HTMLScriptElement;
 
-  constructor(private i18nService: I18nService) {
+  constructor(private i18nService: I18nService, private translateService: TranslateService) {
   }
 
   ngOnInit() {
@@ -29,7 +30,7 @@ export class EventHeaderComponent implements OnInit, OnDestroy {
 
     if (this.type === 'event') {
 
-      let ev = this.purchaseContext as Event;
+      const ev = this.purchaseContext as Event;
       const start = new Date(ev.datesWithOffset.startDateTime);
       const end = new Date(ev.datesWithOffset.endDateTime);
       const descriptionHolder = document.createElement('div');
@@ -38,7 +39,7 @@ export class EventHeaderComponent implements OnInit, OnDestroy {
       const jsonSchema = {
         '@context': 'https://schema.org',
         '@type': 'Event',
-        'name' : ev.displayName,
+        'name' : ev.title[this.i18nService.getCurrentLang()],
         'startDate': start.toISOString(),
         'endDate': end.toISOString(),
         'description': descriptionHolder.innerText.trim(),
@@ -61,8 +62,16 @@ export class EventHeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  get title(): string {
+    return this.purchaseContext.title[this.translateService.currentLang];
+  }
+
+  get isEvent(): boolean {
+    return this.purchaseContext instanceof Event;
+  }
+
   ngOnDestroy() {
-    if(this.type == 'event') {
+    if (this.type === 'event') {
       removeDOMNode(this.schemaElem);
     }
   }

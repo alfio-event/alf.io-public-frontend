@@ -4,11 +4,12 @@ import { Observable, of, zip } from 'rxjs';
 import { Language } from '../model/event';
 import { LocalizedCountry } from '../model/localized-country';
 import { Title } from '@angular/platform-browser';
-import { TranslateService, TranslateLoader } from '@ngx-translate/core';
+import {TranslateService, TranslateLoader, LangChangeEvent} from '@ngx-translate/core';
 import { Router, NavigationStart } from '@angular/router';
 import { map, mergeMap, shareReplay, catchError, share } from 'rxjs/operators';
 import { EventService } from './event.service';
 import { PurchaseContextType } from './purchase-context.service';
+import {PurchaseContext} from '../model/purchase-context';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,13 @@ export class I18nService {
 
 
   private applicationLanguages: Observable<Language[]>;
+
+  private static getInterpolateParams(lang: string, ctx: PurchaseContext): any {
+    if (ctx != null) {
+      return {'0': ctx.title[lang]};
+    }
+    return null;
+  }
 
   constructor(
     private http: HttpClient,
@@ -45,12 +53,10 @@ export class I18nService {
     return this.applicationLanguages;
   }
 
-  setPageTitle(titleCode: string, eventName: string): void {
+  setPageTitle(titleCode: string, ctx?: PurchaseContext): void {
 
-    const obs = this.translateService.stream(titleCode, {'0': eventName});
-
-    const titleSub =  obs.subscribe(res => {
-      this.title.setTitle(res);
+    const titleSub = this.translateService.onLangChange.subscribe((params: LangChangeEvent) => {
+      this.title.setTitle(this.translateService.instant(titleCode, I18nService.getInterpolateParams(params.lang, ctx)));
     });
 
     const routerSub = this.router.events.subscribe(ev => {
@@ -60,6 +66,8 @@ export class I18nService {
         this.title.setTitle(null);
       }
     });
+
+    this.title.setTitle(this.translateService.instant(titleCode, I18nService.getInterpolateParams(this.translateService.currentLang, ctx)));
   }
 
   persistLanguage(lang: string): void {
@@ -75,13 +83,24 @@ export class I18nService {
   }
 
   useTranslation(type: PurchaseContextType, publicIdentifier: string, lang: string): Observable<boolean> {
-    const overrideBundle = type === 'event' && publicIdentifier ? this.eventService.getEvent(publicIdentifier).pipe(catchError(e => of({i18nOverride: {}})), map(e => e.i18nOverride[lang] || {})) : of({});
+    const overrideBundle = this.getOverrideBundle(type, publicIdentifier, lang);
     return zip(this.customLoader.getTranslation(lang), overrideBundle).pipe(mergeMap(([root, override]) => {
       this.translateService.setTranslation(lang, root, false);
       this.translateService.setTranslation(lang, override, true);
       this.translateService.use(lang);
       return of(true);
     }));
+  }
+
+  private getOverrideBundle(type: 'event' | 'subscription', publicIdentifier: string, lang: string): Observable<any> {
+    if (type === 'event' && publicIdentifier) {
+      return this.eventService.getEvent(publicIdentifier)
+        .pipe(
+          catchError(e => of({i18nOverride: {}})),
+          map(e => e.i18nOverride[lang] || {})
+        );
+    }
+    return of({});
   }
 }
 
@@ -95,7 +114,7 @@ export class CustomLoader implements TranslateLoader {
 
   getTranslation(lang: string): Observable<any> {
     if (!translationCache[lang]) {
-      const preloadBundle = document.getElementById('preload-bundle')
+      const preloadBundle = document.getElementById('preload-bundle');
       if (preloadBundle && preloadBundle.getAttribute('data-param') === lang) {
         translationCache[lang] = of(JSON.parse(preloadBundle.textContent)).pipe(shareReplay(1));
       } else {

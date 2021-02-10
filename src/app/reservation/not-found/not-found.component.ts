@@ -30,7 +30,7 @@ export class NotFoundComponent implements OnInit {
       this.reservationId = params['reservationId'];
       this.purchaseContextUrl = this.serializer.serialize(this.router.createUrlTree([this.purchaseContextType, this.publicIdentifier]));
       this.purchaseContextService.getContext(this.purchaseContextType, this.publicIdentifier).subscribe(ev => {
-        this.i18nService.setPageTitle('reservation-page-not-found.header.title', ev.displayName);
+        this.i18nService.setPageTitle('reservation-page-not-found.header.title', ev);
       });
     });
   }

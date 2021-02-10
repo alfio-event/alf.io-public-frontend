@@ -85,7 +85,7 @@ export class EventDisplayComponent implements OnInit {
       zip(this.eventService.getEvent(eventShortName), this.eventService.getEventTicketsInfo(eventShortName)).subscribe( ([event, itemsByCat]) => {
         this.event = event;
 
-        this.i18nService.setPageTitle('show-event.header.title', event.displayName);
+        this.i18nService.setPageTitle('show-event.header.title', event);
 
         this.reservationForm = this.formBuilder.group({
           reservation: this.formBuilder.array(this.createItems(itemsByCat.ticketCategories)),
@@ -268,7 +268,7 @@ export class EventDisplayComponent implements OnInit {
   }
 
   selectionChange(): void {
-    if (this.eventCode == null || this.eventCode.type == 'ACCESS') {
+    if (this.eventCode == null || this.eventCode.type === 'ACCESS') {
       this.reservationService.checkDynamicDiscountAvailability(this.event.shortName, this.reservationForm.value)
         .subscribe(d => {
           this.dynamicDiscount = d;
@@ -284,7 +284,7 @@ export class EventDisplayComponent implements OnInit {
   }
 
   get isEventOnline(): boolean {
-    return this.event.format == 'ONLINE';
+    return this.event.format === 'ONLINE';
   }
 
   public displayOnlineTicketTag(category: TicketCategory): boolean {

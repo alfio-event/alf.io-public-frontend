@@ -41,7 +41,7 @@ export class SubscriptionListAllComponent implements OnInit {
       this.languages = res;
     });
 
-    this.i18nService.setPageTitle('subscription.header.title', '');
+    this.i18nService.setPageTitle('subscription.header.title', null);
   }
 
 }

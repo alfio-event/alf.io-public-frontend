@@ -55,8 +55,6 @@ export type SubscriptionUsageType = 'ONCE_PER_EVENT' | 'UNLIMITED';
 export class SubscriptionInfo implements PurchaseContext, SubscriptionSummaryData {
   id: string;
 
-  // FIXME
-  displayName: string;
   invoicingConfiguration: InvoicingConfiguration;
   assignmentConfiguration: AssignmentConfiguration;
   analyticsConfiguration: AnalyticsConfiguration;

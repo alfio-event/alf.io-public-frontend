@@ -5,7 +5,7 @@ import { PurchaseContext } from './purchase-context';
 
 export class Event implements DateValidity, PurchaseContext {
     shortName: string;
-    displayName: string;
+    title: { [lang: string]: string };
     format: EventFormat;
     fileBlobId: string;
     contentLanguages: Language[];
