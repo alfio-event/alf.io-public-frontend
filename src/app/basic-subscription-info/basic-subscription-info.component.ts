@@ -12,6 +12,9 @@ export class BasicSubscriptionInfoComponent {
   @Input()
   subscription: BasicSubscriptionInfo;
 
+  @Input()
+  cardLayout = true;
+
   constructor(private translateService: TranslateService) {}
 
   get title(): string {

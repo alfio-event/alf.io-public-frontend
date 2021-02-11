@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { BasicEventInfo } from '../model/basic-event-info';
+import {BasicEventInfo, EventSearchParams} from '../model/basic-event-info';
 import { Event } from '../model/event';
 import { ItemsByCategory } from '../model/items-by-category';
 import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscription-request';
 import { ValidatedResponse } from '../model/validated-response';
-import { shareReplay } from 'rxjs/operators';
+import {map, shareReplay} from 'rxjs/operators';
 import { EventCode } from '../model/event-code';
 import { DateValidity } from '../model/date-validity';
 
@@ -19,8 +19,12 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
-  getEvents(): Observable<BasicEventInfo[]> {
-    return this.http.get<BasicEventInfo[]>('/api/v2/public/events');
+  getEvents(searchParams?: EventSearchParams): Observable<BasicEventInfo[]> {
+    const params = searchParams?.toHttpParams();
+    return this.http.get<BasicEventInfo[]>('/api/v2/public/events', {
+      responseType: 'json',
+      params
+    });
   }
 
   getEvent(eventShortName: string): Observable<Event> {

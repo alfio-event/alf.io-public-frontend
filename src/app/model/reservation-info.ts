@@ -41,6 +41,12 @@ export class ReservationInfo {
     //
 
     activePaymentMethods: {[key in PaymentMethod]?: PaymentProxyWithParameters};
+    subscriptionInfos?: Array<ReservationSubscriptionInfo>;
+}
+
+export class ReservationSubscriptionInfo {
+  id: string;
+  pin: string;
 }
 
 export class ReservationStatusInfo {

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { BasicEventInfo } from '../model/basic-event-info';
+import {BasicEventInfo, EventSearchParams} from '../model/basic-event-info';
 import { Language } from '../model/event';
 import { EventService } from '../shared/event.service';
 import { I18nService } from '../shared/i18n.service';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { InfoService } from '../shared/info.service';
 import { AnalyticsService } from '../shared/analytics.service';
 import { TranslateService } from '@ngx-translate/core';
-import { zip } from 'rxjs';
+import {of, zip} from 'rxjs';
+import {mergeMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-event-list-all',
@@ -25,13 +26,19 @@ export class EventListAllComponent implements OnInit {
     private router: Router,
     public translate: TranslateService,
     private info: InfoService,
-    private analytics: AnalyticsService) { }
+    private analytics: AnalyticsService,
+    private route: ActivatedRoute) { }
 
     public ngOnInit(): void {
 
-      zip(this.eventService.getEvents(), this.info.getInfo()).subscribe(([res, info]) => {
+      this.route.queryParams.pipe(
+        mergeMap(params => {
+          const searchParams = EventSearchParams.fromQueryParams(params);
+          return zip(this.eventService.getEvents(searchParams), this.info.getInfo(), of(searchParams));
+        })
+      ).subscribe(([res, info, searchParams]) => {
         if (res.length === 1) {
-          this.router.navigate(['/event', res[0].shortName], {replaceUrl: true});
+          this.router.navigate(['/event', res[0].shortName], {replaceUrl: true, queryParams: searchParams.toParams()});
         } else {
           this.events = res;
           this.analytics.pageView(info.analyticsConfiguration);

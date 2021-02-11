@@ -16,6 +16,7 @@ import { ReservationExpiredComponent } from '../expired-notification/reservation
 import { CancelReservationComponent } from '../cancel-reservation/cancel-reservation.component';
 import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
 import { PurchaseContext } from 'src/app/model/purchase-context';
+import {EventSearchParams} from '../../model/basic-event-info';
 
 @Component({
   selector: 'app-booking',
@@ -157,7 +158,9 @@ export class BookingComponent implements OnInit, AfterViewInit {
     this.removeUnnecessaryFields();
     this.reservationService.validateToOverview(this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang).subscribe(res => {
       if (res.success) {
-        this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'overview']);
+        this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'overview'], {
+          queryParams: EventSearchParams.transformParams(this.route.snapshot.queryParams)
+        });
       }
     }, (err) => {
       this.globalErrors = handleServerSideValidationError(err, this.contactAndTicketsForm);
@@ -202,7 +205,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
   }
 
   getTicketForm(ticket: Ticket): FormGroup {
-    return this.contactAndTicketsForm.get('tickets.'+ticket.uuid) as FormGroup;
+    return this.contactAndTicketsForm.get('tickets.' + ticket.uuid) as FormGroup;
   }
 
   copyContactInfoTo(ticket: Ticket) {

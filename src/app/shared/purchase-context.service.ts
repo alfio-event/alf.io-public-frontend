@@ -13,7 +13,7 @@ export class PurchaseContextService {
 
 
   getContext(type: PurchaseContextType, publicIdentifier: string): Observable<PurchaseContext> {
-    if(type === 'event') {
+    if (type === 'event') {
       return this.eventService.getEvent(publicIdentifier);
     } else if (type === 'subscription') {
       return this.subscriptionService.getSubscriptionById(publicIdentifier);

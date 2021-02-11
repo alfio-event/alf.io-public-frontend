@@ -16,6 +16,7 @@ import { zip } from 'rxjs';
 import { PurchaseContext } from 'src/app/model/purchase-context';
 import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
 import { ModalRemoveSubscriptionComponent } from '../modal-remove-subscription/modal-remove-subscription.component';
+import {EventSearchParams} from '../../model/basic-event-info';
 
 @Component({
   selector: 'app-overview',
@@ -178,7 +179,9 @@ export class OverviewComponent implements OnInit {
             if (res.value.redirect) { // handle the case of redirects (e.g. paypal, stripe)
               window.location.href = res.value.redirectUrl;
             } else {
-              this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'success']);
+              this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'success'], {
+                queryParams: EventSearchParams.transformParams(this.route.snapshot.queryParams)
+              });
             }
           } else {
             this.submitting = false;
@@ -193,7 +196,7 @@ export class OverviewComponent implements OnInit {
       } else {
         console.log('paymentResult is not success (may be cancelled)');
         this.unregisterHook();
-        if (paymentResult != null && paymentResult.reservationChanged) {
+        if (paymentResult.reservationChanged) {
           console.log('reservation status is changed. Trying to reload it...');
           // reload reservation, try to go to /success
           this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'success']);

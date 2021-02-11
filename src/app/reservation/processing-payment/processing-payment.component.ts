@@ -7,6 +7,7 @@ import { I18nService } from 'src/app/shared/i18n.service';
 import { AnalyticsService } from 'src/app/shared/analytics.service';
 import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
 import { PurchaseContext } from 'src/app/model/purchase-context';
+import {EventSearchParams} from '../../model/basic-event-info';
 
 @Component({
   selector: 'app-processing-payment',
@@ -71,7 +72,9 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
   private reservationStateChanged() {
     // try to navigate to /success. If the reservation is in a different status, the user will be
     // redirected accordingly.
-    this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'success']);
+    this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'success'], {
+      queryParams: EventSearchParams.transformParams(this.route.snapshot.queryParams)
+    });
   }
 
   public ngOnDestroy() {

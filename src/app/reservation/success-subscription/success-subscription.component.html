@@ -1,4 +1,69 @@
 <app-reservation>
-<p>success-subscription works!</p>
-<pre>{{reservationInfo|json}}</pre>
+
+<!--  <div class="alert alert-success alert-dismissible" role="alert" *ngIf="reservationMailSent">-->
+<!--    <button type="button" class="close" (click)="reservationMailSent = false"><span aria-hidden="true">&times;</span><span class="sr-only" translate="reservation-page-complete.cancel"></span></button>-->
+<!--    <strong translate="email.confirmation-email-sent"></strong>-->
+<!--  </div>-->
+
+
+  <div *ngIf="reservationInfo && purchaseContext">
+    <div class="alert alert-success mb-5">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="h3" [innerHTML]="'reservation-page-complete.info-subscription' | translate"></div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-sm-12" [innerHTML]="'reservation-page-complete.info-subscription-email' | translate: {'0':reservationInfo.email}"></div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12 col-md-5 mb-1 mb-md-0" [class.offset-md-2]="downloadBillingDocumentVisible" [class.offset-md-7]="!downloadBillingDocumentVisible">
+          <button type="button" (click)="reSendReservationEmail()" class="btn btn-default btn-block"><fa-icon [icon]="['far', 'envelope']" a11yRole="presentation"></fa-icon> {{'reservation-page-complete.resend-reservation-email'|translate}}</button>
+        </div>
+        <div class="col-12 col-md-5 mb-md-0" *ngIf="downloadBillingDocumentVisible">
+          <ng-container>
+            {{' '}}
+            <a *ngIf="reservationInfo.invoiceNumber !== null"
+               class="btn btn-default btn-block"
+               [href]="'/api/v2/public/event/'+purchaseContext.shortName+'/reservation/'+reservationInfo.id+'/invoice'"
+               target="_blank">
+              <fa-icon [icon]="['fas', 'download']" a11yRole="presentation"></fa-icon> {{'reservation-page-complete.download-your-invoice'|translate}}
+            </a>
+            <a *ngIf="reservationInfo.invoiceNumber === null"
+               class="btn btn-default btn-block"
+               [href]="'/api/v2/public/event/'+purchaseContext.shortName+'/reservation/'+reservationInfo.id+'/receipt'"
+               target="_blank">
+              <fa-icon [icon]="['fas', 'download']" a11yRole="presentation"></fa-icon> {{'reservation-page-complete.download-your-receipt'|translate}}
+            </a>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <h1 translate="reservation-page-complete.subscription"></h1>
+
+    <div class="row mt-5">
+      <div class="col col-lg-6">
+        <app-basic-subscription-info [cardLayout]="false" [subscription]="subscription"></app-basic-subscription-info>
+      </div>
+      <div class="col col-lg-6 text-center">
+        <p class="lead" translate="reservation-page-complete.subscription.pin-description"></p>
+        <div class="h3 text-center">{{subscriptionInfo.pin}}</div>
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <hr>
+      <div class="row d-flex justify-content-md-end">
+        <div class="col-md-5 order-md-1 col-12 mb-2">
+          <a class="block-button btn btn-success" [routerLink]="['/events-all']" [queryParams]="{ subscription: subscriptionInfo.id }" translate="reservation-page-complete.buy-tickets"></a>
+        </div>
+      </div>
+      <div class="text-center text-muted mt-5">{{'reservation-page-complete.order-information' | translate: {'0': reservationId, '1': reservationInfo.firstName + ' ' + reservationInfo.lastName} }}</div>
+      <div class="text-center mt-1">
+        <a href="https://alf.io" [attr.title]="'alfio.credits' | translate" target="_blank" rel="noreferrer noopener" translate="alfio.credits"></a>
+      </div>
+    </div>
+  </div>
+
 </app-reservation>
