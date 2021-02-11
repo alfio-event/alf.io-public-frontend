@@ -40,5 +40,5 @@
     </ng-container>
   </ng-container>
   <dt class="col-1 text-muted"><fa-icon [icon]="['fas', 'money-bill']" [title]="'reservation-page.price' | translate"></fa-icon></dt>
-  <dd class="col-11 font-weight-bold"><app-price-tag [formattedPrice]="subscription.formattedPrice" [purchaseContext]="subscription"></app-price-tag></dd>
+  <dd class="col-11 font-weight-bold"><app-price-tag [formattedPrice]="subscription.formattedPrice" [purchaseContext]="subscription" [showTaxDetails]="true" [singleLineLayout]="true"></app-price-tag></dd>
 </dl>

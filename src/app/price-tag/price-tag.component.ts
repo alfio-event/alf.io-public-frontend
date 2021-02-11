@@ -18,6 +18,8 @@ export class PriceTagComponent implements OnInit {
   @Input()
   displayTextInline: boolean;
   @Input()
+  singleLineLayout: boolean;
+  @Input()
   showDiscount: boolean;
 
   displayCurrencySymbol: boolean;

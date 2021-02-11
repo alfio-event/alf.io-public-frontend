@@ -26,7 +26,7 @@
 
     <div class="row">
       <div class="col-12" [ngClass]="{'col-md-7': !reservationInfo.orderSummary.free && purchaseContext.invoicingConfiguration.invoiceAllowed}">
-        <app-summary-table [purchaseContext]="purchaseContext" [reservationInfo]="reservationInfo" [displayRemoveSubscription]="true" (removeSubscription)="removeSubscription($event)"></app-summary-table>
+        <app-summary-table [purchaseContext]="purchaseContext" [purchaseContextType]="purchaseContextType" [reservationInfo]="reservationInfo" [displayRemoveSubscription]="displayRemoveSubscription" (removeSubscription)="removeSubscription($event)"></app-summary-table>
       </div>
       <div class="d-none d-md-flex col-md-1 justify-content-md-center" *ngIf="purchaseContext.invoicingConfiguration.invoiceAllowed">
         <div class="border-left separator"></div>
