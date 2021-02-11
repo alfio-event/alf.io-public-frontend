@@ -31,7 +31,7 @@ export class OverviewComponent implements OnInit {
   private publicIdentifier: string;
   private reservationId: string;
   purchaseContext: PurchaseContext;
-  private purchaseContextType: PurchaseContextType;
+  purchaseContextType: PurchaseContextType;
   expired: boolean;
 
   submitting: boolean;

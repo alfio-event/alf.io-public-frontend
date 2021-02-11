@@ -5,7 +5,7 @@ export class BasicEventInfo implements DateValidity {
     shortName: string;
     fileBlobId: string;
     format: EventFormat;
-    displayName: string;
+    title: {[key: string]: string};
     location: string;
 
     // date related

@@ -1,6 +1,6 @@
 <div *ngIf="event && ticket" class="add-margin-bottom">
     <header>
-        <app-event-header [purchaseContext]="event" type="event"></app-event-header>
+        <app-purchase-context-header [purchaseContext]="event" type="event"></app-purchase-context-header>
     </header>
     <main class="mt-5">
         <div class="alert mb-5" [ngClass]="{'alert-info': !ticket.onlineEventStarted, 'alert-success': ticket.onlineEventStarted}" *ngIf="isOnlineTicket && !ticketFormVisible">

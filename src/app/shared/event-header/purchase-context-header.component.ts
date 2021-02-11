@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { I18nService } from '../../shared/i18n.service';
-import { removeDOMNode } from '../../shared/event.service';
+import { I18nService } from '../i18n.service';
+import { removeDOMNode } from '../event.service';
 import { PurchaseContext } from 'src/app/model/purchase-context';
 import { Event } from 'src/app/model/event';
 import { PurchaseContextType } from '../purchase-context.service';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-event-header',
+  selector: 'app-purchase-context-header',
   templateUrl: './purchase-context-header.component.html',
   styleUrls: ['./purchase-context-header.component.scss']
 })
@@ -67,7 +67,7 @@ export class PurchaseContextHeaderComponent implements OnInit, OnDestroy {
   }
 
   get isEvent(): boolean {
-    return this.purchaseContext instanceof Event;
+    return this.type === 'event';
   }
 
   ngOnDestroy() {

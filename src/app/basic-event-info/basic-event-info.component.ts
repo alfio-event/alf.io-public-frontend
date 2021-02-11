@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BasicEventInfo } from '../model/basic-event-info';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-basic-event-info',
@@ -11,7 +12,7 @@ export class BasicEventInfoComponent implements OnInit {
   @Input()
   event: BasicEventInfo;
 
-  constructor() { }
+  constructor(private translateService: TranslateService) { }
 
   ngOnInit(): void {
   }
@@ -19,6 +20,10 @@ export class BasicEventInfoComponent implements OnInit {
 
   public get isEventOnline(): boolean {
     return this.event.format === 'ONLINE';
+  }
+
+  get title(): string {
+    return this.event.title[this.translateService.currentLang];
   }
 
 }

@@ -4,13 +4,13 @@
       <div class="h4 online-flag" *ngIf="isEventOnline"><span class="badge badge-secondary">{{'event.online.badge' | translate}}</span></div>
     </div>
     <div class="card-body">
-      <h2 class="card-title">{{event.displayName}}</h2>
+      <h2 class="card-title">{{title}}</h2>
       <app-event-dates [dateValidityProvider]="event" [displayIcon]="true"></app-event-dates>
       <p class="card-text text-muted mt-1" *ngIf="!isEventOnline">{{event.location}}</p>
     </div>
     <div class="card-footer border-top-0 bg-white">
       <div class="d-flex justify-content-end">
-        <a [routerLink]="['/event', event.shortName]" class="btn btn-success stretched-link">{{'event-list.link' | translate}}<span class="sr-only"> {{event.displayName}}</span></a>
+        <a [routerLink]="['/event', event.shortName]" class="btn btn-success stretched-link">{{'event-list.link' | translate}}<span class="sr-only"> {{title}}</span></a>
       </div>
     </div>
 </div>
