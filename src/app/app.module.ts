@@ -11,11 +11,11 @@ import { HttpClientModule, HttpClientXsrfModule, HttpClient } from '@angular/com
 import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {
   faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill, faDownload, faSearchPlus,
-  faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice, faGlobe,
+  faExchangeAlt, faExclamationTriangle, faExclamationCircle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice, faGlobe,
   faAngleDown, faAngleUp, faCircle, faMoneyCheckAlt, faWifi, faTrash } from '@fortawesome/free-solid-svg-icons';
 import {
   faCalendarAlt, faCalendarPlus, faCompass, faClock, faEnvelope,
-  faEdit, faClone, faHandshake, faBuilding, faCheckCircle } from '@fortawesome/free-regular-svg-icons';
+  faEdit, faClone, faHandshake, faBuilding, faCheckCircle, faCopy } from '@fortawesome/free-regular-svg-icons';
 import { faPaypal, faStripe, faApplePay, faIdeal } from '@fortawesome/free-brands-svg-icons';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { NgbTooltipModule, NgbModalModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -166,7 +166,7 @@ export class AppModule {
   constructor(library: FaIconLibrary) {
     library.addIcons(faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill,
       faDownload, faSearchPlus, faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice, faGlobe,
-      faAngleDown, faAngleUp, faCircle, faCheckCircle, faMoneyCheckAlt, faWifi, faTrash);
+      faAngleDown, faAngleUp, faCircle, faCheckCircle, faMoneyCheckAlt, faWifi, faTrash, faCopy, faExclamationCircle);
     library.addIcons(faCalendarAlt, faCalendarPlus, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake, faBuilding);
     library.addIcons(faPaypal, faStripe, faIdeal, faApplePay);
   }

@@ -3,7 +3,7 @@ import {BasicEventInfo, EventSearchParams} from '../model/basic-event-info';
 import { Language } from '../model/event';
 import { EventService } from '../shared/event.service';
 import { I18nService } from '../shared/i18n.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import { InfoService } from '../shared/info.service';
 import { AnalyticsService } from '../shared/analytics.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -19,6 +19,7 @@ export class EventListAllComponent implements OnInit {
 
   events: BasicEventInfo[];
   languages: Language[];
+  queryParams: Params;
 
   constructor(
     private eventService: EventService,
@@ -37,8 +38,9 @@ export class EventListAllComponent implements OnInit {
           return zip(this.eventService.getEvents(searchParams), this.info.getInfo(), of(searchParams));
         })
       ).subscribe(([res, info, searchParams]) => {
+        this.queryParams = searchParams.toParams();
         if (res.length === 1) {
-          this.router.navigate(['/event', res[0].shortName], {replaceUrl: true, queryParams: searchParams.toParams()});
+          this.router.navigate(['/event', res[0].shortName], {replaceUrl: true, queryParams: this.queryParams});
         } else {
           this.events = res;
           this.analytics.pageView(info.analyticsConfiguration);

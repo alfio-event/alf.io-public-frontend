@@ -1,11 +1,4 @@
 <app-reservation>
-
-<!--  <div class="alert alert-success alert-dismissible" role="alert" *ngIf="reservationMailSent">-->
-<!--    <button type="button" class="close" (click)="reservationMailSent = false"><span aria-hidden="true">&times;</span><span class="sr-only" translate="reservation-page-complete.cancel"></span></button>-->
-<!--    <strong translate="email.confirmation-email-sent"></strong>-->
-<!--  </div>-->
-
-
   <div *ngIf="reservationInfo && purchaseContext">
     <div class="alert alert-success mb-5">
       <div class="row">
@@ -43,26 +36,55 @@
     <h1 translate="reservation-page-complete.subscription"></h1>
 
     <div class="row mt-5">
-      <div class="col col-lg-6">
+      <div class="col-12 col-lg-6">
         <app-basic-subscription-info [cardLayout]="false" [subscription]="subscription"></app-basic-subscription-info>
       </div>
-      <div class="col col-lg-6 text-center">
-        <p class="lead" translate="reservation-page-complete.subscription.pin-description"></p>
-        <div class="h3 text-center">{{subscriptionInfo.pin}}</div>
+      <div class="col-12 col-lg-6 text-center d-lg-flex flex-lg-column justify-content-lg-between">
+        <div class="mt-5 mt-lg-0">
+          <p class="lead" translate="reservation-page-complete.subscription.pin-description"></p>
+        </div>
+        <div class="h3 text-center text-success">
+          {{subscriptionInfo.pin}}
+          <button class="btn btn-light btn-xs" [ngbTooltip]="'reservation-page-complete.subscription.copy-pin'|translate"
+                  type="button" [appClipboardCopy]="subscriptionInfo.pin" (copied)="copied($event)">
+            <fa-icon [icon]="['far', 'copy']" a11yRole="presentation"></fa-icon>
+            <span class="sr-only" translate="reservation-page-complete.subscription.copy-pin"></span>
+          </button>
+        </div>
+        <div class="mt-5 mt-lg-0">
+          <p class="lead" translate="reservation-page-complete.subscription.id-description"></p>
+          <div class="h6 text-center">
+            {{subscriptionInfo.id}}
+            <button class="btn btn-light btn-xs" [ngbTooltip]="'reservation-page-complete.subscription.copy-id'|translate"
+                    type="button" [appClipboardCopy]="subscriptionInfo.id" (copied)="copied($event)">
+              <fa-icon [icon]="['far', 'copy']" a11yRole="presentation"></fa-icon>
+              <span class="sr-only" translate="reservation-page-complete.subscription.copy-id"></span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="mt-5">
+    <hr class="mt-5">
+
+    <div class="mt-5" *ngIf="compatibleEvents && compatibleEvents.length > 0">
+      <div class="h3">{{ 'reservation-page-complete.subscription.buy-tickets' | translate }}</div>
+      <div class="card-deck mt-5">
+        <app-basic-event-info [event]="event" *ngFor="let event of compatibleEvents" [params]="{subscription: subscriptionInfo.id}"></app-basic-event-info>
+      </div>
+    </div>
+
+    <div class="mt-5" *ngIf="!compatibleEvents && compatibleEvents.length === 0">
       <hr>
       <div class="row d-flex justify-content-md-end">
         <div class="col-md-5 order-md-1 col-12 mb-2">
           <a class="block-button btn btn-success" [routerLink]="['/events-all']" [queryParams]="{ subscription: subscriptionInfo.id }" translate="reservation-page-complete.buy-tickets"></a>
         </div>
       </div>
-      <div class="text-center text-muted mt-5">{{'reservation-page-complete.order-information' | translate: {'0': reservationId, '1': reservationInfo.firstName + ' ' + reservationInfo.lastName} }}</div>
-      <div class="text-center mt-1">
-        <a href="https://alf.io" [attr.title]="'alfio.credits' | translate" target="_blank" rel="noreferrer noopener" translate="alfio.credits"></a>
-      </div>
+    </div>
+    <div class="text-center text-muted mt-5">{{'reservation-page-complete.order-information' | translate: {'0': reservationId, '1': reservationInfo.firstName + ' ' + reservationInfo.lastName} }}</div>
+    <div class="text-center mt-1">
+      <a href="https://alf.io" [attr.title]="'alfio.credits' | translate" target="_blank" rel="noreferrer noopener" translate="alfio.credits"></a>
     </div>
   </div>
 

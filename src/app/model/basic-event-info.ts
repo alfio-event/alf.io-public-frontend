@@ -23,7 +23,7 @@ export class BasicEventInfo implements DateValidity {
 }
 
 export class EventSearchParams {
-  private constructor(private subscription: string,
+  public constructor(private subscription: string,
               private organizer: string,
               private tags: Array<string>) {
   }

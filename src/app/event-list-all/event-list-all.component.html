@@ -5,7 +5,7 @@
 
 
   <div class="event-list-card mb-3" *ngFor="let event of events">
-    <app-basic-event-info [event]="event"></app-basic-event-info>
+    <app-basic-event-info [event]="event" [params]="queryParams"></app-basic-event-info>
   </div>
 
   <div class="alert text-center" *ngIf="events.length == 0">

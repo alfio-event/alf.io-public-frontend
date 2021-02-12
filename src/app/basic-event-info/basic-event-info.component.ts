@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BasicEventInfo } from '../model/basic-event-info';
 import {TranslateService} from '@ngx-translate/core';
+import {Params} from '@angular/router';
 
 @Component({
   selector: 'app-basic-event-info',
@@ -11,6 +12,9 @@ export class BasicEventInfoComponent implements OnInit {
 
   @Input()
   event: BasicEventInfo;
+
+  @Input()
+  params: Params;
 
   constructor(private translateService: TranslateService) { }
 
