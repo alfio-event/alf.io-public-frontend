@@ -13,17 +13,6 @@
       <h2 translate="reservation-page.title"></h2>
     </div>
 
-    <div class="row" *ngIf="alertMessage.visible">
-      <div class="col-12">
-        <div class="alert" [ngClass]="alertMessage.type" role="alert">
-          <span [translate]="alertMessage.message"></span>
-          <button type="button" class="close" attr.aria-label="{{'common.close' | translate}}" (click)="closeAlertMessage();">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
     <div class="row">
       <div class="col-12" [ngClass]="{'col-md-7': !reservationInfo.orderSummary.free && purchaseContext.invoicingConfiguration.invoiceAllowed}">
         <app-summary-table [purchaseContext]="purchaseContext" [purchaseContextType]="purchaseContextType" [reservationInfo]="reservationInfo" [displayRemoveSubscription]="displayRemoveSubscription" (removeSubscription)="removeSubscription($event)"></app-summary-table>
@@ -62,11 +51,31 @@
 
     <div *ngIf="purchaseContext.canApplySubscriptions && !appliedSubscription">
       <h2 class="page-header mt-2" translate="reservation-page.subscription"></h2>
-      <p class="form-inline">
-        <label class="my-1 mr-2" for="subscription-input-code" translate="reservation-page.overview.insert-subscription-code"></label>
-        <input type="text" id="subscription-input-code" #subscriptionInput class="form-control mb-2 mr-sm-2 col-12 col-md-auto">
-        <button type="button" class="btn btn-primary mb-2 col-12 col-md-auto" translate="reservation-page.overview.apply-subscription-code" (click)="applySubscription(subscriptionInput.value)"></button>
-      </p>
+
+      <div *ngIf="!displaySubscriptionForm" class="row mt-2">
+        <div class="col-12 col-md-6">
+          <p class="lead" translate="reservation-page.overview.pay-with-subscription"></p>
+        </div>
+        <div class="col-12 col-md-6">
+          <button class="btn btn-default" (click)="toggleSubscriptionFormVisible()">{{'reservation-page.overview.apply-subscription-code' | translate}}</button>
+        </div>
+      </div>
+
+      <div *ngIf="displaySubscriptionForm" class="mt-2">
+        <div class="form-row">
+          <div class="col-12 col-md-6">
+            <div class="form-group" [formGroup]="subscriptionCodeForm">
+              <label for="subscription-input-code" class="sr-only">{{'reservation-page.overview.insert-subscription-code' | translate }}</label>
+              <input (keydown.enter)="applySubscription()" formControlName="subscriptionCode" required id="subscription-input-code" #subscriptionInput appInvalidFeedback class="form-control" [placeholder]="'reservation-page.overview.insert-subscription-code' | translate" autocomplete="off">
+              <div class="invalid-feedback"></div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <button class="btn btn-success" translate="reservation-page.overview.apply-subscription-code" type="button" (click)="applySubscription()"></button>
+            <button class="btn btn-light ml-2" translate="reservation-page-complete.cancel" type="button" (click)="toggleSubscriptionFormVisible()"></button>
+          </div>
+        </div>
+      </div>
     </div>
 
 

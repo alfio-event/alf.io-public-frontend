@@ -81,7 +81,7 @@ export class SuccessSubscriptionComponent implements OnInit {
   }
 
   public reSendReservationEmail(): void {
-    this.feedbackService.showSuccess(this.translateService.instant('email.confirmation-email-sent'));
+    this.feedbackService.showSuccess('email.confirmation-email-sent');
   }
 
   get subscription(): SubscriptionInfo {
@@ -89,7 +89,7 @@ export class SuccessSubscriptionComponent implements OnInit {
   }
 
   public copied(payload: string): void {
-    this.feedbackService.showSuccess(this.translateService.instant('reservation-page-complete.subscription.copy.success'));
+    this.feedbackService.showSuccess('reservation-page-complete.subscription.copy.success');
   }
 
 }

@@ -14,7 +14,7 @@
         <span *ngIf="summaryRow.type === 'SUBSCRIPTION'">
           {{'summary.table.subscription'|translate: {'0': isSubscriptionPurchaseContext ? purchaseContext.title[currentLang] : summaryRow.name } }}
           <span *ngIf="displayRemoveSubscription">
-            <button type="button" class="btn btn-link" (click)="removeSubscription.emit(summaryRow);" [ngbTooltip]="'summary.table.remove-applied-subscription-from-order'|translate">
+            <button type="button" class="btn btn-link delete-button" (click)="removeSubscription.emit(summaryRow);" [ngbTooltip]="'summary.table.remove-applied-subscription-from-order'|translate">
               <span class="sr-only" translate="summary.table.remove-applied-subscription-from-order"></span>
               <fa-icon [icon]="['fas', 'trash']" a11yRole="presentation"></fa-icon>
             </button>

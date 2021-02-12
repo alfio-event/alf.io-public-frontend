@@ -40,7 +40,6 @@ export class InvalidFeedbackDirective implements OnInit, OnDestroy {
         this.checkValidation();
       });
     }
-    
   }
 
   private clearSubs(): void {

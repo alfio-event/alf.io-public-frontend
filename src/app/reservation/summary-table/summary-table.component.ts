@@ -8,7 +8,8 @@ import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-summary-table',
-  templateUrl: './summary-table.component.html'
+  templateUrl: './summary-table.component.html',
+  styleUrls: ['./summary-table.component.scss']
 })
 export class SummaryTableComponent {
 

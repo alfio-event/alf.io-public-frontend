@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { ReservationService } from '../../shared/reservation.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -17,6 +17,7 @@ import { PurchaseContext } from 'src/app/model/purchase-context';
 import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
 import { ModalRemoveSubscriptionComponent } from '../modal-remove-subscription/modal-remove-subscription.component';
 import {EventSearchParams} from '../../model/basic-event-info';
+import {FeedbackService} from '../../shared/feedback/feedback.service';
 
 @Component({
   selector: 'app-overview',
@@ -42,8 +43,11 @@ export class OverviewComponent implements OnInit {
   selectedPaymentProvider: PaymentProvider;
 
   activePaymentMethods: {[key in PaymentMethod]?: PaymentProxyWithParameters};
+  displaySubscriptionForm = false;
 
-  alertMessage: {visible: boolean, message: string, type: string, timeout: any} = {visible: false, message: null, type: null, timeout: null} ;
+  @ViewChild('subscriptionInput')
+  subscriptionInput: ElementRef<HTMLInputElement>;
+  subscriptionCodeForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -54,7 +58,8 @@ export class OverviewComponent implements OnInit {
     private translate: TranslateService,
     private analytics: AnalyticsService,
     private modalService: NgbModal,
-    private purchaseContextService: PurchaseContextService) { }
+    private purchaseContextService: PurchaseContextService,
+    private feedbackService: FeedbackService) { }
 
   ngOnInit() {
     zip(this.route.data, this.route.params).subscribe(([data, params]) => {
@@ -72,6 +77,10 @@ export class OverviewComponent implements OnInit {
 
         this.analytics.pageView(ev.analyticsConfiguration);
       });
+    });
+
+    this.subscriptionCodeForm = this.formBuilder.group({
+      subscriptionCode: this.formBuilder.control(null)
     });
   }
 
@@ -280,25 +289,18 @@ export class OverviewComponent implements OnInit {
     this.overviewForm.get('captcha').setValue(recaptchaValue);
   }
 
-  private showAlertMessage(message: string, type: string) {
-    clearTimeout(this.alertMessage.timeout);
-    const timeout = setTimeout(() => {
-      this.alertMessage.visible = false;
-    }, 5000);
-    this.alertMessage = {visible: true, message, type, timeout};
-  }
-
-  closeAlertMessage() {
-    clearTimeout(this.alertMessage.timeout);
-    this.alertMessage.timeout = null;
-    this.alertMessage.visible = false;
-  }
-
-  applySubscription(subscriptionCode: string) {
+  applySubscription() {
+    if (!this.subscriptionCodeForm.valid) {
+      return;
+    }
+    const control = this.subscriptionCodeForm.get('subscriptionCode');
+    const subscriptionCode = control.value;
     this.reservationService.applySubscriptionCode(this.reservationId, subscriptionCode, this.reservationInfo.email).subscribe(res => {
       if (res.success) {
-        this.showAlertMessage('reservation-page.overview.applied-subscription-code', 'alert-success');
+        this.feedbackService.showSuccess('reservation-page.overview.applied-subscription-code');
         this.loadReservation();
+      } else {
+        control.setErrors({ serverError: res.validationErrors });
       }
     });
   }
@@ -307,12 +309,21 @@ export class OverviewComponent implements OnInit {
     this.modalService.open(ModalRemoveSubscriptionComponent, {centered: true, backdrop: 'static'})
       .result.then((res) => {
         if (res) {
-          this.reservationService.removeSubscription(this.reservationId).subscribe(res => {
-            this.showAlertMessage('reservation-page.overview.removed-subscription', 'alert-info');
+          this.reservationService.removeSubscription(this.reservationId).subscribe(() => {
+            this.feedbackService.showInfo('reservation-page.overview.removed-subscription');
             this.loadReservation();
           });
         }
       });
+  }
+
+  toggleSubscriptionFormVisible(): void {
+    this.displaySubscriptionForm = !this.displaySubscriptionForm;
+    if (this.displaySubscriptionForm) {
+      setTimeout(() => this.subscriptionInput.nativeElement.focus(), 200);
+    } else {
+      this.subscriptionInput.nativeElement.value = null;
+    }
   }
 
   get enabledItalyEInvoicing(): boolean {
