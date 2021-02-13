@@ -25,7 +25,7 @@ export class SuccessSubscriptionComponent implements OnInit {
   private purchaseContextType: PurchaseContextType;
   purchaseContext: PurchaseContext;
   reservationInfo: ReservationInfo;
-  compatibleEvents: Array<BasicEventInfo>;
+  compatibleEvents: BasicEventInfo[] = [];
 
   constructor(
     private route: ActivatedRoute,

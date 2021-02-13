@@ -67,14 +67,14 @@
 
     <hr class="mt-5">
 
-    <div class="mt-5" *ngIf="compatibleEvents && compatibleEvents.length > 0">
+    <div class="mt-5" *ngIf="compatibleEvents.length > 0">
       <div class="h3">{{ 'reservation-page-complete.subscription.buy-tickets' | translate }}</div>
       <div class="card-deck mt-5">
-        <app-basic-event-info [event]="event" *ngFor="let event of compatibleEvents" [params]="{subscription: subscriptionInfo.id}"></app-basic-event-info>
+        <app-basic-event-info [event]="event" class="mb-4" *ngFor="let event of compatibleEvents" [params]="{subscription: subscriptionInfo.id}"></app-basic-event-info>
       </div>
     </div>
 
-    <div class="mt-5" *ngIf="!compatibleEvents && compatibleEvents.length === 0">
+    <div class="mt-5" *ngIf="compatibleEvents.length === 0">
       <hr>
       <div class="row d-flex justify-content-md-end">
         <div class="col-md-5 order-md-1 col-12 mb-2">
