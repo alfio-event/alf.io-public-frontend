@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TicketService } from 'src/app/shared/ticket.service';
 import { BillingDetails, ItalianEInvoicing, ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
-import { Subject, zip } from 'rxjs';
+import { Observable, of, Subject, zip } from 'rxjs';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { Ticket } from 'src/app/model/ticket';
@@ -158,13 +158,28 @@ export class BookingComponent implements OnInit, AfterViewInit {
     this.removeUnnecessaryFields();
     this.reservationService.validateToOverview(this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang).subscribe(res => {
       if (res.success) {
-        this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'overview'], {
-          queryParams: EventSearchParams.transformParams(this.route.snapshot.queryParams)
+
+        let o: Observable<unknown> = of(true);
+        if (this.route.snapshot.queryParamMap.has('subscription') && this.isUUID(this.route.snapshot.queryParamMap.get('subscription'))) {
+          //try to apply the subscription
+          const subscriptionCode = this.route.snapshot.queryParamMap.get('subscription');
+          o = this.reservationService.applySubscriptionCode(this.reservationId, subscriptionCode, this.reservationInfo.email);
+        }
+
+        o.subscribe(_ => {
+          this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'overview'], {
+            queryParams: EventSearchParams.transformParams(this.route.snapshot.queryParams)
+          });
         });
       }
     }, (err) => {
       this.globalErrors = handleServerSideValidationError(err, this.contactAndTicketsForm);
     });
+  }
+
+  private isUUID(v: string): boolean {
+    const r = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+    return v.match(r) !== null;
   }
 
   cancelPendingReservation() {
