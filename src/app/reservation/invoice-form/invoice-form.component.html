@@ -65,8 +65,8 @@
       </div>
       <div class="col-12 col-md-3">
         <div class="form-group">
-          <label for="billingAddressState">{{'reservation-page.state'|translate}}<span *ngIf="italyEInvoicingFormDisplayed"> *</span></label>
-          <input id="billingAddressState" [attr.required]="italyEInvoicingFormDisplayed" [attr.aria-required]="italyEInvoicingFormDisplayed" type="text" formControlName="billingAddressState" class="form-control" appInvalidFeedback>
+          <label for="billingAddressState">{{'reservation-page.state'|translate}}<span *ngIf="enabledItalyEInvoicing"> *</span></label>
+          <input id="billingAddressState" [attr.required]="enabledItalyEInvoicing" [attr.aria-required]="enabledItalyEInvoicing" type="text" formControlName="billingAddressState" class="form-control" appInvalidFeedback>
         </div>
       </div>
   </div>

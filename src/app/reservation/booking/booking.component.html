@@ -60,7 +60,7 @@
     <h2 translate="reservation-page.attendees"></h2>
 
     <div class="custom-control custom-checkbox wMarginBottom" *ngIf="!event.assignmentConfiguration.forceAssignment && ticketCounts > 1 && !reservationInfo.containsCategoriesLinkedToGroups">
-      <input id="postponeAssignment" class="custom-control-input" type="checkbox" formControlName="postponeAssignment" id="postpone-assignment" value="true">
+      <input id="postpone-assignment" class="custom-control-input" type="checkbox" formControlName="postponeAssignment" value="true">
       <label class="custom-control-label" for="postpone-assignment">{{' '}}{{'reservation-page.postpone-assignment'|translate}}</label>
     </div>
 
