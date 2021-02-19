@@ -75,7 +75,6 @@
     </div>
 
     <div class="mt-5" *ngIf="compatibleEvents.length === 0">
-      <hr>
       <div class="row d-flex justify-content-md-end">
         <div class="col-md-5 order-md-1 col-12 mb-2">
           <a class="block-button btn btn-success" [routerLink]="['/events-all']" [queryParams]="{ subscription: subscriptionInfo.id }" translate="reservation-page-complete.buy-tickets"></a>

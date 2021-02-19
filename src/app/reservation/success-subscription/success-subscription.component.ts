@@ -25,7 +25,7 @@ export class SuccessSubscriptionComponent implements OnInit {
   private purchaseContextType: PurchaseContextType;
   purchaseContext: PurchaseContext;
   reservationInfo: ReservationInfo;
-  compatibleEvents: BasicEventInfo[] = [];
+  compatibleEvents: Array<BasicEventInfo> = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -56,12 +56,12 @@ export class SuccessSubscriptionComponent implements OnInit {
   private loadReservation() {
     this.reservationService.getReservationInfo(this.reservationId).subscribe(resInfo => {
       this.reservationInfo = resInfo;
-      this.loadCompatibleEvents();
+      this.loadCompatibleEvents(this.subscriptionInfo.id);
     });
   }
 
-  private loadCompatibleEvents(): void {
-    this.eventService.getEvents(new EventSearchParams(this.subscription.id, null, null)).subscribe(events => {
+  private loadCompatibleEvents(subscriptionId: string): void {
+    this.eventService.getEvents(new EventSearchParams(subscriptionId, null, null)).subscribe(events => {
       this.compatibleEvents = events;
     });
   }

@@ -300,7 +300,7 @@ export class OverviewComponent implements OnInit {
         this.feedbackService.showSuccess('reservation-page.overview.applied-subscription-code');
         this.loadReservation();
       } else {
-        //set the first argument as the input
+        // set the first argument as the input
         res.validationErrors.forEach(ed => {
           ed.arguments = {'0': subscriptionCode};
         });
