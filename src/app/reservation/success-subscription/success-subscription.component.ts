@@ -81,7 +81,9 @@ export class SuccessSubscriptionComponent implements OnInit {
   }
 
   public reSendReservationEmail(): void {
-    this.feedbackService.showSuccess('email.confirmation-email-sent');
+    this.reservationService.reSendReservationEmail('subscription', this.publicIdentifier, this.reservationId, this.i18nService.getCurrentLang()).subscribe(res => {
+      this.feedbackService.showSuccess('email.confirmation-email-sent');
+    });
   }
 
   get subscription(): SubscriptionInfo {

@@ -8,6 +8,7 @@ import { ReservationInfo, ReservationStatusInfo } from '../model/reservation-inf
 import { ReservationPaymentResult } from '../model/reservation-payment-result';
 import { TransactionInitializationToken } from '../model/payment';
 import { DynamicDiscount } from '../model/event-code';
+import {PurchaseContextType} from './purchase-context.service';
 
 @Injectable({
     providedIn: 'root'
@@ -46,8 +47,8 @@ export class ReservationService {
         return this.http.post<boolean>(`/api/v2/public/reservation/${reservationId}/back-to-booking`, {});
     }
 
-    reSendReservationEmail(eventShortName: string, reservationId: string, lang: string): Observable<boolean> {
-        return this.http.post<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}/re-send-email`, {}, {params: {lang: lang}});
+    reSendReservationEmail(purchaseContextType: PurchaseContextType, publicIdentifier: string, reservationId: string, lang: string): Observable<boolean> {
+        return this.http.post<boolean>(`/api/v2/public/${purchaseContextType}/${publicIdentifier}/reservation/${reservationId}/re-send-email`, {}, {params: {lang: lang}});
     }
 
     initPayment(reservationId: string): Observable<TransactionInitializationToken> {
@@ -81,7 +82,7 @@ export class ReservationService {
     applySubscriptionCode(reservationId: string, code: string, email: string) : Observable<ValidatedResponse<boolean>> {
         return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/reservation/${reservationId}/apply-code/`, {code: code, email: email, amount: 1, type: 'SUBSCRIPTION'});
     }
-    
+
     removeSubscription(reservationId: string) : Observable<boolean> {
         return this.http.delete<boolean>(`/api/v2/public/reservation/${reservationId}/remove-code`, {params: {type: 'SUBSCRIPTION'}});
     }
