@@ -4,6 +4,7 @@ import { PaymentProvider, PaymentResult, PaymentStatusNotification } from '../pa
 import { TranslateService } from '@ngx-translate/core';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { ReservationService } from 'src/app/shared/reservation.service';
+import { PurchaseContext } from 'src/app/model/purchase-context';
 
 // global variable defined by stripe when the scripts are loaded
 declare const StripeCheckout: any;
@@ -17,7 +18,7 @@ export class StripeCheckoutPaymentProvider implements PaymentProvider {
         private translate: TranslateService,
         private parameters: { [key: string]: any },
         private reservation: ReservationInfo,
-        private event: Event) {
+        private purchaseContext: PurchaseContext) {
     }
 
     get paymentMethodDeferred(): boolean {
@@ -72,7 +73,7 @@ export class StripeCheckoutPaymentProvider implements PaymentProvider {
             zipCode: false,
             allowRememberMe: false,
             amount: this.reservation.orderSummary.priceInCents,
-            currency: this.event.currency,
+            currency: this.purchaseContext.currency,
             email: this.reservation.email
         });
     }
@@ -88,7 +89,6 @@ export class StripePaymentV3 implements PaymentProvider {
 
     constructor(
         private reservationService: ReservationService,
-        private event: Event,
         private reservation: ReservationInfo,
         private stripeHandler: any,
         private card: any
@@ -103,7 +103,7 @@ export class StripePaymentV3 implements PaymentProvider {
 
         const obs = new Observable<PaymentResult>(subscriber => {
 
-            this.reservationService.initPayment(this.event.shortName, this.reservation.id).subscribe(res => {
+            this.reservationService.initPayment(this.reservation.id).subscribe(res => {
 
                 if (res.reservationStatusChanged || res.clientSecret == null) {
                     subscriber.next(new PaymentResult(false, null, null, res.reservationStatusChanged));
@@ -138,7 +138,7 @@ export class StripePaymentV3 implements PaymentProvider {
                         if (retryCount % 10 === 0) {
                             this.notificationSubject.next(new PaymentStatusNotification(true, retryCount > 120));
                         }
-                        this.reservationService.getPaymentStatus(this.event.shortName, this.reservation.id).subscribe(status => {
+                        this.reservationService.getPaymentStatus(this.reservation.id).subscribe(status => {
                             if (cardPaymentResult.error || status.success) {
                                 window.clearInterval(handleCheck);
                             }

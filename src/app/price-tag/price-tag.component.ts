@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CurrencyDescriptor, Event } from '../model/event';
+import { CurrencyDescriptor } from '../model/event';
+import {PurchaseContext, PurchaseContextPriceDescriptor} from '../model/purchase-context';
 
 @Component({
   selector: 'app-price-tag',
@@ -7,7 +8,7 @@ import { CurrencyDescriptor, Event } from '../model/event';
 })
 export class PriceTagComponent implements OnInit {
   @Input()
-  event: Event;
+  purchaseContext: PurchaseContextPriceDescriptor;
   @Input()
   formattedPrice: string;
   @Input()
@@ -17,13 +18,15 @@ export class PriceTagComponent implements OnInit {
   @Input()
   displayTextInline: boolean;
   @Input()
+  singleLineLayout: boolean;
+  @Input()
   showDiscount: boolean;
 
   displayCurrencySymbol: boolean;
   currencyDescriptor: CurrencyDescriptor;
 
   ngOnInit(): void {
-    this.currencyDescriptor = this.event.currencyDescriptor;
+    this.currencyDescriptor = this.purchaseContext.currencyDescriptor;
     this.displayCurrencySymbol = this.currencyDescriptor && this.currencyDescriptor.symbol !== this.currencyDescriptor.code;
   }
 
@@ -32,7 +35,7 @@ export class PriceTagComponent implements OnInit {
   }
 
   get showTaxes(): boolean {
-    return this.showTaxDetails && (Number(this.event.vat) || 0) > 0.0;
+    return this.showTaxDetails && (Number(this.purchaseContext.vat) || 0) > 0.0;
   }
 
   removeRedundantPrecision(input: string): string {

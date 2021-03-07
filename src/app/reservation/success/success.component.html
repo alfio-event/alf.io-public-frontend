@@ -10,7 +10,7 @@
   <div class="alert alert-success mb-5">
       <div class="row">
           <div class="col-sm-12">
-            <div class="h3" [innerHTML]="'reservation-page-complete.info-assign' | translate: {'0':event.displayName}"></div>
+            <div class="h3" [innerHTML]="'reservation-page-complete.info-assign' | translate: { '0': purchaseContextTitle }"></div>
           </div>
       </div>
       <div class="row mt-2">
@@ -73,7 +73,7 @@
         <div *ngIf="ticketsFormShow[ticket.uuid]" class="mt-4">
           <div class="alert alert-info" translate="reservation-page-complete.info-update" *ngIf="event.assignmentConfiguration.enableTicketTransfer && ticket.assigned && !ticket.locked"></div>
           <form [formGroup]="ticketsFormControl[ticket.uuid]" (submit)="updateTicket(ticket.uuid)">
-            <app-ticket-form [ticket]="ticket" [event]="event" [form]="ticketsFormControl[ticket.uuid]"></app-ticket-form>
+            <app-ticket-form [ticket]="ticket" [purchaseContext]="event" [form]="ticketsFormControl[ticket.uuid]"></app-ticket-form>
             <div class="bg-white pb-3 pt-3" [class.sticky]="ticket.ticketFieldConfigurationAfterStandard.length > 0">
               <div class="row d-flex justify-content-between">
                 <div class="col-md-5 order-md-1 col-12">

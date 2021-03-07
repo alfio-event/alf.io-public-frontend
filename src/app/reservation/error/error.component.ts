@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from 'src/app/shared/event.service';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { ActivatedRoute } from '@angular/router';
-import { Event } from 'src/app/model/event';
+import { PurchaseContext } from 'src/app/model/purchase-context';
+import { zip } from 'rxjs';
+import { PurchaseContextService } from 'src/app/shared/purchase-context.service';
 
 @Component({
   selector: 'app-error',
@@ -10,22 +11,23 @@ import { Event } from 'src/app/model/event';
 })
 export class ErrorComponent implements OnInit {
 
-  eventShortName: string;
+
   reservationId: string;
-  event: Event;
+  purchaseContext: PurchaseContext;
 
   constructor(
     private route: ActivatedRoute,
-    private eventService: EventService,
+    private purchaseContextService: PurchaseContextService,
     private i18nService: I18nService) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.eventShortName = params['eventShortName'];
+    zip(this.route.data, this.route.params).subscribe(([data, params]) => {
+      const publicIdentifier = params[data.publicIdentifierParameter];
       this.reservationId = params['reservationId'];
-      this.eventService.getEvent(this.eventShortName).subscribe(ev => {
-        this.event = ev;
-        this.i18nService.setPageTitle('reservation-page-not-found.header.title', ev.displayName);
+      const purchaseContextType = data.type;
+      this.purchaseContextService.getContext(purchaseContextType, publicIdentifier).subscribe(ev => {
+        this.purchaseContext = ev;
+        this.i18nService.setPageTitle('reservation-page-not-found.header.title', ev);
       });
     });
   }

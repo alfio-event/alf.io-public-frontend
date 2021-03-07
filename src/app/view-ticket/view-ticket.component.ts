@@ -37,7 +37,7 @@ export class ViewTicketComponent implements OnInit {
       .subscribe(([event, ticketInfo]) => {
         this.event = event;
         this.ticketInfo = ticketInfo;
-        this.i18nService.setPageTitle('show-ticket.header.title', event.displayName);
+        this.i18nService.setPageTitle('show-ticket.header.title', event);
         this.analytics.pageView(event.analyticsConfiguration);
       }, e => {
         if (e instanceof HttpErrorResponse && e.status === 404) {

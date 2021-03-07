@@ -41,6 +41,12 @@ export class ReservationInfo {
     //
 
     activePaymentMethods: {[key in PaymentMethod]?: PaymentProxyWithParameters};
+    subscriptionInfos?: Array<ReservationSubscriptionInfo>;
+}
+
+export class ReservationSubscriptionInfo {
+  id: string;
+  pin: string;
 }
 
 export class ReservationStatusInfo {
@@ -54,7 +60,7 @@ export class TicketsByTicketCategory {
     tickets: Ticket[];
 }
 
-export type SummaryType = 'TICKET' | 'PROMOTION_CODE' | 'DYNAMIC_DISCOUNT' | 'ADDITIONAL_SERVICE';
+export type SummaryType = 'TICKET' | 'PROMOTION_CODE' | 'DYNAMIC_DISCOUNT' | 'ADDITIONAL_SERVICE' | 'SUBSCRIPTION';
 
 export class OrderSummary {
     summary: SummaryRow[];

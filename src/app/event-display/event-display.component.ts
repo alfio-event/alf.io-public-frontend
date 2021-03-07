@@ -16,6 +16,7 @@ import {ItemsByCategory, TicketCategoryForWaitingList} from '../model/items-by-c
 import {EventCode, DynamicDiscount} from '../model/event-code';
 import {AnalyticsService} from '../shared/analytics.service';
 import {ErrorDescriptor} from '../model/validated-response';
+import {EventSearchParams} from '../model/basic-event-info';
 
 @Component({
   selector: 'app-event-display',
@@ -85,7 +86,7 @@ export class EventDisplayComponent implements OnInit {
       zip(this.eventService.getEvent(eventShortName), this.eventService.getEventTicketsInfo(eventShortName)).subscribe( ([event, itemsByCat]) => {
         this.event = event;
 
-        this.i18nService.setPageTitle('show-event.header.title', event.displayName);
+        this.i18nService.setPageTitle('show-event.header.title', event);
 
         this.reservationForm = this.formBuilder.group({
           reservation: this.formBuilder.array(this.createItems(itemsByCat.ticketCategories)),
@@ -155,7 +156,9 @@ export class EventDisplayComponent implements OnInit {
     }
     this.reservationService.reserveTickets(eventShortName, request, this.translate.currentLang).subscribe(res => {
       if (res.success) {
-        this.router.navigate(['event', eventShortName, 'reservation', res.value, 'book']);
+        this.router.navigate(['event', eventShortName, 'reservation', res.value, 'book'], {
+          queryParams: EventSearchParams.transformParams(this.route.snapshot.queryParams)
+        });
       }
     }, (err) => {
       this.globalErrors = handleServerSideValidationError(err, this.reservationForm);
@@ -268,7 +271,7 @@ export class EventDisplayComponent implements OnInit {
   }
 
   selectionChange(): void {
-    if (this.eventCode == null || this.eventCode.type == 'ACCESS') {
+    if (this.eventCode == null || this.eventCode.type === 'ACCESS') {
       this.reservationService.checkDynamicDiscountAvailability(this.event.shortName, this.reservationForm.value)
         .subscribe(d => {
           this.dynamicDiscount = d;
@@ -284,7 +287,7 @@ export class EventDisplayComponent implements OnInit {
   }
 
   get isEventOnline(): boolean {
-    return this.event.format == 'ONLINE';
+    return this.event.format === 'ONLINE';
   }
 
   public displayOnlineTicketTag(category: TicketCategory): boolean {

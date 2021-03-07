@@ -1,0 +1,5 @@
+<div class="mb-5 d-md-flex text-center text-md-left justify-content-md-center">
+    <div><a [href]="purchaseContext.termsAndConditionsUrl" target="_blank" rel="noopener">{{'reservation-page.tc.link.text'|translate}}</a></div>
+    <div class="ml-3 mr-3 d-none d-md-block" *ngIf="purchaseContext.privacyPolicyUrl">&ndash;</div>
+    <div *ngIf="purchaseContext.privacyPolicyUrl"><a [href]="purchaseContext.privacyPolicyUrl" target="_blank" rel="noopener">{{'reservation-page.privacy.link.text'|translate}}</a></div>
+</div>

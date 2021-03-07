@@ -2,11 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReservationInfo } from 'src/app/model/reservation-info';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReservationService } from 'src/app/shared/reservation.service';
-import { EventService } from 'src/app/shared/event.service';
 import { zip } from 'rxjs';
-import { Event } from 'src/app/model/event';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { AnalyticsService } from 'src/app/shared/analytics.service';
+import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
+import { PurchaseContext } from 'src/app/model/purchase-context';
+import {EventSearchParams} from '../../model/basic-event-info';
 
 @Component({
   selector: 'app-processing-payment',
@@ -15,10 +16,11 @@ import { AnalyticsService } from 'src/app/shared/analytics.service';
 export class ProcessingPaymentComponent implements OnInit, OnDestroy {
 
   reservationInfo: ReservationInfo;
-  event: Event;
+  purchaseContext: PurchaseContext;
 
-  eventShortName: string;
-  reservationId: string;
+  private purchaseContextType: PurchaseContextType;
+  private publicIdentifier: string;
+  private reservationId: string;
   forceCheckVisible = false;
   providerWarningVisible = false;
   private forceCheckInProgress = false;
@@ -29,30 +31,31 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private reservationService: ReservationService,
-    private eventService: EventService,
+    private purchaseContextService: PurchaseContextService,
     private i18nService: I18nService,
     private analytics: AnalyticsService
     ) { }
 
   public ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.eventShortName = params['eventShortName'];
+    zip(this.route.data, this.route.params).subscribe(([data, params]) => {
+      this.purchaseContextType = data.type;
+      this.publicIdentifier = params[data.publicIdentifierParameter];
       this.reservationId = params['reservationId'];
 
       zip(
-        this.eventService.getEvent(this.eventShortName),
-        this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)
+        this.purchaseContextService.getContext(this.purchaseContextType, this.publicIdentifier),
+        this.reservationService.getReservationInfo(this.reservationId)
       ).subscribe(([ev, reservationInfo]) => {
-        this.event = ev;
+        this.purchaseContext = ev;
         this.reservationInfo = reservationInfo;
-        this.i18nService.setPageTitle('show-ticket.header.title', ev.displayName);
+        this.i18nService.setPageTitle('show-ticket.header.title', ev);
         this.analytics.pageView(ev.analyticsConfiguration);
       });
 
       let checkCount = 0;
       this.intervalId = setInterval(() => {
         const currentStatus = this.reservationInfo.status;
-        this.reservationService.getReservationStatusInfo(this.eventShortName, this.reservationId).subscribe(res => {
+        this.reservationService.getReservationStatusInfo(this.reservationId).subscribe(res => {
           checkCount++;
           if (res.status !== currentStatus) {
             clearInterval(this.intervalId);
@@ -69,7 +72,9 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
   private reservationStateChanged() {
     // try to navigate to /success. If the reservation is in a different status, the user will be
     // redirected accordingly.
-    this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'success']);
+    this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'success'], {
+      queryParams: EventSearchParams.transformParams(this.route.snapshot.queryParams)
+    });
   }
 
   public ngOnDestroy() {
@@ -79,7 +84,7 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
   forceCheck(): void {
     this.forceCheckVisible = false;
     this.forceCheckInProgress = true;
-    this.reservationService.forcePaymentStatusCheck(this.eventShortName, this.reservationId).subscribe(status => {
+    this.reservationService.forcePaymentStatusCheck(this.reservationId).subscribe(status => {
       if (status.redirect) {
         window.location.href = status.redirectUrl;
       } else if (status.success || status.failure) {

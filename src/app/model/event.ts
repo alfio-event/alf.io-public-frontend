@@ -1,10 +1,11 @@
-import { DateValidity, EventDatesWithOffset } from './date-validity';
+import { DateValidity, DatesWithOffset } from './date-validity';
 import { AnalyticsConfiguration } from './analytics-configuration';
 import { IconPrefix, IconName } from '@fortawesome/fontawesome-svg-core';
+import { PurchaseContext } from './purchase-context';
 
-export class Event implements DateValidity {
+export class Event implements DateValidity, PurchaseContext {
     shortName: string;
-    displayName: string;
+    title: { [lang: string]: string };
     format: EventFormat;
     fileBlobId: string;
     contentLanguages: Language[];
@@ -31,7 +32,7 @@ export class Event implements DateValidity {
 
     // date related
     timeZone: string;
-    datesWithOffset: EventDatesWithOffset;
+    datesWithOffset: DatesWithOffset;
     sameDay: boolean;
     formattedBeginDate: {[key: string]: string}; // day, month, year
     formattedBeginTime: {[key: string]: string}; // the hour/minute component
@@ -55,6 +56,8 @@ export class Event implements DateValidity {
     availableTicketsCount: number | null;
 
     customCss: string | null;
+
+    canApplySubscriptions: boolean;
 }
 
 export class InvoicingConfiguration {

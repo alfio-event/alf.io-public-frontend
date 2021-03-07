@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { ActivatedRoute, Router, UrlSerializer } from '@angular/router';
 import { EventService } from 'src/app/shared/event.service';
+import { zip } from 'rxjs';
+import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
 
 @Component({
   selector: 'app-not-found',
@@ -9,24 +11,26 @@ import { EventService } from 'src/app/shared/event.service';
 })
 export class NotFoundComponent implements OnInit {
 
-  eventShortName: string;
+  private purchaseContextType: PurchaseContextType;
+  private publicIdentifier: string;
   reservationId: string;
-  eventUrl: string;
+  purchaseContextUrl: string;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private serializer: UrlSerializer,
-    private eventService: EventService,
+    private purchaseContextService: PurchaseContextService,
     private i18nService: I18nService) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.eventShortName = params['eventShortName'];
+    zip(this.route.data, this.route.params).subscribe(([data, params]) => {
+      this.purchaseContextType = data.type;
+      this.publicIdentifier = params[data.publicIdentifierParameter];
       this.reservationId = params['reservationId'];
-      this.eventUrl = this.serializer.serialize(this.router.createUrlTree(['event', this.eventShortName]));
-      this.eventService.getEvent(this.eventShortName).subscribe(ev => {
-        this.i18nService.setPageTitle('reservation-page-not-found.header.title', ev.displayName);
+      this.purchaseContextUrl = this.serializer.serialize(this.router.createUrlTree([this.purchaseContextType, this.publicIdentifier]));
+      this.purchaseContextService.getContext(this.purchaseContextType, this.publicIdentifier).subscribe(ev => {
+        this.i18nService.setPageTitle('reservation-page-not-found.header.title', ev);
       });
     });
   }

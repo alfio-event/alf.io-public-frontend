@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { Event } from 'src/app/model/event';
+import { FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { Subscription } from 'rxjs';
 import { LocalizedCountry } from 'src/app/model/localized-country';
+import { PurchaseContext } from 'src/app/model/purchase-context';
 
 @Component({
   selector: 'app-invoice-form',
@@ -16,7 +16,7 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
   @Input()
-  event: Event;
+  purchaseContext: PurchaseContext;
 
   private langChangeSub: Subscription;
 
@@ -76,11 +76,11 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
   }
 
   get euVatCheckingEnabled(): boolean {
-    return this.event.invoicingConfiguration.euVatCheckingEnabled;
+    return this.purchaseContext.invoicingConfiguration.euVatCheckingEnabled;
   }
 
   get customerReferenceEnabled(): boolean {
-    return this.event.invoicingConfiguration.customerReferenceEnabled;
+    return this.purchaseContext.invoicingConfiguration.customerReferenceEnabled;
   }
 
   get invoiceBusiness(): boolean {
@@ -88,11 +88,11 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
   }
 
   get vatNumberStrictlyRequired(): boolean {
-    return this.event.invoicingConfiguration.vatNumberStrictlyRequired;
+    return this.purchaseContext.invoicingConfiguration.vatNumberStrictlyRequired;
   }
 
   get enabledItalyEInvoicing(): boolean {
-    return this.event.invoicingConfiguration.enabledItalyEInvoicing;
+    return this.purchaseContext.invoicingConfiguration.enabledItalyEInvoicing;
   }
 
   get italyEInvoicingFormDisplayed(): boolean {

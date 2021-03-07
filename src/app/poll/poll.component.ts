@@ -25,7 +25,7 @@ export class PollComponent implements OnInit {
     this.route.params.subscribe(params => {
       const eventShortName = params['eventShortName'];
       this.eventService.getEvent(eventShortName).subscribe(ev => {
-        this.i18nService.setPageTitle('poll.page.title', ev.displayName);
+        this.i18nService.setPageTitle('poll.page.title', ev);
         this.event = ev;
       });
     });

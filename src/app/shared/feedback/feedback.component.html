@@ -1,0 +1,10 @@
+<ngb-toast (hide)="hide()" [autohide]="true" [delay]="5000" *ngIf="active" [ngClass]="boxClass">
+  <ng-template ngbToastHeader>
+    <div class="d-flex justify-content-center w-100" [ngClass]="boxClass">
+      <fa-icon [icon]="boxIcon" size="2x"></fa-icon>
+    </div>
+  </ng-template>
+  <div class="text-center">
+    <p class="lead mt-2">{{text | translate}}</p>
+  </div>
+</ngb-toast>

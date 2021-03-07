@@ -4,9 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TicketService } from 'src/app/shared/ticket.service';
 import { BillingDetails, ItalianEInvoicing, ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
-import { EventService } from 'src/app/shared/event.service';
-import { Event } from 'src/app/model/event';
-import { Subject, zip } from 'rxjs';
+import { Observable, of, Subject, zip } from 'rxjs';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { Ticket } from 'src/app/model/ticket';
@@ -16,6 +14,9 @@ import { ErrorDescriptor } from 'src/app/model/validated-response';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReservationExpiredComponent } from '../expired-notification/reservation-expired.component';
 import { CancelReservationComponent } from '../cancel-reservation/cancel-reservation.component';
+import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
+import { PurchaseContext } from 'src/app/model/purchase-context';
+import {EventSearchParams} from '../../model/basic-event-info';
 
 @Component({
   selector: 'app-booking',
@@ -24,15 +25,16 @@ import { CancelReservationComponent } from '../cancel-reservation/cancel-reserva
 export class BookingComponent implements OnInit, AfterViewInit {
 
   reservationInfo: ReservationInfo;
-  event: Event;
+  purchaseContext: PurchaseContext;
   contactAndTicketsForm: FormGroup;
-  eventShortName: string;
+  private publicIdentifier: string;
   reservationId: string;
   expired: boolean;
   globalErrors: ErrorDescriptor[];
   @ViewChild('invoiceAnchor')
   private invoiceElement: ElementRef<HTMLAnchorElement>;
   private doScroll = new Subject<boolean>();
+  private purchaseContextType: PurchaseContextType;
 
   ticketCounts: number;
 
@@ -51,7 +53,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
     private router: Router,
     private reservationService: ReservationService,
     private ticketService: TicketService,
-    private eventService: EventService,
+    private purchaseContextService: PurchaseContextService,
     private formBuilder: FormBuilder,
     private i18nService: I18nService,
     private translate: TranslateService,
@@ -59,21 +61,22 @@ export class BookingComponent implements OnInit, AfterViewInit {
     private modalService: NgbModal) { }
 
   public ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    zip(this.route.data, this.route.params).subscribe(([data, params]) => {
 
-      this.eventShortName = params['eventShortName'];
+      this.publicIdentifier = params[data.publicIdentifierParameter];
       this.reservationId = params['reservationId'];
+      this.purchaseContextType = data.type;
 
       zip(
-        this.eventService.getEvent(this.eventShortName),
-        this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)
-      ).subscribe(([ev, reservationInfo]) => {
-        this.event = ev;
+        this.purchaseContextService.getContext(this.purchaseContextType, this.publicIdentifier),
+        this.reservationService.getReservationInfo(this.reservationId)
+      ).subscribe(([purchaseContext, reservationInfo]) => {
+        this.purchaseContext = purchaseContext;
         this.reservationInfo = reservationInfo;
 
-        this.i18nService.setPageTitle('reservation-page.header.title', ev.displayName);
+        this.i18nService.setPageTitle('reservation-page.header.title', purchaseContext);
 
-        const invoiceRequested = ev.invoicingConfiguration.onlyInvoice ? true : reservationInfo.invoiceRequested;
+        const invoiceRequested = purchaseContext.invoicingConfiguration.onlyInvoice ? true : reservationInfo.invoiceRequested;
 
         //
         this.ticketCounts = 0;
@@ -84,7 +87,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
         // auto complete (copy by default first/lastname + email to ticket) is enabled only if we have only
         // one ticket
-        if (this.ticketCounts === 1 && this.event.assignmentConfiguration.enableAttendeeAutocomplete) {
+        if (this.ticketCounts === 1 && this.purchaseContext.assignmentConfiguration.enableAttendeeAutocomplete) {
           this.enableAttendeeAutocomplete = true;
         }
         //
@@ -120,7 +123,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
         setTimeout(() => this.doScroll.next(this.invoiceElement != null));
 
-        this.analytics.pageView(ev.analyticsConfiguration);
+        this.analytics.pageView(purchaseContext.analyticsConfiguration);
       });
     });
   }
@@ -155,20 +158,37 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
   submitForm(): void {
     this.removeUnnecessaryFields();
-    this.reservationService.validateToOverview(this.eventShortName, this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang).subscribe(res => {
+    this.reservationService.validateToOverview(this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang).subscribe(res => {
       if (res.success) {
-        this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview']);
+
+        let o: Observable<unknown> = of(true);
+        if (this.route.snapshot.queryParamMap.has('subscription') && this.isUUID(this.route.snapshot.queryParamMap.get('subscription'))) {
+          //try to apply the subscription
+          const subscriptionCode = this.route.snapshot.queryParamMap.get('subscription');
+          o = this.reservationService.applySubscriptionCode(this.reservationId, subscriptionCode, this.reservationInfo.email);
+        }
+
+        o.subscribe(_ => {
+          this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'overview'], {
+            queryParams: EventSearchParams.transformParams(this.route.snapshot.queryParams)
+          });
+        });
       }
     }, (err) => {
       this.globalErrors = handleServerSideValidationError(err, this.contactAndTicketsForm);
     });
   }
 
+  private isUUID(v: string): boolean {
+    const r = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+    return v.match(r) !== null;
+  }
+
   cancelPendingReservation() {
     this.modalService.open(CancelReservationComponent, {centered: true}).result.then(res => {
       if (res === 'yes') {
-        this.reservationService.cancelPendingReservation(this.eventShortName, this.reservationId).subscribe(() => {
-          this.router.navigate(['event', this.eventShortName], {replaceUrl: true});
+        this.reservationService.cancelPendingReservation(this.reservationId).subscribe(() => {
+          this.router.navigate([this.purchaseContextType, this.publicIdentifier], {replaceUrl: true});
         });
       }
     }, () => {});
@@ -179,7 +199,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
       if (!this.expired) {
         this.expired = expired;
         this.modalService.open(ReservationExpiredComponent, {centered: true, backdrop: 'static'})
-            .result.then(() => this.router.navigate(['event', this.eventShortName], {replaceUrl: true}));
+            .result.then(() => this.router.navigate([this.purchaseContextType, this.publicIdentifier], {replaceUrl: true}));
       }
     });
   }

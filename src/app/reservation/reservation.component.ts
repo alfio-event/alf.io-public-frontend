@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Event } from '../model/event';
 import { ActivatedRoute } from '@angular/router';
-import { EventService } from '../shared/event.service';
+import { PurchaseContextService, PurchaseContextType } from '../shared/purchase-context.service';
+import { PurchaseContext } from '../model/purchase-context';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-reservation',
@@ -9,16 +11,18 @@ import { EventService } from '../shared/event.service';
 })
 export class ReservationComponent implements OnInit {
 
-  event: Event;
+  purchaseContext: PurchaseContext;
+  type: PurchaseContextType;
 
   constructor(
     private route: ActivatedRoute,
-    private eventService: EventService) { }
+    private purchaseContextService: PurchaseContextService) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.eventService.getEvent(params['eventShortName']).subscribe(event => {
-        this.event = event;
+    zip(this.route.data, this.route.params).subscribe(([data, params]) => {
+      this.purchaseContextService.getContext(data['type'], params[data['publicIdentifierParameter']]).subscribe(purchaseContext => {
+        this.type = data['type'];
+        this.purchaseContext = purchaseContext;
       });
     });
   }

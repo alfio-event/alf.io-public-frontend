@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from 'src/app/shared/event.service';
 import { ReservationService } from 'src/app/shared/reservation.service';
 import { ReservationInfo } from 'src/app/model/reservation-info';
-import { Event } from 'src/app/model/event';
 import { ActivatedRoute } from '@angular/router';
 import { zip } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nService } from 'src/app/shared/i18n.service';
 import { AnalyticsService } from 'src/app/shared/analytics.service';
+import { PurchaseContext } from 'src/app/model/purchase-context';
+import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
 
 @Component({
   selector: 'app-offline-payment',
@@ -17,35 +17,37 @@ import { AnalyticsService } from 'src/app/shared/analytics.service';
 export class OfflinePaymentComponent implements OnInit {
 
   reservationInfo: ReservationInfo;
-  eventShortName: string;
+  purchaseContextType: PurchaseContextType;
+  publicIdentifier: string;
   reservationId: string;
   paymentReason: string;
 
-  event: Event;
+  purchaseContext: PurchaseContext;
 
   constructor(
     private route: ActivatedRoute,
-    private eventService: EventService,
     private reservationService: ReservationService,
     public translate: TranslateService,
     private i18nService: I18nService,
-    private analytics: AnalyticsService) { }
+    private analytics: AnalyticsService,
+    private purchaseContextService: PurchaseContextService) { }
 
   public ngOnInit(): void {
 
-    this.route.params.subscribe(params => {
-      this.eventShortName = params['eventShortName'];
+    zip(this.route.data, this.route.params).subscribe(([data, params]) => {
+      this.purchaseContextType = data.type;
+      this.publicIdentifier = params[data.publicIdentifierParameter];
       this.reservationId = params['reservationId'];
       zip(
-        this.eventService.getEvent(this.eventShortName),
-        this.reservationService.getReservationInfo(this.eventShortName, this.reservationId)
+        this.purchaseContextService.getContext(this.purchaseContextType, this.publicIdentifier),
+        this.reservationService.getReservationInfo(this.reservationId)
       ).subscribe(([ev, reservationInfo]) => {
-        this.event = ev;
+        this.purchaseContext = ev;
         this.reservationInfo = reservationInfo;
 
-        this.paymentReason = `<mark>${this.event.shortName} ${this.reservationInfo.shortId}</mark>`;
+        this.paymentReason = `<mark>${this.purchaseContext.shortName} ${this.reservationInfo.shortId}</mark>`;
 
-        this.i18nService.setPageTitle('reservation-page-waiting.header.title', ev.displayName);
+        this.i18nService.setPageTitle('reservation-page-waiting.header.title', ev);
         this.analytics.pageView(ev.analyticsConfiguration);
       });
     });

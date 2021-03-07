@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { BasicEventInfo } from '../model/basic-event-info';
+import {BasicEventInfo, EventSearchParams} from '../model/basic-event-info';
 import { Event } from '../model/event';
 import { ItemsByCategory } from '../model/items-by-category';
 import { WaitingListSubscriptionRequest } from '../model/waiting-list-subscription-request';
 import { ValidatedResponse } from '../model/validated-response';
-import { map, shareReplay } from 'rxjs/operators';
+import {map, shareReplay} from 'rxjs/operators';
 import { EventCode } from '../model/event-code';
 import { DateValidity } from '../model/date-validity';
 
@@ -19,8 +19,12 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
-  getEvents(): Observable<BasicEventInfo[]> {
-    return this.http.get<BasicEventInfo[]>('/api/v2/public/events');
+  getEvents(searchParams?: EventSearchParams): Observable<BasicEventInfo[]> {
+    const params = searchParams?.toHttpParams();
+    return this.http.get<BasicEventInfo[]>('/api/v2/public/events', {
+      responseType: 'json',
+      params
+    });
   }
 
   getEvent(eventShortName: string): Observable<Event> {
@@ -45,10 +49,6 @@ export class EventService {
     return this.http.get<ItemsByCategory>(`/api/v2/public/event/${eventShortName}/ticket-categories`, params);
   }
 
-  getAvailableLanguageForEvent(eventShortName: string): Observable<string[]> {
-    return this.getEvent(eventShortName).pipe(map(event => event.contentLanguages.map(v => v.locale)));
-  }
-
   submitWaitingListSubscriptionRequest(eventShortName: string, waitingListSubscriptionRequest: WaitingListSubscriptionRequest): Observable<ValidatedResponse<boolean>> {
     return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/event/${eventShortName}/waiting-list/subscribe`, waitingListSubscriptionRequest);
   }
@@ -64,7 +64,7 @@ export function shouldDisplayTimeZoneInfo(provider: DateValidity): boolean {
       || isDifferentTimeZone(datesWithOffset.endDateTime, datesWithOffset.endTimeZoneOffset);
 }
 
-function isDifferentTimeZone(serverTs: number, serverOffset: number): boolean {
+export function isDifferentTimeZone(serverTs: number, serverOffset: number): boolean {
   // client:
   //    The time-zone offset is the difference, in minutes, from local time to UTC.
   //    Note that this means that the offset is positive if the local timezone is behind UTC and negative if it is ahead.

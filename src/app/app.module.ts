@@ -4,18 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EventListComponent } from './event-list/event-list.component';
+import { HomeComponent } from './home/home.component';
 import { EventDisplayComponent } from './event-display/event-display.component';
 import { HttpClientModule, HttpClientXsrfModule, HttpClient } from '@angular/common/http';
 
 import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {
   faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill, faDownload, faSearchPlus,
-  faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice, faGlobe,
-  faAngleDown, faAngleUp, faCircle, faMoneyCheckAlt, faWifi } from '@fortawesome/free-solid-svg-icons';
+  faExchangeAlt, faExclamationTriangle, faExclamationCircle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice, faGlobe,
+  faAngleDown, faAngleUp, faCircle, faMoneyCheckAlt, faWifi, faTrash } from '@fortawesome/free-solid-svg-icons';
 import {
   faCalendarAlt, faCalendarPlus, faCompass, faClock, faEnvelope,
-  faEdit, faClone, faHandshake, faBuilding, faCheckCircle } from '@fortawesome/free-regular-svg-icons';
+  faEdit, faClone, faHandshake, faBuilding, faCheckCircle, faCopy } from '@fortawesome/free-regular-svg-icons';
 import { faPaypal, faStripe, faApplePay, faIdeal } from '@fortawesome/free-brands-svg-icons';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { NgbTooltipModule, NgbModalModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -54,7 +54,7 @@ import { AdditionalServiceQuantitySelectorComponent } from './additional-service
 import { ReservationExpiredComponent } from './reservation/expired-notification/reservation-expired.component';
 import { ReleaseTicketComponent } from './reservation/release-ticket/release-ticket.component';
 import { CancelReservationComponent } from './reservation/cancel-reservation/cancel-reservation.component';
-import { EventFooterLinksComponent } from './event-footer-links/event-footer-links.component';
+import { FooterLinksComponent } from './event-footer-links/footer-links.component';
 import { ErrorComponent } from './reservation/error/error.component';
 import { DeferredOfflinePaymentComponent } from './reservation/deferred-offline-payment/deferred-offline-payment.component';
 import { MolliePaymentProxyComponent } from './payment/mollie-payment-proxy/mollie-payment-proxy.component';
@@ -62,6 +62,15 @@ import { PaymentMethodSelectorComponent } from './reservation/payment-method-sel
 import { AnimatedDotsComponent } from './reservation/animated-dots/animated-dots.component';
 import { EventDatesComponent } from './event-dates/event-dates.component';
 import { SharedModule } from './shared/shared.module';
+import { EventListAllComponent } from './event-list-all/event-list-all.component';
+import { BasicEventInfoComponent } from './basic-event-info/basic-event-info.component';
+import { SubscriptionListAllComponent } from './subscription-list-all/subscription-list-all.component';
+import { SubscriptionDisplayComponent } from './subscription-display/subscription-display.component';
+import { SuccessSubscriptionComponent } from './reservation/success-subscription/success-subscription.component';
+import {BasicSubscriptionInfoComponent} from './basic-subscription-info/basic-subscription-info.component';
+import {SubscriptionSummaryComponent} from './subscription-summary/subscription-summary.component';
+import {PurchaseContextContainerComponent} from './purchase-context-container/purchase-context-container.component';
+import { ModalRemoveSubscriptionComponent } from './reservation/modal-remove-subscription/modal-remove-subscription.component';
 
 
 
@@ -73,7 +82,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
-    EventListComponent,
+    HomeComponent,
     EventDisplayComponent,
     BookingComponent,
     OverviewComponent,
@@ -108,13 +117,22 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReservationExpiredComponent,
     ReleaseTicketComponent,
     CancelReservationComponent,
-    EventFooterLinksComponent,
+    FooterLinksComponent,
     ErrorComponent,
     DeferredOfflinePaymentComponent,
     MolliePaymentProxyComponent,
     PaymentMethodSelectorComponent,
     AnimatedDotsComponent,
-    EventDatesComponent
+    EventDatesComponent,
+    EventListAllComponent,
+    BasicEventInfoComponent,
+    BasicSubscriptionInfoComponent,
+    SubscriptionListAllComponent,
+    SubscriptionDisplayComponent,
+    SuccessSubscriptionComponent,
+    SubscriptionSummaryComponent,
+    PurchaseContextContainerComponent,
+    ModalRemoveSubscriptionComponent
   ],
   imports: [
     BrowserModule,
@@ -142,13 +160,13 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [ReservationExpiredComponent, ReleaseTicketComponent, CancelReservationComponent]
+  entryComponents: [ReservationExpiredComponent, ReleaseTicketComponent, CancelReservationComponent, ModalRemoveSubscriptionComponent]
 })
 export class AppModule {
   constructor(library: FaIconLibrary) {
     library.addIcons(faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill,
       faDownload, faSearchPlus, faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice, faGlobe,
-      faAngleDown, faAngleUp, faCircle, faCheckCircle, faMoneyCheckAlt, faWifi);
+      faAngleDown, faAngleUp, faCircle, faCheckCircle, faMoneyCheckAlt, faWifi, faTrash, faCopy, faExclamationCircle);
     library.addIcons(faCalendarAlt, faCalendarPlus, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake, faBuilding);
     library.addIcons(faPaypal, faStripe, faIdeal, faApplePay);
   }

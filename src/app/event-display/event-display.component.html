@@ -1,5 +1,6 @@
-<div *ngIf="event" class="add-margin-bottom">
-    <header><app-event-header [event]="event"></app-event-header></header>
+<app-purchase-context-container>
+  <div *ngIf="event" class="add-margin-bottom">
+    <header><app-purchase-context-header [purchaseContext]="event" type="event"></app-purchase-context-header></header>
     <main>
 
     <hr>
@@ -109,7 +110,7 @@
           <div class="item-price">
             <span *ngIf="category.free" translate="common.free"></span>
             <span *ngIf="!category.free">
-              <app-price-tag [event]="event" [formattedPrice]="category.formattedFinalPrice" [showTaxDetails]="true" [discountedPrice]="category.formattedDiscountedPrice" [showDiscount]="category.hasDiscount"></app-price-tag>
+              <app-price-tag [purchaseContext]="event" [formattedPrice]="category.formattedFinalPrice" [showTaxDetails]="true" [discountedPrice]="category.formattedDiscountedPrice" [showDiscount]="category.hasDiscount"></app-price-tag>
             </span>
           </div>
           <div class="item-qty-selector">
@@ -203,7 +204,7 @@
       <app-recaptcha [apiKey]="event.captchaConfiguration.recaptchaApiKey" (recaptchaResponse)="handleRecaptchaResponse($event)" *ngIf="event.captchaConfiguration.captchaForTicketSelection && event.captchaConfiguration.recaptchaApiKey"></app-recaptcha>
 
       <hr class="mt-5">
-      <app-event-footer-links [event]="event"></app-event-footer-links>
+      <app-footer-links [purchaseContext]="event"></app-footer-links>
 
       <div class="row d-flex justify-content-between mobile-add-margin-bottom">
         <div class="col-md-5 order-md-1 col-12"><button type="submit" class="block-button btn btn-success" translate="show-event.continue"></button></div>
@@ -212,4 +213,5 @@
     </form>
 
     </main>
-</div>
+  </div>
+</app-purchase-context-container>
