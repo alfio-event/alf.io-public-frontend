@@ -57,11 +57,17 @@
               <input id="billingAddressZip" aria-required="true" formControlName="billingAddressZip" class="form-control" type="text" required [attr.maxlength]="50" appInvalidFeedback>
           </div>
       </div>
-      <div class="col-12 col-md-9">
+      <div class="col-12 col-md-6">
           <div class="form-group">
               <label for="billingAddressCity" class="control-label">{{'reservation-page.city' | translate}}{{' *'}}</label>
               <input id="billingAddressCity" aria-required="true" formControlName="billingAddressCity" class="form-control" type="text" required  [attr.maxlength]="255" appInvalidFeedback>
           </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group">
+          <label for="billingAddressState">{{'reservation-page.state'|translate}}<span *ngIf="enabledItalyEInvoicing"> *</span></label>
+          <input id="billingAddressState" [attr.required]="enabledItalyEInvoicing" [attr.aria-required]="enabledItalyEInvoicing" type="text" formControlName="billingAddressState" class="form-control" appInvalidFeedback>
+        </div>
       </div>
   </div>
 
@@ -69,9 +75,9 @@
       <div class="col-12" [ngClass]="{'col-md-6': customerReferenceEnabled && invoiceBusiness}">
           <div class="form-group">
               <label for="vatCountry" id="vatCountryLabel" class="control-label">{{'reservation-page-complete.country' | translate}}{{' *'}}</label>
-              <ng-select aria-required="true" placeholder="{{'reservation-page.country.select'|translate}}" 
+              <ng-select aria-required="true" placeholder="{{'reservation-page.country.select'|translate}}"
                         [items]="countries" bindLabel="name" bindValue="isoCode" [selectOnTab]="true"
-                        formControlName="vatCountryCode" class="form-control field-required" 
+                        formControlName="vatCountryCode" class="form-control field-required"
                         [searchFn]="searchCountry" required appInvalidFeedback
                         labelForId="vatCountry" aria-labelledby="vatCountryLabel" [inputAttrs]="{autocomplete: 'nope'}">
                   <ng-template ng-option-tmp let-item="item">{{item.name}} ({{item.isoCode}})</ng-template>
@@ -109,7 +115,7 @@
 
 
 
-  <div id="italyEInvoicing" *ngIf="enabledItalyEInvoicing && form.value.vatCountryCode === 'IT'">
+  <div id="italyEInvoicing" *ngIf="italyEInvoicingFormDisplayed">
 
     <div class="row">
       <div class="col-12">
@@ -138,6 +144,14 @@
         <div class="form-group" *ngIf="pecSelected">
           <label for="italyEInvoicingReferencePEC">{{'invoice-fields.pec' | translate}}{{' *'}}</label>
           <input id="italyEInvoicingReferencePEC" type="email" required aria-required="true" class="form-control" formControlName="italyEInvoicingReferencePEC" appInvalidFeedback>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2" *ngIf="invoiceBusiness">
+      <div class="col-12">
+        <div class="custom-control custom-checkbox">
+          <input class="custom-control-input" id="italyEInvoicingSplitPayment" formControlName="italyEInvoicingSplitPayment" type="checkbox" aria-labelledby="split-payment-label">
+          <label class="custom-control-label" for="italyEInvoicingSplitPayment" id="split-payment-label">{{'invoice-fields.split-payment' | translate}}</label>
         </div>
       </div>
     </div>

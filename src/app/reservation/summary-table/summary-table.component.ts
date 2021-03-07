@@ -39,4 +39,9 @@ export class SummaryTableComponent {
     return this.purchaseContextType === 'subscription';
   }
 
+  get displaySplitPaymentNote(): boolean {
+    return !this.reservationInfo.orderSummary.free
+      && this.reservationInfo.billingDetails.invoicingAdditionalInfo?.italianEInvoicing?.splitPayment;
+  }
+
 }

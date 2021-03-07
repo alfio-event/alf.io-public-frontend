@@ -93,6 +93,7 @@ export interface BillingDetails {
   addressLine2: string;
   zip: string;
   city: string;
+  state: string;
   country: string;
   taxId: string;
   invoicingAdditionalInfo: TicketReservationInvoicingAdditionalInfo;
@@ -112,4 +113,5 @@ export interface ItalianEInvoicing {
    * either addressee code, pec, or null
    */
   reference: string;
+  splitPayment: boolean;
 }

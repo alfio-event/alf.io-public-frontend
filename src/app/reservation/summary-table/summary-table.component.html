@@ -33,7 +33,7 @@
           <td class="text-right"><app-price-tag [purchaseContext]="purchaseContext" [formattedPrice]="reservationInfo.orderSummary.totalVAT"></app-price-tag></td>
       </tr>
       <tr>
-        <th colspan="3" translate="reservation-page.total"></th>
+        <th colspan="3" translate="reservation-page.total"><span *ngIf="displaySplitPaymentNote"> *</span></th>
         <td class="text-right"><strong><app-price-tag [purchaseContext]="purchaseContext" [formattedPrice]="reservationInfo.orderSummary.totalPrice"></app-price-tag></strong></td>
       </tr>
       <tr *ngIf="!reservationInfo.orderSummary.free && reservationInfo.orderSummary.displayVat && purchaseContext.vatIncluded">
@@ -42,6 +42,9 @@
       </tr>
       <tr *ngIf="!reservationInfo.orderSummary.free && !reservationInfo.orderSummary.displayVat">
           <td colspan="4">{{'invoice.vat-voided'|translate: {'0': ('common.vat' | translate)} }}</td>
+      </tr>
+      <tr *ngIf="displaySplitPaymentNote">
+        <td colspan="4">* {{'invoice.vat-not-added'|translate: {'0': ('common.vat' | translate)} }}</td>
       </tr>
   </tfoot>
 </table>

@@ -119,8 +119,8 @@ export class OverviewComponent implements OnInit {
       //
 
       this.overviewForm = this.formBuilder.group({
-        termAndConditionsAccepted: null,
-        privacyPolicyAccepted: null,
+        termAndConditionsAccepted: this.reservationInfo.tokenAcquired,
+        privacyPolicyAccepted: this.reservationInfo.tokenAcquired,
         selectedPaymentMethod: selectedPaymentMethod,
         paymentProxy: currentPaymentProxy,
         gatewayToken: null,
