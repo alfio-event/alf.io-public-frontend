@@ -47,6 +47,13 @@ export class ReservationInfo {
 export class ReservationSubscriptionInfo {
   id: string;
   pin: string;
+  usageDetails: SubscriptionUsageDetails;
+}
+
+export interface SubscriptionUsageDetails {
+  total: number | null;
+  used: number;
+  available: number | null;
 }
 
 export class ReservationStatusInfo {

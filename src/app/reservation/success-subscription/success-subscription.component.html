@@ -38,6 +38,10 @@
     <div class="row mt-5">
       <div class="col-12 col-lg-6">
         <app-basic-subscription-info [cardLayout]="false" [subscription]="subscription"></app-basic-subscription-info>
+        <p class="lead">
+          {{ 'reservation-page-complete.subscription.usage' | translate:{'0': subscriptionInfo.usageDetails.used} }}
+          <span *ngIf="subscriptionInfo.usageDetails.available">&nbsp;{{ 'reservation-page-complete.subscription.usage.available' | translate: {'0': subscriptionInfo.usageDetails.available} }}</span>
+        </p>
       </div>
       <div class="col-12 col-lg-6 text-center d-lg-flex flex-lg-column justify-content-lg-between">
         <div class="mt-5 mt-lg-0">
