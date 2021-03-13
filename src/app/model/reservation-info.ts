@@ -67,7 +67,7 @@ export class TicketsByTicketCategory {
     tickets: Ticket[];
 }
 
-export type SummaryType = 'TICKET' | 'PROMOTION_CODE' | 'DYNAMIC_DISCOUNT' | 'ADDITIONAL_SERVICE' | 'SUBSCRIPTION';
+export type SummaryType = 'TICKET' | 'PROMOTION_CODE' | 'DYNAMIC_DISCOUNT' | 'ADDITIONAL_SERVICE' | 'APPLIED_SUBSCRIPTION';
 
 export class OrderSummary {
     summary: SummaryRow[];

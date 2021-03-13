@@ -11,7 +11,7 @@
     <tr *ngFor="let summaryRow of reservationInfo.orderSummary.summary">
       <td>
         <span *ngIf="summaryRow.type === 'DYNAMIC_DISCOUNT'" translate="reservation.dynamic.discount.description"></span>
-        <span *ngIf="summaryRow.type === 'SUBSCRIPTION'">
+        <span *ngIf="summaryRow.type === 'APPLIED_SUBSCRIPTION'">
           {{'summary.table.subscription'|translate: {'0': isSubscriptionPurchaseContext ? purchaseContext.title[currentLang] : summaryRow.name } }}
           <span *ngIf="displayRemoveSubscription">
             <button type="button" class="btn btn-link delete-button" (click)="removeSubscription.emit(summaryRow);" [ngbTooltip]="'summary.table.remove-applied-subscription-from-order'|translate">
@@ -20,7 +20,7 @@
             </button>
           </span>
         </span>
-        <span *ngIf="summaryRow.type !== 'DYNAMIC_DISCOUNT' && summaryRow.type !== 'SUBSCRIPTION'">{{summaryRow.name}}</span>
+        <span *ngIf="summaryRow.type !== 'DYNAMIC_DISCOUNT' && summaryRow.type !== 'APPLIED_SUBSCRIPTION'">{{summaryRow.name}}</span>
       </td>
       <td class="text-center">{{summaryRow.amount}}</td>
       <td class="text-right">{{summaryRow.price}}</td>

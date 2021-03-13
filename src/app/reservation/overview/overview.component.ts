@@ -374,7 +374,7 @@ export class OverviewComponent implements OnInit {
 
   get appliedSubscription(): boolean {
     if (this.reservationInfo && this.reservationInfo.orderSummary && this.reservationInfo.orderSummary.summary) {
-      return this.reservationInfo.orderSummary.summary.filter((s) => s.type === 'SUBSCRIPTION').length > 0;
+      return this.reservationInfo.orderSummary.summary.filter((s) => s.type === 'APPLIED_SUBSCRIPTION').length > 0;
     }
     return false;
   }
