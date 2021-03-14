@@ -39,7 +39,7 @@
       <div class="col-12 col-lg-6">
         <app-basic-subscription-info [cardLayout]="false" [subscription]="subscription" [owner]="subscriptionInfo.owner"></app-basic-subscription-info>
         <p class="lead">
-          {{ 'reservation-page-complete.subscription.usage' | translate:{'0': subscriptionInfo.usageDetails.used} }}
+          <span *ngIf="subscriptionInfo.usageDetails.used > 0">{{ 'reservation-page-complete.subscription.usage' | translate:{'0': subscriptionInfo.usageDetails.used} }}</span>
           <span *ngIf="subscriptionInfo.usageDetails.available">&nbsp;{{ 'reservation-page-complete.subscription.usage.available' | translate: {'0': subscriptionInfo.usageDetails.available} }}</span>
         </p>
       </div>
