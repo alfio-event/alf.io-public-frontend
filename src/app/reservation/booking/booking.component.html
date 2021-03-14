@@ -56,36 +56,65 @@
     </div>
     <!-- -->
 
-    <ng-container *ngIf="ticketCounts > 0">
-      <h2 translate="reservation-page.attendees"></h2>
+    <ng-container [ngSwitch]="purchaseContextType">
+      <ng-container *ngSwitchCase="'event'">
+        <h2 translate="reservation-page.attendees"></h2>
 
-      <div class="custom-control custom-checkbox wMarginBottom" *ngIf="!purchaseContext.assignmentConfiguration.forceAssignment && ticketCounts > 1 && !reservationInfo.containsCategoriesLinkedToGroups">
-        <input id="postponeAssignment" class="custom-control-input" type="checkbox" formControlName="postponeAssignment" id="postpone-assignment" value="true">
-        <label class="custom-control-label" for="postpone-assignment">{{' '}}{{'reservation-page.postpone-assignment'|translate}}</label>
-      </div>
+        <div class="custom-control custom-checkbox wMarginBottom" *ngIf="!purchaseContext.assignmentConfiguration.forceAssignment && ticketCounts > 1 && !reservationInfo.containsCategoriesLinkedToGroups">
+          <input class="custom-control-input" type="checkbox" formControlName="postponeAssignment" id="postpone-assignment" value="true">
+          <label class="custom-control-label" for="postpone-assignment">{{' '}}{{'reservation-page.postpone-assignment'|translate}}</label>
+        </div>
 
-      <ng-container *ngIf="!contactAndTicketsForm.value.postponeAssignment">
-        <div *ngFor="let tc of reservationInfo.ticketsByCategory; let firstCategory = first; ">
-          <div *ngFor="let ticket of tc.tickets; let firstTicket = first;" formGroupName="tickets" class="card mt-4">
-            <div class="attendees-data card-body">
+        <ng-container *ngIf="!contactAndTicketsForm.value.postponeAssignment">
+          <div *ngFor="let tc of reservationInfo.ticketsByCategory; let firstCategory = first; ">
+            <div *ngFor="let ticket of tc.tickets; let firstTicket = first;" formGroupName="tickets" class="card mt-4">
+              <div class="attendees-data card-body">
                 <div class="d-flex w-100 justify-content-between">
-                    <h3 class="card-title">
-                        <fa-icon [icon]="['fas', 'ticket-alt']" size="xs" [classes]="['rotate-45']" a11yRole="presentation"></fa-icon>
-                        <span>{{' '}}{{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span></span>
-                    </h3>
-                    <div class="h3" *ngIf="!enableAttendeeAutocomplete && firstCategory && firstTicket">
-                      <button class="btn btn-light btn-xs"
-                              [ngbTooltip]="'reservation-page.copy-attendee'|translate"
-                              type="button"
-                              (click)="copyContactInfoTo(ticket)">
-                        <fa-icon [icon]="['far', 'clone']" a11yRole="presentation"></fa-icon>
-                        <span class="sr-only" translate="reservation-page.copy-attendee"></span>
-                      </button>
-                    </div>
+                  <h3 class="card-title">
+                    <fa-icon [icon]="['fas', 'ticket-alt']" size="xs" [classes]="['rotate-45']" a11yRole="presentation"></fa-icon>
+                    <span>{{' '}}{{'reservation-page-complete.ticket-nr' | translate}}<span class="ticket-counter"></span></span>
+                  </h3>
+                  <div class="h3" *ngIf="!enableAttendeeAutocomplete && firstCategory && firstTicket">
+                    <button class="btn btn-light btn-xs"
+                            [ngbTooltip]="'reservation-page.copy-attendee'|translate"
+                            type="button"
+                            (click)="copyContactInfoTo(ticket)">
+                      <fa-icon [icon]="['far', 'clone']" a11yRole="presentation"></fa-icon>
+                      <span class="sr-only" translate="reservation-page.copy-attendee"></span>
+                    </button>
+                  </div>
                 </div>
                 <div class="h3 mb-3"><small class="text-muted">{{tc.name}}</small></div>
                 <app-ticket-form [ticket]="ticket" [purchaseContext]="purchaseContext" [form]="getTicketForm(ticket)"></app-ticket-form>
+              </div>
             </div>
+          </div>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="'subscription'">
+        <div class="custom-control custom-checkbox mb-3">
+          <input class="custom-control-input" type="checkbox" formControlName="differentSubscriptionOwner" id="show-subscription-owner" value="true">
+          <label class="custom-control-label" for="show-subscription-owner">{{' '}}{{'reservation-page.subscription.different-owner' | translate}}</label>
+        </div>
+        <div *ngIf="contactAndTicketsForm.value.differentSubscriptionOwner" [formGroup]="getSubscriptionForm()">
+          <div class="form-row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="subscription-first-name">{{'common.first-name' | translate}} *</label>
+                <input id="subscription-first-name" class="form-control" formControlName="firstName" type="text" appInvalidFeedback>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="subscription-last-name">{{'common.last-name' | translate}} *</label>
+                <input class="form-control" id="subscription-last-name" formControlName="lastName" type="text" appInvalidFeedback>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="subscription-email">{{'common.email' | translate}} *</label>
+            <input id="subscription-email" formControlName="email" type="email" class="form-control" appInvalidFeedback>
           </div>
         </div>
       </ng-container>

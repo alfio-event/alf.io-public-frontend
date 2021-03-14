@@ -3,6 +3,7 @@ import {SubscriptionInfo, SubscriptionSummaryData} from '../model/subscription';
 import {getLocalizedContent} from '../shared/subscription.service';
 import {isDifferentTimeZone} from '../shared/event.service';
 import {TranslateService} from '@ngx-translate/core';
+import {SubscriptionOwner} from '../model/reservation-info';
 
 @Component({
   selector: 'app-subscription-summary',
@@ -12,6 +13,8 @@ export class SubscriptionSummaryComponent {
 
   @Input()
   subscription: SubscriptionSummaryData;
+  @Input()
+  owner?: SubscriptionOwner;
 
   constructor(private translateService: TranslateService) {
   }

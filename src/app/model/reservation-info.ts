@@ -45,9 +45,16 @@ export class ReservationInfo {
 }
 
 export class ReservationSubscriptionInfo {
-  id: string;
-  pin: string;
-  usageDetails: SubscriptionUsageDetails;
+  id?: string;
+  pin?: string;
+  usageDetails?: SubscriptionUsageDetails;
+  owner?: SubscriptionOwner;
+}
+
+export class SubscriptionOwner {
+  firstName: string;
+  lastName: string;
+  email: string;
 }
 
 export interface SubscriptionUsageDetails {

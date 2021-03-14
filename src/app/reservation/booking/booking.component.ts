@@ -3,7 +3,7 @@ import { ReservationService } from '../../shared/reservation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TicketService } from 'src/app/shared/ticket.service';
-import { BillingDetails, ItalianEInvoicing, ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
+import {BillingDetails, ItalianEInvoicing, ReservationInfo, ReservationSubscriptionInfo, TicketsByTicketCategory} from 'src/app/model/reservation-info';
 import { Observable, of, Subject, zip } from 'rxjs';
 import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
 import { I18nService } from 'src/app/shared/i18n.service';
@@ -34,7 +34,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
   @ViewChild('invoiceAnchor')
   private invoiceElement: ElementRef<HTMLAnchorElement>;
   private doScroll = new Subject<boolean>();
-  private purchaseContextType: PurchaseContextType;
+  purchaseContextType: PurchaseContextType;
 
   ticketCounts: number;
 
@@ -118,7 +118,9 @@ export class BookingComponent implements OnInit, AfterViewInit {
           italyEInvoicingReferenceAddresseeCode: BookingComponent.optionalGet(billingDetails, (i) => i.addresseeCode),
           italyEInvoicingReferencePEC: BookingComponent.optionalGet(billingDetails, (i) => i.pec),
           italyEInvoicingSplitPayment: BookingComponent.optionalGet(billingDetails, (i) => i.splitPayment),
-          postponeAssignment: false // <- TODO: check if we save it somewhere in the db...
+          postponeAssignment: false,
+          differentSubscriptionOwner: false,
+          subscriptionOwner: this.buildSubscriptionOwnerFormGroup(this.reservationInfo.subscriptionInfos)
         });
 
         setTimeout(() => this.doScroll.next(this.invoiceElement != null));
@@ -137,6 +139,19 @@ export class BookingComponent implements OnInit, AfterViewInit {
           this.invoiceElement.nativeElement.scrollIntoView(true);
         }
       });
+  }
+
+  private buildSubscriptionOwnerFormGroup(subscriptionInfos: Array<ReservationSubscriptionInfo> | undefined): FormGroup {
+    if (subscriptionInfos != null) {
+      const subscriptionInfo = subscriptionInfos[0];
+      return this.formBuilder.group({
+        firstName: subscriptionInfo.owner?.firstName,
+        lastName: subscriptionInfo.owner?.lastName,
+        email: subscriptionInfo.owner?.email
+      });
+    } else {
+      return null;
+    }
   }
 
   private buildTicketsFormGroup(ticketsByCategory: TicketsByTicketCategory[]): FormGroup {
@@ -163,7 +178,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
         let o: Observable<unknown> = of(true);
         if (this.route.snapshot.queryParamMap.has('subscription') && this.isUUID(this.route.snapshot.queryParamMap.get('subscription'))) {
-          //try to apply the subscription
+          // try to apply the subscription
           const subscriptionCode = this.route.snapshot.queryParamMap.get('subscription');
           o = this.reservationService.applySubscriptionCode(this.reservationId, subscriptionCode, this.reservationInfo.email);
         }
@@ -223,6 +238,10 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
   getTicketForm(ticket: Ticket): FormGroup {
     return this.contactAndTicketsForm.get('tickets.' + ticket.uuid) as FormGroup;
+  }
+
+  getSubscriptionForm(): FormGroup {
+    return this.contactAndTicketsForm.get('subscriptionOwner') as FormGroup;
   }
 
   copyContactInfoTo(ticket: Ticket) {
