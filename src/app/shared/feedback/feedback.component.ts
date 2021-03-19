@@ -37,6 +37,17 @@ export class FeedbackComponent {
     }
   }
 
+  get headerClass(): string {
+    switch (this.type) {
+      case 'SUCCESS':
+        return 'bg-success text-white';
+      case 'ERROR':
+        return 'bg-danger text-white';
+      case 'INFO':
+        return 'bg-white text-primary';
+    }
+  }
+
   get boxIcon(): IconProp {
     switch (this.type) {
       case 'SUCCESS':

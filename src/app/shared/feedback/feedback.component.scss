@@ -1,8 +1,36 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/variables";
+
 :host {
-  position: fixed;
-  bottom: 20px;
-  right: 0;
-  margin: 2em;
+
+  @include media-breakpoint-down(lg) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 2em;
+    ::ng-deep .toast {
+      max-width: unset;
+      background-color: white;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    position: fixed;
+    bottom: 20px;
+    right: 0;
+    margin: 2em;
+  }
   padding: 0;
   z-index: 1200;
+
+  ::ng-deep {
+    .toast-body {
+      padding: 0;
+    }
+  }
+}
+
+.message {
+  font-size: $font-size-base * 1.1;
 }
