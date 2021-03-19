@@ -8,6 +8,9 @@ import { zip } from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {isDifferentTimeZone} from '../shared/event.service';
 import {I18nService} from '../shared/i18n.service';
+import {getErrorObject, handleServerSideValidationError} from '../shared/validation-helper';
+import {ErrorDescriptor, ValidatedResponse} from '../model/validated-response';
+import {FeedbackService} from '../shared/feedback/feedback.service';
 
 @Component({
   selector: 'app-subscription-display',
@@ -17,6 +20,7 @@ import {I18nService} from '../shared/i18n.service';
 export class SubscriptionDisplayComponent implements OnInit {
 
 
+  submitError: ErrorDescriptor;
   subscription: SubscriptionInfo;
   subscriptionId: string;
 
@@ -26,7 +30,8 @@ export class SubscriptionDisplayComponent implements OnInit {
               private info: InfoService,
               private analytics: AnalyticsService,
               public translateService: TranslateService,
-              private i18nService: I18nService) { }
+              private i18nService: I18nService,
+              private feedbackService: FeedbackService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -43,6 +48,15 @@ export class SubscriptionDisplayComponent implements OnInit {
   submitForm() {
     this.subscriptionService.reserve(this.subscriptionId).subscribe(res => {
       this.router.navigate(['subscription', this.subscriptionId, 'reservation', res.value, 'book']);
+    }, (err) => {
+      const errorObject = getErrorObject(err);
+      let errorCode: string;
+      if (errorObject != null) {
+        errorCode = errorObject.validationErrors[0].code;
+      } else {
+        errorCode = 'reservation-page-error-status.header.title';
+      }
+      this.feedbackService.showError(errorCode);
     });
   }
 

@@ -70,6 +70,7 @@ export class SubscriptionInfo implements PurchaseContext, SubscriptionSummaryDat
   title: { [lang: string]: string };
   description: { [lang: string]: string };
   formattedPrice: string;
+  numAvailable: number;
 
   //
   bankAccount: string;

@@ -61,12 +61,18 @@ function containsWithKey(errors: ErrorDescriptor[], key: string) {
 }
 
 export function handleServerSideValidationError(err: any, form: AbstractControl): ErrorDescriptor[] {
-    if (err instanceof HttpErrorResponse) {
-        if (err.status === 422) {
-            return applyValidationErrors(form, err.error);
-        }
-    } else if (err instanceof ValidatedResponse) {
-        return applyValidationErrors(form, err);
-    }
-    return [];
+  const errorObject = getErrorObject(err);
+  if (errorObject != null) {
+    return applyValidationErrors(form, errorObject);
+  }
+  return [];
+}
+
+export function getErrorObject(err: any): ValidatedResponse<any> | null {
+  if (err instanceof ValidatedResponse) {
+    return err;
+  } else if (err instanceof HttpErrorResponse && err.status === 422) {
+    return err.error;
+  }
+  return null;
 }
