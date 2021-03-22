@@ -114,17 +114,18 @@
   </div>
 
 
-
-  <div id="italyEInvoicing" *ngIf="italyEInvoicingFormDisplayed">
-
+  <div id="italyEInvoicingTaxId" *ngIf="enabledItalyEInvoicing && countrySelected">
     <div class="row">
       <div class="col-12">
           <div class="form-group">
-              <label for="italyEInvoicingFiscalCode">{{'invoice-fields.fiscalCode'|translate}}{{' *'}}</label>
+              <label for="italyEInvoicingFiscalCode">{{ (italyEInvoicingFormDisplayed ? 'invoice-fields.fiscalCode' : 'invoice-fields.tax-id') | translate}}{{' *'}}</label>
               <input id="italyEInvoicingFiscalCode" required aria-required="true" type="text" formControlName="italyEInvoicingFiscalCode" class="form-control" appInvalidFeedback>
           </div>
       </div>
     </div>
+  </div>
+
+  <div id="italyEInvoicing" *ngIf="italyEInvoicingFormDisplayed">
     <div class="row">
       <div class="col-12 col-md-6">
         <div class="form-group">
