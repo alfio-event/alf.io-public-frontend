@@ -32,7 +32,7 @@
                 <div *ngIf="hasTaxId">{{'invoice.vat' |translate: {'0': ('common.vat' | translate)} }} {{reservationInfo.billingDetails.taxId}}</div>
                 <hr *ngIf="enabledItalyEInvoicing"/>
                 <h5 class="d-none d-md-block" *ngIf="enabledItalyEInvoicing" translate="invoice-fields.addresseeItalyEInvoice"></h5>
-                <div *ngIf="enabledItalyEInvoicing">{{'invoice-fields.fiscalCode'|translate}}{{': '}}{{italyEInvoicingFiscalCode}}</div>
+                <div *ngIf="enabledItalyEInvoicing">{{ taxIdMessageKey | translate}}{{': '}}{{italyEInvoicingFiscalCode}}</div>
                 <div *ngIf="enabledItalyEInvoicing && italyEInvoicingReference != null">
                   {{(italyEInvoicingSelectedAddresseeKey | translate) + ': ' + italyEInvoicingReference}}
                 </div>

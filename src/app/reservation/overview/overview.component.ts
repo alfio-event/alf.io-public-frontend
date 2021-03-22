@@ -311,6 +311,13 @@ export class OverviewComponent implements OnInit {
     }
     return this.selectedPaymentProvider != null && this.selectedPaymentProvider.paymentMethodDeferred;
   }
+
+  get taxIdMessageKey(): string {
+    if (this.reservationInfo.billingDetails.country === 'IT') {
+      return 'invoice-fields.fiscalCode';
+    }
+    return 'invoice-fields.tax-id';
+  }
 }
 
 function onUnLoadListener(e: BeforeUnloadEvent) {
