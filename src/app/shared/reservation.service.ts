@@ -32,9 +32,9 @@ export class ReservationService {
         return this.http.delete<boolean>(`/api/v2/public/event/${eventShortName}/reservation/${reservationId}`);
     }
 
-    validateToOverview(eventShortName: string, reservationId: string, contactsAndTicket: any, lang: string): Observable<ValidatedResponse<boolean>> {
+    validateToOverview(eventShortName: string, reservationId: string, contactsAndTicket: any, lang: string, ignoreWarnings: boolean): Observable<ValidatedResponse<boolean>> {
         const url = `/api/v2/public/event/${eventShortName}/reservation/${reservationId}/validate-to-overview`;
-        return this.http.post<ValidatedResponse<boolean>>(url, contactsAndTicket, {params: {lang: lang}});
+        return this.http.post<ValidatedResponse<boolean>>(url, contactsAndTicket, {params: {lang: lang, ignoreWarnings: '' + ignoreWarnings}});
     }
 
     confirmOverview(eventShortName: string, reservationId: string, overviewForm: OverviewConfirmation, lang: string): Observable<ValidatedResponse<ReservationPaymentResult>> {

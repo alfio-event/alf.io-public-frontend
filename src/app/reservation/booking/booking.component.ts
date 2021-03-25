@@ -16,6 +16,7 @@ import { ErrorDescriptor } from 'src/app/model/validated-response';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReservationExpiredComponent } from '../expired-notification/reservation-expired.component';
 import { CancelReservationComponent } from '../cancel-reservation/cancel-reservation.component';
+import {WarningModalComponent} from '../../shared/warning-modal/warning-modal.component';
 
 @Component({
   selector: 'app-booking',
@@ -155,13 +156,27 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
   submitForm(): void {
     this.removeUnnecessaryFields();
-    this.reservationService.validateToOverview(this.eventShortName, this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang).subscribe(res => {
-      if (res.success) {
-        this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview']);
-      }
-    }, (err) => {
-      this.globalErrors = handleServerSideValidationError(err, this.contactAndTicketsForm);
-    });
+    this.validateToOverview(false);
+  }
+
+  private validateToOverview(ignoreWarnings: boolean): void {
+    this.reservationService.validateToOverview(this.eventShortName, this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang, ignoreWarnings)
+      .subscribe(res => {
+        if (res.success && (!res.warnings || res.warnings.length === 0 || ignoreWarnings)) {
+          this.proceedToOverview();
+        } else if (res.success) {
+          // display warnings
+          const modalRef = this.modalService.open(WarningModalComponent, {centered: true, backdrop: 'static'});
+          modalRef.componentInstance.message = res.warnings[0];
+          modalRef.result.then(() => this.validateToOverview(true));
+        }
+      }, (err) => {
+        this.globalErrors = handleServerSideValidationError(err, this.contactAndTicketsForm);
+      });
+  }
+
+  private proceedToOverview(): Promise<boolean> {
+    return this.router.navigate(['event', this.eventShortName, 'reservation', this.reservationId, 'overview']);
   }
 
   cancelPendingReservation() {

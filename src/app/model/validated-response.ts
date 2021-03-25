@@ -3,6 +3,7 @@ export class ValidatedResponse<T> {
     errorCount: number;
     validationErrors: ErrorDescriptor[];
     value: T;
+    warnings: string[];
 }
 
 export class ErrorDescriptor {
