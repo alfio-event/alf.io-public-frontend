@@ -35,19 +35,6 @@ $custom-control-indicator-border-color: $gray-700;
     display: block
 }
 
-
-html[lang=nl] .language-selector button[lang=nl],
-html[lang=de] .language-selector button[lang=de],
-html[lang=en] .language-selector button[lang=en],
-html[lang=it] .language-selector button[lang=it],
-html[lang=fr] .language-selector button[lang=fr],
-html[lang=ro] .language-selector button[lang=ro],
-html[lang=pt] .language-selector button[lang=pt],
-html[lang=es] .language-selector button[lang=es],
-html[lang=tr] .language-selector button[lang=tr] {
-    font-weight: bold;
-}
-
 .page-header {
     padding-bottom: 9px;
     margin: 40px 0 20px;
