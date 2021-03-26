@@ -17,6 +17,7 @@ import { CancelReservationComponent } from '../cancel-reservation/cancel-reserva
 import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
 import { PurchaseContext } from 'src/app/model/purchase-context';
 import {EventSearchParams} from '../../model/basic-event-info';
+import {WarningModalComponent} from '../../shared/warning-modal/warning-modal.component';
 
 @Component({
   selector: 'app-booking',
@@ -173,21 +174,28 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
   submitForm(): void {
     this.removeUnnecessaryFields();
-    this.reservationService.validateToOverview(this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang).subscribe(res => {
-      if (res.success) {
+    this.validateToOverview(false);
+  }
 
+  private validateToOverview(ignoreWarnings: boolean): void {
+    this.reservationService.validateToOverview(this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang).subscribe(res => {
+      if (res.success && (!res.warnings || res.warnings.length === 0 || ignoreWarnings)) {
         let o: Observable<unknown> = of(true);
         if (this.route.snapshot.queryParamMap.has('subscription') && this.isUUID(this.route.snapshot.queryParamMap.get('subscription'))) {
           // try to apply the subscription
           const subscriptionCode = this.route.snapshot.queryParamMap.get('subscription');
           o = this.reservationService.applySubscriptionCode(this.reservationId, subscriptionCode, this.reservationInfo.email);
         }
-
-        o.subscribe(_ => {
-          this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'overview'], {
-            queryParams: EventSearchParams.transformParams(this.route.snapshot.queryParams)
-          });
-        });
+        o.subscribe(
+          _ => this.proceedToOverview(),
+          // if there is an error, we proceed anyway
+          () => this.proceedToOverview()
+        );
+      } else if (res.success) {
+        // display warnings
+        const modalRef = this.modalService.open(WarningModalComponent, {centered: true, backdrop: 'static'});
+        modalRef.componentInstance.message = res.warnings[0];
+        modalRef.result.then(() => this.validateToOverview(true));
       }
     }, (err) => {
       this.globalErrors = handleServerSideValidationError(err, this.contactAndTicketsForm);
@@ -197,6 +205,12 @@ export class BookingComponent implements OnInit, AfterViewInit {
   private isUUID(v: string): boolean {
     const r = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
     return v.match(r) !== null;
+  }
+
+  private proceedToOverview(): Promise<boolean> {
+    return this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'overview'], {
+      queryParams: EventSearchParams.transformParams(this.route.snapshot.queryParams)
+    });
   }
 
   cancelPendingReservation() {

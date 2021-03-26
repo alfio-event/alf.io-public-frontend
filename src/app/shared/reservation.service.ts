@@ -33,9 +33,9 @@ export class ReservationService {
         return this.http.delete<boolean>(`/api/v2/public/reservation/${reservationId}`);
     }
 
-    validateToOverview(reservationId: string, contactsAndTicket: any, lang: string): Observable<ValidatedResponse<boolean>> {
+    validateToOverview(reservationId: string, contactsAndTicket: any, lang: string, ignoreWarnings: boolean): Observable<ValidatedResponse<boolean>> {
         const url = `/api/v2/public/reservation/${reservationId}/validate-to-overview`;
-        return this.http.post<ValidatedResponse<boolean>>(url, contactsAndTicket, {params: {lang: lang}});
+        return this.http.post<ValidatedResponse<boolean>>(url, contactsAndTicket, {params: {lang: lang, ignoreWarnings: '' + ignoreWarnings}});
     }
 
     confirmOverview(reservationId: string, overviewForm: OverviewConfirmation, lang: string): Observable<ValidatedResponse<ReservationPaymentResult>> {
@@ -79,11 +79,11 @@ export class ReservationService {
         return this.http.post<DynamicDiscount>(`/api/v2/public/event/${eventShortName}/check-discount`, reservation);
     }
 
-    applySubscriptionCode(reservationId: string, code: string, email: string) : Observable<ValidatedResponse<boolean>> {
+    applySubscriptionCode(reservationId: string, code: string, email: string): Observable<ValidatedResponse<boolean>> {
         return this.http.post<ValidatedResponse<boolean>>(`/api/v2/public/reservation/${reservationId}/apply-code/`, {code: code, email: email, amount: 1, type: 'SUBSCRIPTION'});
     }
 
-    removeSubscription(reservationId: string) : Observable<boolean> {
+    removeSubscription(reservationId: string): Observable<boolean> {
         return this.http.delete<boolean>(`/api/v2/public/reservation/${reservationId}/remove-code`, {params: {type: 'SUBSCRIPTION'}});
     }
 

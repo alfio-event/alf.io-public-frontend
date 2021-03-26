@@ -10,10 +10,10 @@ import {PurchaseContextHeaderComponent} from './event-header/purchase-context-he
 import {InvalidFeedbackDirective} from './invalid-feedback.directive';
 import {ClipboardCopyDirective} from './clipboard-copy/clipboard-copy.directive';
 import {FeedbackComponent} from './feedback/feedback.component';
-
+import {WarningModalComponent} from './warning-modal/warning-modal.component';
 
 @NgModule({
-  declarations: [ LanguageSelectorComponent, PurchaseContextHeaderComponent, InvalidFeedbackDirective, ClipboardCopyDirective, FeedbackComponent],
+  declarations: [ LanguageSelectorComponent, PurchaseContextHeaderComponent, InvalidFeedbackDirective, ClipboardCopyDirective, FeedbackComponent, WarningModalComponent],
   imports: [
     CommonModule,
     TranslateModule.forChild(),
@@ -21,6 +21,6 @@ import {FeedbackComponent} from './feedback/feedback.component';
     NgbDropdownModule,
     NgbToastModule
   ],
-  exports: [LanguageSelectorComponent, PurchaseContextHeaderComponent, InvalidFeedbackDirective, ClipboardCopyDirective, FeedbackComponent],
+  exports: [LanguageSelectorComponent, PurchaseContextHeaderComponent, InvalidFeedbackDirective, ClipboardCopyDirective, FeedbackComponent, WarningModalComponent],
 })
 export class SharedModule { }
