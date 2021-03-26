@@ -49,6 +49,11 @@ export class BookingComponent implements OnInit, AfterViewInit {
     return null;
   }
 
+  private static isUUID(v: string): boolean {
+    const r = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+    return v.match(r) !== null;
+  }
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -178,10 +183,10 @@ export class BookingComponent implements OnInit, AfterViewInit {
   }
 
   private validateToOverview(ignoreWarnings: boolean): void {
-    this.reservationService.validateToOverview(this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang).subscribe(res => {
+    this.reservationService.validateToOverview(this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang, ignoreWarnings).subscribe(res => {
       if (res.success && (!res.warnings || res.warnings.length === 0 || ignoreWarnings)) {
         let o: Observable<unknown> = of(true);
-        if (this.route.snapshot.queryParamMap.has('subscription') && this.isUUID(this.route.snapshot.queryParamMap.get('subscription'))) {
+        if (this.route.snapshot.queryParamMap.has('subscription') && BookingComponent.isUUID(this.route.snapshot.queryParamMap.get('subscription'))) {
           // try to apply the subscription
           const subscriptionCode = this.route.snapshot.queryParamMap.get('subscription');
           o = this.reservationService.applySubscriptionCode(this.reservationId, subscriptionCode, this.reservationInfo.email);
@@ -200,11 +205,6 @@ export class BookingComponent implements OnInit, AfterViewInit {
     }, (err) => {
       this.globalErrors = handleServerSideValidationError(err, this.contactAndTicketsForm);
     });
-  }
-
-  private isUUID(v: string): boolean {
-    const r = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
-    return v.match(r) !== null;
   }
 
   private proceedToOverview(): Promise<boolean> {
