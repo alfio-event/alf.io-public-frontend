@@ -11,7 +11,8 @@ import {TranslateService} from '@ngx-translate/core';
 import {SubscriptionInfo} from '../../model/subscription';
 import {FeedbackService} from '../../shared/feedback/feedback.service';
 import {EventService} from '../../shared/event.service';
-import {BasicEventInfo, EventSearchParams} from '../../model/basic-event-info';
+import {BasicEventInfo} from '../../model/basic-event-info';
+import {SearchParams} from '../../model/search-params';
 
 @Component({
   selector: 'app-success-subscription',
@@ -61,7 +62,7 @@ export class SuccessSubscriptionComponent implements OnInit {
   }
 
   private loadCompatibleEvents(subscriptionId: string): void {
-    this.eventService.getEvents(new EventSearchParams(subscriptionId, null, null)).subscribe(events => {
+    this.eventService.getEvents(new SearchParams(subscriptionId, null, null, null)).subscribe(events => {
       this.compatibleEvents = events;
     });
   }

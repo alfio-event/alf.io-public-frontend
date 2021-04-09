@@ -16,8 +16,8 @@ import { zip } from 'rxjs';
 import { PurchaseContext } from 'src/app/model/purchase-context';
 import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
 import { ModalRemoveSubscriptionComponent } from '../modal-remove-subscription/modal-remove-subscription.component';
-import {EventSearchParams} from '../../model/basic-event-info';
 import {FeedbackService} from '../../shared/feedback/feedback.service';
+import {SearchParams} from '../../model/search-params';
 
 @Component({
   selector: 'app-overview',
@@ -189,7 +189,7 @@ export class OverviewComponent implements OnInit {
               window.location.href = res.value.redirectUrl;
             } else {
               this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'success'], {
-                queryParams: EventSearchParams.transformParams(this.route.snapshot.queryParams)
+                queryParams: SearchParams.transformParams(this.route.snapshot.queryParams, this.route.snapshot.params)
               });
             }
           } else {

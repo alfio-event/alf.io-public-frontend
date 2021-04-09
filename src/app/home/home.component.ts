@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EventService } from '../shared/event.service';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { BasicEventInfo } from '../model/basic-event-info';
 import { I18nService } from '../shared/i18n.service';
 import { Language } from '../model/event';
@@ -10,6 +10,8 @@ import { InfoService } from '../shared/info.service';
 import { zip } from 'rxjs';
 import { SubscriptionService } from '../shared/subscription.service';
 import { BasicSubscriptionInfo } from '../model/subscription';
+import {mergeMap} from 'rxjs/operators';
+import {SearchParams} from '../model/search-params';
 
 @Component({
   selector: 'app-home',
@@ -23,6 +25,7 @@ export class HomeComponent implements OnInit {
   subscriptions: BasicSubscriptionInfo[];
   allSubscriptions: BasicSubscriptionInfo[];
   languages: Language[];
+  private searchParams?: SearchParams;
 
   constructor(
     private eventService: EventService,
@@ -31,11 +34,16 @@ export class HomeComponent implements OnInit {
     private router: Router,
     public translate: TranslateService,
     private info: InfoService,
-    private analytics: AnalyticsService) { }
+    private analytics: AnalyticsService,
+    private route: ActivatedRoute) { }
 
     public ngOnInit(): void {
-
-      zip(this.eventService.getEvents(), this.subscriptionService.getSubscriptions(), this.info.getInfo()).subscribe(([res, subscriptions, info]) => {
+      zip(this.route.params, this.route.queryParams).pipe(
+        mergeMap(([pathParams, queryParams]) => {
+          this.searchParams = SearchParams.fromQueryAndPathParams(queryParams, pathParams);
+          return zip(this.eventService.getEvents(this.searchParams), this.subscriptionService.getSubscriptions(this.searchParams), this.info.getInfo());
+        })
+      ).subscribe(([res, subscriptions, info]) => {
         if (res.length === 1 && subscriptions.length === 0) {
           this.router.navigate(['/event', res[0].shortName], {replaceUrl: true});
         } else {
@@ -68,6 +76,20 @@ export class HomeComponent implements OnInit {
 
     get displayViewAllSubscriptionsButton() {
       return this.allSubscriptions.length > 4;
+    }
+
+    get allEventsPath(): Array<string> {
+      if (this.searchParams?.organizerSlug != null) {
+        return ['o', this.searchParams.organizerSlug, 'events-all'];
+      }
+      return ['events-all'];
+    }
+
+    get allSubscriptionsPath(): Array<string> {
+      if (this.searchParams?.organizerSlug != null) {
+        return ['o', this.searchParams.organizerSlug, 'subscriptions-all'];
+      }
+      return ['subscriptions-all'];
     }
 
 }

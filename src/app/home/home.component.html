@@ -8,7 +8,7 @@
       <app-basic-event-info [event]="event"></app-basic-event-info>
     </div>
     <div *ngIf="displayViewAllEventsButton" class="text-center">
-      <a [routerLink]="['events-all']" class="btn btn-light" translate="home.view.all.events"></a>
+      <a [routerLink]="allEventsPath" class="btn btn-light" translate="home.view.all.events"></a>
     </div>
 
 
@@ -27,7 +27,7 @@
     </div>
 
     <div *ngIf="displayViewAllSubscriptionsButton" class="text-center">
-      <a [routerLink]="['subscriptions-all']" class="btn btn-light" translate="home.view.all.subscriptions"></a>
+      <a [routerLink]="allSubscriptionsPath" class="btn btn-light" translate="home.view.all.subscriptions"></a>
     </div>
   </div>
 

@@ -16,8 +16,8 @@ import { ReservationExpiredComponent } from '../expired-notification/reservation
 import { CancelReservationComponent } from '../cancel-reservation/cancel-reservation.component';
 import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
 import { PurchaseContext } from 'src/app/model/purchase-context';
-import {EventSearchParams} from '../../model/basic-event-info';
 import {WarningModalComponent} from '../../shared/warning-modal/warning-modal.component';
+import {SearchParams} from '../../model/search-params';
 
 @Component({
   selector: 'app-booking',
@@ -209,7 +209,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
   private proceedToOverview(): Promise<boolean> {
     return this.router.navigate([this.purchaseContextType, this.publicIdentifier, 'reservation', this.reservationId, 'overview'], {
-      queryParams: EventSearchParams.transformParams(this.route.snapshot.queryParams)
+      queryParams: SearchParams.transformParams(this.route.snapshot.queryParams, this.route.snapshot.params)
     });
   }
 

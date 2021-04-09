@@ -16,7 +16,7 @@ import {ItemsByCategory, TicketCategoryForWaitingList} from '../model/items-by-c
 import {EventCode, DynamicDiscount} from '../model/event-code';
 import {AnalyticsService} from '../shared/analytics.service';
 import {ErrorDescriptor} from '../model/validated-response';
-import {EventSearchParams} from '../model/basic-event-info';
+import {SearchParams} from '../model/search-params';
 
 @Component({
   selector: 'app-event-display',
@@ -157,7 +157,7 @@ export class EventDisplayComponent implements OnInit {
     this.reservationService.reserveTickets(eventShortName, request, this.translate.currentLang).subscribe(res => {
       if (res.success) {
         this.router.navigate(['event', eventShortName, 'reservation', res.value, 'book'], {
-          queryParams: EventSearchParams.transformParams(this.route.snapshot.queryParams)
+          queryParams: SearchParams.transformParams(this.route.snapshot.queryParams, this.route.snapshot.params)
         });
       }
     }, (err) => {

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { BasicSubscriptionInfo, SubscriptionInfo } from '../model/subscription';
 import { ValidatedResponse } from '../model/validated-response';
 import { shareReplay } from 'rxjs/operators';
+import {SearchParams} from '../model/search-params';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,12 @@ export class SubscriptionService {
 
   constructor(private http: HttpClient) { }
 
-  getSubscriptions(): Observable<BasicSubscriptionInfo[]> {
-    return this.http.get<BasicSubscriptionInfo[]>('/api/v2/public/subscriptions');
+  getSubscriptions(searchParams?: SearchParams): Observable<BasicSubscriptionInfo[]> {
+    const params = searchParams?.toHttpParams();
+    return this.http.get<BasicSubscriptionInfo[]>('/api/v2/public/subscriptions', {
+      responseType: 'json',
+      params
+    });
   }
 
   getSubscriptionById(id: string): Observable<SubscriptionInfo> {

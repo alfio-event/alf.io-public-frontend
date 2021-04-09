@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {BasicEventInfo, EventSearchParams} from '../model/basic-event-info';
+import {BasicEventInfo} from '../model/basic-event-info';
 import { Language } from '../model/event';
 import { EventService } from '../shared/event.service';
 import { I18nService } from '../shared/i18n.service';
@@ -9,6 +9,7 @@ import { AnalyticsService } from '../shared/analytics.service';
 import { TranslateService } from '@ngx-translate/core';
 import {of, zip} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
+import {SearchParams} from '../model/search-params';
 
 @Component({
   selector: 'app-event-list-all',
@@ -32,11 +33,11 @@ export class EventListAllComponent implements OnInit {
 
     public ngOnInit(): void {
 
-      this.route.queryParams.pipe(
-        mergeMap(params => {
-          const searchParams = EventSearchParams.fromQueryParams(params);
-          return zip(this.eventService.getEvents(searchParams), this.info.getInfo(), of(searchParams));
-        })
+      zip(this.route.queryParams, this.route.params).pipe(
+          mergeMap(([params, pathParams]) => {
+            const searchParams = SearchParams.fromQueryAndPathParams(params, pathParams);
+            return zip(this.eventService.getEvents(searchParams), this.info.getInfo(), of(searchParams));
+          })
       ).subscribe(([res, info, searchParams]) => {
         this.queryParams = searchParams.toParams();
         if (res.length === 1) {

@@ -28,6 +28,8 @@ const subscriptionData = {type: 'subscription', publicIdentifierParameter: 'id'}
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [RemoveEventCssGuard, LanguageGuard] },
+  { path: 'o/:organizerSlug', component: HomeComponent, canActivate: [RemoveEventCssGuard, LanguageGuard] },
+  { path: 'o/:organizerSlug/events-all', component: EventListAllComponent, canActivate: [RemoveEventCssGuard, LanguageGuard] },
   { path: 'events-all', component: EventListAllComponent, canActivate: [RemoveEventCssGuard, LanguageGuard] },
   { path: 'subscriptions-all', component: SubscriptionListAllComponent, canActivate: [RemoveEventCssGuard, LanguageGuard]},
   { path: 'subscription/:id', component: SubscriptionDisplayComponent, canActivate: [RemoveEventCssGuard, LanguageGuard], data: subscriptionData},
