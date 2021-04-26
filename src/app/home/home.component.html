@@ -2,7 +2,7 @@
   <app-language-selector [contentLanguages]="languages"></app-language-selector>
 
   <div *ngIf="containsEvents || !containsSubscriptions" class="mb-2">
-    <h1 translate="event-list.title"></h1>
+    <h1 transloco="event-list.title"></h1>
 
     <div class="mb-3" *ngFor="let event of events">
       <app-basic-event-info [event]="event"></app-basic-event-info>

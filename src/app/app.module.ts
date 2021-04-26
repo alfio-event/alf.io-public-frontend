@@ -71,6 +71,7 @@ import {BasicSubscriptionInfoComponent} from './basic-subscription-info/basic-su
 import {SubscriptionSummaryComponent} from './subscription-summary/subscription-summary.component';
 import {PurchaseContextContainerComponent} from './purchase-context-container/purchase-context-container.component';
 import { ModalRemoveSubscriptionComponent } from './reservation/modal-remove-subscription/modal-remove-subscription.component';
+import { TranslocoRootModule } from './transloco/transloco-root.module';
 
 
 
@@ -145,6 +146,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
+    TranslocoRootModule,
     TranslateModule.forRoot({
       loader: {
           provide: TranslateLoader,

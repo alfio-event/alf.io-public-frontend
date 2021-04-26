@@ -9,7 +9,10 @@ import { Router, NavigationStart } from '@angular/router';
 import { map, mergeMap, shareReplay, catchError, share } from 'rxjs/operators';
 import { EventService } from './event.service';
 import { PurchaseContextType } from './purchase-context.service';
-import {PurchaseContext} from '../model/purchase-context';
+import { PurchaseContext} from '../model/purchase-context';
+import { TranslocoHttpLoader } from '../transloco/transloco-root.module';
+import { TranslocoService } from '@ngneat/transloco';
+import { ThrowStmt } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +33,10 @@ export class I18nService {
     private http: HttpClient,
     private title: Title,
     private translateService: TranslateService,
+    private translocoService: TranslocoService,
     private router: Router,
     private customLoader: CustomLoader,
+    private translocoHttpLoader: TranslocoHttpLoader,
     private eventService: EventService) { }
 
   getCountries(locale: string): Observable<LocalizedCountry[]> {
@@ -88,6 +93,17 @@ export class I18nService {
       this.translateService.setTranslation(lang, root, false);
       this.translateService.setTranslation(lang, override, true);
       this.translateService.use(lang);
+
+      
+      console.log(this.translocoService);
+      this.translocoService.setActiveLang(lang);
+      this.translocoService.setTranslation(root, lang);
+      console.log('override is', override);
+      console.log('before override', this.translocoService.translate('ticket.event-info', {}));
+      this.translocoService.setTranslation(override, lang, {merge: true, emitChange: true});
+      this.translocoService.setActiveLang(lang);
+      console.log('after override', this.translocoService.translate('ticket.event-info', {}));
+
       return of(true);
     }));
   }
