@@ -69,7 +69,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
         clearInterval(this.timerId);
         this.expired.emit(true);
       }
-    // tslint:disable-next-line: no-bitwise
+    // eslint-disable-next-line no-bitwise
     }, countdown.MONTHS | countdown.WEEKS | countdown.DAYS | countdown.HOURS | countdown.MINUTES | countdown.SECONDS) as number;
   }
 
