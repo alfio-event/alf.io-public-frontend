@@ -34,7 +34,7 @@ export class ReservationGuard implements CanActivate {
                 if (component === selectedComponent) {
                     return true;
                 }
-                return this.router.createUrlTree(getRouteFromComponent(selectedComponent, type, publicIdentifier, reservationId), {replaceUrl: true});
+                return this.router.createUrlTree(getRouteFromComponent(selectedComponent, type, publicIdentifier, reservationId), /* Removed unsupported properties by Angular migration: replaceUrl. */ {});
             }));
     }
 }
