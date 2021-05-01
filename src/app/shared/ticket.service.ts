@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReleaseTicketComponent } from '../reservation/release-ticket/release-ticket.component';
 import { mergeMap } from 'rxjs/operators';
+import {User} from '../model/user';
 
 @Injectable({
     providedIn: 'root'
@@ -33,8 +34,8 @@ export class TicketService {
         return this.http.post<boolean>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}/send-ticket-by-email`, {});
     }
 
-    buildFormGroupForTicket(ticket: Ticket): FormGroup {
-        return this.formBuilder.group(this.buildTicket(ticket));
+    buildFormGroupForTicket(ticket: Ticket, user?: User): FormGroup {
+        return this.formBuilder.group(this.buildTicket(ticket, user));
     }
 
 
@@ -57,11 +58,11 @@ export class TicketService {
       return this.http.delete<boolean>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}`, {});
     }
 
-    private buildTicket(ticket: Ticket): {firstName: string, lastName: string, email: string, userLanguage, additional: FormGroup} {
+    private buildTicket(ticket: Ticket, user?: User): {firstName: string, lastName: string, email: string, userLanguage, additional: FormGroup} {
       return {
-          firstName: ticket.firstName,
-          lastName: ticket.lastName,
-          email: ticket.email,
+          firstName: ticket.firstName || user?.firstName,
+          lastName: ticket.lastName || user?.lastName,
+          email: ticket.email || user?.emailAddress,
           userLanguage: ticket.userLanguage,
           additional: this.buildAdditionalFields(ticket.ticketFieldConfigurationBeforeStandard,
             ticket.ticketFieldConfigurationAfterStandard)

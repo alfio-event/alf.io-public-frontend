@@ -11,9 +11,18 @@ import {InvalidFeedbackDirective} from './invalid-feedback.directive';
 import {ClipboardCopyDirective} from './clipboard-copy/clipboard-copy.directive';
 import {FeedbackComponent} from './feedback/feedback.component';
 import {WarningModalComponent} from './warning-modal/warning-modal.component';
+import {TopBarComponent} from './topbar/top-bar.component';
 
 @NgModule({
-  declarations: [ LanguageSelectorComponent, PurchaseContextHeaderComponent, InvalidFeedbackDirective, ClipboardCopyDirective, FeedbackComponent, WarningModalComponent],
+  declarations: [
+    LanguageSelectorComponent,
+    PurchaseContextHeaderComponent,
+    InvalidFeedbackDirective,
+    ClipboardCopyDirective,
+    FeedbackComponent,
+    WarningModalComponent,
+    TopBarComponent
+  ],
   imports: [
     CommonModule,
     TranslateModule.forChild(),
@@ -21,6 +30,14 @@ import {WarningModalComponent} from './warning-modal/warning-modal.component';
     NgbDropdownModule,
     NgbToastModule
   ],
-  exports: [LanguageSelectorComponent, PurchaseContextHeaderComponent, InvalidFeedbackDirective, ClipboardCopyDirective, FeedbackComponent, WarningModalComponent],
+  exports: [
+    LanguageSelectorComponent,
+    PurchaseContextHeaderComponent,
+    InvalidFeedbackDirective,
+    ClipboardCopyDirective,
+    FeedbackComponent,
+    WarningModalComponent,
+    TopBarComponent
+  ],
 })
 export class SharedModule { }

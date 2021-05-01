@@ -1,6 +1,7 @@
 <app-purchase-context-container>
   <div *ngIf="purchaseContext" class="add-margin-bottom">
-      <header><app-purchase-context-header [purchaseContext]="purchaseContext" [type]="type"></app-purchase-context-header></header>
+      <header><app-purchase-context-header [purchaseContext]="purchaseContext" [type]="type"
+                                           [displayTopLoginButton]="false"></app-purchase-context-header></header>
       <hr>
       <main><ng-content></ng-content></main>
   </div>
