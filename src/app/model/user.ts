@@ -1,5 +1,10 @@
 import {BillingDetails} from './reservation-info';
 
+export interface AuthenticationStatus {
+  enabled: boolean;
+  user?: User;
+}
+
 export interface User {
   firstName?: string;
   lastName?: string;
@@ -9,7 +14,11 @@ export interface User {
 
 export interface UserProfile {
   billingDetails: BillingDetails;
-  additionalData: { [key: string]: string[] };
+  additionalData: UserAdditionalData;
+}
+
+export interface UserAdditionalData {
+  [key: string]: string[];
 }
 
 export const ANONYMOUS: User = {};

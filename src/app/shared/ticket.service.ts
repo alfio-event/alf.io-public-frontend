@@ -1,21 +1,27 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, from, empty, of } from 'rxjs';
-import { TicketInfo } from '../model/ticket-info';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Ticket, AdditionalField } from '../model/ticket';
-import { ValidatedResponse } from '../model/validated-response';
-import { TicketsByTicketCategory } from '../model/reservation-info';
-import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ReleaseTicketComponent } from '../reservation/release-ticket/release-ticket.component';
-import { mergeMap } from 'rxjs/operators';
-import {User} from '../model/user';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {from, Observable, of} from 'rxjs';
+import {TicketInfo} from '../model/ticket-info';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {AdditionalField, Ticket} from '../model/ticket';
+import {ValidatedResponse} from '../model/validated-response';
+import {TicketsByTicketCategory} from '../model/reservation-info';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ReleaseTicketComponent} from '../reservation/release-ticket/release-ticket.component';
+import {mergeMap} from 'rxjs/operators';
+import {User, UserAdditionalData} from '../model/user';
 
 @Injectable({
     providedIn: 'root'
 })
 export class TicketService {
+
+    private static getUserDataFieldValue(name: string, index: number, additionalData?: UserAdditionalData): string | null {
+      if (additionalData != null && additionalData[name] && additionalData[name].length > index) {
+        return additionalData[name][index];
+      }
+      return null;
+    }
 
     constructor(
         private http: HttpClient,
@@ -65,22 +71,22 @@ export class TicketService {
           email: ticket.email || user?.emailAddress,
           userLanguage: ticket.userLanguage,
           additional: this.buildAdditionalFields(ticket.ticketFieldConfigurationBeforeStandard,
-            ticket.ticketFieldConfigurationAfterStandard)
+            ticket.ticketFieldConfigurationAfterStandard, user?.profile?.additionalData)
       };
     }
 
-    private buildAdditionalFields(before: AdditionalField[], after: AdditionalField[]): FormGroup {
+    private buildAdditionalFields(before: AdditionalField[], after: AdditionalField[], userData?: UserAdditionalData): FormGroup {
       const additional = {};
       if (before) {
-        this.buildSingleAdditionalField(before, additional);
+        this.buildSingleAdditionalField(before, additional, userData);
       }
       if (after) {
-        this.buildSingleAdditionalField(after, additional);
+        this.buildSingleAdditionalField(after, additional, userData);
       }
       return this.formBuilder.group(additional);
     }
 
-    private buildSingleAdditionalField(a: AdditionalField[], additional: {}): void {
+    private buildSingleAdditionalField(a: AdditionalField[], additional: {}, userData?: UserAdditionalData): void {
       a.forEach(f => {
         const arr = [];
 
@@ -91,7 +97,7 @@ export class TicketService {
         }
 
         f.fields.forEach(field => {
-          arr[field.fieldIndex] = this.formBuilder.control(field.fieldValue);
+          arr[field.fieldIndex] = this.formBuilder.control(field.fieldValue || TicketService.getUserDataFieldValue(f.name, field.fieldIndex, userData));
         });
         additional[f.name] = this.formBuilder.array(arr);
       });

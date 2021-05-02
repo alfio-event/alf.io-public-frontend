@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { Event } from '../model/event';
-import { ActivatedRoute } from '@angular/router';
-import { PurchaseContextService, PurchaseContextType } from '../shared/purchase-context.service';
-import { PurchaseContext } from '../model/purchase-context';
-import { zip } from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {PurchaseContextService, PurchaseContextType} from '../shared/purchase-context.service';
+import {PurchaseContext} from '../model/purchase-context';
+import {Subscription, zip} from 'rxjs';
 
 @Component({
   selector: 'app-reservation',
   templateUrl: './reservation.component.html'
 })
-export class ReservationComponent implements OnInit {
+export class ReservationComponent implements OnInit, OnDestroy {
 
+  private routerSubscription?: Subscription;
   purchaseContext: PurchaseContext;
   type: PurchaseContextType;
+  enableLoginButton = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,5 +26,12 @@ export class ReservationComponent implements OnInit {
         this.purchaseContext = purchaseContext;
       });
     });
+    this.routerSubscription = this.route.url.subscribe(url => {
+      this.enableLoginButton = url[url.length - 1].path === 'success';
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.routerSubscription?.unsubscribe();
   }
 }

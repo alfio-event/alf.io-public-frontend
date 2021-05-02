@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -71,12 +71,18 @@ import {BasicSubscriptionInfoComponent} from './basic-subscription-info/basic-su
 import {SubscriptionSummaryComponent} from './subscription-summary/subscription-summary.component';
 import {PurchaseContextContainerComponent} from './purchase-context-container/purchase-context-container.component';
 import { ModalRemoveSubscriptionComponent } from './reservation/modal-remove-subscription/modal-remove-subscription.component';
+import {UserService} from './shared/user.service';
+import {Observable} from 'rxjs';
 
 
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new CustomLoader(http);
+}
+
+export function InitUserService(userService: UserService): () => Promise<boolean> {
+  return () => userService.initAuthenticationStatus();
 }
 
 @NgModule({
@@ -158,7 +164,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgbDropdownModule,
     SharedModule
   ],
-  providers: [],
+  providers: [{
+    provide: APP_INITIALIZER,
+    useFactory: InitUserService,
+    deps: [UserService],
+    multi: true
+  }],
   bootstrap: [AppComponent],
   entryComponents: [ReservationExpiredComponent, ReleaseTicketComponent, CancelReservationComponent, ModalRemoveSubscriptionComponent]
 })
