@@ -12,7 +12,8 @@ import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome
 import {
   faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill, faDownload, faSearchPlus,
   faExchangeAlt, faExclamationTriangle, faExclamationCircle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice, faGlobe,
-  faAngleDown, faAngleUp, faCircle, faMoneyCheckAlt, faWifi, faTrash, faUserAstronaut, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+  faAngleDown, faAngleUp, faCircle, faMoneyCheckAlt, faWifi, faTrash, faUserAstronaut, faSignInAlt, faSignOutAlt, faExternalLinkAlt
+} from '@fortawesome/free-solid-svg-icons';
 import {
   faCalendarAlt, faCalendarPlus, faCompass, faClock, faEnvelope,
   faEdit, faClone, faHandshake, faBuilding, faCheckCircle, faCopy } from '@fortawesome/free-regular-svg-icons';
@@ -72,7 +73,7 @@ import {SubscriptionSummaryComponent} from './subscription-summary/subscription-
 import {PurchaseContextContainerComponent} from './purchase-context-container/purchase-context-container.component';
 import { ModalRemoveSubscriptionComponent } from './reservation/modal-remove-subscription/modal-remove-subscription.component';
 import {UserService} from './shared/user.service';
-import {Observable} from 'rxjs';
+import {MyOrdersComponent} from './my-orders/my-orders.component';
 
 
 
@@ -138,7 +139,8 @@ export function InitUserService(userService: UserService): () => Promise<boolean
     SuccessSubscriptionComponent,
     SubscriptionSummaryComponent,
     PurchaseContextContainerComponent,
-    ModalRemoveSubscriptionComponent
+    ModalRemoveSubscriptionComponent,
+    MyOrdersComponent
   ],
   imports: [
     BrowserModule,
@@ -178,7 +180,7 @@ export class AppModule {
     library.addIcons(faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill,
       faDownload, faSearchPlus, faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice, faGlobe,
       faAngleDown, faAngleUp, faCircle, faCheckCircle, faMoneyCheckAlt, faWifi, faTrash, faCopy, faExclamationCircle, faUserAstronaut,
-      faSignInAlt, faSignOutAlt);
+      faSignInAlt, faSignOutAlt, faExternalLinkAlt);
     library.addIcons(faCalendarAlt, faCalendarPlus, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake, faBuilding);
     library.addIcons(faPaypal, faStripe, faIdeal, faApplePay);
   }

@@ -1,6 +1,6 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {ANONYMOUS, AuthenticationStatus, User} from '../model/user';
+import {ANONYMOUS, AuthenticationStatus, PurchaseContextWithReservation, User} from '../model/user';
 import {BehaviorSubject, interval, Observable, of, Subject, Subscription, timer} from 'rxjs';
 import {map, mergeMap, tap, timeout} from 'rxjs/operators';
 
@@ -60,8 +60,12 @@ export class UserService implements OnDestroy {
       }));
   }
 
+  getOrders(): Observable<Array<PurchaseContextWithReservation>> {
+    return this.http.get<Array<PurchaseContextWithReservation>>('/api/v2/public/user/reservations');
+  }
+
   private startPolling(): void {
-    this.authStatusSubscription = interval(5000).pipe(
+    this.authStatusSubscription = interval(30_000).pipe(
       mergeMap(() => this.loadUserStatus())
     ).subscribe(() => {});
   }

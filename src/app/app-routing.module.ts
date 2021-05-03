@@ -20,6 +20,7 @@ import { SubscriptionListAllComponent } from './subscription-list-all/subscripti
 import { RemoveEventCssGuard } from './remove-event-css.guard';
 import { SubscriptionDisplayComponent } from './subscription-display/subscription-display.component';
 import { SuccessSubscriptionComponent } from './reservation/success-subscription/success-subscription.component';
+import { MyOrdersComponent } from './my-orders/my-orders.component';
 
 const eventReservationsGuard = [EventGuard, LanguageGuard, ReservationGuard];
 const eventData = {type: 'event', publicIdentifierParameter: 'eventShortName'};
@@ -60,6 +61,7 @@ const routes: Routes = [
     { path: 'view', component: ViewTicketComponent, canActivate: [EventGuard, LanguageGuard] },
     { path: 'update', component: UpdateTicketComponent, canActivate: [EventGuard, LanguageGuard] }
   ]},
+  { path: 'my-orders', component: MyOrdersComponent, canActivate: [RemoveEventCssGuard, LanguageGuard] }
 ];
 
 @NgModule({

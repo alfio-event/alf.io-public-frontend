@@ -3,6 +3,7 @@ import {UserService} from '../user.service';
 import {ANONYMOUS, User} from '../../model/user';
 import {Language} from '../../model/event';
 import {Subscription} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-topbar',
@@ -18,7 +19,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
   user?: User;
   authenticationEnabled = false;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -44,5 +45,9 @@ export class TopBarComponent implements OnInit, OnDestroy {
         this.user = undefined;
       }
     });
+  }
+
+  myOrders(): void {
+    this.router.navigate(['my-orders']);
   }
 }
