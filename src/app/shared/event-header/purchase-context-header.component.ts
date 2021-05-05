@@ -19,6 +19,9 @@ export class PurchaseContextHeaderComponent implements OnInit, OnDestroy {
   @Input()
   type: PurchaseContextType;
 
+  @Input()
+  displayTopLoginButton = true;
+
   schemaElem: HTMLScriptElement;
 
   constructor(private i18nService: I18nService, private translateService: TranslateService) {

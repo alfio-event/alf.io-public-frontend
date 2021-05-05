@@ -1,23 +1,27 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ReservationService } from '../../shared/reservation.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TicketService } from 'src/app/shared/ticket.service';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ReservationService} from '../../shared/reservation.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {TicketService} from 'src/app/shared/ticket.service';
 import {BillingDetails, ItalianEInvoicing, ReservationInfo, ReservationSubscriptionInfo, TicketsByTicketCategory} from 'src/app/model/reservation-info';
-import { Observable, of, Subject, zip } from 'rxjs';
-import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
-import { I18nService } from 'src/app/shared/i18n.service';
-import { Ticket } from 'src/app/model/ticket';
-import { TranslateService } from '@ngx-translate/core';
-import { AnalyticsService } from 'src/app/shared/analytics.service';
-import { ErrorDescriptor } from 'src/app/model/validated-response';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ReservationExpiredComponent } from '../expired-notification/reservation-expired.component';
-import { CancelReservationComponent } from '../cancel-reservation/cancel-reservation.component';
-import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
-import { PurchaseContext } from 'src/app/model/purchase-context';
+import {Observable, of, Subject, zip} from 'rxjs';
+import {getErrorObject, handleServerSideValidationError} from 'src/app/shared/validation-helper';
+import {I18nService} from 'src/app/shared/i18n.service';
+import {Ticket} from 'src/app/model/ticket';
+import {TranslateService} from '@ngx-translate/core';
+import {AnalyticsService} from 'src/app/shared/analytics.service';
+import {ErrorDescriptor} from 'src/app/model/validated-response';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ReservationExpiredComponent} from '../expired-notification/reservation-expired.component';
+import {CancelReservationComponent} from '../cancel-reservation/cancel-reservation.component';
+import {PurchaseContextService, PurchaseContextType} from 'src/app/shared/purchase-context.service';
+import {PurchaseContext} from 'src/app/model/purchase-context';
 import {WarningModalComponent} from '../../shared/warning-modal/warning-modal.component';
 import {SearchParams} from '../../model/search-params';
+import {UserService} from '../../shared/user.service';
+import {ANONYMOUS, User} from '../../model/user';
+import {first} from 'rxjs/operators';
+import {FeedbackService} from '../../shared/feedback/feedback.service';
 
 @Component({
   selector: 'app-booking',
@@ -40,11 +44,16 @@ export class BookingComponent implements OnInit, AfterViewInit {
   ticketCounts: number;
 
   enableAttendeeAutocomplete: boolean;
+  displayLoginSuggestion: boolean;
 
-  private static optionalGet<T>(billingDetails: BillingDetails, consumer: (b: ItalianEInvoicing) => T): T | null {
+  private static optionalGet<T>(billingDetails: BillingDetails, consumer: (b: ItalianEInvoicing) => T, userBillingDetails?: BillingDetails): T | null {
     const italianEInvoicing = billingDetails.invoicingAdditionalInfo.italianEInvoicing;
     if (italianEInvoicing != null) {
       return consumer(italianEInvoicing);
+    }
+    const userItalianEInvoicing = userBillingDetails?.invoicingAdditionalInfo?.italianEInvoicing;
+    if (userItalianEInvoicing != null) {
+      return consumer(userItalianEInvoicing);
     }
     return null;
   }
@@ -64,14 +73,18 @@ export class BookingComponent implements OnInit, AfterViewInit {
     private i18nService: I18nService,
     private translate: TranslateService,
     private analytics: AnalyticsService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private userService: UserService,
+    private feedbackService: FeedbackService) { }
 
   public ngOnInit(): void {
-    zip(this.route.data, this.route.params).subscribe(([data, params]) => {
+    zip(this.route.data, this.route.params, this.userService.authenticationStatus.pipe(first())).subscribe(([data, params, authStatus]) => {
 
+      const user: User | undefined = authStatus.user;
       this.publicIdentifier = params[data.publicIdentifierParameter];
       this.reservationId = params['reservationId'];
       this.purchaseContextType = data.type;
+      this.displayLoginSuggestion = authStatus.enabled && authStatus.user === ANONYMOUS;
 
       zip(
         this.purchaseContextService.getContext(this.purchaseContextType, this.publicIdentifier),
@@ -101,32 +114,33 @@ export class BookingComponent implements OnInit, AfterViewInit {
         //
 
         const billingDetails = this.reservationInfo.billingDetails;
+        const userBillingDetails = user?.profile?.billingDetails;
 
         this.contactAndTicketsForm = this.formBuilder.group({
-          firstName: this.formBuilder.control(this.reservationInfo.firstName, [Validators.required, Validators.maxLength(255)]),
-          lastName: this.formBuilder.control(this.reservationInfo.lastName, [Validators.required, Validators.maxLength(255)]),
-          email: this.formBuilder.control(this.reservationInfo.email, [Validators.required, Validators.maxLength(255)]),
-          tickets: this.buildTicketsFormGroup(this.reservationInfo.ticketsByCategory),
+          firstName: this.formBuilder.control(this.reservationInfo.firstName || user?.firstName, [Validators.required, Validators.maxLength(255)]),
+          lastName: this.formBuilder.control(this.reservationInfo.lastName || user?.lastName, [Validators.required, Validators.maxLength(255)]),
+          email: this.formBuilder.control(this.reservationInfo.email || user?.emailAddress, [Validators.required, Validators.maxLength(255)]),
+          tickets: this.buildTicketsFormGroup(this.reservationInfo.ticketsByCategory, user),
           invoiceRequested: invoiceRequested,
-          addCompanyBillingDetails: this.reservationInfo.addCompanyBillingDetails,
-          billingAddressCompany: billingDetails.companyName,
-          billingAddressLine1: billingDetails.addressLine1,
-          billingAddressLine2: billingDetails.addressLine2,
-          billingAddressZip: billingDetails.zip,
-          billingAddressCity: billingDetails.city,
-          billingAddressState: billingDetails.state,
-          vatCountryCode: billingDetails.country,
+          addCompanyBillingDetails: this.reservationInfo.addCompanyBillingDetails || userBillingDetails?.companyName != null,
+          billingAddressCompany: billingDetails.companyName || userBillingDetails?.companyName,
+          billingAddressLine1: billingDetails.addressLine1 || userBillingDetails?.addressLine1,
+          billingAddressLine2: billingDetails.addressLine2 || userBillingDetails?.addressLine2,
+          billingAddressZip: billingDetails.zip || userBillingDetails?.zip,
+          billingAddressCity: billingDetails.city || userBillingDetails?.city,
+          billingAddressState: billingDetails.state || userBillingDetails?.state,
+          vatCountryCode: billingDetails.country || userBillingDetails?.country,
           customerReference: this.reservationInfo.customerReference,
-          vatNr: billingDetails.taxId,
+          vatNr: billingDetails.taxId || userBillingDetails?.taxId,
           skipVatNr: this.reservationInfo.skipVatNr,
-          italyEInvoicingFiscalCode: BookingComponent.optionalGet(billingDetails, (i) => i.fiscalCode),
-          italyEInvoicingReferenceType: BookingComponent.optionalGet(billingDetails, (i) => i.referenceType),
-          italyEInvoicingReferenceAddresseeCode: BookingComponent.optionalGet(billingDetails, (i) => i.addresseeCode),
-          italyEInvoicingReferencePEC: BookingComponent.optionalGet(billingDetails, (i) => i.pec),
-          italyEInvoicingSplitPayment: BookingComponent.optionalGet(billingDetails, (i) => i.splitPayment),
+          italyEInvoicingFiscalCode: BookingComponent.optionalGet(billingDetails, (i) => i.fiscalCode, userBillingDetails),
+          italyEInvoicingReferenceType: BookingComponent.optionalGet(billingDetails, (i) => i.referenceType, userBillingDetails),
+          italyEInvoicingReferenceAddresseeCode: BookingComponent.optionalGet(billingDetails, (i) => i.addresseeCode, userBillingDetails),
+          italyEInvoicingReferencePEC: BookingComponent.optionalGet(billingDetails, (i) => i.pec, userBillingDetails),
+          italyEInvoicingSplitPayment: BookingComponent.optionalGet(billingDetails, (i) => i.splitPayment, userBillingDetails),
           postponeAssignment: false,
           differentSubscriptionOwner: false,
-          subscriptionOwner: this.buildSubscriptionOwnerFormGroup(this.reservationInfo.subscriptionInfos)
+          subscriptionOwner: this.buildSubscriptionOwnerFormGroup(this.reservationInfo.subscriptionInfos, user)
         });
 
         setTimeout(() => this.doScroll.next(this.invoiceElement != null));
@@ -147,24 +161,24 @@ export class BookingComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private buildSubscriptionOwnerFormGroup(subscriptionInfos: Array<ReservationSubscriptionInfo> | undefined): FormGroup {
+  private buildSubscriptionOwnerFormGroup(subscriptionInfos: Array<ReservationSubscriptionInfo> | undefined, user?: User): FormGroup {
     if (subscriptionInfos != null) {
       const subscriptionInfo = subscriptionInfos[0];
       return this.formBuilder.group({
-        firstName: subscriptionInfo.owner?.firstName,
-        lastName: subscriptionInfo.owner?.lastName,
-        email: subscriptionInfo.owner?.email
+        firstName: subscriptionInfo.owner?.firstName || user?.firstName,
+        lastName: subscriptionInfo.owner?.lastName || user?.lastName,
+        email: subscriptionInfo.owner?.email || user?.emailAddress
       });
     } else {
       return null;
     }
   }
 
-  private buildTicketsFormGroup(ticketsByCategory: TicketsByTicketCategory[]): FormGroup {
+  private buildTicketsFormGroup(ticketsByCategory: TicketsByTicketCategory[], user: User): FormGroup {
     const tickets = {};
     ticketsByCategory.forEach(t => {
-      t.tickets.forEach((ticket) => {
-        tickets[ticket.uuid] = this.ticketService.buildFormGroupForTicket(ticket);
+      t.tickets.forEach((ticket, idx) => {
+        tickets[ticket.uuid] = this.ticketService.buildFormGroupForTicket(ticket, idx === 0 ? user : undefined);
       });
     });
     return this.formBuilder.group(tickets);
@@ -265,4 +279,23 @@ export class BookingComponent implements OnInit, AfterViewInit {
     });
   }
 
+  login(): void {
+    // save reservation status
+    const redirectToLogin = () => {
+      window.location.href = `/openid/authentication?reservation=${this.reservationId}&contextType=${this.purchaseContextType}&id=${this.publicIdentifier}`;
+    };
+    this.reservationService.validateToOverview(this.reservationId, this.contactAndTicketsForm.value, this.translate.currentLang, false)
+      .subscribe(() => {
+        // reservation is now saved. We can proceed to login
+        redirectToLogin();
+      }, error => {
+        const errorObj = getErrorObject(error);
+        if (errorObj != null) {
+          // reservation is not in a valid state. Proceed anyway
+          redirectToLogin();
+        } else {
+          this.feedbackService.showError(this.translate.instant('reservation-page.cannot-login.error'));
+        }
+      });
+  }
 }

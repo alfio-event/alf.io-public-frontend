@@ -10,6 +10,10 @@
 
     <div class="page-header">
       <h2 translate="reservation-page.your-details"></h2>
+      <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="displayLoginSuggestion">
+        <div class="h6"><fa-icon [icon]="['fas', 'info-circle']" class="text-info" a11yRole="presentation"></fa-icon> {{ 'reservation-page.login.message' | translate }}</div>
+        <button type="button" (click)="login()" class="btn btn-default"><fa-icon [icon]="['fas', 'sign-in-alt']" a11yRole="presentation"></fa-icon> {{ 'user.menu.login' | translate }}</button>
+      </div>
     </div>
 
     <div class="alert alert-danger" role="alert" *ngIf="globalErrors && globalErrors.length > 0">

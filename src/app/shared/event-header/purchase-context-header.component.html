@@ -1,4 +1,4 @@
-<app-language-selector [contentLanguages]="purchaseContext.contentLanguages"></app-language-selector>
+<app-topbar [contentLanguages]="purchaseContext.contentLanguages" [displayLoginButton]="displayTopLoginButton"></app-topbar>
 <div class="row">
   <div class="col-12" [ngClass]="{'col-sm-7 col-md-4': isEvent}">
     <img class="img-responsive" alt="" aria-hidden="true" [src]="'/file/'+purchaseContext.fileBlobId" role="presentation">

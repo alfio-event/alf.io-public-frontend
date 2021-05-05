@@ -1,0 +1,42 @@
+<div class="container mt-2">
+  <div class="application-container p-md-4">
+    <app-topbar [contentLanguages]="languages"></app-topbar>
+    <div class="page-header">
+      <h1>{{ 'user.menu.my-orders' | translate }}</h1>
+      <small>{{ 'my-orders.description' | translate }}</small>
+    </div>
+
+    <div *ngFor="let order of orders" class="mt-5">
+      <h2>{{ localizedTitle(order) }}</h2>
+      <div class="row" class="mt-4">
+        <table class="table table-hover">
+          <caption class="sr-only" translate="my-orders.for-pc.description" [translateParams]="{'0': 'purchase-context.'+order.type | translate, '1': localizedTitle(order)}"></caption>
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center" translate="my-orders.id" width="20%"></th>
+              <th class="text-center" translate="my-orders.status" width="20%"></th>
+              <th class="text-center" translate="my-orders.confirmation-date" width="20%"></th>
+              <th class="text-align-right" translate="my-orders.total-amount" width="40%"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let reservation of order.reservations">
+              <td class="text-center">
+                <a [routerLink]="[ '/', order.type, order.publicIdentifier, 'reservation', reservation.id, 'book']" target="_blank" rel="noopener">
+                  {{ reservation.id | slice:0:8 | uppercase }}
+                </a>
+              </td>
+              <td [ngClass]="getTextClass(reservation)" class="text-center"><fa-icon [icon]="getStatusIcon(reservation)" a11yRole="presentation" [title]="getStatusDescription(reservation) | translate"></fa-icon></td>
+              <td class="text-center">{{reservation.confirmedOn | date:'yyyy-MM-dd'}}</td>
+              <td class="text-align-right">{{reservation.currencyCode}} {{reservation.finalPrice}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <hr>
+    <div class="mt-4 text-center">
+      <a class="btn btn-default" [routerLink]="['/']">{{ 'to-home' | translate }}</a>
+    </div>
+  </div>
+</div>
