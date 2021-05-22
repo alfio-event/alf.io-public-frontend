@@ -3,7 +3,7 @@ import { EventService, shouldDisplayTimeZoneInfo } from '../shared/event.service
 import { Router } from '@angular/router';
 import { BasicEventInfo } from '../model/basic-event-info';
 import { I18nService } from '../shared/i18n.service';
-import { Language } from '../model/event';
+import {Language, TermsPrivacyLinksContainer} from '../model/event';
 import { TranslateService } from '@ngx-translate/core';
 import { AnalyticsService } from '../shared/analytics.service';
 import { InfoService } from '../shared/info.service';
@@ -19,6 +19,7 @@ export class EventListComponent implements OnInit {
 
   events: Array<BasicEventInfo[]>;
   languages: Language[];
+  linksContainer: TermsPrivacyLinksContainer;
 
   constructor(
     private eventService: EventService,
@@ -41,6 +42,7 @@ export class EventListComponent implements OnInit {
           this.events = res.reduce((prevVal: any, currVal: any, currIndx: number, array: Array<BasicEventInfo>) =>
                         !(currIndx % chunkSize) ? prevVal.concat([array.slice(currIndx, currIndx + chunkSize)]) : prevVal, []);
           this.analytics.pageView(info.analyticsConfiguration);
+          this.linksContainer = { privacyPolicyUrl: info.globalPrivacyPolicyUrl, termsAndConditionsUrl: info.globalTermsUrl };
         }
       });
 

@@ -26,4 +26,7 @@
     <h3 translate="event-list.no-events"></h3>
   </div>
 
+  <hr class="mt-5" *ngIf="linksContainer.termsAndConditionsUrl || linksContainer.privacyPolicyUrl" />
+  <app-event-footer-links [linksContainer]="linksContainer"></app-event-footer-links>
+
 </ng-container>

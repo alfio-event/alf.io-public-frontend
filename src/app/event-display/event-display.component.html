@@ -199,7 +199,7 @@
       <app-recaptcha [apiKey]="event.captchaConfiguration.recaptchaApiKey" (recaptchaResponse)="handleRecaptchaResponse($event)" *ngIf="event.captchaConfiguration.captchaForTicketSelection && event.captchaConfiguration.recaptchaApiKey"></app-recaptcha>
 
       <hr class="mt-5">
-      <app-event-footer-links [event]="event"></app-event-footer-links>
+      <app-event-footer-links [linksContainer]="event"></app-event-footer-links>
 
       <div class="row d-flex justify-content-between mobile-add-margin-bottom">
         <div class="col-md-5 order-md-1 col-12"><button type="submit" class="block-button btn btn-success" translate="show-event.continue"></button></div>

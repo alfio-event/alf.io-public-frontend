@@ -2,7 +2,12 @@ import { DateValidity, EventDatesWithOffset } from './date-validity';
 import { AnalyticsConfiguration } from './analytics-configuration';
 import { IconPrefix, IconName } from '@fortawesome/fontawesome-svg-core';
 
-export class Event implements DateValidity {
+export interface TermsPrivacyLinksContainer {
+  privacyPolicyUrl?: string;
+  termsAndConditionsUrl?: string;
+}
+
+export class Event implements DateValidity, TermsPrivacyLinksContainer {
     shortName: string;
     displayName: string;
     format: EventFormat;

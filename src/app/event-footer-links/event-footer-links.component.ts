@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Event } from '../model/event';
+import { TermsPrivacyLinksContainer } from '../model/event';
 
 @Component({
     selector: 'app-event-footer-links',
@@ -7,5 +7,5 @@ import { Event } from '../model/event';
 })
 export class EventFooterLinksComponent {
     @Input()
-    event: Event;
+    linksContainer: TermsPrivacyLinksContainer;
 }
