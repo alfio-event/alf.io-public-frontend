@@ -1,9 +1,9 @@
 import {AnalyticsConfiguration} from './analytics-configuration';
 import {AssignmentConfiguration, CaptchaConfiguration, CurrencyDescriptor, InvoicingConfiguration, Language} from './event';
-import {PurchaseContext, PurchaseContextPriceDescriptor} from './purchase-context';
+import {Localized, PurchaseContext, PurchaseContextPriceDescriptor} from './purchase-context';
 import {DatesWithOffset} from './date-validity';
 
-export interface SubscriptionSummaryData extends PurchaseContextPriceDescriptor {
+export interface SubscriptionSummaryData extends PurchaseContextPriceDescriptor, Localized {
   salePeriod: DatesWithOffset;
   formattedOnSaleFrom: { [key: string]: string };
   formattedOnSaleTo?: { [key: string]: string };
@@ -45,6 +45,7 @@ export class BasicSubscriptionInfo implements SubscriptionSummaryData {
 
   formattedOnSaleFrom: { [key: string]: string };
   formattedOnSaleTo?: { [key: string]: string };
+  contentLanguages: Language[] = [];
 
 }
 

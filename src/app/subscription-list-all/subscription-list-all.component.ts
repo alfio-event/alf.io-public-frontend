@@ -9,6 +9,7 @@ import { SubscriptionService } from '../shared/subscription.service';
 import { zip } from 'rxjs';
 import {Language, TermsPrivacyLinksContainer} from '../model/event';
 import {globalTermsPrivacyLinks} from '../model/info';
+import {filterAvailableLanguages} from '../model/purchase-context';
 
 @Component({
   selector: 'app-subscription-list-all',
@@ -30,21 +31,18 @@ export class SubscriptionListAllComponent implements OnInit {
     private analytics: AnalyticsService) { }
 
   ngOnInit(): void {
-    zip(this.subscriptionService.getSubscriptions(), this.info.getInfo()).subscribe(([res, info]) => {
+    zip(this.subscriptionService.getSubscriptions(), this.info.getInfo(), this.i18nService.getAvailableLanguages()).subscribe(([res, info, activeLanguages]) => {
       if (res.length === 1) {
         this.router.navigate(['/subscription', res[0].id], {replaceUrl: true});
       } else {
         this.subscriptions = res;
         this.analytics.pageView(info.analyticsConfiguration);
         this.linksContainer = globalTermsPrivacyLinks(info);
+        this.languages = filterAvailableLanguages(activeLanguages, res);
+        this.i18nService.setPageTitle('subscription.header.title', null);
       }
     });
 
-    this.i18nService.getAvailableLanguages().subscribe(res => {
-      this.languages = res;
-    });
-
-    this.i18nService.setPageTitle('subscription.header.title', null);
   }
 
 }

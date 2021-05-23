@@ -1,7 +1,7 @@
 import { DateValidity, DatesWithOffset } from './date-validity';
 import { AnalyticsConfiguration } from './analytics-configuration';
 import { IconPrefix, IconName } from '@fortawesome/fontawesome-svg-core';
-import { PurchaseContext } from './purchase-context';
+import {Localized, PurchaseContext} from './purchase-context';
 
 export interface TermsPrivacyLinksContainer {
   privacyPolicyUrl?: string;

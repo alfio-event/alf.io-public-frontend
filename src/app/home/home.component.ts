@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { EventService } from '../shared/event.service';
+import {Component, OnInit} from '@angular/core';
+import {EventService} from '../shared/event.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import { BasicEventInfo } from '../model/basic-event-info';
-import { I18nService } from '../shared/i18n.service';
+import {BasicEventInfo} from '../model/basic-event-info';
+import {I18nService} from '../shared/i18n.service';
 import {Language, TermsPrivacyLinksContainer} from '../model/event';
-import { TranslateService } from '@ngx-translate/core';
-import { AnalyticsService } from '../shared/analytics.service';
-import { InfoService } from '../shared/info.service';
-import { zip } from 'rxjs';
-import { SubscriptionService } from '../shared/subscription.service';
-import { BasicSubscriptionInfo } from '../model/subscription';
+import {TranslateService} from '@ngx-translate/core';
+import {AnalyticsService} from '../shared/analytics.service';
+import {InfoService} from '../shared/info.service';
+import {zip} from 'rxjs';
+import {SubscriptionService} from '../shared/subscription.service';
+import {BasicSubscriptionInfo} from '../model/subscription';
 import {mergeMap} from 'rxjs/operators';
 import {SearchParams} from '../model/search-params';
 import {globalTermsPrivacyLinks} from '../model/info';
+import {filterAvailableLanguages} from '../model/purchase-context';
 
 @Component({
   selector: 'app-home',
@@ -43,9 +44,13 @@ export class HomeComponent implements OnInit {
       zip(this.route.params, this.route.queryParams).pipe(
         mergeMap(([pathParams, queryParams]) => {
           this.searchParams = SearchParams.fromQueryAndPathParams(queryParams, pathParams);
-          return zip(this.eventService.getEvents(this.searchParams), this.subscriptionService.getSubscriptions(this.searchParams), this.info.getInfo());
+          return zip(
+            this.eventService.getEvents(this.searchParams),
+            this.subscriptionService.getSubscriptions(this.searchParams),
+            this.info.getInfo(),
+            this.i18nService.getAvailableLanguages());
         })
-      ).subscribe(([res, subscriptions, info]) => {
+      ).subscribe(([res, subscriptions, info, activeLanguages]) => {
         if (res.length === 1 && subscriptions.length === 0) {
           this.router.navigate(['/event', res[0].shortName], {replaceUrl: true});
         } else {
@@ -55,11 +60,9 @@ export class HomeComponent implements OnInit {
           this.subscriptions = subscriptions.slice(0, 4);
           this.analytics.pageView(info.analyticsConfiguration);
           this.linksContainer = globalTermsPrivacyLinks(info);
+          const allPurchaseContexts = [...res, ...subscriptions];
+          this.languages = filterAvailableLanguages(activeLanguages, allPurchaseContexts);
         }
-      });
-
-      this.i18nService.getAvailableLanguages().subscribe(res => {
-        this.languages = res;
       });
 
       this.i18nService.setPageTitle('event-list.header.title', null);
