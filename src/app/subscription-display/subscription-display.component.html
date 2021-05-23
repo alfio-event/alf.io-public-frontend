@@ -20,7 +20,7 @@
 
           <hr class="mt-5">
 
-          <app-footer-links [purchaseContext]="subscription"></app-footer-links>
+          <app-footer-links [linksContainer]="subscription"></app-footer-links>
 
           <div class="row d-flex justify-content-between mobile-add-margin-bottom">
             <div class="col-md-5 order-md-1 col-12"><button type="submit" *ngIf="subscription.numAvailable > 0" class="block-button btn btn-success" translate="show-event.continue"></button></div>

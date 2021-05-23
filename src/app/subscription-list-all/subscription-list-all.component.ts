@@ -7,7 +7,8 @@ import { I18nService } from '../shared/i18n.service';
 import { InfoService } from '../shared/info.service';
 import { SubscriptionService } from '../shared/subscription.service';
 import { zip } from 'rxjs';
-import { Language } from '../model/event';
+import {Language, TermsPrivacyLinksContainer} from '../model/event';
+import {globalTermsPrivacyLinks} from '../model/info';
 
 @Component({
   selector: 'app-subscription-list-all',
@@ -19,6 +20,7 @@ export class SubscriptionListAllComponent implements OnInit {
 
   subscriptions: BasicSubscriptionInfo[];
   languages: Language[];
+  linksContainer: TermsPrivacyLinksContainer;
 
   constructor(private subscriptionService: SubscriptionService,
     private i18nService: I18nService,
@@ -34,6 +36,7 @@ export class SubscriptionListAllComponent implements OnInit {
       } else {
         this.subscriptions = res;
         this.analytics.pageView(info.analyticsConfiguration);
+        this.linksContainer = globalTermsPrivacyLinks(info);
       }
     });
 

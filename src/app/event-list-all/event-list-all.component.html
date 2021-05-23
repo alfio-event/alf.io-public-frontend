@@ -11,4 +11,7 @@
   <div class="alert text-center" *ngIf="events.length == 0">
     <h3 translate="event-list.no-events"></h3>
   </div>
+
+  <hr class="mt-5" *ngIf="linksContainer.termsAndConditionsUrl || linksContainer.privacyPolicyUrl" />
+  <app-footer-links [linksContainer]="linksContainer"></app-footer-links>
 </div>

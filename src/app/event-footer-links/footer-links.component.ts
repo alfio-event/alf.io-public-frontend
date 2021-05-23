@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { PurchaseContext } from '../model/purchase-context';
+import {TermsPrivacyLinksContainer} from '../model/event';
 
 @Component({
     selector: 'app-footer-links',
@@ -7,5 +8,5 @@ import { PurchaseContext } from '../model/purchase-context';
 })
 export class FooterLinksComponent {
     @Input()
-    purchaseContext: PurchaseContext;
+    linksContainer: TermsPrivacyLinksContainer;
 }

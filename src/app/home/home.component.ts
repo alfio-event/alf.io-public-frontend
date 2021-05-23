@@ -3,7 +3,7 @@ import { EventService } from '../shared/event.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import { BasicEventInfo } from '../model/basic-event-info';
 import { I18nService } from '../shared/i18n.service';
-import { Language } from '../model/event';
+import {Language, TermsPrivacyLinksContainer} from '../model/event';
 import { TranslateService } from '@ngx-translate/core';
 import { AnalyticsService } from '../shared/analytics.service';
 import { InfoService } from '../shared/info.service';
@@ -12,6 +12,7 @@ import { SubscriptionService } from '../shared/subscription.service';
 import { BasicSubscriptionInfo } from '../model/subscription';
 import {mergeMap} from 'rxjs/operators';
 import {SearchParams} from '../model/search-params';
+import {globalTermsPrivacyLinks} from '../model/info';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit {
   subscriptions: BasicSubscriptionInfo[];
   allSubscriptions: BasicSubscriptionInfo[];
   languages: Language[];
+  linksContainer: TermsPrivacyLinksContainer;
   private searchParams?: SearchParams;
 
   constructor(
@@ -52,6 +54,7 @@ export class HomeComponent implements OnInit {
           this.allSubscriptions = subscriptions;
           this.subscriptions = subscriptions.slice(0, 4);
           this.analytics.pageView(info.analyticsConfiguration);
+          this.linksContainer = globalTermsPrivacyLinks(info);
         }
       });
 

@@ -31,4 +31,7 @@
     </div>
   </div>
 
+  <hr class="mt-5" *ngIf="linksContainer.termsAndConditionsUrl || linksContainer.privacyPolicyUrl" />
+  <app-footer-links [linksContainer]="linksContainer"></app-footer-links>
+
 </div>

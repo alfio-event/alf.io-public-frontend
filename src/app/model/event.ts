@@ -3,6 +3,11 @@ import { AnalyticsConfiguration } from './analytics-configuration';
 import { IconPrefix, IconName } from '@fortawesome/fontawesome-svg-core';
 import { PurchaseContext } from './purchase-context';
 
+export interface TermsPrivacyLinksContainer {
+  privacyPolicyUrl?: string;
+  termsAndConditionsUrl?: string;
+}
+
 export class Event implements DateValidity, PurchaseContext {
     shortName: string;
     title: { [lang: string]: string };

@@ -1,7 +1,7 @@
 import { AnalyticsConfiguration } from './analytics-configuration';
-import { AssignmentConfiguration, CaptchaConfiguration, CurrencyDescriptor, InvoicingConfiguration, Language } from './event';
+import {AssignmentConfiguration, CaptchaConfiguration, CurrencyDescriptor, InvoicingConfiguration, Language, TermsPrivacyLinksContainer} from './event';
 
-export interface PurchaseContext extends PurchaseContextPriceDescriptor {
+export interface PurchaseContext extends PurchaseContextPriceDescriptor, TermsPrivacyLinksContainer {
     title: { [lang: string]: string };
     invoicingConfiguration: InvoicingConfiguration;
     assignmentConfiguration: AssignmentConfiguration;

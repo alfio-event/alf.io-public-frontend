@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {BasicEventInfo} from '../model/basic-event-info';
-import { Language } from '../model/event';
+import {Language, TermsPrivacyLinksContainer} from '../model/event';
 import { EventService } from '../shared/event.service';
 import { I18nService } from '../shared/i18n.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import {of, zip} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
 import {SearchParams} from '../model/search-params';
+import {globalTermsPrivacyLinks} from '../model/info';
 
 @Component({
   selector: 'app-event-list-all',
@@ -21,6 +22,7 @@ export class EventListAllComponent implements OnInit {
   events: BasicEventInfo[];
   languages: Language[];
   queryParams: Params;
+  linksContainer: TermsPrivacyLinksContainer;
 
   constructor(
     private eventService: EventService,
@@ -45,6 +47,7 @@ export class EventListAllComponent implements OnInit {
         } else {
           this.events = res;
           this.analytics.pageView(info.analyticsConfiguration);
+          this.linksContainer = globalTermsPrivacyLinks(info);
         }
       });
 
