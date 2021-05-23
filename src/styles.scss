@@ -18,6 +18,10 @@ $custom-control-indicator-border-color: $gray-700;
     background-color: white;
 }
 
+.list-container {
+
+}
+
 @include media-breakpoint-up(md) {
     body {
         background-color: #f2f2f2;

@@ -1,37 +1,42 @@
-<div *ngIf="events" class="application-container p-2 p-md-5">
-  <app-topbar [contentLanguages]="languages"></app-topbar>
+<div class="container-xl">
+  <div *ngIf="events" class="application-container p-2 p-md-5">
+    <app-topbar [contentLanguages]="languages"></app-topbar>
 
-  <div *ngIf="containsEvents || !containsSubscriptions" class="mb-2">
-    <h1 translate="event-list.title"></h1>
+    <div *ngIf="containsEvents || !containsSubscriptions" class="mb-2">
+      <h1 translate="event-list.title"></h1>
 
-    <div class="mb-3" *ngFor="let event of events">
-      <app-basic-event-info [event]="event"></app-basic-event-info>
+      <div class="row justify-content-center mb-3 mt-3">
+        <div class="col-md-5" *ngFor="let event of events">
+          <app-basic-event-info [event]="event" class="event-card"></app-basic-event-info>
+        </div>
+      </div>
+      <div *ngIf="displayViewAllEventsButton" class="text-center">
+        <a [routerLink]="allEventsPath" class="btn btn-light" translate="home.view.all.events"></a>
+      </div>
+
+
+      <div class="alert text-center" *ngIf="events.length == 0">
+        <div class="h3" translate="event-list.no-events"></div>
+      </div>
     </div>
-    <div *ngIf="displayViewAllEventsButton" class="text-center">
-      <a [routerLink]="allEventsPath" class="btn btn-light" translate="home.view.all.events"></a>
+
+    <hr *ngIf="containsEvents && containsSubscriptions">
+
+    <div *ngIf="containsSubscriptions">
+      <h1 translate="subscription.title"></h1>
+
+      <div class="row justify-content-center mb-3 mt-3">
+        <div class="col-md-5" *ngFor="let subscription of subscriptions">
+          <app-basic-subscription-info [subscription]="subscription" class="card card-light event-card"></app-basic-subscription-info>
+        </div>
+      </div>
+
+      <div *ngIf="displayViewAllSubscriptionsButton" class="text-center">
+        <a [routerLink]="allSubscriptionsPath" class="btn btn-light" translate="home.view.all.subscriptions"></a>
+      </div>
     </div>
 
-
-    <div class="alert text-center" *ngIf="events.length == 0">
-      <div class="h3" translate="event-list.no-events"></div>
-    </div>
+    <hr class="mt-5" *ngIf="linksContainer.termsAndConditionsUrl || linksContainer.privacyPolicyUrl" />
+    <app-footer-links [linksContainer]="linksContainer"></app-footer-links>
   </div>
-
-  <hr *ngIf="containsEvents && containsSubscriptions">
-
-  <div *ngIf="containsSubscriptions">
-    <h1 translate="subscription.title"></h1>
-
-    <div class="card-deck">
-        <app-basic-subscription-info [subscription]="subscription" *ngFor="let subscription of subscriptions" class="card card-light event-card"></app-basic-subscription-info>
-    </div>
-
-    <div *ngIf="displayViewAllSubscriptionsButton" class="text-center">
-      <a [routerLink]="allSubscriptionsPath" class="btn btn-light" translate="home.view.all.subscriptions"></a>
-    </div>
-  </div>
-
-  <hr class="mt-5" *ngIf="linksContainer.termsAndConditionsUrl || linksContainer.privacyPolicyUrl" />
-  <app-footer-links [linksContainer]="linksContainer"></app-footer-links>
-
 </div>

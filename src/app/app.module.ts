@@ -12,7 +12,8 @@ import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome
 import {
   faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill, faDownload, faSearchPlus,
   faExchangeAlt, faExclamationTriangle, faExclamationCircle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice, faGlobe,
-  faAngleDown, faAngleUp, faCircle, faMoneyCheckAlt, faWifi, faTrash, faUserAstronaut, faSignInAlt, faSignOutAlt, faExternalLinkAlt
+  faAngleDown, faAngleUp, faCircle, faMoneyCheckAlt, faWifi, faTrash, faUserAstronaut, faSignInAlt, faSignOutAlt, faExternalLinkAlt,
+  faMapMarkerAlt
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faCalendarAlt, faCalendarPlus, faCompass, faClock, faEnvelope,
@@ -180,7 +181,7 @@ export class AppModule {
     library.addIcons(faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill,
       faDownload, faSearchPlus, faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice, faGlobe,
       faAngleDown, faAngleUp, faCircle, faCheckCircle, faMoneyCheckAlt, faWifi, faTrash, faCopy, faExclamationCircle, faUserAstronaut,
-      faSignInAlt, faSignOutAlt, faExternalLinkAlt);
+      faSignInAlt, faSignOutAlt, faExternalLinkAlt, faMapMarkerAlt);
     library.addIcons(faCalendarAlt, faCalendarPlus, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake, faBuilding);
     library.addIcons(faPaypal, faStripe, faIdeal, faApplePay);
   }
