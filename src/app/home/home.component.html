@@ -10,8 +10,8 @@
           <app-basic-event-info [event]="event" class="event-card"></app-basic-event-info>
         </div>
       </div>
-      <div *ngIf="displayViewAllEventsButton" class="text-center">
-        <a [routerLink]="allEventsPath" class="btn btn-light" translate="home.view.all.events"></a>
+      <div *ngIf="displayViewAllEventsButton" class="text-center mt-5 mb-5">
+        <a [routerLink]="allEventsPath" class="btn btn-default" translate="home.view.all.events"></a>
       </div>
 
 
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <hr *ngIf="containsEvents && containsSubscriptions">
+    <hr *ngIf="containsEvents && containsSubscriptions" class="mt-5 mb-5">
 
     <div *ngIf="containsSubscriptions">
       <h1 translate="subscription.title"></h1>
@@ -31,8 +31,8 @@
         </div>
       </div>
 
-      <div *ngIf="displayViewAllSubscriptionsButton" class="text-center">
-        <a [routerLink]="allSubscriptionsPath" class="btn btn-light" translate="home.view.all.subscriptions"></a>
+      <div *ngIf="displayViewAllSubscriptionsButton" class="text-center mt-5 mb-5">
+        <a [routerLink]="allSubscriptionsPath" class="btn btn-default" translate="home.view.all.subscriptions"></a>
       </div>
     </div>
 

@@ -78,10 +78,15 @@
       </div>
     </div>
 
-    <div class="mt-5" *ngIf="compatibleEvents.length === 0">
-      <div class="row d-flex justify-content-md-end">
+    <hr class="mt-5" *ngIf="compatibleEvents.length > 0">
+
+    <div class="mt-5">
+      <div class="row d-flex justify-content-md-between">
         <div class="col-md-5 order-md-1 col-12 mb-2">
           <a class="block-button btn btn-success" [routerLink]="['/events-all']" [queryParams]="{ subscription: subscriptionInfo.id }" translate="reservation-page-complete.buy-tickets"></a>
+        </div>
+        <div class="col-md-5 order-md-0 col-12 mt-2 mt-md-0 mb-2">
+          <a class="block-button btn btn-light" [routerLink]="['/']" translate="to-home"></a>
         </div>
       </div>
     </div>
