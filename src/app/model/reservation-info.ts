@@ -113,9 +113,20 @@ export interface BillingDetails {
   invoicingAdditionalInfo: TicketReservationInvoicingAdditionalInfo;
 }
 
-export interface TicketReservationInvoicingAdditionalInfo {
-  italianEInvoicing: ItalianEInvoicing;
+export const EMPTY_BILLING_DETAILS: BillingDetails = {
+  companyName: '',
+  addressLine1: '',
+  addressLine2: '',
+  zip: '',
+  city: '',
+  state: '',
+  country: '',
+  taxId: '',
+  invoicingAdditionalInfo: {}
+};
 
+export interface TicketReservationInvoicingAdditionalInfo {
+  italianEInvoicing?: ItalianEInvoicing;
 }
 
 export interface ItalianEInvoicing {

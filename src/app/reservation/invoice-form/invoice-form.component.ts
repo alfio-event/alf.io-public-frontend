@@ -5,6 +5,7 @@ import { I18nService } from 'src/app/shared/i18n.service';
 import { Subscription } from 'rxjs';
 import { LocalizedCountry } from 'src/app/model/localized-country';
 import { PurchaseContext } from 'src/app/model/purchase-context';
+import {InvoicingConfiguration} from '../../model/event';
 
 @Component({
   selector: 'app-invoice-form',
@@ -16,7 +17,10 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
   @Input()
-  purchaseContext: PurchaseContext;
+  purchaseContext?: PurchaseContext;
+
+  @Input()
+  invoicingConfiguration?: InvoicingConfiguration;
 
   private langChangeSub: Subscription;
 
@@ -76,11 +80,11 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
   }
 
   get euVatCheckingEnabled(): boolean {
-    return this.purchaseContext.invoicingConfiguration.euVatCheckingEnabled;
+    return this.invoicingConf.euVatCheckingEnabled;
   }
 
   get customerReferenceEnabled(): boolean {
-    return this.purchaseContext.invoicingConfiguration.customerReferenceEnabled;
+    return this.invoicingConf.customerReferenceEnabled;
   }
 
   get invoiceBusiness(): boolean {
@@ -88,11 +92,11 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
   }
 
   get vatNumberStrictlyRequired(): boolean {
-    return this.purchaseContext.invoicingConfiguration.vatNumberStrictlyRequired;
+    return this.invoicingConf.vatNumberStrictlyRequired;
   }
 
   get enabledItalyEInvoicing(): boolean {
-    return this.purchaseContext.invoicingConfiguration.enabledItalyEInvoicing;
+    return this.invoicingConf.enabledItalyEInvoicing;
   }
 
   get italyEInvoicingFormDisplayed(): boolean {
@@ -101,6 +105,10 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
 
   get countrySelected(): boolean {
     return this.form.value.vatCountryCode != null;
+  }
+
+  private get invoicingConf(): InvoicingConfiguration {
+    return this.purchaseContext?.invoicingConfiguration || this.invoicingConfiguration;
   }
 
   searchCountry(term: string, country: LocalizedCountry): boolean {

@@ -1,0 +1,16 @@
+<div class="container mt-2">
+  <div class="application-container p-md-4">
+    <app-topbar [contentLanguages]="languages"></app-topbar>
+    <div class="page-header">
+      <h1>{{ 'user.menu.my-orders' | translate }}</h1>
+      <small>{{ 'my-orders.description' | translate }}</small>
+    </div>
+
+    <app-invoice-form [form]="userForm" [invoicingConfiguration]="invoicingConfiguration"></app-invoice-form>
+
+    <hr>
+    <div class="mt-4 text-center">
+      <a class="btn btn-default" [routerLink]="['/']">{{ 'to-home' | translate }}</a>
+    </div>
+  </div>
+</div>

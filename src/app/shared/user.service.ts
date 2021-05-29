@@ -37,7 +37,7 @@ export class UserService implements OnDestroy {
       );
   }
 
-  private getUserIdentity(): Observable<User> {
+  public getUserIdentity(): Observable<User> {
     return this.http.get<User>('/api/v2/public/user/me', { observe: 'response' })
       .pipe(map(response => {
         if (response.status === 204) {

@@ -50,4 +50,8 @@ export class TopBarComponent implements OnInit, OnDestroy {
   myOrders(): void {
     this.router.navigate(['my-orders']);
   }
+
+  myProfile(): void {
+    this.router.navigate(['my-profile']);
+  }
 }

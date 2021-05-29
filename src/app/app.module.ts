@@ -75,6 +75,7 @@ import {PurchaseContextContainerComponent} from './purchase-context-container/pu
 import { ModalRemoveSubscriptionComponent } from './reservation/modal-remove-subscription/modal-remove-subscription.component';
 import {UserService} from './shared/user.service';
 import {MyOrdersComponent} from './my-orders/my-orders.component';
+import {MyProfileComponent} from './my-profile/my-profile.component';
 
 
 
@@ -141,7 +142,8 @@ export function InitUserService(userService: UserService): () => Promise<boolean
     SubscriptionSummaryComponent,
     PurchaseContextContainerComponent,
     ModalRemoveSubscriptionComponent,
-    MyOrdersComponent
+    MyOrdersComponent,
+    MyProfileComponent
   ],
   imports: [
     BrowserModule,
