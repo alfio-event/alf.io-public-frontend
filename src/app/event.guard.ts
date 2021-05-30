@@ -16,6 +16,10 @@ export class EventGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
     const eventShortName = next.params['eventShortName'];
     return this.eventService.getEvent(eventShortName)
-      .pipe(tap((e) => handleCustomCss(e)), catchError(e => of(this.router.parseUrl(''))), map(e => e instanceof UrlTree ? e : true));
+      .pipe(
+        tap((e) => handleCustomCss(e)),
+        catchError(e => of(this.router.parseUrl(''))),
+        map(e => e instanceof UrlTree ? e : true)
+      );
   }
 }
