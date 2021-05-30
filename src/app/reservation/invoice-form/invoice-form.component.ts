@@ -41,7 +41,7 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
     this.form.get('italyEInvoicingReferenceType').valueChanges.subscribe(change => {
       this.updateItalyEInvoicingFields();
     });
-    this.form.get('skipVatNr').valueChanges.subscribe(change => {
+    this.form.get('skipVatNr')?.valueChanges.subscribe(change => {
       this.taxIdIsRequired = !change;
     });
   }

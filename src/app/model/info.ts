@@ -1,5 +1,5 @@
 import { AnalyticsConfiguration } from './analytics-configuration';
-import {TermsPrivacyLinksContainer} from './event';
+import {InvoicingConfiguration, TermsPrivacyLinksContainer} from './event';
 
 export class Info {
   demoModeEnabled: boolean;
@@ -8,6 +8,7 @@ export class Info {
   analyticsConfiguration: AnalyticsConfiguration;
   globalPrivacyPolicyUrl?: string;
   globalTermsUrl?: string;
+  invoicingConfiguration?: InvoicingConfiguration;
 }
 
 export function globalTermsPrivacyLinks(info: Info): TermsPrivacyLinksContainer {

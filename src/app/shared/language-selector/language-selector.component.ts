@@ -23,9 +23,10 @@ export class LanguageSelectorComponent implements OnInit {
   }
 
   private buildValues(): void {
-    const currentLang = this.contentLanguages.find(cl => cl.locale === this.selectedLanguage);
+    const contentLanguages = this.contentLanguages || [];
+    const currentLang = contentLanguages.find(cl => cl.locale === this.selectedLanguage);
     this.currentLanguage = currentLang ? currentLang.displayLanguage : null;
-    this.filteredLanguages = this.contentLanguages.filter(cl => cl !== currentLang).sort((a, b) => a.displayLanguage.toLowerCase() > b.displayLanguage.toLowerCase() ? 1 : -1);
+    this.filteredLanguages = contentLanguages.filter(cl => cl !== currentLang).sort((a, b) => a.displayLanguage.toLowerCase() > b.displayLanguage.toLowerCase() ? 1 : -1);
   }
 
   public changeLanguage(lang: string): void {
