@@ -114,8 +114,7 @@ export interface BillingDetails {
 }
 
 export interface TicketReservationInvoicingAdditionalInfo {
-  italianEInvoicing: ItalianEInvoicing;
-
+  italianEInvoicing?: ItalianEInvoicing;
 }
 
 export interface ItalianEInvoicing {

@@ -11,6 +11,7 @@
         <fa-icon [icon]="['fas', 'user-astronaut']" aria-hidden="true" [title]="'user.menu.title' | translate"></fa-icon> {{user?.firstName}} {{user?.lastName}}
       </button>
       <div ngbDropdownMenu aria-labelledby="userDropdown">
+        <button ngbDropdownItem class="btn btn-link" (click)="myProfile()"><fa-icon [icon]="['fas', 'user-astronaut']" a11yRole="presentation"></fa-icon> <span class="ml-3">{{ 'user.menu.my-profile' | translate }}</span></button>
         <button ngbDropdownItem class="btn btn-link" (click)="myOrders()"><fa-icon [icon]="['fas', 'ticket-alt']" [classes]="['rotate-45']" a11yRole="presentation"></fa-icon> <span class="ml-3">{{ 'user.menu.my-orders' | translate }}</span></button>
         <button ngbDropdownItem class="btn btn-link" (click)="logout()"><fa-icon [icon]="['fas', 'sign-out-alt']" a11yRole="presentation"></fa-icon> <span class="ml-3">{{ 'user.menu.logout' | translate }}</span></button>
       </div>

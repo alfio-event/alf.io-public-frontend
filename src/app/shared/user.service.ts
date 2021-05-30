@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {ANONYMOUS, AuthenticationStatus, PurchaseContextWithReservation, User} from '../model/user';
 import {BehaviorSubject, interval, Observable, of, Subject, Subscription, timer} from 'rxjs';
 import {map, mergeMap, tap, timeout} from 'rxjs/operators';
+import {ValidatedResponse} from '../model/validated-response';
 
 @Injectable({ providedIn: 'root' })
 export class UserService implements OnDestroy {
@@ -37,7 +38,7 @@ export class UserService implements OnDestroy {
       );
   }
 
-  private getUserIdentity(): Observable<User> {
+  public getUserIdentity(): Observable<User> {
     return this.http.get<User>('/api/v2/public/user/me', { observe: 'response' })
       .pipe(map(response => {
         if (response.status === 204) {
@@ -62,6 +63,10 @@ export class UserService implements OnDestroy {
 
   getOrders(): Observable<Array<PurchaseContextWithReservation>> {
     return this.http.get<Array<PurchaseContextWithReservation>>('/api/v2/public/user/reservations');
+  }
+
+  updateUser(user: any): Observable<ValidatedResponse<User>> {
+    return this.http.post<ValidatedResponse<User>>('/api/v2/public/user/me', user);
   }
 
   private startPolling(): void {

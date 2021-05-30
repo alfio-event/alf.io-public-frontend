@@ -46,7 +46,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
   enableAttendeeAutocomplete: boolean;
   displayLoginSuggestion: boolean;
 
-  private static optionalGet<T>(billingDetails: BillingDetails, consumer: (b: ItalianEInvoicing) => T, userBillingDetails?: BillingDetails): T | null {
+  public static optionalGet<T>(billingDetails: BillingDetails, consumer: (b: ItalianEInvoicing) => T, userBillingDetails?: BillingDetails): T | null {
     const italianEInvoicing = billingDetails.invoicingAdditionalInfo.italianEInvoicing;
     if (italianEInvoicing != null) {
       return consumer(italianEInvoicing);

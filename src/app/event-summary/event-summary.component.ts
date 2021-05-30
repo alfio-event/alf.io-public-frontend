@@ -18,7 +18,7 @@ export class EventSummaryComponent {
   constructor(public translate: TranslateService) { }
 
   get isEventOnline(): boolean {
-    return this.event.format == 'ONLINE';
+    return this.event.format === 'ONLINE';
   }
 
 }
