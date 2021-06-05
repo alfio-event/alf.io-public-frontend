@@ -213,7 +213,11 @@ export class BookingComponent implements OnInit, AfterViewInit {
       } else if (res.success) {
         // display warnings
         const modalRef = this.modalService.open(WarningModalComponent, {centered: true, backdrop: 'static'});
-        modalRef.componentInstance.message = res.warnings[0];
+        const firstWarning = res.warnings[0];
+        modalRef.componentInstance.message = firstWarning.code;
+        const params: {[key: string]: string} = {};
+        firstWarning.params.forEach((v, i) => params['' + i] = v);
+        modalRef.componentInstance.parameters = params;
         modalRef.result.then(() => this.validateToOverview(true));
       }
     }, (err) => {

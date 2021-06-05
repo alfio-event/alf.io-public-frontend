@@ -10,5 +10,8 @@ export class WarningModalComponent {
   @Input()
   message: string;
 
+  @Input()
+  parameters: {[key: string]: string};
+
   constructor(public activeModal: NgbActiveModal) {}
 }
