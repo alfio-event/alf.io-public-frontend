@@ -1,4 +1,6 @@
-<div *ngIf="event && ticket" class="add-margin-bottom">
+<div *ngIf="event && ticket" class="container mt-2">
+  <div class="application-container add-margin-bottom p-md-4">
+
     <header>
         <app-purchase-context-header [purchaseContext]="event" type="event"></app-purchase-context-header>
     </header>
@@ -61,8 +63,11 @@
               </div>
             </div>
           </div>
-          <div class="text-center mt-5">
-            <a href="https://alf.io" [attr.title]="'alfio.credits' | translate" target="_blank" rel="noreferrer noopener" translate="alfio.credits"></a>
-          </div>
     </main>
+    <footer>
+      <div class="text-center mt-5">
+        <a href="https://alf.io" [attr.title]="'alfio.credits' | translate" target="_blank" rel="noreferrer noopener" translate="alfio.credits"></a>
+      </div>
+    </footer>
+  </div>
 </div>
