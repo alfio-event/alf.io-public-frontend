@@ -10,7 +10,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ReleaseTicketComponent} from '../reservation/release-ticket/release-ticket.component';
 import {mergeMap} from 'rxjs/operators';
 import {User, UserAdditionalData} from '../model/user';
-import {DatesWithOffset, DateValidity} from '../model/date-validity';
+import {DateValidity} from '../model/date-validity';
 
 @Injectable({
     providedIn: 'root'
