@@ -23,6 +23,7 @@ import { SuccessSubscriptionComponent } from './reservation/success-subscription
 import { MyOrdersComponent } from './my-orders/my-orders.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import {UserLoggedInGuard} from './user-logged-in.guard';
+import {WaitingRoomComponent} from './waiting-room/waiting-room.component';
 
 const eventReservationsGuard = [EventGuard, LanguageGuard, ReservationGuard];
 const eventData = {type: 'event', publicIdentifierParameter: 'eventShortName'};
@@ -61,7 +62,8 @@ const routes: Routes = [
   ]},
   { path: 'event/:eventShortName/ticket/:ticketId', data: eventData, children: [
     { path: 'view', component: ViewTicketComponent, canActivate: [EventGuard, LanguageGuard] },
-    { path: 'update', component: UpdateTicketComponent, canActivate: [EventGuard, LanguageGuard] }
+    { path: 'update', component: UpdateTicketComponent, canActivate: [EventGuard, LanguageGuard] },
+    { path: 'check-in/:ticketCodeHash/waiting-room', component: WaitingRoomComponent, canActivate: [EventGuard, LanguageGuard] }
   ]},
   { path: 'my-orders', component: MyOrdersComponent, canActivate: [UserLoggedInGuard, RemoveEventCssGuard, LanguageGuard] },
   { path: 'my-profile', component: MyProfileComponent, canActivate: [UserLoggedInGuard, RemoveEventCssGuard, LanguageGuard] }

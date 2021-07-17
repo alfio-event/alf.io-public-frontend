@@ -248,3 +248,11 @@ div.is-invalid ~ div.invalid-feedback {
 .btn-default:focus, .btn-default.focus {
     box-shadow: 0 0 0 0.2rem rgba(216, 217, 219, 0.5);
 }
+
+.border-left-warning {
+  border-left: 5px solid theme-color("warning");
+}
+
+.border-left-success {
+  border-left: 5px solid theme-color("success");
+}

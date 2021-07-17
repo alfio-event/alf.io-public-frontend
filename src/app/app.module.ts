@@ -13,7 +13,7 @@ import {
   faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill, faDownload, faSearchPlus,
   faExchangeAlt, faExclamationTriangle, faExclamationCircle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice, faGlobe,
   faAngleDown, faAngleUp, faCircle, faMoneyCheckAlt, faWifi, faTrash, faUserAstronaut, faSignInAlt, faSignOutAlt, faExternalLinkAlt,
-  faMapMarkerAlt
+  faMapMarkerAlt, faRedoAlt
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faCalendarAlt, faCalendarPlus, faCompass, faClock, faEnvelope,
@@ -76,6 +76,7 @@ import { ModalRemoveSubscriptionComponent } from './reservation/modal-remove-sub
 import {UserService} from './shared/user.service';
 import {MyOrdersComponent} from './my-orders/my-orders.component';
 import {MyProfileComponent} from './my-profile/my-profile.component';
+import {WaitingRoomComponent} from './waiting-room/waiting-room.component';
 
 
 
@@ -143,7 +144,8 @@ export function InitUserService(userService: UserService): () => Promise<boolean
     PurchaseContextContainerComponent,
     ModalRemoveSubscriptionComponent,
     MyOrdersComponent,
-    MyProfileComponent
+    MyProfileComponent,
+    WaitingRoomComponent
   ],
   imports: [
     BrowserModule,
@@ -183,7 +185,7 @@ export class AppModule {
     library.addIcons(faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill,
       faDownload, faSearchPlus, faExchangeAlt, faExclamationTriangle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice, faGlobe,
       faAngleDown, faAngleUp, faCircle, faCheckCircle, faMoneyCheckAlt, faWifi, faTrash, faCopy, faExclamationCircle, faUserAstronaut,
-      faSignInAlt, faSignOutAlt, faExternalLinkAlt, faMapMarkerAlt);
+      faSignInAlt, faSignOutAlt, faExternalLinkAlt, faMapMarkerAlt, faRedoAlt);
     library.addIcons(faCalendarAlt, faCalendarPlus, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake, faBuilding);
     library.addIcons(faPaypal, faStripe, faIdeal, faApplePay);
   }

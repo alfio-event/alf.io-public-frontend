@@ -10,6 +10,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ReleaseTicketComponent} from '../reservation/release-ticket/release-ticket.component';
 import {mergeMap} from 'rxjs/operators';
 import {User, UserAdditionalData} from '../model/user';
+import {DatesWithOffset, DateValidity} from '../model/date-validity';
 
 @Injectable({
     providedIn: 'root'
@@ -34,6 +35,14 @@ export class TicketService {
 
     getTicket(eventName: string, ticketIdentifier: string): Observable<TicketsByTicketCategory> {
       return this.http.get<TicketsByTicketCategory>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}/full`);
+    }
+
+    getOnlineCheckInInfo(eventName: string, ticketIdentifier: string, checkInCode: string): Observable<DateValidity> {
+      return this.http.get<DateValidity>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}/code/${checkInCode}/check-in-info`, {
+        params: {
+          tz: this.retrieveTimezone()
+        }
+      });
     }
 
     sendTicketByEmail(eventName: string, ticketIdentifier: string): Observable<boolean> {
@@ -101,5 +110,13 @@ export class TicketService {
         });
         additional[f.name] = this.formBuilder.array(arr);
       });
+    }
+
+    private retrieveTimezone(): string | null {
+      try {
+        return Intl.DateTimeFormat().resolvedOptions().timeZone;
+      } catch (e) {
+        return null;
+      }
     }
 }
