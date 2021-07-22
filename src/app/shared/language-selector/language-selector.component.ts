@@ -1,7 +1,8 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import { Language } from '../../model/event';
-import { Router } from '@angular/router';
-import { I18nService } from '../../shared/i18n.service';
+import {Language} from '../../model/event';
+import {Router} from '@angular/router';
+import {I18nService} from '../i18n.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-language-selector',
@@ -12,6 +13,7 @@ export class LanguageSelectorComponent implements OnInit, OnChanges {
   @Input()
   private contentLanguages: Language[];
   private selectedLanguage: string;
+  private initialized = false;
   currentLanguage: string;
   filteredLanguages: Language[];
 
@@ -20,10 +22,11 @@ export class LanguageSelectorComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.selectedLanguage = this.i18nService.getCurrentLang();
     this.buildValues();
+    this.initialized = true;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.contentLanguages) {
+    if (this.initialized && changes.contentLanguages) {
       this.buildValues();
     }
   }
@@ -49,7 +52,13 @@ export class LanguageSelectorComponent implements OnInit, OnChanges {
       return;
     }
     const eventShortName = this.router.routerState.snapshot.root.firstChild ? this.router.routerState.snapshot.root.firstChild.params['eventShortName'] : null;
-    this.i18nService.useTranslation('event', eventShortName, lang).subscribe(() => {
+    let observable: Observable<boolean>;
+    if (eventShortName != null) {
+      observable = this.i18nService.useTranslation('event', eventShortName, lang);
+    } else {
+      observable = this.i18nService.useTranslationForRoot(lang);
+    }
+    observable.subscribe(() => {
       this.selectedLanguage = this.i18nService.getCurrentLang();
       this.buildValues();
     });

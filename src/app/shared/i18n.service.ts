@@ -92,7 +92,11 @@ export class I18nService {
     }));
   }
 
-  private getOverrideBundle(type: 'event' | 'subscription', publicIdentifier: string, lang: string): Observable<any> {
+  useTranslationForRoot(lang: string): Observable<boolean> {
+    return this.useTranslation(null, '', lang);
+  }
+
+  private getOverrideBundle(type: PurchaseContextType, publicIdentifier: string, lang: string): Observable<any> {
     if (type === 'event' && publicIdentifier) {
       return this.eventService.getEvent(publicIdentifier)
         .pipe(

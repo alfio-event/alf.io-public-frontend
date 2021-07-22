@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <div *ngIf="invoicingConfiguration.invoiceAllowed">
+      <div *ngIf="invoicingConfiguration?.invoiceAllowed">
         <app-invoice-form [form]="userForm" [invoicingConfiguration]="invoicingConfiguration"></app-invoice-form>
       </div>
 

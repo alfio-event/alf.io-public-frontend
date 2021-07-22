@@ -21,7 +21,7 @@ export class InfoService {
       } else {
         this.infoCache = this.http.get<Info>('/api/v2/info').pipe(shareReplay(1));
       }
-      setTimeout(() => {this.infoCache = null;}, 60000 * 10); // clean up cache after 10 minute
+      setTimeout(() => { this.infoCache = null; }, 60000 * 10); // clean up cache after 10 minute
     }
     return this.infoCache;
   }
