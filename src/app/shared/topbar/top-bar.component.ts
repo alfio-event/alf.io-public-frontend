@@ -40,9 +40,10 @@ export class TopBarComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.userService.logout().subscribe(success => {
-      if (success) {
-        this.user = undefined;
+    this.userService.logout().subscribe(response => {
+      this.user = undefined;
+      if (!response.empty) {
+        window.location.href = response.targetUrl;
       }
     });
   }

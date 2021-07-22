@@ -1,8 +1,8 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {ANONYMOUS, AuthenticationStatus, PurchaseContextWithReservation, User} from '../model/user';
-import {BehaviorSubject, interval, Observable, of, Subject, Subscription, timer} from 'rxjs';
-import {map, mergeMap, tap, timeout} from 'rxjs/operators';
+import {ANONYMOUS, AuthenticationStatus, ClientRedirect, PurchaseContextWithReservation, User} from '../model/user';
+import {BehaviorSubject, interval, Observable, of, Subscription} from 'rxjs';
+import {map, mergeMap, tap} from 'rxjs/operators';
 import {ValidatedResponse} from '../model/validated-response';
 
 @Injectable({ providedIn: 'root' })
@@ -26,7 +26,7 @@ export class UserService implements OnDestroy {
       }));
   }
 
-  private loadUserStatus() {
+  private loadUserStatus(): Observable<{enabled: boolean, user?: User}> {
     return this.http.get<boolean>('/api/v2/public/user/authentication-enabled')
       .pipe(mergeMap(enabled => {
           if (enabled) {
@@ -53,11 +53,10 @@ export class UserService implements OnDestroy {
     this.authStatusSubscription?.unsubscribe();
   }
 
-  logout(): Observable<boolean> {
-    return this.http.post<any>('/api/v2/public/user/logout', {}, { observe: 'response' })
-      .pipe(map(response => {
+  logout(): Observable<ClientRedirect> {
+    return this.http.post<ClientRedirect>('/api/v2/public/user/logout', {})
+      .pipe(tap(() => {
         this.authStatusSubject.next({ enabled: true });
-        return response.ok;
       }));
   }
 

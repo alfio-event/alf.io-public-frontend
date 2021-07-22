@@ -43,3 +43,8 @@ export interface ReservationHeader {
   usedVatPercent: string;
   vatStatus: string;
 }
+
+export interface ClientRedirect {
+  targetUrl?: string;
+  empty: boolean;
+}
