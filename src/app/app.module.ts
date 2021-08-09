@@ -77,6 +77,7 @@ import {UserService} from './shared/user.service';
 import {MyOrdersComponent} from './my-orders/my-orders.component';
 import {MyProfileComponent} from './my-profile/my-profile.component';
 import {WaitingRoomComponent} from './waiting-room/waiting-room.component';
+import {MyProfileDeleteWarningComponent} from './my-profile/my-profile-delete-warning.component';
 
 
 
@@ -145,7 +146,8 @@ export function InitUserService(userService: UserService): () => Promise<boolean
     ModalRemoveSubscriptionComponent,
     MyOrdersComponent,
     MyProfileComponent,
-    WaitingRoomComponent
+    WaitingRoomComponent,
+    MyProfileDeleteWarningComponent
   ],
   imports: [
     BrowserModule,

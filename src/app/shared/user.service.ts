@@ -20,7 +20,7 @@ export class UserService implements OnDestroy {
       .subscribe(result => {
         this.authStatusSubject.next(result);
         resolve(true);
-      }, err => {
+      }, () => {
         this.authStatusSubject.next({ enabled: false });
         resolve(true); // we resolve the promise anyway
       }));
@@ -79,5 +79,13 @@ export class UserService implements OnDestroy {
       this.startPolling();
     }
     return this.authStatusSubject.asObservable();
+  }
+
+  deleteProfile(): Observable<ClientRedirect> {
+    return this.http.delete<ClientRedirect>('/api/v2/public/user/me').pipe(
+      tap(() => {
+        this.authStatusSubject.next({ enabled: true });
+      })
+    );
   }
 }

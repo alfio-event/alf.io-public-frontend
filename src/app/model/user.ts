@@ -11,6 +11,7 @@ export interface User {
   lastName?: string;
   emailAddress?: string;
   profile?: UserProfile;
+  external?: boolean;
 }
 
 export interface UserProfile {

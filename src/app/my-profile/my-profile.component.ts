@@ -10,10 +10,13 @@ import {BookingComponent} from '../reservation/booking/booking.component';
 import {handleServerSideValidationError} from '../shared/validation-helper';
 import {ErrorDescriptor} from '../model/validated-response';
 import {InfoService} from '../shared/info.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {MyProfileDeleteWarningComponent} from './my-profile-delete-warning.component';
 
 @Component({
   selector: 'app-my-profile',
-  templateUrl: './my-profile.component.html'
+  templateUrl: './my-profile.component.html',
+  styleUrls: ['./my-profile.component.scss']
 })
 export class MyProfileComponent implements OnInit {
 
@@ -27,7 +30,8 @@ export class MyProfileComponent implements OnInit {
               private translateService: TranslateService,
               private i18nService: I18nService,
               private formBuilder: FormBuilder,
-              private infoService: InfoService) {
+              private infoService: InfoService,
+              private modalService: NgbModal) {
     this.userForm = this.formBuilder.group({
       firstName: this.formBuilder.control(null, Validators.required),
       lastName: this.formBuilder.control(null, Validators.required),
@@ -59,6 +63,7 @@ export class MyProfileComponent implements OnInit {
           firstName: user.firstName,
           lastName: user.lastName
         };
+        this.user = user;
         const userBillingDetails = user.profile?.billingDetails;
         if (userBillingDetails != null) {
           values = {
@@ -94,5 +99,16 @@ export class MyProfileComponent implements OnInit {
           }
         }, err => this.globalErrors = handleServerSideValidationError(err, this.userForm));
     }
+  }
+
+  deleteProfile(): void {
+    const modalRef = this.modalService.open(MyProfileDeleteWarningComponent, {centered: true, backdrop: 'static'});
+    modalRef.result.then(() => {
+      this.userService.deleteProfile().subscribe(response => {
+        if (!response.empty) {
+          window.location.href = response.targetUrl;
+        }
+      }, err => console.log('something went wrong', err));
+    });
   }
 }
