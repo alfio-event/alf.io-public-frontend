@@ -20,7 +20,12 @@ export interface UserProfile {
 }
 
 export interface UserAdditionalData {
-  [key: string]: string[];
+  [key: string]: AdditionalInfoWithLabel;
+}
+
+export interface AdditionalInfoWithLabel {
+  label: {[key: string]: string};
+  values: string[];
 }
 
 export const ANONYMOUS: User = {};

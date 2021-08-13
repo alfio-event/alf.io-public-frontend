@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../shared/user.service';
-import {User} from '../model/user';
+import {User, UserAdditionalData} from '../model/user';
 import {TranslateService} from '@ngx-translate/core';
 import {I18nService} from '../shared/i18n.service';
 import {InvoicingConfiguration, Language} from '../model/event';
@@ -12,6 +12,7 @@ import {ErrorDescriptor} from '../model/validated-response';
 import {InfoService} from '../shared/info.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {MyProfileDeleteWarningComponent} from './my-profile-delete-warning.component';
+import {FeedbackService} from '../shared/feedback/feedback.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -25,13 +26,15 @@ export class MyProfileComponent implements OnInit {
   userForm?: FormGroup;
   invoicingConfiguration?: InvoicingConfiguration;
   globalErrors: ErrorDescriptor[];
+  additionalData?: UserAdditionalData;
 
   constructor(private userService: UserService,
               private translateService: TranslateService,
               private i18nService: I18nService,
               private formBuilder: FormBuilder,
               private infoService: InfoService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private feedbackService: FeedbackService) {
     this.userForm = this.formBuilder.group({
       firstName: this.formBuilder.control(null, Validators.required),
       lastName: this.formBuilder.control(null, Validators.required),
@@ -50,6 +53,7 @@ export class MyProfileComponent implements OnInit {
       italyEInvoicingReferenceAddresseeCode: this.formBuilder.control(null),
       italyEInvoicingReferencePEC: this.formBuilder.control(null),
       italyEInvoicingSplitPayment: this.formBuilder.control(null),
+      additionalInfo: this.formBuilder.group({})
     });
   }
 
@@ -83,6 +87,14 @@ export class MyProfileComponent implements OnInit {
             italyEInvoicingSplitPayment: BookingComponent.optionalGet(userBillingDetails, (i) => i.splitPayment)
           };
         }
+        const additionalData = user.profile?.additionalData;
+        this.additionalData = additionalData;
+        if (additionalData != null) {
+          const additionalInfoGroup = this.userForm.get('additionalInfo') as FormGroup;
+          for (const additionalOptionKey of Object.keys(additionalData)) {
+            additionalInfoGroup.addControl(additionalOptionKey, this.formBuilder.control(additionalData[additionalOptionKey].values[0]));
+          }
+        }
         this.userForm.patchValue(values);
       });
   }
@@ -93,6 +105,7 @@ export class MyProfileComponent implements OnInit {
       this.userService.updateUser(this.userForm.value)
         .subscribe(res => {
           if (res.success) {
+            this.feedbackService.showSuccess(this.translateService.instant('my-profile.update.success'));
             this.user = res.value;
           } else {
             handleServerSideValidationError(res.validationErrors, this.userForm);
@@ -110,5 +123,9 @@ export class MyProfileComponent implements OnInit {
         }
       }, err => console.log('something went wrong', err));
     });
+  }
+
+  getTranslatedLabel(label: { [p: string]: string }): string {
+    return label[this.translateService.currentLang] || label[Object.keys(label)[0]];
   }
 }

@@ -27,7 +27,7 @@ export class BasicEventInfoComponent implements OnInit {
   }
 
   get title(): string {
-    return this.event.title[this.translateService.currentLang];
+    return this.event.title[this.translateService.currentLang] || this.event.title[Object.keys(this.event.title)[0]];
   }
 
 }

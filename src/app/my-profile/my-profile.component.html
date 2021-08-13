@@ -26,6 +26,16 @@
         <app-invoice-form [form]="userForm" [invoicingConfiguration]="invoicingConfiguration"></app-invoice-form>
       </div>
 
+      <div *ngIf="additionalData" formGroupName="additionalInfo">
+        <div class="page-header">
+          <h2 translate="my-profile.additional-info"></h2>
+        </div>
+        <div class="form-group" *ngFor="let item of additionalData | keyvalue">
+          <label [attr.for]="item.key">{{getTranslatedLabel(item.value.label)}}</label>
+          <input type="text" class="form-control" [attr.name]="'additional-'+item.key" [formControlName]="item.key" appInvalidFeedback>
+        </div>
+      </div>
+
       <hr>
       <div class="mt-5">
         <div class="row d-flex justify-content-md-between">

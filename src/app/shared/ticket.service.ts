@@ -17,11 +17,12 @@ import {DateValidity} from '../model/date-validity';
 })
 export class TicketService {
 
-    private static getUserDataFieldValue(name: string, index: number, additionalData?: UserAdditionalData): string | null {
-      if (additionalData != null && additionalData[name] && additionalData[name].length > index) {
-        return additionalData[name][index];
+    private static getUserDataLabelValue(name: string, index: number, userLanguage?: string, additionalData?: UserAdditionalData): {l: string, v: string} | null {
+      if (additionalData != null && additionalData[name] && additionalData[name].values.length > index) {
+        const val = additionalData[name];
+        return { l: val.label[userLanguage] || val.label[0], v: val.values[index] };
       }
-      return null;
+      return { l: null, v: null };
     }
 
     constructor(
@@ -80,22 +81,22 @@ export class TicketService {
           email: ticket.email || user?.emailAddress,
           userLanguage: ticket.userLanguage,
           additional: this.buildAdditionalFields(ticket.ticketFieldConfigurationBeforeStandard,
-            ticket.ticketFieldConfigurationAfterStandard, user?.profile?.additionalData)
+            ticket.ticketFieldConfigurationAfterStandard, ticket.userLanguage, user?.profile?.additionalData)
       };
     }
 
-    private buildAdditionalFields(before: AdditionalField[], after: AdditionalField[], userData?: UserAdditionalData): FormGroup {
+    private buildAdditionalFields(before: AdditionalField[], after: AdditionalField[], userLanguage: string, userData?: UserAdditionalData): FormGroup {
       const additional = {};
       if (before) {
-        this.buildSingleAdditionalField(before, additional, userData);
+        this.buildSingleAdditionalField(before, additional, userLanguage, userData);
       }
       if (after) {
-        this.buildSingleAdditionalField(after, additional, userData);
+        this.buildSingleAdditionalField(after, additional, userLanguage, userData);
       }
       return this.formBuilder.group(additional);
     }
 
-    private buildSingleAdditionalField(a: AdditionalField[], additional: {}, userData?: UserAdditionalData): void {
+    private buildSingleAdditionalField(a: AdditionalField[], additional: {}, userLanguage: string, userData?: UserAdditionalData): void {
       a.forEach(f => {
         const arr = [];
 
@@ -106,7 +107,7 @@ export class TicketService {
         }
 
         f.fields.forEach(field => {
-          arr[field.fieldIndex] = this.formBuilder.control(field.fieldValue || TicketService.getUserDataFieldValue(f.name, field.fieldIndex, userData));
+          arr[field.fieldIndex] = this.formBuilder.control(field.fieldValue || TicketService.getUserDataLabelValue(f.name, field.fieldIndex, userLanguage, userData).v);
         });
         additional[f.name] = this.formBuilder.array(arr);
       });
