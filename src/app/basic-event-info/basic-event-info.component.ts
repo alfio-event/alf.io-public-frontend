@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { BasicEventInfo } from '../model/basic-event-info';
 import {TranslateService} from '@ngx-translate/core';
 import {Params} from '@angular/router';
+import {getLocalizedContent} from '../shared/subscription.service';
 
 @Component({
   selector: 'app-basic-event-info',
@@ -27,7 +28,7 @@ export class BasicEventInfoComponent implements OnInit {
   }
 
   get title(): string {
-    return this.event.title[this.translateService.currentLang] || this.event.title[Object.keys(this.event.title)[0]];
+    return getLocalizedContent(this.event.title, this.translateService.currentLang);
   }
 
 }

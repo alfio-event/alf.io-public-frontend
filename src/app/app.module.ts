@@ -78,6 +78,7 @@ import {MyOrdersComponent} from './my-orders/my-orders.component';
 import {MyProfileComponent} from './my-profile/my-profile.component';
 import {WaitingRoomComponent} from './waiting-room/waiting-room.component';
 import {MyProfileDeleteWarningComponent} from './my-profile/my-profile-delete-warning.component';
+import {TranslateDescriptionPipe} from './shared/translate-description.pipe';
 
 
 
@@ -147,7 +148,8 @@ export function InitUserService(userService: UserService): () => Promise<boolean
     MyOrdersComponent,
     MyProfileComponent,
     WaitingRoomComponent,
-    MyProfileDeleteWarningComponent
+    MyProfileDeleteWarningComponent,
+    TranslateDescriptionPipe
   ],
   imports: [
     BrowserModule,

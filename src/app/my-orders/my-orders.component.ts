@@ -5,6 +5,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {I18nService} from '../shared/i18n.service';
 import {Language} from '../model/event';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
+import {getLocalizedContent} from '../shared/subscription.service';
 
 @Component({
   selector: 'app-my-orders',
@@ -31,10 +32,7 @@ export class MyOrdersComponent implements OnInit {
 
   localizedTitle(p: PurchaseContextWithReservation): string {
     const lang = this.translateService.currentLang;
-    if (p.title[lang] != null) {
-      return p.title[lang];
-    }
-    return p.title[Object.keys(p.title)[0]];
+    return getLocalizedContent(p.title, lang);
   }
 
   getStatusIcon(reservation: ReservationHeader): IconProp {

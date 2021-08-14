@@ -34,23 +34,34 @@ export interface PurchaseContextWithReservation {
   title: { [lang: string]: string };
   publicIdentifier: string;
   type: PurchaseContextType;
+  formattedStartDate?: {[key: string]: string};
+  formattedEndDate?: {[key: string]: string};
+  sameDay: boolean;
   reservations: Array<ReservationHeader>;
 }
 
 export interface ReservationHeader {
   id: string;
   status: ReservationStatus;
-  expiresOn: string;
-  confirmedOn: string;
-  createdOn: string;
+  formattedExpiresOn: {[key: string]: string};
+  formattedConfirmedOn: {[key: string]: string};
+  formattedCreatedOn: {[key: string]: string};
   invoiceNumber: string;
   finalPrice: string;
   currencyCode: string;
   usedVatPercent: string;
   vatStatus: string;
+  items: Array<PurchaseContextItem>;
 }
 
 export interface ClientRedirect {
   targetUrl?: string;
   empty: boolean;
+}
+
+export interface PurchaseContextItem {
+  id: string;
+  firstName: string;
+  lastName: string;
+  type: { [k: string]: string };
 }

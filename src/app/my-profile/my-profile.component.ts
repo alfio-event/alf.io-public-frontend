@@ -124,8 +124,4 @@ export class MyProfileComponent implements OnInit {
       }, err => console.log('something went wrong', err));
     });
   }
-
-  getTranslatedLabel(label: { [p: string]: string }): string {
-    return label[this.translateService.currentLang] || label[Object.keys(label)[0]];
-  }
 }

@@ -31,7 +31,7 @@
           <h2 translate="my-profile.additional-info"></h2>
         </div>
         <div class="form-group" *ngFor="let item of additionalData | keyvalue">
-          <label [attr.for]="item.key">{{getTranslatedLabel(item.value.label)}}</label>
+          <label [attr.for]="item.key">{{item.value.label | translateDescription}}</label>
           <input type="text" class="form-control" [attr.name]="'additional-'+item.key" [formControlName]="item.key" appInvalidFeedback>
         </div>
       </div>
