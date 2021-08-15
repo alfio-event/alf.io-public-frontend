@@ -26,7 +26,7 @@
         <app-invoice-form [form]="userForm" [invoicingConfiguration]="invoicingConfiguration"></app-invoice-form>
       </div>
 
-      <div *ngIf="additionalData" formGroupName="additionalInfo">
+      <div *ngIf="hasAdditionalData" formGroupName="additionalInfo">
         <div class="page-header">
           <h2 translate="my-profile.additional-info"></h2>
         </div>

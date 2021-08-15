@@ -124,4 +124,8 @@ export class MyProfileComponent implements OnInit {
       }, err => console.log('something went wrong', err));
     });
   }
+
+  get hasAdditionalData(): boolean {
+    return this.additionalData != null && Object.keys(this.additionalData).length > 0;
+  }
 }
