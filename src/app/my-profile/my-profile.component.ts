@@ -13,6 +13,7 @@ import {InfoService} from '../shared/info.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {MyProfileDeleteWarningComponent} from './my-profile-delete-warning.component';
 import {FeedbackService} from '../shared/feedback/feedback.service';
+import {DELETE_ACCOUNT_CONFIRMATION, writeToSessionStorage} from '../shared/util';
 
 @Component({
   selector: 'app-my-profile',
@@ -101,17 +102,15 @@ export class MyProfileComponent implements OnInit {
 
 
   save(): void {
-    if (this.userForm.valid) {
-      this.userService.updateUser(this.userForm.value)
-        .subscribe(res => {
-          if (res.success) {
-            this.feedbackService.showSuccess(this.translateService.instant('my-profile.update.success'));
-            this.user = res.value;
-          } else {
-            handleServerSideValidationError(res.validationErrors, this.userForm);
-          }
-        }, err => this.globalErrors = handleServerSideValidationError(err, this.userForm));
-    }
+    this.userService.updateUser(this.userForm.value)
+      .subscribe(res => {
+        if (res.success) {
+          this.feedbackService.showSuccess(this.translateService.instant('my-profile.update.success'));
+          this.user = res.value;
+        } else {
+          handleServerSideValidationError(res.validationErrors, this.userForm);
+        }
+      }, err => this.globalErrors = handleServerSideValidationError(err, this.userForm));
   }
 
   deleteProfile(): void {
@@ -119,6 +118,7 @@ export class MyProfileComponent implements OnInit {
     modalRef.result.then(() => {
       this.userService.deleteProfile().subscribe(response => {
         if (!response.empty) {
+          writeToSessionStorage(DELETE_ACCOUNT_CONFIRMATION, 'y');
           window.location.href = response.targetUrl;
         }
       }, err => console.log('something went wrong', err));
