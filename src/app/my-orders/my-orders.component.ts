@@ -55,4 +55,11 @@ export class MyOrdersComponent implements OnInit {
     }
     return 'my-orders.status.pending';
   }
+
+  getReservationCost(reservation: ReservationHeader): string {
+    if (reservation.finalPrice > 0) {
+      return reservation.currencyCode + ' ' + reservation.finalPrice;
+    }
+    return this.translateService.instant('common.free');
+  }
 }

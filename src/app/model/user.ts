@@ -47,7 +47,7 @@ export interface ReservationHeader {
   formattedConfirmedOn: {[key: string]: string};
   formattedCreatedOn: {[key: string]: string};
   invoiceNumber: string;
-  finalPrice: string;
+  finalPrice: number;
   currencyCode: string;
   usedVatPercent: string;
   vatStatus: string;
