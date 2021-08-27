@@ -9,6 +9,8 @@ export class Ticket {
     locked: boolean;
     acquired: boolean;
     cancellationEnabled: boolean;
+    sendMailEnabled: boolean;
+    downloadEnabled: boolean;
     ticketFieldConfigurationBeforeStandard: AdditionalField[];
     ticketFieldConfigurationAfterStandard: AdditionalField[];
     formattedOnlineCheckInDate: {[key: string]: string};
