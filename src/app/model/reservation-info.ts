@@ -74,7 +74,7 @@ export class TicketsByTicketCategory {
     tickets: Ticket[];
 }
 
-export type SummaryType = 'TICKET' | 'PROMOTION_CODE' | 'DYNAMIC_DISCOUNT' | 'ADDITIONAL_SERVICE' | 'APPLIED_SUBSCRIPTION';
+export type SummaryType = 'TICKET' | 'PROMOTION_CODE' | 'DYNAMIC_DISCOUNT' | 'ADDITIONAL_SERVICE' | 'APPLIED_SUBSCRIPTION' | 'TAX_DETAIL';
 
 export class OrderSummary {
     summary: SummaryRow[];
@@ -93,6 +93,7 @@ export class SummaryRow {
     price: string;
     subTotal: string;
     type: SummaryType;
+    taxPercentage: string;
 }
 
 export type ReservationStatus = 'PENDING' | 'IN_PAYMENT' | 'EXTERNAL_PROCESSING_PAYMENT' |
