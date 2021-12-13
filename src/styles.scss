@@ -256,3 +256,12 @@ div.is-invalid ~ div.invalid-feedback {
 .border-left-success {
   border-left: 5px solid theme-color("success");
 }
+
+.home-card {
+  &:hover {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  }
+  h2.card-title {
+    font-size: 1.6rem;
+  }
+}

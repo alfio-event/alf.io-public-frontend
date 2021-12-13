@@ -3,6 +3,7 @@ import {BasicSubscriptionInfo} from '../model/subscription';
 import {TranslateService} from '@ngx-translate/core';
 import {getLocalizedContent} from '../shared/subscription.service';
 import {SubscriptionOwner} from '../model/reservation-info';
+import {Params} from '@angular/router';
 
 @Component({
   selector: 'app-basic-subscription-info',
@@ -14,6 +15,8 @@ export class BasicSubscriptionInfoComponent {
   subscription: BasicSubscriptionInfo;
   @Input()
   owner?: SubscriptionOwner;
+  @Input()
+  params: Params;
 
   @Input()
   cardLayout = true;

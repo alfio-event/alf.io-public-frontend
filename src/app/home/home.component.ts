@@ -86,14 +86,14 @@ export class HomeComponent implements OnInit {
 
     get allEventsPath(): Array<string> {
       if (this.searchParams?.organizerSlug != null) {
-        return ['o', this.searchParams.organizerSlug, 'events-all'];
+        return ['/o', this.searchParams.organizerSlug, 'events-all'];
       }
       return ['events-all'];
     }
 
     get allSubscriptionsPath(): Array<string> {
       if (this.searchParams?.organizerSlug != null) {
-        return ['o', this.searchParams.organizerSlug, 'subscriptions-all'];
+        return ['/o', this.searchParams.organizerSlug, 'subscriptions-all'];
       }
       return ['subscriptions-all'];
     }

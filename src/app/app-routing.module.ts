@@ -36,6 +36,7 @@ const routes: Routes = [
   { path: 'o/:organizerSlug/events-all', component: EventListAllComponent, canActivate: [RemoveEventCssGuard, LanguageGuard] },
   { path: 'events-all', component: EventListAllComponent, canActivate: [RemoveEventCssGuard, LanguageGuard] },
   { path: 'subscriptions-all', component: SubscriptionListAllComponent, canActivate: [RemoveEventCssGuard, LanguageGuard]},
+  { path: 'o/:organizerSlug/subscriptions-all', component: SubscriptionListAllComponent, canActivate: [RemoveEventCssGuard, LanguageGuard] },
   { path: 'subscription/:id', component: SubscriptionDisplayComponent, canActivate: [RemoveEventCssGuard, LanguageGuard], data: subscriptionData},
   { path: 'subscription/:id/reservation/:reservationId', data: subscriptionData, children: [
     { path: 'book', component: BookingComponent, canActivate: subscriptionReservationsGuard },

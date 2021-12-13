@@ -5,13 +5,13 @@
 
 
   <div class="event-list-card mb-3" *ngFor="let subscription of subscriptions">
-    <app-basic-subscription-info [subscription]="subscription"></app-basic-subscription-info>
+    <app-basic-subscription-info [subscription]="subscription" [params]="queryParams"></app-basic-subscription-info>
   </div>
 
   <div class="alert text-center" *ngIf="subscriptions.length == 0">
     <h3 translate="subscription.no-subscriptions"></h3>
   </div>
 
-  <hr class="mt-5" *ngIf="linksContainer.termsAndConditionsUrl || linksContainer.privacyPolicyUrl" />
+  <hr class="mt-5" *ngIf="linksContainer.termsAndConditionsUrl || linksContainer.privacyPolicyUrl">
   <app-footer-links [linksContainer]="linksContainer"></app-footer-links>
 </div>
