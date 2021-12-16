@@ -1,4 +1,4 @@
-<div class="card card-light home-card mt-3">
+<div class="mt-3" [ngClass]="cardLayout ? 'card card-light home-card' : ''">
   <div class="card-header bg-white event-header" *ngIf="cardLayout">
     <img [src]="'/file/'+subscription.fileBlobId" class="mx-auto img-responsive" alt="" aria-hidden="true" role="presentation">
   </div>
