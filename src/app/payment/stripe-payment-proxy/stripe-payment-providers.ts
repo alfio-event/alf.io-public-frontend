@@ -116,7 +116,7 @@ export class StripePaymentV3 implements PaymentProvider {
                     billingAddress = {
                         line1: this.reservation.billingDetails.addressLine1,
                         postal_code: this.reservation.billingDetails.zip,
-                        country: this.reservation.billingDetails.country.toLowerCase()
+                        country: StripePaymentV3.toCountryISOCode(this.reservation.billingDetails.country).toLowerCase()
                    };
                 }
                 const paymentData = {
@@ -164,5 +164,11 @@ export class StripePaymentV3 implements PaymentProvider {
 
     statusNotifications(): Observable<PaymentStatusNotification> {
         return this.notificationSubject.asObservable();
+    }
+
+    private static toCountryISOCode(country: string): string {
+      // The form contains EU-VAT prefix for Greece (EL).
+      // Here we need the country ISO Code instead
+      return country === 'EL' ? 'GR' : country;
     }
 }
