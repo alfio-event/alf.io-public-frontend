@@ -6,7 +6,7 @@
   </div>
   <div *ngIf="additionalService.fixPrice && [null, 'OPTIONAL_MAX_AMOUNT_PER_RESERVATION', 'OPTIONAL_MAX_AMOUNT_PER_TICKET'].indexOf(additionalService.supplementPolicy) >= 0 ">
     <select class="custom-select text-align-center" placeholder="0" autocomplete="off" formControlName="quantity" [id]="'additional-'+additionalService.id+'-qty'">
-      <option *ngFor="let amount of validSelectionValues" [value]="amount">{{amount}}</option>
+      <option *ngFor="let amount of validSelectionValues" [ngValue]="amount">{{amount}}</option>
     </select>
   </div>
   <div *ngIf="!additionalService.fixPrice">

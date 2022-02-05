@@ -55,14 +55,14 @@
             <label for="selectedCategory" translate="reservation-page.category"></label>
             <select name="selectedCategory" id="selectedCategory" formControlName="selectedCategory" class="custom-select" appInvalidFeedback>
               <option value=""></option>
-              <option *ngFor="let tc of ticketCategoriesForWaitingList" [value]="tc.id">{{tc.name}}</option>
+              <option *ngFor="let tc of ticketCategoriesForWaitingList" [ngValue]="tc.id">{{tc.name}}</option>
             </select>
           </div>
           <div class="form-group">
               <label for="userLanguage" translate="reservation-page-complete.language"></label>
               <select name="userLanguage" formControlName="userLanguage" id="userLanguage" class="custom-select" required="required" aria-required="true" appInvalidFeedback>
                 <option value=""></option>
-                <option *ngFor="let l of event.contentLanguages" [value]="l.locale">{{l.displayLanguage}}</option>
+                <option *ngFor="let l of event.contentLanguages" [ngValue]="l.locale">{{l.displayLanguage}}</option>
               </select>
           </div>
           <div class="custom-control custom-checkbox mt-2 wMarginBottom" *ngIf="event.privacyPolicyUrl">
