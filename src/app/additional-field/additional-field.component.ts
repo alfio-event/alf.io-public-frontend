@@ -90,6 +90,6 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
   }
 
   get hideLabelForAssistiveTechnologies(): boolean {
-    return this.field.type === 'radio';
+    return this.field.type === 'checkbox';
   }
 }

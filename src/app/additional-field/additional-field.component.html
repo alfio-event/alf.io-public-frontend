@@ -14,15 +14,15 @@
           <option *ngFor="let c of field.restrictedValues" [ngValue]="c">{{getRestrictedValueLabel(c)}}</option>
       </select>
       <div *ngSwitchCase="'checkbox'" [attr.id]="ticketUUID + '-' + field.name" appInvalidFeedback [invalidFeedbackFieldName]="field.name" [invalidFeedbackForm]="form">
-        <div *ngFor="let c of field.restrictedValues; let i = index" class="custom-control custom-checkbox">
+        <div *ngFor="let c of field.restrictedValues; let i = index; let isFirst = first" class="custom-control custom-checkbox">
           <input class="custom-control-input" [attr.id]="ticketUUID + '-' + field.name + '-' + i" type="checkbox" [formControlName]="i" (ngModelChange)="selectedCheckBox(i, c, $event)">{{' '}}
-          <label class="custom-control-label" [attr.for]="ticketUUID + '-' + field.name + '-' + i">{{getRestrictedValueLabel(c)}}</label>
+          <label class="custom-control-label" [attr.for]="ticketUUID + '-' + field.name + '-' + i"><span class="sr-only" *ngIf="isFirst">{{labelValue}} </span>{{getRestrictedValueLabel(c)}}</label>
         </div>
       </div>
       <div *ngSwitchCase="'radio'" [attr.id]="ticketUUID + '-' + field.name" appInvalidFeedback [invalidFeedbackFieldName]="field.name+'.0'" [invalidFeedbackForm]="form">
         <div *ngFor="let c of field.restrictedValues; let i = index" class="custom-control custom-radio">
           <input class="custom-control-input" [attr.id]="ticketUUID + '-' + field.name + '-' + i" type="radio" [value]="c" formControlName="0">
-          <label class="custom-control-label" [attr.for]="ticketUUID + '-' + field.name + '-' + i"><span class="sr-only">{{labelValue}} </span>{{getRestrictedValueLabel(c)}}</label>
+          <label class="custom-control-label" [attr.for]="ticketUUID + '-' + field.name + '-' + i">{{getRestrictedValueLabel(c)}}</label>
         </div>
       </div>
     </ng-container>
