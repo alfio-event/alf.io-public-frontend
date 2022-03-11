@@ -10,7 +10,7 @@
         <div class="form-row align-items-center mb-3" *ngIf="!verticalLayout">
             <div class="col-12 col-md-auto mb-2 mb-md-0 mr-0 mr-md-3" *ngFor="let method of sortedAvailablePaymentMethods" [class.active]="selectedPaymentMethod == method">
                 <div class="custom-control custom-radio mr-sm-2">
-                    <input class="custom-control-input" [attr.id]="method" type="radio" [value]="method" name="selectedPaymentMethod" formControlName="selectedPaymentMethod" role="radiogroup" [attr.aria-labelledby]="method + '-label'">
+                    <input class="custom-control-input" [attr.id]="method" type="radio" [value]="method" name="selectedPaymentMethod" formControlName="selectedPaymentMethod">
                     <label class="custom-control-label w-100 h-100" [attr.for]="method" [id]="method + '-label'" [ngClass]="{ 'font-weight-bold': selectedPaymentMethod == method, 'text-muted': selectedPaymentMethod != null && selectedPaymentMethod != method }">
                         <fa-icon [icon]="getPaymentMethodDetails(method).icon" class="ml-2 mr-3" a11yRole="presentation"></fa-icon> {{ getPaymentMethodDetails(method).labelKey | translate }}
                     </label>
