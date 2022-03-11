@@ -1,7 +1,7 @@
 import { AnalyticsConfiguration } from './analytics-configuration';
 import {InvoicingConfiguration, TermsPrivacyLinksContainer} from './event';
 
-export class Info {
+export interface Info {
   demoModeEnabled: boolean;
   devModeEnabled: boolean;
   prodModeEnabled: boolean;
@@ -9,6 +9,7 @@ export class Info {
   globalPrivacyPolicyUrl?: string;
   globalTermsUrl?: string;
   invoicingConfiguration?: InvoicingConfiguration;
+  announcementBannerContentHTML?: string;
 }
 
 export function globalTermsPrivacyLinks(info: Info): TermsPrivacyLinksContainer {
