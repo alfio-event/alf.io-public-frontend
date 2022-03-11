@@ -9,7 +9,7 @@
         <div [ngClass]="{'col-md-7': displayMap, 'col-md-12': !displayMap}">
           <app-event-summary [event]="event" [dateValidityProvider]="event"></app-event-summary>
         </div>
-        <div class="col-md-5" *ngIf="displayMap"><img [src]="event.mapUrl" class="img-responsive margin-auto" [alt]="event.location"></div>
+        <div class="col-md-5" *ngIf="displayMap"><img [src]="event.mapUrl" class="img-responsive margin-auto" role="presentation" alt=""></div>
     </div>
 
     <hr>
