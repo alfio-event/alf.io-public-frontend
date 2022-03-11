@@ -1,5 +1,5 @@
 <div [formGroup]="parentGroup">
-  <label class="sr-only" [for]="'additional-'+additionalService.id+'-qty'" translate="show-event.category.quantity"></label>
+  <label class="sr-only" [for]="'additional-'+additionalService.id+'-qty'">{{ (additionalService.fixPrice ? 'show-event.category.quantity' : 'show-event.additional.custom-amount') | translate }}</label>
   <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'MANDATORY_ONE_FOR_TICKET'" translate="show-event.mandatoryOneForTicket"></div>
   <div *ngIf="additionalService.fixPrice && additionalService.supplementPolicy === 'OPTIONAL_UNLIMITED_AMOUNT'">
     <input type="number" min="0" step="1" class="form-control" placeholder="0" autocomplete="off" formControlName="quantity" [id]="'additional-'+additionalService.id+'-qty'">
