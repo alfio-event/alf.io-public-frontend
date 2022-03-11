@@ -63,7 +63,7 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
   }
 
   get editAllowed(): boolean {
-    return !this.ticketAcquired || this.field.value == null || this.field.value.trim().length == 0 || this.field.editable;
+    return !this.ticketAcquired || this.field.value == null || this.field.value.trim().length === 0 || this.field.editable;
   }
 
   getCountries(): void {
@@ -90,6 +90,6 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
   }
 
   get hideLabelForAssistiveTechnologies(): boolean {
-    return this.field.type === 'checkbox' || this.field.type === 'radio';
+    return this.field.type === 'radio';
   }
 }
