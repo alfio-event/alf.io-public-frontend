@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import * as countdown from 'countdown';
+import * as countdown from './countdown'; // see issue: https://stackoverflow.com/a/70506557 + https://github.com/mckamey/countdownjs/issues/39
 import { Subscription } from 'rxjs';
 
 @Component({
