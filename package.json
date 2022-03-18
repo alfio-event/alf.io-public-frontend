@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.config.json",
-    "startProd": "ng serve --proxy-config proxy.config.json --aot=true --prod=true",
-    "build": "ng build --aot=true --buildOptimizer=true --prod=true",
+    "startProd": "ng serve --proxy-config proxy.config.json --aot=true --configuration production",
+    "build": "ng build --aot=true --buildOptimizer=true --configuration production",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
