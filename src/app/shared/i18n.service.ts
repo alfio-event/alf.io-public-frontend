@@ -10,6 +10,7 @@ import { map, mergeMap, shareReplay, catchError, share } from 'rxjs/operators';
 import { EventService } from './event.service';
 import { PurchaseContextType } from './purchase-context.service';
 import {PurchaseContext} from '../model/purchase-context';
+import {getFromSessionStorage, writeToSessionStorage} from './util';
 
 @Injectable({
   providedIn: 'root'
@@ -71,11 +72,11 @@ export class I18nService {
   }
 
   persistLanguage(lang: string): void {
-    window.sessionStorage['ALFIO_LANG'] = lang;
+    writeToSessionStorage('ALFIO_LANG', lang);
   }
 
   getPersistedLanguage(): string {
-    return window.sessionStorage['ALFIO_LANG'];
+    return getFromSessionStorage('ALFIO_LANG');
   }
 
   getCurrentLang(): string {
