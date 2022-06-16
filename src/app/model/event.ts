@@ -1,7 +1,7 @@
 import { DateValidity, DatesWithOffset } from './date-validity';
 import { AnalyticsConfiguration } from './analytics-configuration';
 import { IconPrefix, IconName } from '@fortawesome/fontawesome-svg-core';
-import {Localized, PurchaseContext} from './purchase-context';
+import { OfflinePaymentConfiguration, PurchaseContext } from './purchase-context';
 
 export interface TermsPrivacyLinksContainer {
   privacyPolicyUrl?: string;
@@ -63,6 +63,10 @@ export class Event implements DateValidity, PurchaseContext {
     customCss: string | null;
 
     canApplySubscriptions: boolean;
+
+    offlinePaymentConfiguration: OfflinePaymentConfiguration = {
+      showOnlyBasicInstructions: false
+    };
 }
 
 export class InvoicingConfiguration {

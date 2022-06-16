@@ -1,5 +1,12 @@
 import { AnalyticsConfiguration } from './analytics-configuration';
-import {AssignmentConfiguration, CaptchaConfiguration, CurrencyDescriptor, InvoicingConfiguration, Language, TermsPrivacyLinksContainer} from './event';
+import {
+  AssignmentConfiguration,
+  CaptchaConfiguration,
+  CurrencyDescriptor,
+  InvoicingConfiguration,
+  Language,
+  TermsPrivacyLinksContainer
+} from './event';
 
 export interface Localized {
   contentLanguages: Language[];
@@ -29,6 +36,7 @@ export interface PurchaseContext extends PurchaseContextPriceDescriptor, Localiz
     assignmentConfiguration: AssignmentConfiguration;
     analyticsConfiguration: AnalyticsConfiguration;
     captchaConfiguration: CaptchaConfiguration;
+    offlinePaymentConfiguration: OfflinePaymentConfiguration;
 
     fileBlobId: string;
 
@@ -49,4 +57,8 @@ export interface PurchaseContextPriceDescriptor {
   vat: string;
   currency: string;
   vatIncluded: boolean;
+}
+
+export interface OfflinePaymentConfiguration {
+  showOnlyBasicInstructions: boolean;
 }
