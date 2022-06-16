@@ -1,6 +1,6 @@
 import {AnalyticsConfiguration} from './analytics-configuration';
 import {AssignmentConfiguration, CaptchaConfiguration, CurrencyDescriptor, InvoicingConfiguration, Language} from './event';
-import {Localized, PurchaseContext, PurchaseContextPriceDescriptor} from './purchase-context';
+import {Localized, OfflinePaymentConfiguration, PurchaseContext, PurchaseContextPriceDescriptor} from './purchase-context';
 import {DatesWithOffset} from './date-validity';
 
 export interface SubscriptionSummaryData extends PurchaseContextPriceDescriptor, Localized {
@@ -97,4 +97,8 @@ export class SubscriptionInfo implements PurchaseContext, SubscriptionSummaryDat
   formattedValidFrom?: { [key: string]: string };
   formattedValidTo?: { [key: string]: string };
   maxEntries?: number;
+
+  offlinePaymentConfiguration: OfflinePaymentConfiguration = {
+    showOnlyBasicInstructions: false
+  };
 }
