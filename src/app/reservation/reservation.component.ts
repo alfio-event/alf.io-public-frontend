@@ -14,6 +14,7 @@ export class ReservationComponent implements OnInit, OnDestroy {
   purchaseContext: PurchaseContext;
   type: PurchaseContextType;
   enableLoginButton = false;
+  displayFooterLinks = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,7 +28,9 @@ export class ReservationComponent implements OnInit, OnDestroy {
       });
     });
     this.routerSubscription = this.route.url.subscribe(url => {
-      this.enableLoginButton = url[url.length - 1].path === 'success';
+      const path = url[url.length - 1].path;
+      this.enableLoginButton = path === 'success';
+      this.displayFooterLinks = path === 'book';
     });
   }
 

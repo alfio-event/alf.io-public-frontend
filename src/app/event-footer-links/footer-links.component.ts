@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { PurchaseContext } from '../model/purchase-context';
 import {TermsPrivacyLinksContainer} from '../model/event';
 
 @Component({
@@ -7,6 +6,9 @@ import {TermsPrivacyLinksContainer} from '../model/event';
     templateUrl: './footer-links.component.html'
 })
 export class FooterLinksComponent {
+    @Input()
+    marginClass = 'mb-5';
+
     @Input()
     linksContainer: TermsPrivacyLinksContainer;
 }
