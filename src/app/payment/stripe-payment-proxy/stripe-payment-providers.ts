@@ -95,6 +95,12 @@ export class StripePaymentV3 implements PaymentProvider {
     ) {
     }
 
+    private static toCountryISOCode(country: string): string {
+      // The form contains EU-VAT prefix for Greece (EL).
+      // Here we need the country ISO Code instead
+      return country === 'EL' ? 'GR' : country;
+    }
+
     get paymentMethodDeferred(): boolean {
         return false;
     }
@@ -106,8 +112,12 @@ export class StripePaymentV3 implements PaymentProvider {
             this.reservationService.initPayment(this.reservation.id).subscribe(res => {
 
                 if (res.reservationStatusChanged || res.clientSecret == null) {
+                  if (res.errorMessage != null) {
+                    subscriber.error(new PaymentResult(false, null, res.errorMessage, res.reservationStatusChanged));
+                  } else {
                     subscriber.next(new PaymentResult(false, null, null, res.reservationStatusChanged));
-                    return;
+                  }
+                  return;
                 }
 
                 const clientSecret = res.clientSecret;
@@ -164,11 +174,5 @@ export class StripePaymentV3 implements PaymentProvider {
 
     statusNotifications(): Observable<PaymentStatusNotification> {
         return this.notificationSubject.asObservable();
-    }
-
-    private static toCountryISOCode(country: string): string {
-      // The form contains EU-VAT prefix for Greece (EL).
-      // Here we need the country ISO Code instead
-      return country === 'EL' ? 'GR' : country;
     }
 }
