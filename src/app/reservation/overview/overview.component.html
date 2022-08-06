@@ -27,7 +27,7 @@
           <div class="page-header d-block d-md-none"><h2 translate="reservation-page.invoice-details"></h2></div>
           <div class="row">
             <div class="col-12" *ngIf="reservationInfo.invoiceRequested">
-              <address class="text-left">
+              <address class="text-start">
                 <div class="preformatted">{{reservationInfo.billingAddress}}</div>
                 <div *ngIf="hasTaxId">{{'invoice.vat' |translate: {'0': ('common.vat' | translate)} }} {{reservationInfo.billingDetails.taxId}}</div>
                 <hr *ngIf="enabledItalyEInvoicing"/>
