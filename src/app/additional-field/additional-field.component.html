@@ -1,4 +1,4 @@
-<div [formGroup]="form">
+<ng-container [formGroup]="form">
   <div class="form-group" [formArrayName]="field.name">
     <label class="form-label" [attr.for]="ticketUUID + '-' + field.name" [id]="labelId" [attr.aria-hidden]="hideLabelForAssistiveTechnologies">{{labelValue + (field.required ? ' *' : '')}}</label>
     <ng-container [ngSwitch]="field.type" *ngIf="editAllowed">
@@ -30,4 +30,4 @@
       {{ getRestrictedValueLabel(field.value) }}
     </div>
   </div>
-</div>
+</ng-container>

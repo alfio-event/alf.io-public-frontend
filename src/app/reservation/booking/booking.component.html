@@ -20,7 +20,7 @@
       <div *ngFor="let err of globalErrors"><strong>{{err.code | translate: err.arguments}}</strong></div>
     </div>
 
-    <div class="row">
+    <div class="row g-2">
       <div class="col-12 col-sm-6">
         <div class="form-group">
           <label class="form-label" for="first-name">{{'common.first-name'|translate}}{{' '}}*</label>
@@ -33,8 +33,6 @@
           <input id="last-name" class="form-control" formControlName="lastName" aria-required="true" type="text" #contactLastName autocomplete="lname" [attr.maxlength]="255" appInvalidFeedback (change)="handleAutocomplete('lastName', contactLastName.value)">
         </div>
       </div>
-    </div>
-    <div class="row">
       <div class="col-12">
         <div class="form-group">
             <label class="form-label" for="email">{{'common.email'|translate}}{{' '}}*</label>
@@ -100,7 +98,7 @@
         <label class="custom-control-label" for="show-subscription-owner">{{' '}}{{'reservation-page.subscription.different-owner' | translate}}</label>
       </div>
       <div *ngIf="contactAndTicketsForm.value.differentSubscriptionOwner" [formGroup]="getSubscriptionForm()">
-        <div class="row">
+        <div class="row g-2">
           <div class="col-12 col-md-6">
             <div class="form-group">
               <label class="form-label" for="subscription-first-name">{{'common.first-name' | translate}} *</label>
@@ -113,11 +111,12 @@
               <input class="form-control" id="subscription-last-name" formControlName="lastName" type="text" appInvalidFeedback>
             </div>
           </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" class="form-label" for="subscription-email">{{'common.email' | translate}} *</label>
-          <input id="subscription-email" formControlName="email" type="email" class="form-control" appInvalidFeedback>
+          <div class="col-12">
+            <div class="form-group">
+              <label class="form-label" class="form-label" for="subscription-email">{{'common.email' | translate}} *</label>
+              <input id="subscription-email" formControlName="email" type="email" class="form-control" appInvalidFeedback>
+            </div>
+          </div>
         </div>
       </div>
     </ng-container>
