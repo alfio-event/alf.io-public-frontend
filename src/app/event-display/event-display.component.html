@@ -40,26 +40,26 @@
       <hr/>
       <form [formGroup]="waitingListForm" (submit)="submitWaitingListRequest(event.shortName, waitingListForm.value)">
           <div class="form-group">
-            <label for="firstName" translate="common.first-name"></label>
+            <label class="form-label" for="firstName" translate="common.first-name"></label>
             <input type="text" id="firstName" class="form-control" name="firstName" formControlName="firstName" required="required" aria-required="true" [attr.maxlength]="255" appInvalidFeedback>
           </div>
           <div class="form-group">
-            <label for="lastName" translate="common.last-name"></label>
+            <label class="form-label" for="lastName" translate="common.last-name"></label>
             <input type="text" id="lastName" class="form-control" name="lastName" formControlName="lastName" required="required" aria-required="true" [attr.maxlength]="255" appInvalidFeedback>
           </div>
           <div class="form-group">
-            <label for="email" translate="common.email"></label>
+            <label class="form-label" for="email" translate="common.email"></label>
             <input type="email" id="email" class="form-control" name="email" formControlName="email" required="required" aria-required="true" [attr.maxlength]="255" appInvalidFeedback>
           </div>
           <div class="form-group" *ngIf="ticketCategoriesForWaitingList && ticketCategoriesForWaitingList.length > 1">
-            <label for="selectedCategory" translate="reservation-page.category"></label>
+            <label class="form-label" for="selectedCategory" translate="reservation-page.category"></label>
             <select name="selectedCategory" id="selectedCategory" formControlName="selectedCategory" class="form-select" appInvalidFeedback>
               <option value=""></option>
               <option *ngFor="let tc of ticketCategoriesForWaitingList" [ngValue]="tc.id">{{tc.name}}</option>
             </select>
           </div>
           <div class="form-group">
-              <label for="userLanguage" translate="reservation-page-complete.language"></label>
+              <label class="form-label" for="userLanguage" translate="reservation-page-complete.language"></label>
               <select name="userLanguage" formControlName="userLanguage" id="userLanguage" class="form-select" required="required" aria-required="true" appInvalidFeedback>
                 <option value=""></option>
                 <option *ngFor="let l of event.contentLanguages" [ngValue]="l.locale">{{l.displayLanguage}}</option>
@@ -185,7 +185,7 @@
           </button>
         </div>
         <div *ngIf="displayPromoCodeForm" class="mt-2">
-          <div class="form-row" [formGroup]="promoCodeForm">
+          <div class="row" [formGroup]="promoCodeForm">
             <div class="col-12 col-md-6 offset-md-1">
               <div class="form-group">
                 <label for="promo-code" class="sr-only">{{'show-event.promo-code-insert' | translate: {'0': (event.promotionsConfiguration.usePartnerCode ? 'show-event.promo-code-type.partner' : 'show-event.promo-code-type.promotional') | translate } }}</label>

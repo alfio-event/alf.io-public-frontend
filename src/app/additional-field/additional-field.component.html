@@ -1,6 +1,6 @@
 <div [formGroup]="form">
   <div class="form-group" [formArrayName]="field.name">
-    <label [attr.for]="ticketUUID + '-' + field.name" [id]="labelId" [attr.aria-hidden]="hideLabelForAssistiveTechnologies">{{labelValue + (field.required ? ' *' : '')}}</label>
+    <label class="form-label" [attr.for]="ticketUUID + '-' + field.name" [id]="labelId" [attr.aria-hidden]="hideLabelForAssistiveTechnologies">{{labelValue + (field.required ? ' *' : '')}}</label>
     <ng-container [ngSwitch]="field.type" *ngIf="editAllowed">
       <input *ngSwitchCase="'input:text'" [attr.id]="ticketUUID + '-' + field.name" type="text" [attr.placeholder]="placeholder" class="form-control" formControlName="0" appInvalidFeedback>
       <input *ngSwitchCase="'input:tel'" [attr.id]="ticketUUID + '-' + field.name" type="tel" [attr.placeholder]="placeholder" class="form-control" formControlName="0" appInvalidFeedback>

@@ -65,7 +65,7 @@
       </div>
       <div class="col-12 col-md-3">
         <div class="form-group">
-          <label for="billingAddressState">{{'reservation-page.state'|translate}}<span *ngIf="enabledItalyEInvoicing"> *</span></label>
+          <label class="form-label" for="billingAddressState">{{'reservation-page.state'|translate}}<span *ngIf="enabledItalyEInvoicing"> *</span></label>
           <input id="billingAddressState" [attr.required]="enabledItalyEInvoicing" [attr.aria-required]="enabledItalyEInvoicing" type="text" formControlName="billingAddressState" class="form-control" appInvalidFeedback>
         </div>
       </div>
@@ -98,7 +98,7 @@
   <div class="row" *ngIf="invoiceBusiness">
     <div [ngClass]="{'col-md-12': vatNumberStrictlyRequired, 'col-md-6': !vatNumberStrictlyRequired}">
         <div class="form-group">
-            <label for="vatNr">{{'invoice.vat' |translate: {'0': ('common.vat' | translate)} }}<span *ngIf="taxIdIsRequired"> *</span></label>
+            <label class="form-label" for="vatNr">{{'invoice.vat' |translate: {'0': ('common.vat' | translate)} }}<span *ngIf="taxIdIsRequired"> *</span></label>
             <div class="input-group">
                 <div class="input-group-prepend" *ngIf="form.value.vatCountryCode"><span class="input-group-text">{{form.value.vatCountryCode}}</span></div>
                 <input id="vatNr" type="text" formControlName="vatNr" class="form-control" appInvalidFeedback [attr.aria-required]="taxIdIsRequired">
@@ -118,7 +118,7 @@
     <div class="row">
       <div class="col-12">
           <div class="form-group">
-              <label for="italyEInvoicingFiscalCode">{{ (italyEInvoicingFormDisplayed ? 'invoice-fields.fiscalCode' : 'invoice-fields.tax-id') | translate}}{{' *'}}</label>
+              <label class="form-label" for="italyEInvoicingFiscalCode">{{ (italyEInvoicingFormDisplayed ? 'invoice-fields.fiscalCode' : 'invoice-fields.tax-id') | translate}}{{' *'}}</label>
               <input id="italyEInvoicingFiscalCode" required aria-required="true" type="text" formControlName="italyEInvoicingFiscalCode" class="form-control" appInvalidFeedback>
           </div>
       </div>
@@ -129,7 +129,7 @@
     <div class="row">
       <div class="col-12 col-md-6">
         <div class="form-group">
-          <label for="italyEInvoicingReferenceType">{{'invoice-fields.addresseeItalyEInvoice' | translate}}{{' *'}}</label>
+          <label class="form-label" for="italyEInvoicingReferenceType">{{'invoice-fields.addresseeItalyEInvoice' | translate}}{{' *'}}</label>
           <select class="form-select" id="italyEInvoicingReferenceType" required aria-required="true" formControlName="italyEInvoicingReferenceType">
             <option value="ADDRESSEE_CODE" translate="invoice-fields.addressee-code"></option>
             <option value="PEC" translate="invoice-fields.pec"></option>
@@ -139,11 +139,11 @@
       </div>
       <div class="col-12 col-md-6" *ngIf="addresseeCodeSelected || pecSelected">
         <div class="form-group" *ngIf="addresseeCodeSelected">
-          <label for="italyEInvoicingReferenceAddresseeCode">{{'invoice-fields.addressee-code'|translate}}{{' *'}}</label>
+          <label class="form-label" for="italyEInvoicingReferenceAddresseeCode">{{'invoice-fields.addressee-code'|translate}}{{' *'}}</label>
           <input id="italyEInvoicingReferenceAddresseeCode" required aria-required="true" type="text" [attr.maxlength]="7" class="form-control" formControlName="italyEInvoicingReferenceAddresseeCode" appInvalidFeedback>
         </div>
         <div class="form-group" *ngIf="pecSelected">
-          <label for="italyEInvoicingReferencePEC">{{'invoice-fields.pec' | translate}}{{' *'}}</label>
+          <label class="form-label" for="italyEInvoicingReferencePEC">{{'invoice-fields.pec' | translate}}{{' *'}}</label>
           <input id="italyEInvoicingReferencePEC" type="email" required aria-required="true" class="form-control" formControlName="italyEInvoicingReferencePEC" appInvalidFeedback>
         </div>
       </div>
