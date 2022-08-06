@@ -53,14 +53,14 @@
           </div>
           <div class="form-group" *ngIf="ticketCategoriesForWaitingList && ticketCategoriesForWaitingList.length > 1">
             <label for="selectedCategory" translate="reservation-page.category"></label>
-            <select name="selectedCategory" id="selectedCategory" formControlName="selectedCategory" class="custom-select" appInvalidFeedback>
+            <select name="selectedCategory" id="selectedCategory" formControlName="selectedCategory" class="form-select" appInvalidFeedback>
               <option value=""></option>
               <option *ngFor="let tc of ticketCategoriesForWaitingList" [ngValue]="tc.id">{{tc.name}}</option>
             </select>
           </div>
           <div class="form-group">
               <label for="userLanguage" translate="reservation-page-complete.language"></label>
-              <select name="userLanguage" formControlName="userLanguage" id="userLanguage" class="custom-select" required="required" aria-required="true" appInvalidFeedback>
+              <select name="userLanguage" formControlName="userLanguage" id="userLanguage" class="form-select" required="required" aria-required="true" appInvalidFeedback>
                 <option value=""></option>
                 <option *ngFor="let l of event.contentLanguages" [ngValue]="l.locale">{{l.displayLanguage}}</option>
               </select>
