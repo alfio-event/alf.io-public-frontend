@@ -2,6 +2,7 @@
   "name": "alfio-public-frontend",
   "version": "0.0.0",
   "scripts": {
+    "source-map-explorer": "ng build --source-map=true && npx source-map-explorer dist/alfio-public-frontend/**/*.js",
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.config.json",
     "startProd": "ng serve --proxy-config proxy.config.json --aot=true --configuration production",
