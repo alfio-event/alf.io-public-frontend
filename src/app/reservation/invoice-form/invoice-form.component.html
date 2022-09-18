@@ -8,13 +8,13 @@
       <div class="form-group">
         <label translate="invoice.type" id="invoiceTypeLabel"></label>
         <div>
-          <div class="custom-control custom-radio custom-control-inline">
-              <input class="custom-control-input" type="radio" role="radiogroup" aria-labelledby="invoiceTypeLabel" formControlName="addCompanyBillingDetails" [value]="false" id="invoiceTypePrivate" >
-              <label class="custom-control-label radio-inline" for="invoiceTypePrivate">{{' '}}{{'invoice.type.private' | translate}}</label>
+          <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" role="radiogroup" aria-labelledby="invoiceTypeLabel" formControlName="addCompanyBillingDetails" [value]="false" id="invoiceTypePrivate" >
+              <label class="form-check-label radio-inline" for="invoiceTypePrivate">{{' '}}{{'invoice.type.private' | translate}}</label>
           </div>
-          <div class="custom-control custom-radio custom-control-inline">
-              <input class="custom-control-input" type="radio" role="radiogroup" aria-labelledby="invoiceTypeLabel" formControlName="addCompanyBillingDetails" [value]="true" id="invoiceTypeBusiness">
-              <label class="custom-control-label radio-inline" for="invoiceTypeBusiness">{{' '}}{{'invoice.type.business' | translate}}</label>
+          <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" role="radiogroup" aria-labelledby="invoiceTypeLabel" formControlName="addCompanyBillingDetails" [value]="true" id="invoiceTypeBusiness">
+              <label class="form-check-label radio-inline" for="invoiceTypeBusiness">{{' '}}{{'invoice.type.business' | translate}}</label>
           </div>
         </div>
       </div>
@@ -88,9 +88,9 @@
           </div>
       </div>
       <div class="col-md-6" *ngIf="!vatNumberStrictlyRequired">
-          <div class="custom-control custom-checkbox checkbox-in-form-group">
-              <input class="custom-control-input" type="checkbox" formControlName="skipVatNr" [value]="true" id="skip-vat-nr" appInvalidFeedback>
-              <label class="custom-control-label" for="skip-vat-nr">{{' '}}{{'reservation-page.skipVatNr' | translate: {'0': ('common.vat' | translate)} }}</label>
+          <div class="form-check checkbox-in-form-group">
+              <input class="form-check-input" type="checkbox" formControlName="skipVatNr" [value]="true" id="skip-vat-nr" appInvalidFeedback>
+              <label class="form-check-label" for="skip-vat-nr">{{' '}}{{'reservation-page.skipVatNr' | translate: {'0': ('common.vat' | translate)} }}</label>
           </div>
       </div>
     </ng-container>
@@ -127,9 +127,9 @@
 
       <ng-container *ngIf="invoiceBusiness">
         <div class="col-12">
-          <div class="custom-control custom-checkbox">
-            <input class="custom-control-input" id="italyEInvoicingSplitPayment" formControlName="italyEInvoicingSplitPayment" type="checkbox" aria-labelledby="split-payment-label">
-            <label class="custom-control-label" for="italyEInvoicingSplitPayment" id="split-payment-label">{{'invoice-fields.split-payment' | translate}}</label>
+          <div class="form-check">
+            <input class="form-check-input" id="italyEInvoicingSplitPayment" formControlName="italyEInvoicingSplitPayment" type="checkbox" aria-labelledby="split-payment-label">
+            <label class="form-check-label" for="italyEInvoicingSplitPayment" id="split-payment-label">{{'invoice-fields.split-payment' | translate}}</label>
           </div>
         </div>
       </ng-container>

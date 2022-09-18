@@ -47,9 +47,9 @@
       <app-invoice-form [form]="contactAndTicketsForm" [purchaseContext]="purchaseContext"></app-invoice-form>
     </div>
     <div *ngIf="!reservationInfo.orderSummary.free && !purchaseContext.invoicingConfiguration.onlyInvoice && purchaseContext.invoicingConfiguration.invoiceAllowed" class="mb-4 mt-4">
-      <div class="custom-control custom-checkbox">
-        <input class="custom-control-input" type="checkbox" formControlName="invoiceRequested" (change)="handleInvoiceRequestedChange()" id="invoiceRequested">
-        <label for="invoiceRequested" class="custom-control-label">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" formControlName="invoiceRequested" (change)="handleInvoiceRequestedChange()" id="invoiceRequested">
+        <label for="invoiceRequested" class="form-check-label">
           {{' '}}<span translate="reservation-page.i-need-an-invoice"></span>
         </label>
       </div>
@@ -61,9 +61,9 @@
     <ng-container *ngIf="purchaseContextType === 'event'">
       <h2 translate="reservation-page.attendees"></h2>
 
-      <div class="custom-control custom-checkbox wMarginBottom" *ngIf="!purchaseContext.assignmentConfiguration.forceAssignment && ticketCounts > 1 && !reservationInfo.containsCategoriesLinkedToGroups">
-        <input class="custom-control-input" type="checkbox" formControlName="postponeAssignment" id="postpone-assignment" value="true">
-        <label class="custom-control-label" for="postpone-assignment">{{' '}}{{'reservation-page.postpone-assignment'|translate}}</label>
+      <div class="form-check wMarginBottom" *ngIf="!purchaseContext.assignmentConfiguration.forceAssignment && ticketCounts > 1 && !reservationInfo.containsCategoriesLinkedToGroups">
+        <input class="form-check-input" type="checkbox" formControlName="postponeAssignment" id="postpone-assignment" value="true">
+        <label class="form-check-label" for="postpone-assignment">{{' '}}{{'reservation-page.postpone-assignment'|translate}}</label>
       </div>
 
       <ng-container *ngIf="!contactAndTicketsForm.value.postponeAssignment">
@@ -93,9 +93,9 @@
       </ng-container>
     </ng-container>
     <ng-container *ngIf="purchaseContextType === 'subscription'">
-      <div class="custom-control custom-checkbox mb-3">
-        <input class="custom-control-input" type="checkbox" formControlName="differentSubscriptionOwner" id="show-subscription-owner" value="true">
-        <label class="custom-control-label" for="show-subscription-owner">{{' '}}{{'reservation-page.subscription.different-owner' | translate}}</label>
+      <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" formControlName="differentSubscriptionOwner" id="show-subscription-owner" value="true">
+        <label class="form-check-label" for="show-subscription-owner">{{' '}}{{'reservation-page.subscription.different-owner' | translate}}</label>
       </div>
       <div *ngIf="contactAndTicketsForm.value.differentSubscriptionOwner" [formGroup]="getSubscriptionForm()">
         <div class="row g-2">

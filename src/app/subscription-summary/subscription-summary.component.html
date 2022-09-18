@@ -24,12 +24,12 @@
         <div class="row">
           <div class="col-12">
             <div>
-              <span class="mr-2"><strong translate="subscription.detail.validity.CUSTOM.from"></strong></span>
+              <span class="me-2"><strong translate="subscription.detail.validity.CUSTOM.from"></strong></span>
               <span>{{ validFrom }}</span>
               <span class="text-muted" *ngIf="displayTimeZoneInfo">&nbsp; ({{subscription.timeZone}})</span>
             </div>
             <div *ngIf="hasValidTo">
-              <span class="mr-2"><strong translate="subscription.detail.validity.CUSTOM.to"></strong></span>
+              <span class="me-2"><strong translate="subscription.detail.validity.CUSTOM.to"></strong></span>
               <span>{{ validTo }}</span>
               <span class="text-muted" *ngIf="displayTimeZoneInfo">&nbsp; ({{subscription.timeZone}})</span>
             </div>
