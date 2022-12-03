@@ -23,3 +23,5 @@ export function removeFromSessionStorage(key: string): void {
   } catch (e) {
   }
 }
+
+export const embedded = window.parent !== window;

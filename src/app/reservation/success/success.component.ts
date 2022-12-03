@@ -12,6 +12,7 @@ import {handleServerSideValidationError} from 'src/app/shared/validation-helper'
 import {FormGroup} from '@angular/forms';
 import {TranslateService} from '@ngx-translate/core';
 import {ReservationStatusChanged} from '../../model/embedding-configuration';
+import {embedded} from '../../shared/util';
 
 @Component({
   selector: 'app-success',
@@ -60,7 +61,7 @@ export class SuccessComponent implements OnInit {
 
   private loadReservation(): void {
     this.reservationService.getReservationInfo(this.reservationId).subscribe(res => {
-      if (window.parent != null && this.event.embeddingConfiguration.enabled) {
+      if (embedded && this.event.embeddingConfiguration.enabled) {
         window.parent.postMessage(
           new ReservationStatusChanged(res.status, this.reservationId),
           this.event.embeddingConfiguration.notificationOrigin

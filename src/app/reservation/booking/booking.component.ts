@@ -23,6 +23,7 @@ import {ANONYMOUS, User} from '../../model/user';
 import {first} from 'rxjs/operators';
 import {FeedbackService} from '../../shared/feedback/feedback.service';
 import {ReservationStatusChanged} from '../../model/embedding-configuration';
+import {embedded} from '../../shared/util';
 
 @Component({
   selector: 'app-booking',
@@ -253,7 +254,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
   }
 
   private handleCancelOrExpired(): void {
-    if (window.parent != null && this.purchaseContext.embeddingConfiguration.enabled) {
+    if (embedded && this.purchaseContext.embeddingConfiguration.enabled) {
       window.parent.postMessage(
         new ReservationStatusChanged('CANCELLED', this.reservationId),
         this.purchaseContext.embeddingConfiguration.notificationOrigin
@@ -313,5 +314,9 @@ export class BookingComponent implements OnInit, AfterViewInit {
           this.feedbackService.showError(this.translate.instant('reservation-page.cannot-login.error'));
         }
       });
+  }
+
+  get showContactData(): boolean {
+    return !embedded || !this.reservationInfo.metadata.hideContactData;
   }
 }

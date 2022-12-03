@@ -14,6 +14,7 @@ import {EventService} from '../../shared/event.service';
 import {BasicEventInfo} from '../../model/basic-event-info';
 import {SearchParams} from '../../model/search-params';
 import {ReservationStatusChanged} from '../../model/embedding-configuration';
+import {embedded} from '../../shared/util';
 
 @Component({
   selector: 'app-success-subscription',
@@ -57,7 +58,7 @@ export class SuccessSubscriptionComponent implements OnInit {
 
   private loadReservation() {
     this.reservationService.getReservationInfo(this.reservationId).subscribe(resInfo => {
-      if (window.parent != null && this.purchaseContext.embeddingConfiguration.enabled) {
+      if (embedded && this.purchaseContext.embeddingConfiguration.enabled) {
         window.parent.postMessage(
           new ReservationStatusChanged(resInfo.status, this.reservationId),
           this.purchaseContext.embeddingConfiguration.notificationOrigin
