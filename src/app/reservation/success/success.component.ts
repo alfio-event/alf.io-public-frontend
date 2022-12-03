@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { ReservationService } from '../../shared/reservation.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Event } from 'src/app/model/event';
-import { EventService } from 'src/app/shared/event.service';
-import { TicketService } from 'src/app/shared/ticket.service';
-import { Ticket } from 'src/app/model/ticket';
-import { ReservationInfo, TicketsByTicketCategory } from 'src/app/model/reservation-info';
-import { I18nService } from 'src/app/shared/i18n.service';
-import { AnalyticsService } from 'src/app/shared/analytics.service';
-import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
-import { FormGroup } from '@angular/forms';
-import { TicketCategory } from 'src/app/model/ticket-category';
-import { TryCatchStmt } from '@angular/compiler';
+import {Component, OnInit} from '@angular/core';
+import {ReservationService} from '../../shared/reservation.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Event} from 'src/app/model/event';
+import {EventService} from 'src/app/shared/event.service';
+import {TicketService} from 'src/app/shared/ticket.service';
+import {Ticket} from 'src/app/model/ticket';
+import {ReservationInfo, TicketsByTicketCategory} from 'src/app/model/reservation-info';
+import {I18nService} from 'src/app/shared/i18n.service';
+import {AnalyticsService} from 'src/app/shared/analytics.service';
+import {handleServerSideValidationError} from 'src/app/shared/validation-helper';
+import {FormGroup} from '@angular/forms';
 import {TranslateService} from '@ngx-translate/core';
+import {ReservationStatusChanged} from '../../model/embedding-configuration';
 
 @Component({
   selector: 'app-success',
@@ -61,20 +60,27 @@ export class SuccessComponent implements OnInit {
 
   private loadReservation(): void {
     this.reservationService.getReservationInfo(this.reservationId).subscribe(res => {
-      this.reservationInfo = res;
-      //
-      this.ticketsAllAssigned = true;
-      this.unlockedTicketCount = 0;
-      //
-      res.ticketsByCategory.forEach((tc) => {
-        tc.tickets.forEach((ticket: Ticket) => {
-          this.buildFormControl(ticket);
-          if (!ticket.locked) {
-            this.unlockedTicketCount += 1;
-          }
-          this.ticketsAllAssigned = this.ticketsAllAssigned && ticket.assigned;
+      if (window.parent != null && this.event.embeddingConfiguration.enabled) {
+        window.parent.postMessage(
+          new ReservationStatusChanged(res.status, this.reservationId),
+          this.event.embeddingConfiguration.notificationOrigin
+        );
+      } else {
+        this.reservationInfo = res;
+        //
+        this.ticketsAllAssigned = true;
+        this.unlockedTicketCount = 0;
+        //
+        res.ticketsByCategory.forEach((tc) => {
+          tc.tickets.forEach((ticket: Ticket) => {
+            this.buildFormControl(ticket);
+            if (!ticket.locked) {
+              this.unlockedTicketCount += 1;
+            }
+            this.ticketsAllAssigned = this.ticketsAllAssigned && ticket.assigned;
+          });
         });
-      });
+      }
     });
   }
 
