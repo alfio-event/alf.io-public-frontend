@@ -11,6 +11,9 @@ import {AnalyticsService} from 'src/app/shared/analytics.service';
 import {handleServerSideValidationError} from 'src/app/shared/validation-helper';
 import {FormGroup} from '@angular/forms';
 import {TranslateService} from '@ngx-translate/core';
+import {InfoService} from '../../shared/info.service';
+import {first} from 'rxjs/operators';
+import {WalletConfiguration} from '../../model/info';
 import {ReservationStatusChanged} from '../../model/embedding-configuration';
 import {embedded} from '../../shared/util';
 
@@ -35,6 +38,7 @@ export class SuccessComponent implements OnInit {
 
   unlockedTicketCount = 0;
   ticketsAllAssigned = true;
+  private walletConfiguration: WalletConfiguration;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,12 +48,15 @@ export class SuccessComponent implements OnInit {
     private i18nService: I18nService,
     private analytics: AnalyticsService,
     private router: Router,
-    private translateService: TranslateService) { }
+    private translateService: TranslateService,
+    private infoService: InfoService) { }
 
   public ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.eventShortName = params['eventShortName'];
       this.reservationId = params['reservationId'];
+      this.infoService.getInfo().pipe(first())
+        .subscribe(info => this.walletConfiguration = info.walletConfiguration);
       this.eventService.getEvent(this.eventShortName).subscribe(ev => {
         this.event = ev;
         this.i18nService.setPageTitle('reservation-page-complete.header.title', ev);
@@ -152,4 +159,13 @@ export class SuccessComponent implements OnInit {
     return this.event.title[this.translateService.currentLang];
   }
 
+  get walletIntegrationEnabled(): boolean {
+    return this.walletConfiguration != null &&
+      (this.walletConfiguration.gWalletEnabled || this.walletConfiguration.passEnabled);
+  }
+
+  downloadTicket(ticket: Ticket): void {
+    this.ticketService.openDownloadTicket(ticket, this.eventShortName, this.walletConfiguration)
+      .subscribe(() => {});
+  }
 }

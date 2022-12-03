@@ -13,7 +13,7 @@ import {
   faInfoCircle, faGift, faTicketAlt, faCheck, faAddressCard, faFileAlt, faThumbsUp, faMoneyBill, faDownload, faSearchPlus,
   faExchangeAlt, faExclamationTriangle, faExclamationCircle, faCreditCard, faCog, faEraser, faTimes, faFileInvoice, faGlobe,
   faAngleDown, faAngleUp, faCircle, faMoneyCheckAlt, faWifi, faTrash, faUserAstronaut, faSignInAlt, faSignOutAlt, faExternalLinkAlt,
-  faMapMarkerAlt, faRedoAlt
+  faMapMarkerAlt, faRedoAlt, faFilePdf
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faCalendarAlt, faCalendarPlus, faCompass, faClock, faEnvelope,
@@ -79,6 +79,7 @@ import {MyProfileComponent} from './my-profile/my-profile.component';
 import {WaitingRoomComponent} from './waiting-room/waiting-room.component';
 import {MyProfileDeleteWarningComponent} from './my-profile/my-profile-delete-warning.component';
 import {TranslateDescriptionPipe} from './shared/translate-description.pipe';
+import {DownloadTicketComponent} from './reservation/download-ticket/download-ticket.component';
 
 
 
@@ -107,6 +108,7 @@ export function InitUserService(userService: UserService): () => Promise<boolean
     UpdateTicketComponent,
     EventSummaryComponent,
     TicketFormComponent,
+    DownloadTicketComponent,
     CountdownComponent,
     BannerCheckComponent,
     OfflinePaymentComponent,
@@ -191,6 +193,6 @@ export class AppModule {
       faAngleDown, faAngleUp, faCircle, faCheckCircle, faMoneyCheckAlt, faWifi, faTrash, faCopy, faExclamationCircle, faUserAstronaut,
       faSignInAlt, faSignOutAlt, faExternalLinkAlt, faMapMarkerAlt, faRedoAlt);
     library.addIcons(faCalendarAlt, faCalendarPlus, faCompass, faClock, faEnvelope, faEdit, faClone, faHandshake, faBuilding);
-    library.addIcons(faPaypal, faStripe, faIdeal, faApplePay);
+    library.addIcons(faPaypal, faStripe, faIdeal, faApplePay, faFilePdf);
   }
 }
