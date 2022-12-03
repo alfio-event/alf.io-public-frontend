@@ -2,6 +2,7 @@ import { DateValidity, DatesWithOffset } from './date-validity';
 import { AnalyticsConfiguration } from './analytics-configuration';
 import { IconPrefix, IconName } from '@fortawesome/fontawesome-svg-core';
 import { OfflinePaymentConfiguration, PurchaseContext } from './purchase-context';
+import {EmbeddingConfiguration} from './embedding-configuration';
 
 export interface TermsPrivacyLinksContainer {
   privacyPolicyUrl?: string;
@@ -55,6 +56,8 @@ export class Event implements DateValidity, PurchaseContext {
     promotionsConfiguration: PromotionsConfiguration;
     //
     analyticsConfiguration: AnalyticsConfiguration;
+
+    embeddingConfiguration: EmbeddingConfiguration;
 
     i18nOverride: {[lang: string]: {[key: string]: string}};
 

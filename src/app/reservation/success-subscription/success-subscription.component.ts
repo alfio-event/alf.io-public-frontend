@@ -13,6 +13,8 @@ import {FeedbackService} from '../../shared/feedback/feedback.service';
 import {EventService} from '../../shared/event.service';
 import {BasicEventInfo} from '../../model/basic-event-info';
 import {SearchParams} from '../../model/search-params';
+import {ReservationStatusChanged} from '../../model/embedding-configuration';
+import {embedded} from '../../shared/util';
 
 @Component({
   selector: 'app-success-subscription',
@@ -56,8 +58,15 @@ export class SuccessSubscriptionComponent implements OnInit {
 
   private loadReservation() {
     this.reservationService.getReservationInfo(this.reservationId).subscribe(resInfo => {
-      this.reservationInfo = resInfo;
-      this.loadCompatibleEvents(this.subscriptionInfo.id);
+      if (embedded && this.purchaseContext.embeddingConfiguration.enabled) {
+        window.parent.postMessage(
+          new ReservationStatusChanged(resInfo.status, this.reservationId),
+          this.purchaseContext.embeddingConfiguration.notificationOrigin
+        );
+      } else {
+        this.reservationInfo = resInfo;
+        this.loadCompatibleEvents(this.subscriptionInfo.id);
+      }
     });
   }
 
@@ -82,7 +91,7 @@ export class SuccessSubscriptionComponent implements OnInit {
   }
 
   public reSendReservationEmail(): void {
-    this.reservationService.reSendReservationEmail('subscription', this.publicIdentifier, this.reservationId, this.i18nService.getCurrentLang()).subscribe(res => {
+    this.reservationService.reSendReservationEmail('subscription', this.publicIdentifier, this.reservationId, this.i18nService.getCurrentLang()).subscribe(() => {
       this.feedbackService.showSuccess('email.confirmation-email-sent');
     });
   }

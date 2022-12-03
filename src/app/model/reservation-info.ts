@@ -42,6 +42,11 @@ export class ReservationInfo {
 
     activePaymentMethods: {[key in PaymentMethod]?: PaymentProxyWithParameters};
     subscriptionInfos?: Array<ReservationSubscriptionInfo>;
+    metadata: ReservationMetadata;
+}
+
+export interface ReservationMetadata {
+  hideContactData: boolean;
 }
 
 export class ReservationSubscriptionInfo {
