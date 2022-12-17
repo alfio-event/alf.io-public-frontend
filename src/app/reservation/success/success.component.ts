@@ -73,22 +73,21 @@ export class SuccessComponent implements OnInit {
           new ReservationStatusChanged(res.status, this.reservationId),
           this.event.embeddingConfiguration.notificationOrigin
         );
-      } else {
-        this.reservationInfo = res;
-        //
-        this.ticketsAllAssigned = true;
-        this.unlockedTicketCount = 0;
-        //
-        res.ticketsByCategory.forEach((tc) => {
-          tc.tickets.forEach((ticket: Ticket) => {
-            this.buildFormControl(ticket);
-            if (!ticket.locked) {
-              this.unlockedTicketCount += 1;
-            }
-            this.ticketsAllAssigned = this.ticketsAllAssigned && ticket.assigned;
-          });
-        });
       }
+      this.reservationInfo = res;
+      //
+      this.ticketsAllAssigned = true;
+      this.unlockedTicketCount = 0;
+      //
+      res.ticketsByCategory.forEach((tc) => {
+        tc.tickets.forEach((ticket: Ticket) => {
+          this.buildFormControl(ticket);
+          if (!ticket.locked) {
+            this.unlockedTicketCount += 1;
+          }
+          this.ticketsAllAssigned = this.ticketsAllAssigned && ticket.assigned;
+        });
+      });
     });
   }
 
@@ -167,5 +166,9 @@ export class SuccessComponent implements OnInit {
   downloadTicket(ticket: Ticket): void {
     this.ticketService.openDownloadTicket(ticket, this.eventShortName, this.walletConfiguration)
       .subscribe(() => {});
+  }
+
+  get showReservationButtons(): boolean {
+    return !embedded || !this.event.embeddingConfiguration.enabled;
   }
 }
