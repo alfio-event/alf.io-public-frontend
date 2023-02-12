@@ -18,6 +18,8 @@ import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purc
 import { ModalRemoveSubscriptionComponent } from '../modal-remove-subscription/modal-remove-subscription.component';
 import {FeedbackService} from '../../shared/feedback/feedback.service';
 import {SearchParams} from '../../model/search-params';
+import {embedded} from '../../shared/util';
+import {ReservationStatusChanged} from '../../model/embedding-configuration';
 
 @Component({
   selector: 'app-overview',
@@ -217,6 +219,7 @@ export class OverviewComponent implements OnInit {
       this.submitting = false;
       this.unregisterHook();
       this.notifyPaymentError(err);
+      this.notifyPaymentErrorToParent(err);
     });
   }
 
@@ -227,7 +230,10 @@ export class OverviewComponent implements OnInit {
       if (res.success) {
         console.log('reservation has been confirmed. Waiting for the PaymentProvider to aknowledge it...');
       }
-    }, err => console.log('error while force-checking', err));
+    }, err => {
+      console.log('error while force-checking', err);
+      this.notifyPaymentErrorToParent(err);
+    });
   }
 
   private registerUnloadHook(): void {
@@ -389,6 +395,15 @@ export class OverviewComponent implements OnInit {
       return 'invoice-fields.fiscalCode';
     }
     return 'invoice-fields.tax-id';
+  }
+
+  private notifyPaymentErrorToParent(err: any) {
+    if (embedded && this.purchaseContext.embeddingConfiguration.enabled) {
+      window.parent.postMessage(
+        new ReservationStatusChanged(this.reservationInfo.status, this.reservationId, err),
+        this.purchaseContext.embeddingConfiguration.notificationOrigin
+      );
+    }
   }
 }
 

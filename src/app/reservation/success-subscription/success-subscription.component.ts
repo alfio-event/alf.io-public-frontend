@@ -58,13 +58,15 @@ export class SuccessSubscriptionComponent implements OnInit {
 
   private loadReservation() {
     this.reservationService.getReservationInfo(this.reservationId).subscribe(resInfo => {
-      if (embedded && this.purchaseContext.embeddingConfiguration.enabled) {
+      const embeddingEnabled = this.purchaseContext.embeddingConfiguration.enabled;
+      if (embedded && embeddingEnabled) {
         window.parent.postMessage(
           new ReservationStatusChanged(resInfo.status, this.reservationId),
           this.purchaseContext.embeddingConfiguration.notificationOrigin
         );
-      } else {
-        this.reservationInfo = resInfo;
+      }
+      this.reservationInfo = resInfo;
+      if (!embedded && embeddingEnabled) {
         this.loadCompatibleEvents(this.subscriptionInfo.id);
       }
     });
@@ -90,6 +92,13 @@ export class SuccessSubscriptionComponent implements OnInit {
     return this.reservationInfo.subscriptionInfos[0];
   }
 
+  get displayPin(): boolean {
+    if (this.subscriptionInfo.configuration != null) {
+      return this.subscriptionInfo.configuration.displayPin;
+    }
+    return true; // by default, we display PIN
+  }
+
   public reSendReservationEmail(): void {
     this.reservationService.reSendReservationEmail('subscription', this.publicIdentifier, this.reservationId, this.i18nService.getCurrentLang()).subscribe(() => {
       this.feedbackService.showSuccess('email.confirmation-email-sent');
@@ -102,6 +111,10 @@ export class SuccessSubscriptionComponent implements OnInit {
 
   public copied(payload: string): void {
     this.feedbackService.showSuccess('reservation-page-complete.subscription.copy.success');
+  }
+
+  get showReservationButtons(): boolean {
+    return !embedded || !this.purchaseContext.embeddingConfiguration.enabled;
   }
 
 }
