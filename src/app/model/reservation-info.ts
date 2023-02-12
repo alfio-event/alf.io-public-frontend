@@ -54,12 +54,17 @@ export class ReservationSubscriptionInfo {
   pin?: string;
   usageDetails?: SubscriptionUsageDetails;
   owner?: SubscriptionOwner;
+  configuration?: SubscriptionConfiguration;
 }
 
 export class SubscriptionOwner {
   firstName: string;
   lastName: string;
   email: string;
+}
+
+export interface SubscriptionConfiguration {
+  displayPin: boolean;
 }
 
 export interface SubscriptionUsageDetails {
