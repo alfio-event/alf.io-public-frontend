@@ -1,25 +1,24 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { ReservationService } from '../../shared/reservation.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { PaymentMethod, PaymentProxy, PaymentProxyWithParameters } from 'src/app/model/event';
-import { ReservationInfo, SummaryRow } from 'src/app/model/reservation-info';
-import { PaymentProvider, SimplePaymentProvider, PaymentResult, PaymentStatusNotification } from 'src/app/payment/payment-provider';
-import { handleServerSideValidationError } from 'src/app/shared/validation-helper';
-import { I18nService } from 'src/app/shared/i18n.service';
-import { TranslateService } from '@ngx-translate/core';
-import { AnalyticsService } from 'src/app/shared/analytics.service';
-import { ErrorDescriptor, ValidatedResponse } from 'src/app/model/validated-response';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ReservationExpiredComponent } from '../expired-notification/reservation-expired.component';
-import { zip } from 'rxjs';
-import { PurchaseContext } from 'src/app/model/purchase-context';
-import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
-import { ModalRemoveSubscriptionComponent } from '../modal-remove-subscription/modal-remove-subscription.component';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
+import {ReservationService} from '../../shared/reservation.service';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {PaymentMethod, PaymentProxy, PaymentProxyWithParameters} from 'src/app/model/event';
+import {ReservationInfo, SummaryRow} from 'src/app/model/reservation-info';
+import {PaymentProvider, PaymentResult, PaymentStatusNotification, SimplePaymentProvider} from 'src/app/payment/payment-provider';
+import {handleServerSideValidationError} from 'src/app/shared/validation-helper';
+import {I18nService} from 'src/app/shared/i18n.service';
+import {TranslateService} from '@ngx-translate/core';
+import {AnalyticsService} from 'src/app/shared/analytics.service';
+import {ErrorDescriptor, ValidatedResponse} from 'src/app/model/validated-response';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ReservationExpiredComponent} from '../expired-notification/reservation-expired.component';
+import {zip} from 'rxjs';
+import {PurchaseContext} from 'src/app/model/purchase-context';
+import {PurchaseContextService, PurchaseContextType} from 'src/app/shared/purchase-context.service';
+import {ModalRemoveSubscriptionComponent} from '../modal-remove-subscription/modal-remove-subscription.component';
 import {FeedbackService} from '../../shared/feedback/feedback.service';
 import {SearchParams} from '../../model/search-params';
-import {embedded} from '../../shared/util';
-import {ReservationStatusChanged} from '../../model/embedding-configuration';
+import {notifyPaymentErrorToParent} from '../../shared/util';
 
 @Component({
   selector: 'app-overview',
@@ -202,6 +201,7 @@ export class OverviewComponent implements OnInit {
         }, (err) => {
           this.submitting = false;
           this.unregisterHook();
+          notifyPaymentErrorToParent(this.purchaseContext, err);
           this.globalErrors = handleServerSideValidationError(err, this.overviewForm);
         });
       } else {
@@ -219,7 +219,7 @@ export class OverviewComponent implements OnInit {
       this.submitting = false;
       this.unregisterHook();
       this.notifyPaymentError(err);
-      this.notifyPaymentErrorToParent(err);
+      notifyPaymentErrorToParent(this.purchaseContext, err);
     });
   }
 
@@ -228,11 +228,11 @@ export class OverviewComponent implements OnInit {
     this.forceCheckInProgress = true;
     this.reservationService.forcePaymentStatusCheck(this.reservationId).subscribe(res => {
       if (res.success) {
-        console.log('reservation has been confirmed. Waiting for the PaymentProvider to aknowledge it...');
+        console.log('reservation has been confirmed. Waiting for the PaymentProvider to acknowledge it...');
       }
     }, err => {
       console.log('error while force-checking', err);
-      this.notifyPaymentErrorToParent(err);
+      notifyPaymentErrorToParent(this.purchaseContext, err);
     });
   }
 
@@ -395,15 +395,6 @@ export class OverviewComponent implements OnInit {
       return 'invoice-fields.fiscalCode';
     }
     return 'invoice-fields.tax-id';
-  }
-
-  private notifyPaymentErrorToParent(err: any) {
-    if (embedded && this.purchaseContext.embeddingConfiguration.enabled) {
-      window.parent.postMessage(
-        new ReservationStatusChanged(this.reservationInfo.status, this.reservationId, err?.error),
-        this.purchaseContext.embeddingConfiguration.notificationOrigin
-      );
-    }
   }
 }
 

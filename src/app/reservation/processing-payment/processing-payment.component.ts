@@ -8,6 +8,7 @@ import { AnalyticsService } from 'src/app/shared/analytics.service';
 import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
 import { PurchaseContext } from 'src/app/model/purchase-context';
 import {SearchParams} from '../../model/search-params';
+import {notifyPaymentErrorToParent} from '../../shared/util';
 
 @Component({
   selector: 'app-processing-payment',
@@ -93,6 +94,7 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
       this.forceCheckInProgress = false;
     }, err => {
       console.log('got error', err);
+      notifyPaymentErrorToParent(this.purchaseContext, err);
     });
   }
 
