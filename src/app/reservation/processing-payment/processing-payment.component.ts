@@ -94,7 +94,7 @@ export class ProcessingPaymentComponent implements OnInit, OnDestroy {
       this.forceCheckInProgress = false;
     }, err => {
       console.log('got error', err);
-      notifyPaymentErrorToParent(this.purchaseContext, err);
+      notifyPaymentErrorToParent(this.purchaseContext, this.reservationInfo, this.reservationId, err);
     });
   }
 

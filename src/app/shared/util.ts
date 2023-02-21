@@ -1,5 +1,6 @@
 import {ReservationStatusChanged} from '../model/embedding-configuration';
 import {PurchaseContext} from '../model/purchase-context';
+import {ReservationInfo} from '../model/reservation-info';
 
 export const DELETE_ACCOUNT_CONFIRMATION = 'alfio.delete-account.confirmation';
 
@@ -29,11 +30,14 @@ export function removeFromSessionStorage(key: string): void {
 
 export const embedded = window.parent !== window;
 
-export function notifyPaymentErrorToParent(purchaseContext: PurchaseContext, err: any) {
+export function notifyPaymentErrorToParent(purchaseContext: PurchaseContext,
+                                           reservationInfo: ReservationInfo,
+                                           reservationId: string,
+                                           err: any) {
   if (embedded && purchaseContext.embeddingConfiguration.enabled) {
     window.parent.postMessage(
-      new ReservationStatusChanged(this.reservationInfo.status, this.reservationId, err?.error),
-      this.purchaseContext.embeddingConfiguration.notificationOrigin
+      new ReservationStatusChanged(reservationInfo.status, reservationId, err?.error),
+      purchaseContext.embeddingConfiguration.notificationOrigin
     );
   }
 }
