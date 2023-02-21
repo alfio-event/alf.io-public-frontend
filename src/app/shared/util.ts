@@ -1,6 +1,7 @@
 import {ReservationStatusChanged} from '../model/embedding-configuration';
 import {PurchaseContext} from '../model/purchase-context';
 import {ReservationInfo} from '../model/reservation-info';
+import {HttpErrorResponse} from '@angular/common/http';
 
 export const DELETE_ACCOUNT_CONFIRMATION = 'alfio.delete-account.confirmation';
 
@@ -33,11 +34,18 @@ export const embedded = window.parent !== window;
 export function notifyPaymentErrorToParent(purchaseContext: PurchaseContext,
                                            reservationInfo: ReservationInfo,
                                            reservationId: string,
-                                           err: any) {
+                                           err: Error) {
   if (embedded && purchaseContext.embeddingConfiguration.enabled) {
     window.parent.postMessage(
-      new ReservationStatusChanged(reservationInfo.status, reservationId, err?.error),
+      new ReservationStatusChanged(reservationInfo.status, reservationId, errorMessage(err)),
       purchaseContext.embeddingConfiguration.notificationOrigin
     );
   }
+}
+
+function errorMessage(err: Error): string {
+  if (err instanceof HttpErrorResponse) {
+    return `${err.message} (${err.status})`;
+  }
+  return err.message;
 }
