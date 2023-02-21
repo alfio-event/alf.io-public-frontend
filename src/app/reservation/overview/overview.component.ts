@@ -201,7 +201,7 @@ export class OverviewComponent implements OnInit {
         }, (err) => {
           this.submitting = false;
           this.unregisterHook();
-          notifyPaymentErrorToParent(this.purchaseContext, err);
+          notifyPaymentErrorToParent(this.purchaseContext, this.reservationInfo, this.reservationId, err);
           this.globalErrors = handleServerSideValidationError(err, this.overviewForm);
         });
       } else {
@@ -219,7 +219,7 @@ export class OverviewComponent implements OnInit {
       this.submitting = false;
       this.unregisterHook();
       this.notifyPaymentError(err);
-      notifyPaymentErrorToParent(this.purchaseContext, err);
+      notifyPaymentErrorToParent(this.purchaseContext, this.reservationInfo, this.reservationId, err);
     });
   }
 
@@ -232,7 +232,7 @@ export class OverviewComponent implements OnInit {
       }
     }, err => {
       console.log('error while force-checking', err);
-      notifyPaymentErrorToParent(this.purchaseContext, err);
+      notifyPaymentErrorToParent(this.purchaseContext, this.reservationInfo, this.reservationId, err);
     });
   }
 
