@@ -400,7 +400,7 @@ export class OverviewComponent implements OnInit {
   private notifyPaymentErrorToParent(err: any) {
     if (embedded && this.purchaseContext.embeddingConfiguration.enabled) {
       window.parent.postMessage(
-        new ReservationStatusChanged(this.reservationInfo.status, this.reservationId, err),
+        new ReservationStatusChanged(this.reservationInfo.status, this.reservationId, err?.error),
         this.purchaseContext.embeddingConfiguration.notificationOrigin
       );
     }
