@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { ReservationService } from 'src/app/shared/reservation.service';
-import { ReservationInfo } from 'src/app/model/reservation-info';
-import { ActivatedRoute } from '@angular/router';
-import { zip } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { I18nService } from 'src/app/shared/i18n.service';
-import { AnalyticsService } from 'src/app/shared/analytics.service';
-import { PurchaseContext } from 'src/app/model/purchase-context';
-import { PurchaseContextService, PurchaseContextType } from 'src/app/shared/purchase-context.service';
+import {Component, OnInit} from '@angular/core';
+import {ReservationService} from 'src/app/shared/reservation.service';
+import {ReservationInfo} from 'src/app/model/reservation-info';
+import {ActivatedRoute} from '@angular/router';
+import {zip} from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
+import {I18nService} from 'src/app/shared/i18n.service';
+import {AnalyticsService} from 'src/app/shared/analytics.service';
+import {PurchaseContext} from 'src/app/model/purchase-context';
+import {PurchaseContextService, PurchaseContextType} from 'src/app/shared/purchase-context.service';
+import {pollReservationStatus} from '../../shared/util';
 
 @Component({
   selector: 'app-offline-payment',
@@ -23,6 +24,8 @@ export class OfflinePaymentComponent implements OnInit {
   paymentReason: string;
 
   purchaseContext: PurchaseContext;
+
+  reservationFinalized: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,8 +52,26 @@ export class OfflinePaymentComponent implements OnInit {
 
         this.i18nService.setPageTitle('reservation-page-waiting.header.title', ev);
         this.analytics.pageView(ev.analyticsConfiguration);
+        if (this.reservationInfo.status === 'OFFLINE_FINALIZING') {
+          this.reservationFinalized = false;
+          pollReservationStatus(this.reservationId, this.reservationService, res => {
+            if (res.status === 'DEFERRED_OFFLINE_PAYMENT') {
+              // redirect to deferred payment. Reload the page
+              location.reload();
+            }
+            this.reservationInfo = res;
+            this.reservationFinalized = true;
+          });
+        }
+
       });
     });
+  }
+
+  get invoiceAvailable(): boolean {
+    return this.reservationFinalized
+      && this.purchaseContext.invoicingConfiguration.userCanDownloadReceiptOrInvoice
+      && this.reservationInfo.invoiceNumber !== null;
   }
 
 }

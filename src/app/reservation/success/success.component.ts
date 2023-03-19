@@ -12,7 +12,7 @@ import {handleServerSideValidationError} from 'src/app/shared/validation-helper'
 import {FormGroup} from '@angular/forms';
 import {TranslateService} from '@ngx-translate/core';
 import {ReservationStatusChanged} from '../../model/embedding-configuration';
-import {embedded} from '../../shared/util';
+import {embedded, pollReservationStatus} from '../../shared/util';
 
 @Component({
   selector: 'app-success',
@@ -35,6 +35,8 @@ export class SuccessComponent implements OnInit {
 
   unlockedTicketCount = 0;
   ticketsAllAssigned = true;
+  reservationFinalized = true;
+  invoiceReceiptReady = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -61,25 +63,34 @@ export class SuccessComponent implements OnInit {
 
   private loadReservation(): void {
     this.reservationService.getReservationInfo(this.reservationId).subscribe(res => {
-      if (embedded && this.event.embeddingConfiguration.enabled) {
-        window.parent.postMessage(
-          new ReservationStatusChanged(res.status, this.reservationId),
-          this.event.embeddingConfiguration.notificationOrigin
-        );
+      this.processReservationInfo(res);
+      if (!this.reservationFinalized) {
+        pollReservationStatus(this.reservationId, this.reservationService, res1 => this.processReservationInfo(res1));
       }
-      this.reservationInfo = res;
-      //
-      this.ticketsAllAssigned = true;
-      this.unlockedTicketCount = 0;
-      //
-      res.ticketsByCategory.forEach((tc) => {
-        tc.tickets.forEach((ticket: Ticket) => {
-          this.buildFormControl(ticket);
-          if (!ticket.locked) {
-            this.unlockedTicketCount += 1;
-          }
-          this.ticketsAllAssigned = this.ticketsAllAssigned && ticket.assigned;
-        });
+    });
+  }
+
+  private processReservationInfo(res: ReservationInfo) {
+    if (embedded && this.event.embeddingConfiguration.enabled) {
+      window.parent.postMessage(
+        new ReservationStatusChanged(res.status, this.reservationId),
+        this.event.embeddingConfiguration.notificationOrigin
+      );
+    }
+    this.reservationInfo = res;
+    //
+    this.reservationFinalized = res.status !== 'FINALIZING';
+    this.ticketsAllAssigned = res.status !== 'FINALIZING';
+    this.invoiceReceiptReady = res.metadata.readyForConfirmation;
+    this.unlockedTicketCount = 0;
+    //
+    res.ticketsByCategory.forEach((tc) => {
+      tc.tickets.forEach((ticket: Ticket) => {
+        this.buildFormControl(ticket);
+        if (!ticket.locked) {
+          this.unlockedTicketCount += 1;
+        }
+        this.ticketsAllAssigned = this.ticketsAllAssigned && ticket.assigned;
       });
     });
   }
@@ -137,7 +148,8 @@ export class SuccessComponent implements OnInit {
   }
 
   get downloadBillingDocumentVisible(): boolean {
-    return this.event.invoicingConfiguration.userCanDownloadReceiptOrInvoice
+    return this.invoiceReceiptReady
+        && this.event.invoicingConfiguration.userCanDownloadReceiptOrInvoice
         && this.reservationInfo.paid
         && this.reservationInfo.invoiceOrReceiptDocumentPresent;
   }
@@ -152,7 +164,8 @@ export class SuccessComponent implements OnInit {
   }
 
   get showReservationButtons(): boolean {
-    return !embedded || !this.event.embeddingConfiguration.enabled;
+    return this.reservationFinalized
+      && (!embedded || !this.event.embeddingConfiguration.enabled);
   }
 
 }

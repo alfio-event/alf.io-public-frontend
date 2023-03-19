@@ -3,14 +3,15 @@
     <div class="alert alert-success mb-5">
       <div class="row">
         <div class="col-sm-12">
-          <div class="h3" [innerHTML]="'reservation-page-complete.info-subscription' | translate"></div>
+          <div class="h3" *ngIf="reservationFinalized" [innerHTML]="'reservation-page-complete.info-subscription' | translate"></div>
+          <div class="h3" *ngIf="!reservationFinalized" translate="reservation-page-complete.reservation.finalization-in-progress"></div>
         </div>
       </div>
-      <div class="row mt-2">
+      <div class="row mt-2" *ngIf="reservationFinalized">
         <div class="col-sm-12" [innerHTML]="'reservation-page-complete.info-subscription-email' | translate: {'0':reservationInfo.email}"></div>
       </div>
       <div class="row mt-3">
-        <div class="col-12 col-md-5 mb-1 mb-md-0" [class.offset-md-2]="downloadBillingDocumentVisible" [class.offset-md-7]="!downloadBillingDocumentVisible">
+        <div class="col-12 col-md-5 mb-1 mb-md-0" *ngIf="reservationFinalized" [class.offset-md-2]="downloadBillingDocumentVisible" [class.offset-md-7]="!downloadBillingDocumentVisible">
           <button type="button" (click)="reSendReservationEmail()" class="btn btn-default btn-block"><fa-icon [icon]="['far', 'envelope']" a11yRole="presentation"></fa-icon> {{'reservation-page-complete.resend-reservation-email'|translate}}</button>
         </div>
         <div class="col-12 col-md-5 mb-md-0" *ngIf="downloadBillingDocumentVisible">

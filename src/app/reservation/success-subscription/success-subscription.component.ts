@@ -14,7 +14,7 @@ import {EventService} from '../../shared/event.service';
 import {BasicEventInfo} from '../../model/basic-event-info';
 import {SearchParams} from '../../model/search-params';
 import {ReservationStatusChanged} from '../../model/embedding-configuration';
-import {embedded} from '../../shared/util';
+import {embedded, pollReservationStatus} from '../../shared/util';
 
 @Component({
   selector: 'app-success-subscription',
@@ -29,6 +29,9 @@ export class SuccessSubscriptionComponent implements OnInit {
   purchaseContext: PurchaseContext;
   reservationInfo: ReservationInfo;
   compatibleEvents: Array<BasicEventInfo> = [];
+
+  reservationFinalized = true;
+  invoiceReceiptReady = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -58,18 +61,27 @@ export class SuccessSubscriptionComponent implements OnInit {
 
   private loadReservation() {
     this.reservationService.getReservationInfo(this.reservationId).subscribe(resInfo => {
-      const embeddingEnabled = this.purchaseContext.embeddingConfiguration.enabled;
-      if (embedded && embeddingEnabled) {
-        window.parent.postMessage(
-          new ReservationStatusChanged(resInfo.status, this.reservationId),
-          this.purchaseContext.embeddingConfiguration.notificationOrigin
-        );
-      }
-      this.reservationInfo = resInfo;
-      if (!embedded && embeddingEnabled) {
-        this.loadCompatibleEvents(this.subscriptionInfo.id);
+      this.processReservationInfo(resInfo);
+      if (!this.reservationFinalized) {
+        pollReservationStatus(this.reservationId, this.reservationService, this.processReservationInfo);
       }
     });
+  }
+
+  private processReservationInfo(resInfo: ReservationInfo) {
+    const embeddingEnabled = this.purchaseContext.embeddingConfiguration.enabled;
+    if (embedded && embeddingEnabled) {
+      window.parent.postMessage(
+        new ReservationStatusChanged(resInfo.status, this.reservationId),
+        this.purchaseContext.embeddingConfiguration.notificationOrigin
+      );
+    }
+    this.reservationInfo = resInfo;
+    this.reservationFinalized = resInfo.status !== 'FINALIZING';
+    this.invoiceReceiptReady = resInfo.metadata.readyForConfirmation;
+    if (this.reservationFinalized && (!embedded || !embeddingEnabled)) {
+      this.loadCompatibleEvents(this.subscriptionInfo.id);
+    }
   }
 
   private loadCompatibleEvents(subscriptionId: string): void {
@@ -114,7 +126,8 @@ export class SuccessSubscriptionComponent implements OnInit {
   }
 
   get showReservationButtons(): boolean {
-    return !embedded || !this.purchaseContext.embeddingConfiguration.enabled;
+    return this.reservationFinalized
+      && (!embedded || !this.purchaseContext.embeddingConfiguration.enabled);
   }
 
 }

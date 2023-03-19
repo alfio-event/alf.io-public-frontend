@@ -1,7 +1,10 @@
 import {ReservationStatusChanged} from '../model/embedding-configuration';
 import {PurchaseContext} from '../model/purchase-context';
-import {ReservationInfo} from '../model/reservation-info';
+import {ReservationInfo, ReservationStatus} from '../model/reservation-info';
 import {HttpErrorResponse} from '@angular/common/http';
+import {ReservationService} from './reservation.service';
+import {interval} from 'rxjs';
+import {filter, mergeMap} from 'rxjs/operators';
 
 export const DELETE_ACCOUNT_CONFIRMATION = 'alfio.delete-account.confirmation';
 
@@ -41,6 +44,20 @@ export function notifyPaymentErrorToParent(purchaseContext: PurchaseContext,
       purchaseContext.embeddingConfiguration.notificationOrigin
     );
   }
+}
+
+export function pollReservationStatus(reservationId: string,
+  reservationService: ReservationService,
+  processSuccessful: (res: ReservationInfo) => void,
+  desiredStatuses: Array<ReservationStatus> = ['COMPLETE']): void {
+  const subscription = interval(5000)
+    .pipe(
+      mergeMap(() => reservationService.getReservationInfo(reservationId)),
+      filter(reservationInfo => desiredStatuses.includes(reservationInfo.status))
+    ).subscribe(reservationInfo => {
+      processSuccessful(reservationInfo);
+      subscription.unsubscribe();
+    });
 }
 
 function errorMessage(err: Error): string {
