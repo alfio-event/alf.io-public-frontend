@@ -1,6 +1,6 @@
-import { Ticket } from './ticket';
-import { PaymentProxy, PaymentMethod, PaymentProxyWithParameters } from './event';
-import { TicketAccessType } from './ticket-category';
+import {Ticket} from './ticket';
+import {PaymentMethod, PaymentProxy, PaymentProxyWithParameters} from './event';
+import {TicketAccessType} from './ticket-category';
 
 export class ReservationInfo {
     id: string;
@@ -47,6 +47,8 @@ export class ReservationInfo {
 
 export interface ReservationMetadata {
   hideContactData: boolean;
+  readyForConfirmation: boolean;
+  finalized: boolean;
 }
 
 export class ReservationSubscriptionInfo {
@@ -108,7 +110,8 @@ export class SummaryRow {
 
 export type ReservationStatus = 'PENDING' | 'IN_PAYMENT' | 'EXTERNAL_PROCESSING_PAYMENT' |
                                 'WAITING_EXTERNAL_CONFIRMATION' | 'OFFLINE_PAYMENT' | 'DEFERRED_OFFLINE_PAYMENT' |
-                                'COMPLETE' | 'STUCK' | 'CANCELLED' | 'CREDIT_NOTE_ISSUED' | 'NOT_FOUND';
+                                'OFFLINE_FINALIZING' | 'FINALIZING' | 'COMPLETE' | 'STUCK' | 'CANCELLED' |
+                                'CREDIT_NOTE_ISSUED' | 'NOT_FOUND';
 
 export type ItalianEInvoicingReferenceType = 'ADDRESSEE_CODE' | 'PEC' | 'NONE';
 
