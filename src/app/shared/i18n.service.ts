@@ -6,7 +6,7 @@ import { LocalizedCountry } from '../model/localized-country';
 import { Title } from '@angular/platform-browser';
 import {TranslateService, TranslateLoader, LangChangeEvent} from '@ngx-translate/core';
 import { Router, NavigationStart } from '@angular/router';
-import { map, mergeMap, shareReplay, catchError, share } from 'rxjs/operators';
+import { map, mergeMap, shareReplay, catchError } from 'rxjs/operators';
 import { EventService } from './event.service';
 import { PurchaseContextType } from './purchase-context.service';
 import {PurchaseContext} from '../model/purchase-context';
