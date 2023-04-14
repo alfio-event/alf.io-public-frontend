@@ -75,15 +75,21 @@
       <div class="col-12" [ngClass]="{'col-md-6': customerReferenceEnabled && invoiceBusiness}">
           <div class="form-group">
               <label for="vatCountry" id="vatCountryLabel" class="control-label">{{'reservation-page-complete.country' | translate}}{{' *'}}</label>
-              <ng-select aria-required="true" placeholder="{{'reservation-page.country.select'|translate}}"
-                        [items]="countries" bindLabel="name" bindValue="isoCode" [selectOnTab]="true"
-                        formControlName="vatCountryCode" class="form-control field-required"
-                        [searchFn]="searchCountry" required appInvalidFeedback
-                        labelForId="vatCountry" aria-labelledby="vatCountryLabel" [inputAttrs]="{autocomplete: 'nope'}">
-                  <ng-template ng-option-tmp let-item="item">{{item.name}} ({{item.isoCode}})</ng-template>
-                  <ng-template ng-label-tmp let-item="item">{{item.name}} ({{item.isoCode}})</ng-template>
-                  <ng-template ng-notfound-tmp let-searchTerm="searchTerm"></ng-template>
+            <ng-container>
+              <ng-select *ngIf="!isMobile" aria-required="true" placeholder="{{'reservation-page.country.select'|translate}}"
+                         [items]="countries" bindLabel="name" bindValue="isoCode" [selectOnTab]="true"
+                         formControlName="vatCountryCode" class="form-control field-required"
+                         [searchFn]="searchCountry" required appInvalidFeedback
+                         labelForId="vatCountry" aria-labelledby="vatCountryLabel" [inputAttrs]="{autocomplete: 'nope'}">
+                <ng-template ng-option-tmp let-item="item">{{item.name}} ({{item.isoCode}})</ng-template>
+                <ng-template ng-label-tmp let-item="item">{{item.name}} ({{item.isoCode}})</ng-template>
+                <ng-template ng-notfound-tmp let-searchTerm="searchTerm"></ng-template>
               </ng-select>
+              <select *ngIf="isMobile" id="vatCountry" [attr.aria-required]="true" class="custom-select" formControlName="vatCountryCode" appInvalidFeedback>
+                <option value=""></option>
+                <option *ngFor="let c of countries" [ngValue]="c.isoCode">{{c.name}} ({{c.isoCode}})</option>
+              </select>
+            </ng-container>
           </div>
       </div>
 
