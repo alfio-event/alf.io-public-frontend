@@ -165,7 +165,8 @@ export class SuccessComponent implements OnInit {
 
   get showReservationButtons(): boolean {
     return this.reservationFinalized
-      && (!embedded || !this.event.embeddingConfiguration.enabled);
+      && (!embedded || !this.event.embeddingConfiguration.enabled)
+      && !this.reservationInfo.metadata.hideConfirmationButtons;
   }
 
 }
