@@ -13,7 +13,7 @@ export class AnalyticsService {
   }
 
   pageView(conf: AnalyticsConfiguration): void {
-    const locationPathName = location.pathname;
+    const locationPathName = location.href;
     const documentTitle = document.title;
     if (conf.googleAnalyticsKey) {
       this.handleGoogleAnalytics(conf, locationPathName, documentTitle);
@@ -44,7 +44,7 @@ export class AnalyticsService {
     }
 
     this.gaScript.subscribe(([gtag, configuration, pathname]) => {
-      gtag('config', configuration.googleAnalyticsKey, { 'page_title': documentTitle, 'page_path': pathname });
+      gtag('event', 'page_view', { 'page_title': documentTitle, 'page_location': pathname });
     });
   }
 
