@@ -14,42 +14,47 @@ export class AnalyticsService {
 
   pageView(conf: AnalyticsConfiguration): void {
     const locationPathName = location.pathname;
+    const documentTitle = document.title;
     if (conf.googleAnalyticsKey) {
-      this.handleGoogleAnalytics(conf, locationPathName);
+      this.handleGoogleAnalytics(conf, locationPathName, documentTitle);
     }
   }
 
 
-  private handleGoogleAnalytics(conf: AnalyticsConfiguration, locationPathName: string) {
+  private handleGoogleAnalytics(conf: AnalyticsConfiguration, locationPathName: string, documentTitle: string) {
     if (this.gaScript === null) {
       this.gaScript = new Observable<[Function, AnalyticsConfiguration, string]>(subscribe => {
         if (!document.getElementById('GA_SCRIPT')) { // <- script is not created
           const scriptElem = document.createElement('script');
           scriptElem.id = 'GA_SCRIPT';
           scriptElem.addEventListener('load', () => {
-            subscribe.next([window['ga'], conf, locationPathName]);
+            subscribe.next([this.initGtag(conf), conf, locationPathName]);
           });
-          scriptElem.src = 'https://ssl.google-analytics.com/analytics.js';
+          scriptElem.src = `https://www.googletagmanager.com/gtag/js?id=${conf.googleAnalyticsKey}`;
           scriptElem.async = true;
-          scriptElem.defer = true;
-          document.body.appendChild(scriptElem);
-        } else if (!window['ga']) { // <- script has been created, but not loaded
+          document.head.appendChild(scriptElem);
+        } else if (!window['gtag']) { // <- script has been created, but not loaded
           document.getElementById('GA_SCRIPT').addEventListener('load', () => {
-            subscribe.next([window['ga'], conf, locationPathName]);
+            subscribe.next([this.initGtag(conf), conf, locationPathName]);
           });
         } else { // <- script has been loaded
-          subscribe.next([window['ga'], conf, locationPathName]);
+          subscribe.next([window['gtag'], conf, locationPathName]);
         }
       });
     }
 
-    this.gaScript.subscribe(([ga, configuration, pathname]) => {
-      if (configuration.googleAnalyticsScrambledInfo) {
-        ga('create', configuration.googleAnalyticsKey, {'anonymizeIp': true, 'storage': 'none', 'clientId': configuration.clientId});
-      } else {
-        ga('create', configuration.googleAnalyticsKey);
-      }
-      ga('send', 'pageview', pathname);
+    this.gaScript.subscribe(([gtag, configuration, pathname]) => {
+      gtag('config', configuration.googleAnalyticsKey, { 'page_title': documentTitle, 'page_path': pathname });
     });
+  }
+
+  private initGtag(configuration: AnalyticsConfiguration): any {
+    window['dataLayer'] = window['dataLayer'] || [];
+    window['dataLayer'].push(['js', new Date()]);
+    window['dataLayer'].push(['config', configuration.googleAnalyticsKey]);
+    window['gtag'] = window['gtag'] || function () {
+      window['dataLayer'].push(arguments as any);
+    };
+    return window['gtag'];
   }
 }
