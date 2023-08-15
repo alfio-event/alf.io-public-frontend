@@ -16,14 +16,13 @@ export class AnalyticsService {
 
   pageView(conf: AnalyticsConfiguration): void {
     const locationPathName = location.pathname;
-    const documentTitle = document.title;
     if (conf.googleAnalyticsKey) {
-      this.handleGoogleAnalytics(conf, locationPathName, documentTitle);
+      this.handleGoogleAnalytics(conf, locationPathName);
     }
   }
 
 
-  private handleGoogleAnalytics(conf: AnalyticsConfiguration, locationPathName: string, documentTitle: string) {
+  private handleGoogleAnalytics(conf: AnalyticsConfiguration, locationPathName: string) {
     if (this.gaScript === null) {
       this.gaScript = new Observable<[Function, AnalyticsConfiguration, string]>(subscribe => {
         const script = document.getElementById('GA_SCRIPT');
