@@ -9,13 +9,13 @@ const initAttribute = 'data-alfio-init-complete';
 })
 export class AnalyticsService {
 
-  private gaScript: Observable<[Function, string]> = null;
+  private gaScript: Observable<[Function, AnalyticsConfiguration, string]> = null;
 
   constructor() {
   }
 
   pageView(conf: AnalyticsConfiguration): void {
-    const locationPathName = location.origin + location.pathname;
+    const locationPathName = location.pathname;
     const documentTitle = document.title;
     if (conf.googleAnalyticsKey) {
       this.handleGoogleAnalytics(conf, locationPathName, documentTitle);
@@ -25,28 +25,28 @@ export class AnalyticsService {
 
   private handleGoogleAnalytics(conf: AnalyticsConfiguration, locationPathName: string, documentTitle: string) {
     if (this.gaScript === null) {
-      this.gaScript = new Observable<[Function, string]>(subscribe => {
+      this.gaScript = new Observable<[Function, AnalyticsConfiguration, string]>(subscribe => {
         const script = document.getElementById('GA_SCRIPT');
         if (script == null) { // <- script is not created
           const scriptElem = document.createElement('script');
           scriptElem.id = 'GA_SCRIPT';
           scriptElem.addEventListener('load', () => {
-            subscribe.next([this.initGtag(conf, scriptElem), locationPathName]);
+            subscribe.next([this.initGtag(conf, scriptElem), conf, locationPathName]);
           });
           scriptElem.src = `https://www.googletagmanager.com/gtag/js?id=${conf.googleAnalyticsKey}`;
           scriptElem.async = true;
           document.head.appendChild(scriptElem);
         } else if (script.getAttribute(initAttribute) == null) { // <- script has been created, but not loaded
-          subscribe.next([this.initGtag(conf, script), locationPathName]);
+          subscribe.next([this.initGtag(conf, script), conf, locationPathName]);
         } else { // <- script has been loaded
-          subscribe.next([window['gtag'], locationPathName]);
+          subscribe.next([window['gtag'], conf, locationPathName]);
         }
       });
     }
 
-    this.gaScript.subscribe(([gtag, pathname]) => {
+    this.gaScript.subscribe(([gtag, config, pathname]) => {
       console.log('calling gtag for url', pathname);
-      gtag('event', 'page_view', { 'page_title': documentTitle, 'page_location': pathname });
+      gtag('config', config.googleAnalyticsKey, { 'page_path': pathname });
     });
   }
 
