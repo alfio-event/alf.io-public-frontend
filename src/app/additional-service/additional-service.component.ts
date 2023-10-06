@@ -44,7 +44,9 @@ export class AdditionalServiceComponent implements OnInit, OnDestroy {
 
     // we only need to recalculate the select box choice in this specific supplement policy!
     const availableQuantity = this.additionalService.availableQuantity ?? 999;
-    if (this.additionalService.supplementPolicy === 'OPTIONAL_MAX_AMOUNT_PER_TICKET') {
+    if (availableQuantity === 0) {
+      this.soldOut = true;
+    } else if (this.additionalService.supplementPolicy === 'OPTIONAL_MAX_AMOUNT_PER_TICKET') {
       this.formSub = this.form.get('reservation').valueChanges.subscribe(valueChange => {
         const selectedTicketCount = (valueChange as {amount: string}[]).map(a => parseInt(a.amount, 10)).reduce((sum, n) => sum + n, 0);
         const maxPerOrder = selectedTicketCount * this.additionalService.maxQtyPerOrder;
@@ -54,14 +56,12 @@ export class AdditionalServiceComponent implements OnInit, OnDestroy {
           res.push(i);
         }
         this.validSelectionValues = res;
-        if (maxPerOrder > 0 && rangeEnd === 0) {
-          this.soldOut = true;
-        }
       });
     } else if (this.additionalService.supplementPolicy === 'OPTIONAL_MAX_AMOUNT_PER_RESERVATION' ||
                 this.additionalService.supplementPolicy === null) {
       const res = [];
-      for (let i = 0; i <= Math.min(this.additionalService.maxQtyPerOrder, availableQuantity); i++) {
+      const maxPerOrder = this.additionalService.maxQtyPerOrder;
+      for (let i = 0; i <= Math.min(maxPerOrder, availableQuantity); i++) {
         res.push(i);
       }
       this.validSelectionValues = res;
