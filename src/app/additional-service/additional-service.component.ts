@@ -50,7 +50,7 @@ export class AdditionalServiceComponent implements OnInit, OnDestroy {
       this.formSub = this.form.get('reservation').valueChanges.subscribe(valueChange => {
         const selectedTicketCount = (valueChange as {amount: string}[]).map(a => parseInt(a.amount, 10)).reduce((sum, n) => sum + n, 0);
         const maxPerOrder = selectedTicketCount * this.additionalService.maxQtyPerOrder;
-        const rangeEnd = Math.min(maxPerOrder, availableQuantity);
+        const rangeEnd = availableQuantity >= 0 ? Math.min(maxPerOrder, availableQuantity) : maxPerOrder;
         const res = [];
         for (let i = 0; i <= rangeEnd; i++) {
           res.push(i);
