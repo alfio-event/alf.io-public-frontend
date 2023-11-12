@@ -35,10 +35,44 @@ export class ReservationService {
 
     validateToOverview(reservationId: string, contactsAndTicket: any, lang: string, ignoreWarnings: boolean): Observable<ValidatedResponse<boolean>> {
         const url = `/api/v2/public/reservation/${reservationId}/validate-to-overview`;
-        return this.http.post<ValidatedResponse<boolean>>(url, contactsAndTicket, {params: {lang: lang, ignoreWarnings: '' + ignoreWarnings}});
+        const body = this.handleAdditionalServices(contactsAndTicket);
+        return this.http.post<ValidatedResponse<boolean>>(url, body, {params: {lang: lang, ignoreWarnings: '' + ignoreWarnings}});
     }
 
-    confirmOverview(reservationId: string, overviewForm: OverviewConfirmation, lang: string): Observable<ValidatedResponse<ReservationPaymentResult>> {
+  private handleAdditionalServices(contactsAndTicket: any): any {
+    if (contactsAndTicket.additionalServices?.links != null) {
+      const body = JSON.parse(JSON.stringify(contactsAndTicket)); // emulate structuredClone
+      // format body.links to conform to request format
+      const original = contactsAndTicket.additionalServices.links as { [k: string]: { additionalServiceItemId: number, ticketUUID: string, fields: [] }[] };
+      const links = [];
+      Object.keys(original).forEach(key => {
+        original[key].forEach(ct => {
+          links.push({
+            additionalServiceItemId: ct.additionalServiceItemId,
+            ticketUUID: ct.ticketUUID
+          });
+        });
+      });
+      body.additionalServices.links = links;
+      Object.keys(original).forEach(uuid => {
+        const fields = [];
+        original[uuid].forEach(i => {
+          if (i.fields != null) {
+            fields.push(i.fields);
+          }
+        });
+        if (fields.length > 0) {
+          const additional = body.tickets[uuid].additional ?? {};
+          body.tickets[uuid].additional = Object.assign(additional, ...fields);
+        }
+      });
+      return body;
+    } else {
+      return contactsAndTicket;
+    }
+  }
+
+  confirmOverview(reservationId: string, overviewForm: OverviewConfirmation, lang: string): Observable<ValidatedResponse<ReservationPaymentResult>> {
         const url = `/api/v2/public/reservation/${reservationId}`;
         return this.http.post<ValidatedResponse<ReservationPaymentResult>>(url, overviewForm, {params: {lang: lang}});
     }

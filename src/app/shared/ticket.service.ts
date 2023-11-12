@@ -97,7 +97,7 @@ export class TicketService {
       };
     }
 
-    private buildAdditionalFields(before: AdditionalField[], after: AdditionalField[], userLanguage: string, userData?: UserAdditionalData): FormGroup {
+    public buildAdditionalFields(before: AdditionalField[], after: AdditionalField[], userLanguage: string, userData?: UserAdditionalData): FormGroup {
       const additional = {};
       if (before) {
         this.buildSingleAdditionalField(before, additional, userLanguage, userData);

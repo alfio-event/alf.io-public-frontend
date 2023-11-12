@@ -1,9 +1,9 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ReservationService} from '../../shared/reservation.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TicketService} from 'src/app/shared/ticket.service';
-import {BillingDetails, ItalianEInvoicing, ReservationInfo, ReservationSubscriptionInfo, TicketsByTicketCategory} from 'src/app/model/reservation-info';
+import {AdditionalServiceWithData, BillingDetails, ItalianEInvoicing, ReservationInfo, ReservationSubscriptionInfo, TicketsByTicketCategory} from 'src/app/model/reservation-info';
 import {Observable, of, Subject, zip} from 'rxjs';
 import {getErrorObject, handleServerSideValidationError} from 'src/app/shared/validation-helper';
 import {I18nService} from 'src/app/shared/i18n.service';
@@ -47,6 +47,8 @@ export class BookingComponent implements OnInit, AfterViewInit {
 
   enableAttendeeAutocomplete: boolean;
   displayLoginSuggestion: boolean;
+
+  additionalServicesWithData: {[uuid: string]: AdditionalServiceWithData[]} = {};
 
   public static optionalGet<T>(billingDetails: BillingDetails, consumer: (b: ItalianEInvoicing) => T, userBillingDetails?: BillingDetails): T | null {
     const italianEInvoicing = billingDetails.invoicingAdditionalInfo.italianEInvoicing;
@@ -118,6 +120,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
         const billingDetails = this.reservationInfo.billingDetails;
         const userBillingDetails = user?.profile?.billingDetails;
 
+        const additionalServices = reservationInfo.additionalServiceWithData ?? [];
         this.contactAndTicketsForm = this.formBuilder.group({
           firstName: this.formBuilder.control(this.reservationInfo.firstName || user?.firstName, [Validators.required, Validators.maxLength(255)]),
           lastName: this.formBuilder.control(this.reservationInfo.lastName || user?.lastName, [Validators.required, Validators.maxLength(255)]),
@@ -142,7 +145,16 @@ export class BookingComponent implements OnInit, AfterViewInit {
           italyEInvoicingSplitPayment: BookingComponent.optionalGet(billingDetails, (i) => i.splitPayment, userBillingDetails),
           postponeAssignment: false,
           differentSubscriptionOwner: false,
-          subscriptionOwner: this.buildSubscriptionOwnerFormGroup(this.reservationInfo.subscriptionInfos, user)
+          subscriptionOwner: this.buildSubscriptionOwnerFormGroup(this.reservationInfo.subscriptionInfos, user),
+          additionalServices: this.buildAdditionalServicesFormGroup(additionalServices)
+        });
+
+        additionalServices.forEach(asd => {
+          if (this.additionalServicesWithData[asd.ticketUUID] != null) {
+            this.additionalServicesWithData[asd.ticketUUID].push(asd);
+          } else {
+            this.additionalServicesWithData[asd.ticketUUID] = [asd];
+          }
         });
 
         setTimeout(() => this.doScroll.next(this.invoiceElement != null));
@@ -161,6 +173,17 @@ export class BookingComponent implements OnInit, AfterViewInit {
           this.invoiceElement.nativeElement.scrollIntoView(true);
         }
       });
+  }
+
+
+  private linkAdditionalServiceToTicket(as: AdditionalServiceWithData, singleTicket: Ticket) { // TODO check
+    const linkArray = (<FormArray>this.contactAndTicketsForm.get('additionalServices').get('links'));
+    const value = (<AdditionalServiceLink[]>linkArray.value);
+    const existingLink = value.find(v => v.additionalServiceItemId === as.itemId);
+    if (existingLink != null) {
+      existingLink.ticketUUID = singleTicket.uuid;
+      linkArray.setValue(value);
+    }
   }
 
   private buildSubscriptionOwnerFormGroup(subscriptionInfos: Array<ReservationSubscriptionInfo> | undefined, user?: User): FormGroup {
@@ -185,6 +208,25 @@ export class BookingComponent implements OnInit, AfterViewInit {
       });
     });
     return this.formBuilder.group(tickets);
+  }
+
+  private buildAdditionalServicesFormGroup(additionalServices: AdditionalServiceWithData[]): FormGroup {
+    const byTicketUuid: {[k: string]: FormArray} = {};
+    additionalServices.forEach(asw => {
+      if (byTicketUuid[asw.ticketUUID] == null) {
+        byTicketUuid[asw.ticketUUID] = this.formBuilder.array([]);
+      }
+      byTicketUuid[asw.ticketUUID].push(this.formBuilder.group({
+        additionalServiceItemId: this.formBuilder.control(asw.itemId),
+        additionalServiceTitle: asw.title,
+        ticketUUID: this.formBuilder.control(asw.ticketUUID),
+        fields: this.ticketService.buildAdditionalFields(asw.ticketFieldConfiguration, null, this.i18nService.getCurrentLang())
+      }));
+    });
+
+    return this.formBuilder.group({
+      links: this.formBuilder.group(byTicketUuid)
+    });
   }
 
   private removeUnnecessaryFields(): void {
@@ -224,7 +266,18 @@ export class BookingComponent implements OnInit, AfterViewInit {
         modalRef.result.then(() => this.validateToOverview(true));
       }
     }, (err) => {
-      this.globalErrors = handleServerSideValidationError(err, this.contactAndTicketsForm);
+      this.globalErrors = handleServerSideValidationError(err, this.contactAndTicketsForm, key => {
+        const additionalRegex = /tickets\.([a-f0-9-]+)\.additional\.([^.]+)\.(\d+)/;
+        const result = additionalRegex.exec(key);
+        if (result != null) {
+          const uuid = result[1];
+          const fieldName = result[2];
+          const links = this.contactAndTicketsForm.value.additionalServices.links[uuid];
+          const index = links.findIndex(link => link.fields[fieldName] != null);
+          return `additionalServices.links.${uuid}.${index}.fields.${fieldName}.${result[3]}`;
+        }
+        return key;
+      });
     });
   }
 
@@ -324,4 +377,18 @@ export class BookingComponent implements OnInit, AfterViewInit {
   get emailEditForbidden(): boolean {
     return this.reservationInfo.metadata.lockEmailEdit;
   }
+
+  getAdditionalDataForm(ticket: Ticket): FormArray | null {
+    const linksGroup = <FormGroup>(<FormGroup>this.contactAndTicketsForm.get('additionalServices')).get('links');
+    return linksGroup.contains(ticket.uuid) ? <FormArray>linksGroup.get(ticket.uuid) : null;
+  }
+
+  getAdditionalData(ticket: Ticket): AdditionalServiceWithData[] {
+    return this.additionalServicesWithData[ticket.uuid] ?? [];
+  }
+}
+
+interface AdditionalServiceLink {
+  additionalServiceItemId: number;
+  ticketUUID: string;
 }

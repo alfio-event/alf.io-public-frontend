@@ -35,5 +35,15 @@
         <option *ngFor="let lang of purchaseContext.contentLanguages" [ngValue]="lang.locale">{{lang.displayLanguage}}</option>
       </select>
     </div>
+
+    <ng-container *ngIf="hasAdditionalServices">
+      <ng-container *ngFor="let asw of additionalServices">
+        <div class="h3 mb-3"><small class="text-muted">{{additionalServiceTitle(asw.title)}}</small></div>
+        <div *ngFor="let field of asw.ticketFieldConfiguration; let idx = index">
+          <app-additional-field [field]="field" [ticketUUID]="ticket.uuid" [form]="getAdditionalServiceForm(idx)" [ticketAcquired]="ticket.acquired"></app-additional-field>
+        </div>
+      </ng-container>
+
+    </ng-container>
   </div>
 </div>
