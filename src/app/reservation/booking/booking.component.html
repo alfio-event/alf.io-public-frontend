@@ -66,7 +66,7 @@
     <ng-container *ngIf="purchaseContextType === 'event'">
       <h2 translate="reservation-page.attendees"></h2>
 
-      <div class="custom-control custom-checkbox wMarginBottom" *ngIf="!purchaseContext.assignmentConfiguration.forceAssignment && ticketCounts > 1 && !reservationInfo.containsCategoriesLinkedToGroups">
+      <div class="custom-control custom-checkbox wMarginBottom" *ngIf="additionalServicesCount === 0 && !purchaseContext.assignmentConfiguration.forceAssignment && ticketCounts > 1 && !reservationInfo.containsCategoriesLinkedToGroups">
         <input class="custom-control-input" type="checkbox" formControlName="postponeAssignment" id="postpone-assignment" value="true">
         <label class="custom-control-label" for="postpone-assignment">{{' '}}{{'reservation-page.postpone-assignment'|translate}}</label>
       </div>
@@ -91,7 +91,7 @@
                 </div>
               </div>
               <div class="h3 mb-3"><small class="text-muted">{{tc.name}}</small></div>
-              <app-ticket-form [ticket]="ticket" [purchaseContext]="purchaseContext" [form]="getTicketForm(ticket)" [additionalServicesForm]="getAdditionalDataForm(ticket)" [additionalServices]="getAdditionalData(ticket)" [reservationMetadata]="reservationInfo.metadata"></app-ticket-form>
+              <app-ticket-form [ticket]="ticket" [otherTickets]="getOtherTickets(ticket)" (moveAdditionalServiceRequest)="moveAdditionalService($event)" [purchaseContext]="purchaseContext" [form]="getTicketForm(ticket)" [additionalServicesForm]="getAdditionalDataForm(ticket)" [additionalServices]="getAdditionalData(ticket)" [reservationMetadata]="reservationInfo.metadata"></app-ticket-form>
             </div>
           </div>
         </div>

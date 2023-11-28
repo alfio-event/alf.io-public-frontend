@@ -7,7 +7,7 @@ import {AdditionalServiceWithData, BillingDetails, ItalianEInvoicing, Reservatio
 import {Observable, of, Subject, zip} from 'rxjs';
 import {getErrorObject, handleServerSideValidationError} from 'src/app/shared/validation-helper';
 import {I18nService} from 'src/app/shared/i18n.service';
-import {Ticket} from 'src/app/model/ticket';
+import {MoveAdditionalServiceRequest, Ticket, TicketIdentifier} from 'src/app/model/ticket';
 import {TranslateService} from '@ngx-translate/core';
 import {AnalyticsService} from 'src/app/shared/analytics.service';
 import {ErrorDescriptor} from 'src/app/model/validated-response';
@@ -49,6 +49,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
   displayLoginSuggestion: boolean;
 
   additionalServicesWithData: {[uuid: string]: AdditionalServiceWithData[]} = {};
+  additionalServicesCount = 0;
 
   public static optionalGet<T>(billingDetails: BillingDetails, consumer: (b: ItalianEInvoicing) => T, userBillingDetails?: BillingDetails): T | null {
     const italianEInvoicing = billingDetails.invoicingAdditionalInfo.italianEInvoicing;
@@ -156,6 +157,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
             this.additionalServicesWithData[asd.ticketUUID] = [asd];
           }
         });
+        this.additionalServicesCount = additionalServices.length;
 
         setTimeout(() => this.doScroll.next(this.invoiceElement != null));
 
@@ -216,16 +218,18 @@ export class BookingComponent implements OnInit, AfterViewInit {
       if (byTicketUuid[asw.ticketUUID] == null) {
         byTicketUuid[asw.ticketUUID] = this.formBuilder.array([]);
       }
-      byTicketUuid[asw.ticketUUID].push(this.formBuilder.group({
-        additionalServiceItemId: this.formBuilder.control(asw.itemId),
-        additionalServiceTitle: asw.title,
-        ticketUUID: this.formBuilder.control(asw.ticketUUID),
-        fields: this.ticketService.buildAdditionalFields(asw.ticketFieldConfiguration, null, this.i18nService.getCurrentLang())
-      }));
+      byTicketUuid[asw.ticketUUID].push(this.buildAdditionalServiceGroup(asw));
     });
 
+    return this.formBuilder.group(byTicketUuid);
+  }
+
+  private buildAdditionalServiceGroup(asw: AdditionalServiceWithData): FormGroup {
     return this.formBuilder.group({
-      links: this.formBuilder.group(byTicketUuid)
+      additionalServiceItemId: this.formBuilder.control(asw.itemId),
+      additionalServiceTitle: asw.title,
+      ticketUUID: this.formBuilder.control(asw.ticketUUID),
+      additional: this.ticketService.buildAdditionalFields(asw.ticketFieldConfiguration, null, this.i18nService.getCurrentLang())
     });
   }
 
@@ -379,12 +383,64 @@ export class BookingComponent implements OnInit, AfterViewInit {
   }
 
   getAdditionalDataForm(ticket: Ticket): FormArray | null {
-    const linksGroup = <FormGroup>(<FormGroup>this.contactAndTicketsForm.get('additionalServices')).get('links');
+    const linksGroup = <FormGroup>(<FormGroup>this.contactAndTicketsForm.get('additionalServices'));
     return linksGroup.contains(ticket.uuid) ? <FormArray>linksGroup.get(ticket.uuid) : null;
   }
 
   getAdditionalData(ticket: Ticket): AdditionalServiceWithData[] {
     return this.additionalServicesWithData[ticket.uuid] ?? [];
+  }
+
+  getOtherTickets(ticket: Ticket): TicketIdentifier[] | null {
+    if (this.ticketCounts === 1) {
+      return null;
+    }
+    const result: TicketIdentifier[] = [];
+    let index = 1;
+    this.reservationInfo.ticketsByCategory.forEach(twc => {
+      twc.tickets.forEach(t => {
+        if (t.uuid !== ticket.uuid) {
+          result.push({
+            index,
+            firstName: t.firstName,
+            lastName: t.lastName,
+            uuid: t.uuid,
+            categoryName: twc.name
+          });
+        }
+        index++;
+      });
+    });
+    return result;
+  }
+
+  moveAdditionalService($event: MoveAdditionalServiceRequest) {
+    const element = Object.assign({}, this.additionalServicesWithData[$event.currentTicketUuid][$event.index], {ticketUUID: $event.newTicketUuid});
+    const additionalFormGroup = (this.contactAndTicketsForm.get('additionalServices') as FormGroup);
+    const services = (additionalFormGroup.get($event.currentTicketUuid) as FormArray);
+    if (services.length === 1) {
+      // if there is only one service, we remove the complete item
+      additionalFormGroup.removeControl($event.currentTicketUuid);
+    } else {
+      services.removeAt($event.index);
+    }
+
+    if (additionalFormGroup.get($event.newTicketUuid) == null) {
+      additionalFormGroup.addControl($event.newTicketUuid, this.formBuilder.array([this.buildAdditionalServiceGroup(element)]));
+    } else {
+      const formArray = (<FormArray>additionalFormGroup.get($event.newTicketUuid));
+      formArray.push(this.buildAdditionalServiceGroup(element));
+      additionalFormGroup.setControl($event.newTicketUuid, formArray);
+    }
+
+    this.additionalServicesWithData[$event.currentTicketUuid] = this.additionalServicesWithData[$event.currentTicketUuid]
+      .filter(a => a.itemId !== $event.itemId);
+    if (this.additionalServicesWithData[$event.newTicketUuid] == null) {
+      this.additionalServicesWithData[$event.newTicketUuid] = [];
+    }
+    const currentArray = this.additionalServicesWithData[$event.newTicketUuid];
+    currentArray.push(element);
+    this.additionalServicesWithData[$event.newTicketUuid] = currentArray;
   }
 }
 

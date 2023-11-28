@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormArray, FormGroup} from '@angular/forms';
-import {Ticket} from 'src/app/model/ticket';
+import {AdditionalField, MoveAdditionalServiceRequest, Ticket, TicketIdentifier} from 'src/app/model/ticket';
 import {PurchaseContext} from 'src/app/model/purchase-context';
 import {AdditionalServiceWithData, ReservationMetadata} from '../../model/reservation-info';
 import {I18nService} from '../../shared/i18n.service';
@@ -29,6 +29,12 @@ export class TicketFormComponent implements OnInit {
   @Input()
   additionalServices: AdditionalServiceWithData[] = [];
 
+  @Input()
+  otherTickets: TicketIdentifier[] | null = null;
+
+  @Output()
+  moveAdditionalServiceRequest: EventEmitter<MoveAdditionalServiceRequest> = new EventEmitter<MoveAdditionalServiceRequest>();
+
   constructor(private i18nService: I18nService) { }
 
   public ngOnInit(): void {
@@ -49,11 +55,20 @@ export class TicketFormComponent implements OnInit {
     return this.additionalServicesForm != null;
   }
 
-  getAdditionalServiceForm(idx: number): FormGroup {
-    return this.additionalServicesForm.at(idx).get('fields') as FormGroup;
+  getAdditionalServiceForm(idx: number): FormGroup | undefined {
+    return this.additionalServicesForm.at(idx)?.get('additional') as FormGroup | undefined;
   }
 
   additionalServiceTitle(title: { [p: string]: string }): string {
     return title[this.i18nService.getCurrentLang()];
+  }
+
+  moveAdditionalServiceItem(index: number, asw: AdditionalServiceWithData, tkt: TicketIdentifier): void {
+    this.moveAdditionalServiceRequest.emit({
+      index,
+      itemId: asw.itemId,
+      currentTicketUuid: asw.ticketUUID,
+      newTicketUuid: tkt.uuid
+    });
   }
 }
