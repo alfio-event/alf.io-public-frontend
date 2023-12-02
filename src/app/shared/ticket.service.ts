@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {from, Observable, of} from 'rxjs';
 import {TicketInfo} from '../model/ticket-info';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {AdditionalField, Ticket} from '../model/ticket';
 import {ValidatedResponse} from '../model/validated-response';
-import {TicketsByTicketCategory} from '../model/reservation-info';
+import {AdditionalServiceWithData, TicketsByTicketCategory} from '../model/reservation-info';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ReleaseTicketComponent} from '../reservation/release-ticket/release-ticket.component';
 import {map, mergeMap} from 'rxjs/operators';
@@ -52,8 +52,29 @@ export class TicketService {
         return this.http.post<boolean>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}/send-ticket-by-email`, {});
     }
 
-    buildFormGroupForTicket(ticket: Ticket, user?: User): FormGroup {
-        return this.formBuilder.group(this.buildTicket(ticket, user));
+    buildFormGroupForTicket(ticket: Ticket, user?: User, additionalServicesWithData?: AdditionalServiceWithData[]): FormGroup {
+        return this.formBuilder.group(this.buildTicket(ticket, user, additionalServicesWithData));
+    }
+
+    buildAdditionalServicesFormGroup(additionalServices: AdditionalServiceWithData[], lang: string): FormGroup {
+      const byTicketUuid: {[k: string]: FormArray} = {};
+      additionalServices.forEach(asw => {
+        if (byTicketUuid[asw.ticketUUID] == null) {
+          byTicketUuid[asw.ticketUUID] = this.formBuilder.array([]);
+        }
+        byTicketUuid[asw.ticketUUID].push(this.buildAdditionalServiceGroup(asw, lang));
+      });
+
+      return this.formBuilder.group(byTicketUuid);
+    }
+
+    buildAdditionalServiceGroup(asw: AdditionalServiceWithData, lang: string): FormGroup {
+      return this.formBuilder.group({
+        additionalServiceItemId: this.formBuilder.control(asw.itemId),
+        additionalServiceTitle: asw.title,
+        ticketUUID: this.formBuilder.control(asw.ticketUUID),
+        additional: this.buildAdditionalFields(asw.ticketFieldConfiguration, null, lang)
+      });
     }
 
 
@@ -86,14 +107,17 @@ export class TicketService {
       return this.http.delete<boolean>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}`, {});
     }
 
-    private buildTicket(ticket: Ticket, user?: User): {firstName: string, lastName: string, email: string, userLanguage, additional: FormGroup} {
+    private buildTicket(ticket: Ticket,
+                        user?: User,
+                        additionalServicesWithData?: AdditionalServiceWithData[]) {
       return {
           firstName: ticket.firstName || user?.firstName,
           lastName: ticket.lastName || user?.lastName,
           email: ticket.email || user?.emailAddress,
           userLanguage: ticket.userLanguage,
           additional: this.buildAdditionalFields(ticket.ticketFieldConfigurationBeforeStandard,
-            ticket.ticketFieldConfigurationAfterStandard, ticket.userLanguage, user?.profile?.additionalData)
+            ticket.ticketFieldConfigurationAfterStandard, ticket.userLanguage, user?.profile?.additionalData),
+          additionalServices: this.buildAdditionalServicesFormGroup(additionalServicesWithData ?? [], ticket.uuid)
       };
     }
 

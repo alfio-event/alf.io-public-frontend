@@ -48,7 +48,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
   enableAttendeeAutocomplete: boolean;
   displayLoginSuggestion: boolean;
 
-  additionalServicesWithData: {[uuid: string]: AdditionalServiceWithData[]} = {};
+  private additionalServicesWithData: {[uuid: string]: AdditionalServiceWithData[]} = {};
   additionalServicesCount = 0;
 
   public static optionalGet<T>(billingDetails: BillingDetails, consumer: (b: ItalianEInvoicing) => T, userBillingDetails?: BillingDetails): T | null {
@@ -147,7 +147,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
           postponeAssignment: false,
           differentSubscriptionOwner: false,
           subscriptionOwner: this.buildSubscriptionOwnerFormGroup(this.reservationInfo.subscriptionInfos, user),
-          additionalServices: this.buildAdditionalServicesFormGroup(additionalServices)
+          additionalServices: this.ticketService.buildAdditionalServicesFormGroup(additionalServices, this.i18nService.getCurrentLang())
         });
 
         additionalServices.forEach(asd => {
@@ -210,27 +210,6 @@ export class BookingComponent implements OnInit, AfterViewInit {
       });
     });
     return this.formBuilder.group(tickets);
-  }
-
-  private buildAdditionalServicesFormGroup(additionalServices: AdditionalServiceWithData[]): FormGroup {
-    const byTicketUuid: {[k: string]: FormArray} = {};
-    additionalServices.forEach(asw => {
-      if (byTicketUuid[asw.ticketUUID] == null) {
-        byTicketUuid[asw.ticketUUID] = this.formBuilder.array([]);
-      }
-      byTicketUuid[asw.ticketUUID].push(this.buildAdditionalServiceGroup(asw));
-    });
-
-    return this.formBuilder.group(byTicketUuid);
-  }
-
-  private buildAdditionalServiceGroup(asw: AdditionalServiceWithData): FormGroup {
-    return this.formBuilder.group({
-      additionalServiceItemId: this.formBuilder.control(asw.itemId),
-      additionalServiceTitle: asw.title,
-      ticketUUID: this.formBuilder.control(asw.ticketUUID),
-      additional: this.ticketService.buildAdditionalFields(asw.ticketFieldConfiguration, null, this.i18nService.getCurrentLang())
-    });
   }
 
   private removeUnnecessaryFields(): void {
@@ -426,10 +405,10 @@ export class BookingComponent implements OnInit, AfterViewInit {
     }
 
     if (additionalFormGroup.get($event.newTicketUuid) == null) {
-      additionalFormGroup.addControl($event.newTicketUuid, this.formBuilder.array([this.buildAdditionalServiceGroup(element)]));
+      additionalFormGroup.addControl($event.newTicketUuid, this.formBuilder.array([this.ticketService.buildAdditionalServiceGroup(element, this.i18nService.getCurrentLang())]));
     } else {
       const formArray = (<FormArray>additionalFormGroup.get($event.newTicketUuid));
-      formArray.push(this.buildAdditionalServiceGroup(element));
+      formArray.push(this.ticketService.buildAdditionalServiceGroup(element, this.i18nService.getCurrentLang()));
       additionalFormGroup.setControl($event.newTicketUuid, formArray);
     }
 
