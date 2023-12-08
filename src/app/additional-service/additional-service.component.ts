@@ -25,7 +25,7 @@ export class AdditionalServiceComponent implements OnInit, OnDestroy {
 
   validSelectionValues: number[] = [];
 
-  soldOut = false;
+  availableForSale = true;
 
   private formSub: Subscription;
 
@@ -44,8 +44,8 @@ export class AdditionalServiceComponent implements OnInit, OnDestroy {
 
     // we only need to recalculate the select box choice in this specific supplement policy!
     const availableQuantity = this.additionalService.availableQuantity ?? 999;
-    if (availableQuantity === 0) {
-      this.soldOut = true;
+    if (availableQuantity === 0 || this.additionalService.saleInFuture || this.additionalService.expired) {
+      this.availableForSale = false;
     } else if (this.additionalService.supplementPolicy === 'OPTIONAL_MAX_AMOUNT_PER_TICKET') {
       this.formSub = this.form.get('reservation').valueChanges.subscribe(valueChange => {
         const selectedTicketCount = (valueChange as {amount: string}[]).map(a => parseInt(a.amount, 10)).reduce((sum, n) => sum + n, 0);
