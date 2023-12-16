@@ -35,23 +35,5 @@
         <option *ngFor="let lang of purchaseContext.contentLanguages" [ngValue]="lang.locale">{{lang.displayLanguage}}</option>
       </select>
     </div>
-    <ng-container *ngIf="hasAdditionalServices">
-      <ng-container *ngFor="let asw of additionalServices; let idx = index">
-        <div class="h3 d-flex justify-content-between mt-4">
-          <small class="text-muted">{{additionalServiceTitle(asw.title)}}</small>
-          <div ngbDropdown class="d-inline-block" *ngIf="otherTickets">
-            <button type="button" class="btn btn-sm btn-outline-primary" [id]="'switchItem_' + asw.itemId" ngbDropdownToggle>{{'reservation-page.move-additional-service' | translate}}</button>
-            <div ngbDropdownMenu [attr.aria-labelledby]="'switchItem_' + asw.itemId">
-              <button type="button" ngbDropdownItem *ngFor="let tkt of otherTickets" (click)="moveAdditionalServiceItem(idx, asw, tkt)">
-                <span>{{' '}}{{'reservation-page-complete.ticket-nr' | translate}}{{tkt.index}} - {{tkt.categoryName}}</span>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div *ngFor="let field of asw.ticketFieldConfiguration">
-          <app-additional-field [field]="field" [ticketUUID]="ticket.uuid" [form]="getAdditionalServiceForm(idx)" [ticketAcquired]="ticket.acquired"></app-additional-field>
-        </div>
-      </ng-container>
-    </ng-container>
   </div>
 </div>

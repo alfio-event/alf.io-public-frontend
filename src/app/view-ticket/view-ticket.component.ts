@@ -10,6 +10,9 @@ import { AnalyticsService } from '../shared/analytics.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import {InfoService} from '../shared/info.service';
 import {WalletConfiguration} from '../model/info';
+import {AdditionalField} from '../model/ticket';
+import {TranslateService} from '@ngx-translate/core';
+import {groupAdditionalData, GroupedAdditionalServiceWithData} from '../shared/util';
 
 @Component({
   selector: 'app-view-ticket',
@@ -21,6 +24,7 @@ export class ViewTicketComponent implements OnInit {
   event: Event;
   ticketIdentifier: string;
   ticketInfo: TicketInfo;
+  groupedAdditionalServices: GroupedAdditionalServiceWithData[] = [];
   private walletConfiguration: WalletConfiguration;
 
   constructor(
@@ -30,7 +34,8 @@ export class ViewTicketComponent implements OnInit {
     private eventService: EventService,
     private i18nService: I18nService,
     private analytics: AnalyticsService,
-    private infoService: InfoService) { }
+    private infoService: InfoService,
+    private translate: TranslateService) { }
 
   public ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -45,6 +50,7 @@ export class ViewTicketComponent implements OnInit {
         this.i18nService.setPageTitle('show-ticket.header.title', event);
         this.analytics.pageView(event.analyticsConfiguration);
         this.walletConfiguration = generalInfo.walletConfiguration;
+        this.groupedAdditionalServices = groupAdditionalData(ticketInfo.additionalServiceWithData);
       }, e => {
         if (e instanceof HttpErrorResponse && e.status === 404) {
           this.router.navigate(['']);
@@ -64,5 +70,9 @@ export class ViewTicketComponent implements OnInit {
 
   get passEnabled(): boolean {
     return this.walletConfiguration != null && this.walletConfiguration.passEnabled;
+  }
+
+  getValue(field: AdditionalField): string {
+    return field.description[this.translate.currentLang]?.restrictedValuesDescription[field.value] || field.value;
   }
 }

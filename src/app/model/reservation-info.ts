@@ -49,6 +49,7 @@ export class ReservationInfo {
 export interface AdditionalServiceWithData {
   title: {[lang: string]: string};
   itemId: number;
+  serviceId: number;
   ticketUUID: string | null;
   ticketFieldConfiguration: Array<AdditionalField>;
 }

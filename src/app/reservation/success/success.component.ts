@@ -15,7 +15,7 @@ import {InfoService} from '../../shared/info.service';
 import {first} from 'rxjs/operators';
 import {WalletConfiguration} from '../../model/info';
 import {ReservationStatusChanged} from '../../model/embedding-configuration';
-import {embedded, pollReservationStatus} from '../../shared/util';
+import {GroupedAdditionalServiceWithData, embedded, groupAdditionalData, pollReservationStatus} from '../../shared/util';
 
 @Component({
   selector: 'app-success',
@@ -205,4 +205,13 @@ export class SuccessComponent implements OnInit {
   getAdditionalData(ticket: Ticket): AdditionalServiceWithData[] {
     return this.additionalServicesWithData[ticket.uuid] ?? [];
   }
+
+  hasAdditionalData(ticket: Ticket): boolean {
+    return this.getAdditionalData(ticket).length > 0;
+  }
+
+  getGroupedAdditionalData(ticket: Ticket): GroupedAdditionalServiceWithData[] {
+    return groupAdditionalData(this.additionalServicesWithData[ticket.uuid] ?? []);
+  }
 }
+

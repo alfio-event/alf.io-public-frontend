@@ -91,8 +91,13 @@
                 </div>
               </div>
               <div class="h3 mb-3"><small class="text-muted">{{tc.name}}</small></div>
-              <app-ticket-form [ticket]="ticket" [otherTickets]="getOtherTickets(ticket)" (moveAdditionalServiceRequest)="moveAdditionalService($event)" [purchaseContext]="purchaseContext" [form]="getTicketForm(ticket)" [additionalServicesForm]="getAdditionalDataForm(ticket)" [additionalServices]="getAdditionalData(ticket)" [reservationMetadata]="reservationInfo.metadata"></app-ticket-form>
+              <app-ticket-form [ticket]="ticket" [purchaseContext]="purchaseContext" [form]="getTicketForm(ticket)" [reservationMetadata]="reservationInfo.metadata"></app-ticket-form>
             </div>
+            <app-additional-service-form [ticket]="ticket"
+                                         [otherTickets]="getOtherTickets(ticket)"
+                                         (moveAdditionalServiceRequest)="moveAdditionalService($event)"
+                                         [additionalServicesForm]="getAdditionalDataForm(ticket)"
+                                         [additionalServices]="getAdditionalData(ticket)"></app-additional-service-form>
           </div>
         </div>
       </ng-container>

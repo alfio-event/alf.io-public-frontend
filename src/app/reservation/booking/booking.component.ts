@@ -393,6 +393,14 @@ export class BookingComponent implements OnInit, AfterViewInit {
     return result;
   }
 
+  doMoveAdditionalService(idx: number, asw: AdditionalServiceWithData, newTicketUuid: string, currentTicketUuid: string): void {
+    this.moveAdditionalService({
+      currentTicketUuid,
+      index: idx,
+      newTicketUuid,
+      itemId: asw.itemId
+    });
+  }
   moveAdditionalService($event: MoveAdditionalServiceRequest) {
     const element = Object.assign({}, this.additionalServicesWithData[$event.currentTicketUuid][$event.index], {ticketUUID: $event.newTicketUuid});
     const additionalFormGroup = (this.contactAndTicketsForm.get('additionalServices') as FormGroup);
