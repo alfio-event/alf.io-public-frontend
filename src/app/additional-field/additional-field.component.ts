@@ -31,6 +31,7 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
   isMobile = mobile;
 
   private langChangeSub: Subscription;
+  yesterday: string;
 
   constructor(private translate: TranslateService, private i18nService: I18nService) { }
 
@@ -41,6 +42,8 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
         this.getCountries();
       });
     }
+    const now = new Date().getTime();
+    this.yesterday = new Date(now - 24 * 60 * 60 * 1000).toISOString().substring(0, 10);
   }
 
   ngOnDestroy(): void {
