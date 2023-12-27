@@ -103,6 +103,12 @@
       </ng-container>
     </ng-container>
     <ng-container *ngIf="purchaseContextType === 'subscription'">
+      <div class="page-header">
+        <h2 translate="reservation-page.subscription-owner"></h2>
+      </div>
+      <div *ngFor="let field of subscriptionInfo.fieldConfigurationBeforeStandard">
+        <app-additional-field [field]="field" [elementUUID]="'subscription'" [form]="subscriptionAdditionalForm" [ticketAcquired]="false"></app-additional-field>
+      </div>
       <div class="custom-control custom-checkbox mb-3">
         <input class="custom-control-input" type="checkbox" formControlName="differentSubscriptionOwner" id="show-subscription-owner" value="true">
         <label class="custom-control-label" for="show-subscription-owner">{{' '}}{{'reservation-page.subscription.different-owner' | translate}}</label>
@@ -127,6 +133,9 @@
           <label for="subscription-email">{{'common.email' | translate}} *</label>
           <input id="subscription-email" formControlName="email" type="email" [ngClass]="{'form-control': !emailEditForbidden, 'form-control-plaintext': emailEditForbidden}" appInvalidFeedback>
         </div>
+      </div>
+      <div *ngFor="let field of subscriptionInfo.fieldConfigurationAfterStandard">
+        <app-additional-field [field]="field" [elementUUID]="'subscription'" [form]="subscriptionAdditionalForm" [ticketAcquired]="false"></app-additional-field>
       </div>
     </ng-container>
 

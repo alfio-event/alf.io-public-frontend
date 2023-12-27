@@ -20,7 +20,7 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
   @Input()
-  ticketUUID: string;
+  elementUUID: string;
 
   @Input()
   ticketAcquired: boolean;
@@ -92,7 +92,7 @@ export class AdditionalFieldComponent implements OnInit, OnDestroy {
   }
 
   get labelId(): string {
-    return this.ticketUUID + '-' + this.field.name.replace(/[^a-zA-Z0-9]/g, '+') + '-label';
+    return this.elementUUID + '-' + this.field.name.replace(/[^a-zA-Z0-9]/g, '+') + '-label';
   }
 
   get hideLabelForAssistiveTechnologies(): boolean {

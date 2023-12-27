@@ -3,34 +3,28 @@ import {HttpClient} from '@angular/common/http';
 import {from, Observable, of} from 'rxjs';
 import {TicketInfo} from '../model/ticket-info';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
-import {AdditionalField, Ticket} from '../model/ticket';
+import {Ticket} from '../model/ticket';
 import {ValidatedResponse} from '../model/validated-response';
 import {AdditionalServiceWithData, TicketsByTicketCategory} from '../model/reservation-info';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ReleaseTicketComponent} from '../reservation/release-ticket/release-ticket.component';
 import {map, mergeMap} from 'rxjs/operators';
-import {User, UserAdditionalData} from '../model/user';
+import {User} from '../model/user';
 import {DateValidity} from '../model/date-validity';
 import {DownloadTicketComponent} from '../reservation/download-ticket/download-ticket.component';
 import {WalletConfiguration} from '../model/info';
+import {AdditionalFieldService} from './additional-field.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class TicketService {
 
-    private static getUserDataLabelValue(name: string, index: number, userLanguage?: string, additionalData?: UserAdditionalData): {l: string, v: string} | null {
-      if (additionalData != null && additionalData[name] && additionalData[name].values.length > index) {
-        const val = additionalData[name];
-        return { l: val.label[userLanguage] || val.label[0], v: val.values[index] };
-      }
-      return { l: null, v: null };
-    }
-
     constructor(
         private http: HttpClient,
         private formBuilder: FormBuilder,
-        private modalService: NgbModal) { }
+        private modalService: NgbModal,
+        private additionalFieldService: AdditionalFieldService) { }
 
     getTicketInfo(eventName: string, ticketIdentifier: string): Observable<TicketInfo> {
         return this.http.get<TicketInfo>(`/api/v2/public/event/${eventName}/ticket/${ticketIdentifier}`);
@@ -73,7 +67,7 @@ export class TicketService {
         additionalServiceItemId: this.formBuilder.control(asw.itemId),
         additionalServiceTitle: asw.title,
         ticketUUID: this.formBuilder.control(asw.ticketUUID),
-        additional: this.buildAdditionalFields(asw.ticketFieldConfiguration, null, lang)
+        additional: this.additionalFieldService.buildAdditionalFields(asw.ticketFieldConfiguration, null, lang)
       });
     }
 
@@ -115,38 +109,10 @@ export class TicketService {
           lastName: ticket.lastName || user?.lastName,
           email: ticket.email || user?.emailAddress,
           userLanguage: ticket.userLanguage,
-          additional: this.buildAdditionalFields(ticket.ticketFieldConfigurationBeforeStandard,
+          additional: this.additionalFieldService.buildAdditionalFields(ticket.ticketFieldConfigurationBeforeStandard,
             ticket.ticketFieldConfigurationAfterStandard, ticket.userLanguage, user?.profile?.additionalData),
           additionalServices: this.buildAdditionalServicesFormGroup(additionalServicesWithData ?? [], ticket.uuid)
       };
-    }
-
-    public buildAdditionalFields(before: AdditionalField[], after: AdditionalField[], userLanguage: string, userData?: UserAdditionalData): FormGroup {
-      const additional = {};
-      if (before) {
-        this.buildSingleAdditionalField(before, additional, userLanguage, userData);
-      }
-      if (after) {
-        this.buildSingleAdditionalField(after, additional, userLanguage, userData);
-      }
-      return this.formBuilder.group(additional);
-    }
-
-    private buildSingleAdditionalField(a: AdditionalField[], additional: {}, userLanguage: string, userData?: UserAdditionalData): void {
-      a.forEach(f => {
-        const arr = [];
-
-        if (f.type === 'checkbox') { // pre-fill with empty values for the checkbox cases, as we can have multiple values!
-          for (let i = 0; i < f.restrictedValues.length; i++) {
-            arr.push(this.formBuilder.control(null));
-          }
-        }
-
-        f.fields.forEach(field => {
-          arr[field.fieldIndex] = this.formBuilder.control(field.fieldValue || TicketService.getUserDataLabelValue(f.name, field.fieldIndex, userLanguage, userData).v);
-        });
-        additional[f.name] = this.formBuilder.array(arr);
-      });
     }
 
     private retrieveTimezone(): string | null {

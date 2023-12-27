@@ -68,6 +68,9 @@ export class ReservationSubscriptionInfo {
   usageDetails?: SubscriptionUsageDetails;
   owner?: SubscriptionOwner;
   configuration?: SubscriptionConfiguration;
+  fieldConfigurationBeforeStandard: AdditionalField[];
+  fieldConfigurationAfterStandard: AdditionalField[];
+  additionalFields: AdditionalField[];
 }
 
 export class SubscriptionOwner {

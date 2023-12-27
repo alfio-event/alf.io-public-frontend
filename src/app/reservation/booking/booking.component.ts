@@ -24,6 +24,7 @@ import {first} from 'rxjs/operators';
 import {FeedbackService} from '../../shared/feedback/feedback.service';
 import {ReservationStatusChanged} from '../../model/embedding-configuration';
 import {embedded} from '../../shared/util';
+import {AdditionalFieldService} from '../../shared/additional-field.service';
 
 @Component({
   selector: 'app-booking',
@@ -80,7 +81,8 @@ export class BookingComponent implements OnInit, AfterViewInit {
     private analytics: AnalyticsService,
     private modalService: NgbModal,
     private userService: UserService,
-    private feedbackService: FeedbackService) { }
+    private feedbackService: FeedbackService,
+    private additionalFieldService: AdditionalFieldService) { }
 
   public ngOnInit(): void {
     zip(this.route.data, this.route.params, this.userService.authenticationStatus.pipe(first())).subscribe(([data, params, authStatus]) => {
@@ -177,17 +179,6 @@ export class BookingComponent implements OnInit, AfterViewInit {
       });
   }
 
-
-  private linkAdditionalServiceToTicket(as: AdditionalServiceWithData, singleTicket: Ticket) { // TODO check
-    const linkArray = (<FormArray>this.contactAndTicketsForm.get('additionalServices').get('links'));
-    const value = (<AdditionalServiceLink[]>linkArray.value);
-    const existingLink = value.find(v => v.additionalServiceItemId === as.itemId);
-    if (existingLink != null) {
-      existingLink.ticketUUID = singleTicket.uuid;
-      linkArray.setValue(value);
-    }
-  }
-
   private buildSubscriptionOwnerFormGroup(subscriptionInfos: Array<ReservationSubscriptionInfo> | undefined, user?: User): FormGroup {
     if (subscriptionInfos != null) {
       const subscriptionInfo = subscriptionInfos[0];
@@ -195,7 +186,11 @@ export class BookingComponent implements OnInit, AfterViewInit {
       return this.formBuilder.group({
         firstName: subscriptionInfo.owner?.firstName || user?.firstName,
         lastName: subscriptionInfo.owner?.lastName || user?.lastName,
-        email
+        email,
+        additional: this.additionalFieldService.buildAdditionalFields(subscriptionInfo.fieldConfigurationBeforeStandard,
+          subscriptionInfo.fieldConfigurationAfterStandard,
+          this.translate.currentLang,
+          user?.profile?.additionalData)
       });
     } else {
       return null;
@@ -393,14 +388,14 @@ export class BookingComponent implements OnInit, AfterViewInit {
     return result;
   }
 
-  doMoveAdditionalService(idx: number, asw: AdditionalServiceWithData, newTicketUuid: string, currentTicketUuid: string): void {
-    this.moveAdditionalService({
-      currentTicketUuid,
-      index: idx,
-      newTicketUuid,
-      itemId: asw.itemId
-    });
+  get subscriptionInfo(): ReservationSubscriptionInfo {
+    return this.reservationInfo.subscriptionInfos[0];
   }
+
+  get subscriptionAdditionalForm(): FormGroup {
+    return this.contactAndTicketsForm.get('subscriptionOwner').get('additional') as FormGroup;
+  }
+
   moveAdditionalService($event: MoveAdditionalServiceRequest) {
     const element = Object.assign({}, this.additionalServicesWithData[$event.currentTicketUuid][$event.index], {ticketUUID: $event.newTicketUuid});
     const additionalFormGroup = (this.contactAndTicketsForm.get('additionalServices') as FormGroup);
@@ -429,9 +424,4 @@ export class BookingComponent implements OnInit, AfterViewInit {
     currentArray.push(element);
     this.additionalServicesWithData[$event.newTicketUuid] = currentArray;
   }
-}
-
-interface AdditionalServiceLink {
-  additionalServiceItemId: number;
-  ticketUUID: string;
 }
