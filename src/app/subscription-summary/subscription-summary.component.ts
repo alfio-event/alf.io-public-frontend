@@ -4,10 +4,13 @@ import {getLocalizedContent} from '../shared/subscription.service';
 import {isDifferentTimeZone} from '../shared/event.service';
 import {TranslateService} from '@ngx-translate/core';
 import {SubscriptionOwner} from '../model/reservation-info';
+import {AdditionalField} from '../model/ticket';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-subscription-summary',
-  templateUrl: './subscription-summary.component.html'
+  templateUrl: './subscription-summary.component.html',
+  providers: [DatePipe]
 })
 export class SubscriptionSummaryComponent {
 
@@ -15,8 +18,12 @@ export class SubscriptionSummaryComponent {
   subscription: SubscriptionSummaryData;
   @Input()
   owner?: SubscriptionOwner;
+  @Input()
+  fieldConfigurationBeforeStandard: AdditionalField[] = [];
+  @Input()
+  fieldConfigurationAfterStandard: AdditionalField[] = [];
 
-  constructor(private translateService: TranslateService) {
+  constructor(private translateService: TranslateService, private dateFormat: DatePipe) {
   }
 
   get hasOnSaleTo(): boolean {
@@ -62,5 +69,12 @@ export class SubscriptionSummaryComponent {
       && owner.firstName != null
       && owner.lastName != null
       && owner.email != null;
+  }
+
+  getValue(field: AdditionalField): string {
+    if (field.type === 'input:dateOfBirth') {
+      return this.dateFormat.transform(field.value, this.translateService.instant('common.date-format'));
+    }
+    return field.description[this.translateService.currentLang]?.restrictedValuesDescription[field.value] || field.value;
   }
 }

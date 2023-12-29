@@ -13,11 +13,13 @@ import {WalletConfiguration} from '../model/info';
 import {AdditionalField} from '../model/ticket';
 import {TranslateService} from '@ngx-translate/core';
 import {groupAdditionalData, GroupedAdditionalServiceWithData} from '../shared/util';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-view-ticket',
   templateUrl: './view-ticket.component.html',
-  styleUrls: ['./view-ticket.component.scss']
+  styleUrls: ['./view-ticket.component.scss'],
+  providers: [ DatePipe ]
 })
 export class ViewTicketComponent implements OnInit {
 
@@ -35,7 +37,8 @@ export class ViewTicketComponent implements OnInit {
     private i18nService: I18nService,
     private analytics: AnalyticsService,
     private infoService: InfoService,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private dateFormat: DatePipe) { }
 
   public ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -73,6 +76,9 @@ export class ViewTicketComponent implements OnInit {
   }
 
   getValue(field: AdditionalField): string {
+    if (field.type === 'input:dateOfBirth') {
+      return this.dateFormat.transform(field.value, this.translate.instant('common.date-format'));
+    }
     return field.description[this.translate.currentLang]?.restrictedValuesDescription[field.value] || field.value;
   }
 }
