@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {SubscriptionInfo, SubscriptionSummaryData} from '../model/subscription';
+import {SubscriptionSummaryData} from '../model/subscription';
 import {getLocalizedContent} from '../shared/subscription.service';
 import {isDifferentTimeZone} from '../shared/event.service';
 import {TranslateService} from '@ngx-translate/core';
