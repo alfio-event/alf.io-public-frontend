@@ -147,7 +147,7 @@ export class BookingComponent implements OnInit, AfterViewInit {
           italyEInvoicingReferencePEC: BookingComponent.optionalGet(billingDetails, (i) => i.pec, userBillingDetails),
           italyEInvoicingSplitPayment: BookingComponent.optionalGet(billingDetails, (i) => i.splitPayment, userBillingDetails),
           postponeAssignment: false,
-          differentSubscriptionOwner: false,
+          differentSubscriptionOwner: this.isDifferentOwnerDefined(),
           subscriptionOwner: this.buildSubscriptionOwnerFormGroup(this.reservationInfo.subscriptionInfos, user),
           additionalServices: this.ticketService.buildAdditionalServicesFormGroup(additionalServices, this.i18nService.getCurrentLang())
         });
@@ -423,5 +423,10 @@ export class BookingComponent implements OnInit, AfterViewInit {
     const currentArray = this.additionalServicesWithData[$event.newTicketUuid];
     currentArray.push(element);
     this.additionalServicesWithData[$event.newTicketUuid] = currentArray;
+  }
+
+  private isDifferentOwnerDefined(): boolean {
+    return this.reservationInfo.subscriptionInfos?.findIndex(s => s.owner != null
+      && (s.owner.firstName != null || s.owner.lastName != null)) > -1;
   }
 }
