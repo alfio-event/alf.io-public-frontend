@@ -106,12 +106,33 @@
       <div class="page-header">
         <h2 translate="reservation-page.subscription-owner"></h2>
       </div>
+      <div class="custom-control custom-checkbox mt-1 mb-5">
+        <input class="custom-control-input" type="checkbox" formControlName="differentSubscriptionOwner" id="show-subscription-owner" value="true">
+        <label class="custom-control-label" for="show-subscription-owner">{{' '}}{{'reservation-page.subscription.different-owner' | translate}}</label>
+      </div>
       <div *ngFor="let field of subscriptionInfo.fieldConfigurationBeforeStandard">
         <app-additional-field [field]="field" [elementUUID]="'subscription'" [form]="subscriptionAdditionalForm" [ticketAcquired]="false"></app-additional-field>
       </div>
-      <div class="custom-control custom-checkbox mb-3">
-        <input class="custom-control-input" type="checkbox" formControlName="differentSubscriptionOwner" id="show-subscription-owner" value="true">
-        <label class="custom-control-label" for="show-subscription-owner">{{' '}}{{'reservation-page.subscription.different-owner' | translate}}</label>
+      <div *ngIf="!contactAndTicketsForm.value.differentSubscriptionOwner">
+        <div class="form-row">
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+              <label for="subscription-first-name-sameowner">{{'common.first-name' | translate}}</label>
+              <input id="subscription-first-name-sameowner" class="form-control-plaintext" type="text" [value]="contactAndTicketsForm.value.firstName">
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+              <label for="subscription-last-name-sameowner">{{'common.last-name' | translate}}</label>
+              <input class="form-control-plaintext" id="subscription-last-name-sameowner" type="text"  [value]="contactAndTicketsForm.value.lastName">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="subscription-email-sameowner">{{'common.email' | translate}}</label>
+          <input id="subscription-email-sameowner" type="email" class="form-control-plaintext" [value]="contactAndTicketsForm.value.email">
+        </div>
       </div>
       <div *ngIf="contactAndTicketsForm.value.differentSubscriptionOwner" [formGroup]="getSubscriptionForm()">
         <div class="form-row">
