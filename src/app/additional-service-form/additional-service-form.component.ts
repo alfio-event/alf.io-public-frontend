@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {AdditionalServiceWithData} from '../model/reservation-info';
 import {MoveAdditionalServiceRequest, Ticket, TicketIdentifier} from '../model/ticket';
 import {FormArray, FormGroup} from '@angular/forms';
@@ -7,7 +7,7 @@ import {FormArray, FormGroup} from '@angular/forms';
   selector: 'app-additional-service-form',
   templateUrl: './additional-service-form.component.html'
 })
-export class AdditionalServiceFormComponent {
+export class AdditionalServiceFormComponent implements OnChanges {
 
   @Input()
   additionalServicesForm: FormArray | null;
@@ -27,6 +27,8 @@ export class AdditionalServiceFormComponent {
   @Output()
   moveAdditionalServiceRequest: EventEmitter<MoveAdditionalServiceRequest> = new EventEmitter<MoveAdditionalServiceRequest>();
 
+  hasSupplements = false;
+
   getAdditionalServiceForm(idx: number): FormGroup | undefined {
     return this.additionalServicesForm.at(idx)?.get('additional') as FormGroup | undefined;
   }
@@ -38,5 +40,12 @@ export class AdditionalServiceFormComponent {
       currentTicketUuid: asw.ticketUUID,
       newTicketUuid: tkt.uuid
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.additionalServices) {
+      const toCheck: AdditionalServiceWithData[] = changes.additionalServices.currentValue;
+      this.hasSupplements = toCheck.some((as) => as.type === 'SUPPLEMENT');
+    }
   }
 }
