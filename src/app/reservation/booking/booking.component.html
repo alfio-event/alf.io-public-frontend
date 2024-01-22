@@ -118,20 +118,20 @@
           <div class="col-12 col-md-6">
             <div class="form-group">
               <label for="subscription-first-name-sameowner">{{'common.first-name' | translate}}</label>
-              <input id="subscription-first-name-sameowner" class="form-control-plaintext" type="text" [value]="contactAndTicketsForm.value.firstName">
+              <input id="subscription-first-name-sameowner" class="form-control-plaintext" type="text" [value]="contactAndTicketsForm.value.firstName" readonly>
             </div>
           </div>
           <div class="col-12 col-md-6">
             <div class="form-group">
               <label for="subscription-last-name-sameowner">{{'common.last-name' | translate}}</label>
-              <input class="form-control-plaintext" id="subscription-last-name-sameowner" type="text"  [value]="contactAndTicketsForm.value.lastName">
+              <input class="form-control-plaintext" id="subscription-last-name-sameowner" type="text"  [value]="contactAndTicketsForm.value.lastName" readonly>
             </div>
           </div>
         </div>
 
         <div class="form-group">
           <label for="subscription-email-sameowner">{{'common.email' | translate}}</label>
-          <input id="subscription-email-sameowner" type="email" class="form-control-plaintext" [value]="contactAndTicketsForm.value.email">
+          <input id="subscription-email-sameowner" type="email" class="form-control-plaintext" [value]="contactAndTicketsForm.value.email" readonly>
         </div>
       </div>
       <div *ngIf="contactAndTicketsForm.value.differentSubscriptionOwner" [formGroup]="getSubscriptionForm()">
@@ -152,7 +152,7 @@
 
         <div class="form-group">
           <label for="subscription-email">{{'common.email' | translate}} *</label>
-          <input id="subscription-email" formControlName="email" type="email" [ngClass]="{'form-control': !emailEditForbidden, 'form-control-plaintext': emailEditForbidden}" appInvalidFeedback>
+          <input id="subscription-email" formControlName="email" [readonly]="emailEditForbidden" type="email" [ngClass]="{'form-control': !emailEditForbidden, 'form-control-plaintext': emailEditForbidden}" appInvalidFeedback>
         </div>
       </div>
       <div *ngFor="let field of subscriptionInfo.fieldConfigurationAfterStandard">
