@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/alfio-event/alf.io-public-frontend.svg?branch=master)](https://travis-ci.org/alfio-event/alf.io-public-frontend)
+> [!WARNING]
+> This repository contains code for an old version of alf.io (2.0-M4).
+> The public frontend code has been moved to the [main repo](https://github.com/alfio-event/alf.io)
 
 # AlfioPublicFrontend
 
